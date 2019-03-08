@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Office;
 use App\Refund;
+use OfficeController;
 use Illuminate\Http\Request;
+use App\Http\Requests\RefundRequest;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\Refunds as RefundResource;
 
 class RefundController extends Controller
 {
@@ -12,9 +17,13 @@ class RefundController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office)
     {
-        //
+        //return $office->refunds();
+        $refund = new Refund;
+        $refund = $office->refunds()->get();
+        //$refund = Office::with('refunds')->get();
+        return RefundResource::collection($refund);
     }
 
     /**
@@ -33,9 +42,18 @@ class RefundController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RefundRequest $request, Office $office)
     {
-        //
+        $refund = new Refund;
+        //$refund->office_id = $office->id;
+        $refund->approve_code = $request->approve_code;
+        $refund->create_date = date('Y-m-d');
+        $refund->status = "1";
+        $office->refunds()->save($refund);
+        return response([
+            'data' => new RefundResource($refund)
+        ],Response::HTTP_CREATED);
+
     }
 
     /**
@@ -44,9 +62,9 @@ class RefundController extends Controller
      * @param  \App\Refund  $refund
      * @return \Illuminate\Http\Response
      */
-    public function show(Refund $refund)
+    public function show(Office $office, Refund $refund)
     {
-        //
+        return RefundResource::collection($office->refunds()->where('id',$refund->id)->get());
     }
 
     /**
@@ -55,7 +73,7 @@ class RefundController extends Controller
      * @param  \App\Refund  $refund
      * @return \Illuminate\Http\Response
      */
-    public function edit(Refund $refund)
+    public function edit(Office $office,Refund $refund)
     {
         //
     }
@@ -67,9 +85,12 @@ class RefundController extends Controller
      * @param  \App\Refund  $refund
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Refund $refund)
+    public function update(RefundRequest $request,Office $office, Refund $refund)
     {
-        //
+        $refund->update($request->all());
+        return response([
+            'data' => new RefunsResource($refund)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -80,6 +101,7 @@ class RefundController extends Controller
      */
     public function destroy(Refund $refund)
     {
-        //
+        $refund->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }

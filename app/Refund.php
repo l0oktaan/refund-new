@@ -24,7 +24,7 @@ class Refund extends Model
     ];
 
     public function office(){
-        return $this->belongsTo(Office::class);
+        return $this->belongsTo('App\Office');
     }
 
     public function contracts(){

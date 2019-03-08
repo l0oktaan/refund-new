@@ -15,8 +15,8 @@ class CreateRefundsTable extends Migration
     {
         Schema::create('2_refunds', function (Blueprint $table) {
             $table->increments('id')->unsigned()->unique();
-            $table->string('office_code');
-            $table->foreign('office_code')->references('code')->on('1_offices')->onDelete('cascade');
+            $table->integer('office_id')->unsigned()->index();
+            $table->foreign('office_id')->references('id')->on('1_offices')->onDelete('cascade');
             $table->string('approve_code');
             $table->date('create_date');
             $table->date('sent_date');

@@ -18,3 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::Resource('/offices', 'OfficeController');
+Route::group(['prefix'=>'offices'],function(){
+    Route::apiResource('/{office}/refunds','RefundController');
+
+    //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
+});

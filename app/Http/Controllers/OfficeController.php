@@ -39,7 +39,8 @@ class OfficeController extends Controller
      */
     public function store(OfficeRequest $request)
     {
-        return $request;
+
+        //return $request;
         $office = new Office;
         $office->code = $request->code;
         $office->name = $request->name;
@@ -48,7 +49,7 @@ class OfficeController extends Controller
         $office->status = $request->status;
         $office->save();
         return response([
-            'data' => OfficeResource::collection($article)
+            'data' => new OfficeResource($office)
         ],Response::HTTP_CREATED);
     }
 
@@ -60,7 +61,7 @@ class OfficeController extends Controller
      */
     public function show(Office $office)
     {
-        //
+        return new OfficeResource($office);
     }
 
     /**
@@ -81,9 +82,12 @@ class OfficeController extends Controller
      * @param  \App\Office  $office
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Office $office)
+    public function update(OfficeRequest $request, Office $office)
     {
-        //
+        $office->update($request->all());
+        return response([
+            'data' => new OfficeResource($office)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -94,6 +98,7 @@ class OfficeController extends Controller
      */
     public function destroy(Office $office)
     {
-        //
+        $office->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
