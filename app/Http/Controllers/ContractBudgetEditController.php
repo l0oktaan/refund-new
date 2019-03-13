@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Office;
+use App\Refund;
 use App\ContractBudgetEdit;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContractBudgetEditRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContractBudgetEditController extends Controller
 {
@@ -12,9 +16,9 @@ class ContractBudgetEditController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office, Refund $refund)
     {
-        //
+        return $office->contract_budget_edits()->get();
     }
 
     /**
@@ -33,9 +37,14 @@ class ContractBudgetEditController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Office $office, Refund $refund, Request $request)
     {
-        //
+        return $request;
+        $budget_edit = new ContractBudgetEdit($request->all());
+        $refund->contract_budget_edits()->save($budget_edit);
+        return response([
+            'data' => new ContractResource($budget_edit)
+        ],Response::HTTP_CREATED);
     }
 
     /**

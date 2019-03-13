@@ -27,27 +27,27 @@ class Refund extends Model
         return $this->belongsTo('App\Office');
     }
 
-    public function contracts(){
-        return $this->hasMany(Contract::class);
+    public function contract(){
+        return $this->hasOne('App\Contract');
     }
 
     public function contract_budget_edits(){
-        return $this->hasMany(ContractBudgetEdit::class);
+        return $this->hasMany('App\ContractBudgetEdit');
     }
 
     public function contract_time_edits(){
-        return $this->hasMany(ContractTimeEdit::class);
+        return $this->hasOne(ContractTimeEdit::class);
     }
 
     public function delivers(){
-        return $this->hasMany(Deliver::class);
+        return $this->hasOne(Deliver::class);
     }
 
     public function deposit_penalties(){
-        return $this->hasMany(DepositPenalty::class);
+        return $this->hasOne(DepositPenalty::class);
     }
 
     public function approve_refunds(){
-        return $this->hasMany(ApproveRefund::class);
+        return $this->hasOne(ApproveRefund::class);
     }
 }
