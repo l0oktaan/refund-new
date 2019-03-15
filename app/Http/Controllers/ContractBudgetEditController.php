@@ -6,8 +6,10 @@ use App\Office;
 use App\Refund;
 use App\ContractBudgetEdit;
 use Illuminate\Http\Request;
-use App\Http\Requests\ContractBudgetEditRequest;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\ContractBudgetEditRequest;
+use App\Http\Resources\ContractBudgetEditResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ContractBudgetEditController extends Controller
 {
@@ -18,7 +20,13 @@ class ContractBudgetEditController extends Controller
      */
     public function index(Office $office, Refund $refund)
     {
-        return $office->contract_budget_edits()->get();
+        //return COntractBudgetEditResource::collection($office->contract_budget_edits()->get());
+        $contract_edits = new ContractBudgetEdit;
+        $contract_edits = $office->contract_budget_edits()
+                               ->where("refund_id","=",$refund->id)
+                               ->get();
+
+        return COntractBudgetEditResource::collection($contract_edits);
     }
 
     /**
@@ -39,11 +47,11 @@ class ContractBudgetEditController extends Controller
      */
     public function store(Office $office, Refund $refund, Request $request)
     {
-        return $request;
+
         $budget_edit = new ContractBudgetEdit($request->all());
         $refund->contract_budget_edits()->save($budget_edit);
         return response([
-            'data' => new ContractResource($budget_edit)
+            'data' => new ContractBudgetEditResource($budget_edit)
         ],Response::HTTP_CREATED);
     }
 
@@ -53,9 +61,20 @@ class ContractBudgetEditController extends Controller
      * @param  \App\ContractBudgetEdit  $contractBudgetEdit
      * @return \Illuminate\Http\Response
      */
-    public function show(ContractBudgetEdit $contractBudgetEdit)
+    public function show(Office $office, Refund $refund, ContractBudgetEdit $contractBudgetEdit)
     {
-        //
+
+        return $office->refunds()->contract_budget_edits;
+        //return $refund->contract_budget_edits()->get();
+        //return $contractBudgetEdit->where("refund_id","=",$refund->id)->get();
+        //return ContractBudgetEditResource::collection($contractBudgetEdit->where("refund_id","=",$refund->id)->get());
+        //return 1;
+        //return $refund->load("contract_budget_edits");
+        try {
+            return ContractBudgetEditResource::collection($refund->contract_budget_edits()->where("id","=",$contractBudgetEdit->id)->get());
+        } catch (ModelNotFoundException $ex) {
+            //throw $th;
+        }
     }
 
     /**
@@ -76,9 +95,12 @@ class ContractBudgetEditController extends Controller
      * @param  \App\ContractBudgetEdit  $contractBudgetEdit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ContractBudgetEdit $contractBudgetEdit)
+    public function update(Office $office, Refund $refund, ContractBudgetEditRequest $request, ContractBudgetEdit $contractBudgetEdit)
     {
-        //
+        $contractBudgetEdit->update($request->all());
+        return response([
+            'data' => new ContractBudgetEditResource($contractBudgetEdit)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -87,8 +109,9 @@ class ContractBudgetEditController extends Controller
      * @param  \App\ContractBudgetEdit  $contractBudgetEdit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ContractBudgetEdit $contractBudgetEdit)
+    public function destroy(Office $office, Refund $refund, ContractBudgetEdit $contractBudgetEdit)
     {
-        //
+        $contractBudgetEdit->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }

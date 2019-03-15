@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
-
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Refunds extends Resource

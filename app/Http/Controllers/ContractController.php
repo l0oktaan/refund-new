@@ -22,7 +22,7 @@ class ContractController extends Controller
         $contract = $office->contracts()
                             ->where('refund_id','=',$refund->id)
                             ->get();
-        return ContractResource::collection($contract);
+        return $contract;
         //return ContractResource::collection($office->refunds()->contract()->get());
     }
 
