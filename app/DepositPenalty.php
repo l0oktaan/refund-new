@@ -11,8 +11,8 @@ class DepositPenalty extends Model
         'id',
         'refund_id',
         'order',
-        'no',
-        'date',
+        'deposit_no',
+        'deposit_date',
         'amount'
     ];
 

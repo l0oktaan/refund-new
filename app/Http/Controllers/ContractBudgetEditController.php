@@ -20,13 +20,19 @@ class ContractBudgetEditController extends Controller
      */
     public function index(Office $office, Refund $refund)
     {
+        $budgetEdits = new ContractBudgetEdit;
+        $budgetEdit =  $office->contract_budget_edits()
+                    ->where('refund_id','=',$refund->id)
+                    ->orderBy('order','asc')
+                    ->get();
+        return ContractBudgetEditResource::collection($budgetEdit);
         //return COntractBudgetEditResource::collection($office->contract_budget_edits()->get());
-        $contract_edits = new ContractBudgetEdit;
-        $contract_edits = $office->contract_budget_edits()
-                               ->where("refund_id","=",$refund->id)
-                               ->get();
+        // $contract_edits = new ContractBudgetEdit;
+        // $contract_edits = $office->contract_budget_edits()
+        //                        ->where("refund_id","=",$refund->id)
+        //                        ->get();
 
-        return COntractBudgetEditResource::collection($contract_edits);
+        // return COntractBudgetEditResource::collection($contract_edits);
     }
 
     /**
@@ -63,15 +69,23 @@ class ContractBudgetEditController extends Controller
      */
     public function show(Office $office, Refund $refund, ContractBudgetEdit $contractBudgetEdit)
     {
+        try {
+        $budgetEdit = new ContractBudgetEdit;
+        $budgetEdit = $office->contract_budget_edits()
+                    ->where([
+                        ['refund_id','=',$refund->id]
+                        //['id','=',$contractBudgetEdit->id]
 
-        return $office->refunds()->contract_budget_edits;
+                    ])
+                    ->findOrFail($contractBudgetEdit->id);
         //return $refund->contract_budget_edits()->get();
         //return $contractBudgetEdit->where("refund_id","=",$refund->id)->get();
         //return ContractBudgetEditResource::collection($contractBudgetEdit->where("refund_id","=",$refund->id)->get());
         //return 1;
-        //return $refund->load("contract_budget_edits");
-        try {
-            return ContractBudgetEditResource::collection($refund->contract_budget_edits()->where("id","=",$contractBudgetEdit->id)->get());
+        //return $office->load("contract_budget_edits");
+
+            //return ContractBudgetEditResource::collection($refund->contract_budget_edits()->where("id","=",$contractBudgetEdit->id)->get());
+            return new ContractBudgetEditResource($budgetEdit);
         } catch (ModelNotFoundException $ex) {
             //throw $th;
         }

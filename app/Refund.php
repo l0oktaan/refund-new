@@ -32,22 +32,22 @@ class Refund extends Model
     }
 
     public function contract_budget_edits(){
-        return $this->hasMany('App\ContractBudgetEdit');
+        return $this->hasMany('App\ContractBudgetEdit','refund_id','id');
     }
 
     public function contract_time_edits(){
-        return $this->hasOne(ContractTimeEdit::class);
+        return $this->hasMany('App\ContractTimeEdit','refund_id','id');
     }
 
     public function delivers(){
-        return $this->hasOne(Deliver::class);
+        return $this->hasMany('App\Deliver','refund_id','id');
     }
 
     public function deposit_penalties(){
-        return $this->hasOne(DepositPenalty::class);
+        return $this->hasMany('App\DepositPenalty','refund_id','id');
     }
 
     public function approve_refunds(){
-        return $this->hasOne(ApproveRefund::class);
+        return $this->hasMany('App\ApproveRefund','refund_id','id');
     }
 }

@@ -11,7 +11,7 @@ class ApproveRefund extends Model
         'id',
         'refund_id',
         'receive_refund_date',
-        'approve_refund_day',
+        'approve_refund_days',
         'approve_refund_amount',
         'amount'
     ];

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Office;
+use App\Refund;
 use App\Deliver;
 use Illuminate\Http\Request;
+use App\Http\Requests\DeliverRequest;
+use App\Http\Resources\DeliverResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class DeliverController extends Controller
 {
@@ -12,9 +17,14 @@ class DeliverController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office, Refund $refund)
     {
-        //
+        $delivers = new Deliver;
+        $delivers =  $office->delivers()
+                    ->where('refund_id','=',$refund->id)
+                    ->orderBy('order','asc')
+                    ->get();
+        return DeliverResource::collection($delivers);
     }
 
     /**
@@ -33,9 +43,20 @@ class DeliverController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Office $office, Refund $refund,DeliverRequest $request)
     {
-        //
+        if ($refund->office_id == $office->id){
+
+            $deliver = new Deliver($request->all());
+            $refund->delivers()->saveMany($deliver);
+            return response([
+                'data' => new DeliverResource($deliver)
+            ],Response::HTTP_CREATED);
+
+        }else{
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+
     }
 
     /**
@@ -44,9 +65,24 @@ class DeliverController extends Controller
      * @param  \App\Deliver  $deliver
      * @return \Illuminate\Http\Response
      */
-    public function show(Deliver $deliver)
+    public function show(Office $office, Refund $refund,Deliver $deliver)
     {
-        //
+        $iDeliver = new Deliver;
+
+        $iDeliver = $office->delivers()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($deliver->id);
+
+        if ($iDeliver == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+
+            return response([
+                'data' => new DeliverResource($iDeliver)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -67,9 +103,24 @@ class DeliverController extends Controller
      * @param  \App\Deliver  $deliver
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Deliver $deliver)
+    public function update(Office $office, Refund $refund,DeliverRequest $request, Deliver $deliver)
     {
-        //
+        $iDeliver = new Deliver;
+
+        $iDeliver = $office->delivers()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($deliver->id);
+
+        if ($iDeliver == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $iDeliver->update($request->all());
+            return response([
+                'data' => new DeliverResource($iDeliver)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -78,8 +129,21 @@ class DeliverController extends Controller
      * @param  \App\Deliver  $deliver
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Deliver $deliver)
+    public function destroy(Office $office, Refund $refund,Deliver $deliver)
     {
-        //
+        $iDeliver = new Deliver;
+
+        $iDeliver = $office->delivers()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($deliver->id);
+
+        if ($iDeliver == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $deliver->delete();
+            return response(null,Response::HTTP_CREATED);
+        }
     }
 }

@@ -25,9 +25,8 @@ class Office extends Model
             'App\Contract',
             'App\Refund',
             'office_id',
-            'refund_id',
-            'id',
-            'id'
+            'refund_id'
+
         );
     }
     public function contract_budget_edits(){
@@ -35,9 +34,44 @@ class Office extends Model
             'App\ContractBudgetEdit',
             'App\Refund',
             'office_id',
-            'refund_id',
-            'id',
-            'id'
+            'refund_id'
+
+        );
+    }
+
+    public function contract_time_edits(){
+        return $this->hasManyThrough(
+            'App\ContractTimeEdit',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
+
+    public function delivers(){
+        return $this->hasManyThrough(
+            'App\Deliver',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
+
+    public function deposit_penalties(){
+        return $this->hasManyThrough(
+            'App\DepositPenalty',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
+
+    public function approve_refunds(){
+        return $this->hasManyThrough(
+            'App\ApproveRefund',
+            'App\Refund',
+            'office_id',
+            'refund_id'
         );
     }
 }

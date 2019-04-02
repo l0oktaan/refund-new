@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deliver extends Model
 {
-    protected $table = "6_delevers";
+    protected $table = "6_delivers";
     protected $fillable = [
         'id',
         'refund_id',

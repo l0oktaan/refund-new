@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Office;
+use App\Refund;
 use App\ContractTimeEdit;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContractTimeEditRequest;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ContractTimeEditResource;
 
 class ContractTimeEditController extends Controller
 {
@@ -12,9 +17,15 @@ class ContractTimeEditController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office, Refund $refund)
     {
-        //
+
+        $timeEdits = new ContractTimeEdit;
+        $timeEdits =  $office->contract_time_edits()
+                    ->where('refund_id','=',$refund->id)
+                    ->orderBy('order','asc')
+                    ->get();
+        return ContractTimeEditResource::collection($timeEdits);
     }
 
     /**
@@ -33,9 +44,14 @@ class ContractTimeEditController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Office $office, Refund $refund,ContractTimeEditRequest $request)
     {
-        //
+
+        $time_edit = new ContractTimeEdit($request->all());
+        $refund->contract_time_edits()->save($time_edit);
+        return response([
+            'data' => new ContractTimeEditResource($time_edit)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -44,9 +60,21 @@ class ContractTimeEditController extends Controller
      * @param  \App\ContractTimeEdit  $contractTimeEdit
      * @return \Illuminate\Http\Response
      */
-    public function show(ContractTimeEdit $contractTimeEdit)
+    public function show(Office $office, Refund $refund, ContractTimeEdit $contractTimeEdit)
     {
-        //
+        $timeEdit = new ContractTimeEdit;
+
+        $timeEdit = $office->contract_time_edits()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($contractTimeEdit->id);
+        if ($timeEdit == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            return new ContractTimeEditResource($timeEdit);
+
+        }
     }
 
     /**
@@ -55,9 +83,9 @@ class ContractTimeEditController extends Controller
      * @param  \App\ContractTimeEdit  $contractTimeEdit
      * @return \Illuminate\Http\Response
      */
-    public function edit(ContractTimeEdit $contractTimeEdit)
+    public function edit()
     {
-        //
+
     }
 
     /**
@@ -67,9 +95,33 @@ class ContractTimeEditController extends Controller
      * @param  \App\ContractTimeEdit  $contractTimeEdit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ContractTimeEdit $contractTimeEdit)
+    public function update(Office $office, Refund $refund,Request $request, ContractTimeEdit $contractTimeEdit)
     {
-        //
+        $timeEdit = new ContractTimeEdit;
+
+        $timeEdit = $office->contract_time_edits()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($contractTimeEdit->id);
+
+        /* $timeEdit = new ContractTimeEdit;
+        $timeEdit = $office->contract_time_edits()
+                            ->where([
+                                ['refund_id','=',$refund->id]
+                                //['id','=',$contractBudgetEdit->id]
+
+                            ])
+                            ->findOrFail($contractTimeEdit->id);
+*/
+        if ($timeEdit == null){
+            return response([],Response::HTTP_NOT_FOUND);
+        }else{
+            $timeEdit->update($request->all());
+            return response([
+                'data' => new ContractTimeEditResource($timeEdit)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -78,8 +130,29 @@ class ContractTimeEditController extends Controller
      * @param  \App\ContractTimeEdit  $contractTimeEdit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ContractTimeEdit $contractTimeEdit)
+    public function destroy(Office $office, Refund $refund, ContractTimeEdit $contractTimeEdit)
     {
-        //
+        $timeEdit = new ContractTimeEdit;
+        $timeEdit = $office->contract_time_edits()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($contractTimeEdit->id);
+
+        /* $timeEdit = new ContractTimeEdit;
+        $timeEdit = $office->contract_time_edits()
+                            ->where([
+                                ['refund_id','=',$refund->id]
+                                //['id','=',$contractBudgetEdit->id]
+
+                            ])
+                            ->findOrFail($contractTimeEdit->id);
+*/
+        if ($timeEdit == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $timeEdit->delete();
+            return response(null,Response::HTTP_CREATED);
+        }
     }
 }

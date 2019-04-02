@@ -22,5 +22,9 @@ Route::group(['prefix'=>'offices'],function(){
     Route::apiResource('/{office}/refunds','RefundController');
     Route::apiResource('/{office}/refunds/{refund}/contract','ContractController');
     Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
+    Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');
+    Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
+    Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
+    Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
     //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
 });

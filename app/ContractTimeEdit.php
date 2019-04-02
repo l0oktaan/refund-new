@@ -14,7 +14,7 @@ class ContractTimeEdit extends Model
         'approve_date',
         'edit_type',
         'edit_detail',
-        'edit_day'
+        'edit_days'
     ];
 
     public function refund(){
