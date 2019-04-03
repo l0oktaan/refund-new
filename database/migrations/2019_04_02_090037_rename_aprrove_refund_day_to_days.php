@@ -14,7 +14,7 @@ class RenameAprroveRefundDayToDays extends Migration
     public function up()
     {
         Schema::table('8_approve_refunds', function (Blueprint $table) {
-            $table->renameColumn('approve_refund_day','approve_refund_days');
+            //$table->renameColumn('approve_refund_day','approve_refund_days');
 
         });
     }

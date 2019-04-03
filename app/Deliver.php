@@ -13,7 +13,7 @@ class Deliver extends Model
         'order',
         'detail',
         'deliver_date',
-        'overdue_day',
+        'overdue_days',
         'penalty'
     ];
 

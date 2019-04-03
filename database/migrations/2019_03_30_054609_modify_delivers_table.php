@@ -16,7 +16,7 @@ class ModifyDeliversTable extends Migration
         Schema::table('6_delivers', function (Blueprint $table) {
             //$table->renameColumn('type','deliver_date');
             //$table->date('deliver_date')->change();
-            $table->integer('overdue_day')->change();
+            //$table->integer('overdue_day')->change();
         });
     }
 

@@ -27,7 +27,7 @@ class DeliverRequest extends FormRequest
             'order' => 'required',
             'detail' => 'required|max:255',
             'deliver_date' => 'required',
-            'overdue_day' => 'required',
+            'overdue_days' => 'required',
             'penalty' => 'required',
         ];
     }

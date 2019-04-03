@@ -14,7 +14,7 @@ class ModifyEditDayToTimeEditTable extends Migration
     public function up()
     {
         Schema::table('5_contract_time_edits', function (Blueprint $table) {
-            $table->integer("edit_days")->change();
+            //$table->integer("edit_days")->change();
         });
     }
 

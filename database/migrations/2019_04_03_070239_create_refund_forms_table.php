@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApproveRefundsTable extends Migration
+class CreateRefundFormsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateApproveRefundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('8_approve_refunds', function (Blueprint $table) {
+        Schema::create('12_refund_forms', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('form_id')->unsigned()->index();
+            $table->foreign('form_id')->references('id')->on('9_forms')->onDelete('cascade');
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
-            $table->date('receive_refund_date');
-            $table->integer('approve_refund_days');
-            $table->float('approve_refund_amount');
-            $table->float('amount');
+            $table->tinyInteger("result");
+            $table->tinyInteger("status");
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateApproveRefundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approve_refunds');
+        Schema::dropIfExists('refund_forms');
     }
 }

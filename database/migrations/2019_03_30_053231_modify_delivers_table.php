@@ -14,7 +14,7 @@ class ModifyDeliversTable extends Migration
     public function up()
     {
         Schema::table('6_delivers', function (Blueprint $table) {
-            $table->renameColumn('type','deliver_date');
+            //$table->renameColumn('type','deliver_date');
             //$table->date('deliver_date')->change();
         });
     }

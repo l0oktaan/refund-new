@@ -17,10 +17,11 @@ class CreateContractTimeEditsTable extends Migration
             $table->increments('id');
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
+            $table->integer('order');
             $table->date('approve_date');
             $table->string('edit_type');
             $table->string('edit_detail');
-            $table->date('edit_days');
+            $table->integer('edit_days');
             $table->timestamps();
         });
     }

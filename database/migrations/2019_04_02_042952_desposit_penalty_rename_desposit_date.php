@@ -14,8 +14,8 @@ class DespositPenaltyRenameDespositDate extends Migration
     public function up()
     {
         Schema::table('7_deposit_penalties', function (Blueprint $table) {
-            $table->renameColumn('date','deposit_date');
-            $table->renameColumn('no','deposit_no');
+            //$table->renameColumn('date','deposit_date');
+            //$table->renameColumn('no','deposit_no');
 
         });
     }

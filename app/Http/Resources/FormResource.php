@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Route;
 
-class DeliverResource extends Resource
+class FormResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,11 @@ class DeliverResource extends Resource
     {
         return [
             'id' => $this->id,
-            'refund_id' => $this->refund_id,
-            'order' => $this->order,
-            'detail' => $this->detail,
-            'deliver_date' => $this->deliver_date,
-            'overdue_days' => $this->overdue_days,
-            'penalty' => $this->penalty
+            'name1' => $this->name1,
+            'name2' => $this->name2,
+            'name3' => $this->name3,
+            'create_by' => $this->create_by,
+            'status' => $this->status
         ];
     }
 }

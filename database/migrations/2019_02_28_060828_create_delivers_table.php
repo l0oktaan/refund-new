@@ -19,8 +19,8 @@ class CreateDeliversTable extends Migration
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
             $table->tinyInteger('order');
             $table->string('detail');
-            $table->date('overdue_day');
-            $table->string('type');            
+            $table->date('delivery_date');
+            $table->integer('overdue_days');
             $table->float('penalty');
             $table->timestamps();
         });
