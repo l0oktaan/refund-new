@@ -26,10 +26,12 @@ Route::group(['prefix'=>'offices'],function(){
     Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
     Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
     Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
+
     //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
 });
 
 Route::Resource('/forms','FormController');
 Route::group(['prefix'=>'forms'],function(){
-
+    Route::apiResource('/{form}/form_rules','FormRuleController');
+    Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
 });

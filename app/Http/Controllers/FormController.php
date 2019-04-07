@@ -6,6 +6,7 @@ use App\Form;
 use Illuminate\Http\Request;
 use App\Http\Requests\iFormRequest;
 use App\Http\Resources\FormResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends Controller
 {
@@ -40,6 +41,9 @@ class FormController extends Controller
         $iForm = new Form($request->all());
         $iForm->save();
 
+        return response([
+            'data' => new FormResource($iForm)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -50,7 +54,9 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        //
+        $iForm = new Form;
+        $iForm = Form::find($form->id);
+        return new FormResource($iForm);
     }
 
     /**
@@ -71,9 +77,14 @@ class FormController extends Controller
      * @param  \App\Form  $form
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Form $form)
+    public function update(iFormRequest $request, Form $form)
     {
-        //
+        $iForm = new Form;
+        $iForm = Form::find($form->id);
+        $iForm->update($request->all());
+        return response([
+            'data' => new FormResource($iForm)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -84,6 +95,7 @@ class FormController extends Controller
      */
     public function destroy(Form $form)
     {
-        //
+        $form->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }

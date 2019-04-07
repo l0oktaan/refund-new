@@ -15,4 +15,17 @@ class Form extends Model
         'create_by',
         'status'
     ];
+
+    public function form_rules(){
+        return $this->hasMany('App\FormRule');
+    }
+    public function form_conditions(){
+        return $this->hasManyThrough(
+            'App\FormCondition',
+            'App\FormRule',
+            'form_id',
+            'form_rule_id'
+        );
+    }
 }
+

@@ -20,7 +20,7 @@ class CreateRefundsTable extends Migration
             $table->string('approve_code');
             $table->date('create_date');
             $table->date('sent_date');
-            $table->date('complate_date');
+            $table->date('complete_date');
             $table->tinyInteger('status');
             $table->timestamps();
         });

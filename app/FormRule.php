@@ -17,4 +17,12 @@ class FormRule extends Model
         'result_type',
         'status'
     ];
+
+    public function form(){
+        return $this->belongsTo('App\Form');
+    }
+
+    public function form_conditions(){
+        return $this->hasMany('App\FormCondition');
+    }
 }

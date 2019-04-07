@@ -13,10 +13,10 @@ class CreateFormConditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('form_conditions', function (Blueprint $table) {
+        Schema::create('11_form_conditions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('rule_id')->unsigned()->index();
-            $table->foreign('rule_id')->references('id')->on('10_form_rules')->onDelete('cascade');
+            $table->integer('form_rule_id')->unsigned()->index();
+            $table->foreign('form_rule_id')->references('id')->on('10_form_rules')->onDelete('cascade');
             $table->integer('order');
             $table->string('name');
             $table->integer('condition_type');
@@ -32,6 +32,6 @@ class CreateFormConditionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('form_conditions');
+        Schema::dropIfExists('11_form_conditions');
     }
 }

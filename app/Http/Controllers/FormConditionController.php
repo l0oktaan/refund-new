@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Form;
+use App\FormRule;
 use App\FormCondition;
 use Illuminate\Http\Request;
+use App\Http\Requests\FormConditionRequest;
+use App\Http\Resources\FormConditionResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class FormConditionController extends Controller
 {
@@ -12,9 +17,16 @@ class FormConditionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Form $form, FormRule $formRule)
     {
-        //
+
+        $formCondition = new FormCondition;
+        $formCondition = $form->form_conditions()
+                            ->where('form_rule_id','=',$formRule->id)
+                            ->orderBy('order','asc')
+                            ->get();
+        return FormConditionResource::collection($formCondition);
+
     }
 
     /**
@@ -33,9 +45,19 @@ class FormConditionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Form $form, FormRule $formRule,FormConditionRequest $request)
     {
-        //
+        if ($formRule->form_id == $form->id){
+
+            $formCondition = new FormCondition($request->all());
+            $formRule->form_conditions()->save($formCondition);
+            return response([
+                'data' => new FormConditionResource($formCondition)
+            ],Response::HTTP_CREATED);
+
+        }else{
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**
@@ -44,9 +66,21 @@ class FormConditionController extends Controller
      * @param  \App\FormCondition  $formCondition
      * @return \Illuminate\Http\Response
      */
-    public function show(FormCondition $formCondition)
+    public function show(Form $form, FormRule $formRule, FormCondition $formCondition)
     {
-        //
+        $condition = new FormCondition;
+        $condition = $form->form_conditions()
+                        ->where([
+                            ['form_rule_id','=',$formRule->id]
+                        ])
+                        ->findOrFail($formCondition->id);
+        if ($condition == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            return response([
+                'data' => new FormConditionResource($condition)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -67,9 +101,23 @@ class FormConditionController extends Controller
      * @param  \App\FormCondition  $formCondition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FormCondition $formCondition)
+    public function update(Form $form, FormRule $formRule,FormConditionRequest $request, FormCondition $formCondition)
     {
-        //
+
+        $condition = new FormCondition;
+        $condition = $form->form_conditions()
+                        ->where([
+                            ['form_rule_id','=',$formRule->id]
+                        ])
+                        ->findOrFail($formCondition->id);
+        if ($condition == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $condition->update($request->all());
+            return response([
+                'data' => new FormConditionResource($condition)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**
@@ -78,8 +126,19 @@ class FormConditionController extends Controller
      * @param  \App\FormCondition  $formCondition
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FormCondition $formCondition)
+    public function destroy(Form $form, FormRule $formRule,FormCondition $formCondition)
     {
-        //
+        $condition = new FormCondition;
+        $condition = $form->form_conditions()
+                        ->where([
+                            ['form_rule_id','=',$formRule->id]
+                        ])
+                        ->findOrFail($formCondition->id);
+        if ($condition == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $condition->delete();
+            return response([null],Response::HTTP_CREATED);
+        }
     }
 }
