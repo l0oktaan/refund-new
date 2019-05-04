@@ -44,7 +44,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            component: Home          
+            component: Home
         },
         {
             path: '/admin',
@@ -52,21 +52,22 @@ const router = new VueRouter({
             mode: 'history',
             children: [
                 {
-                    path: '',                    
+                    path: '',
                     component: AdminIndex
                 }
             ]
-        }      
+        }
     ]
 });
 import AdminNav from './components/Admin/AdminNav.vue';
 Vue.component('AdminNav', AdminNav).defaults;
 
-Vue.component('ExampleComponent', require('./components/ExampleComponent.vue'));
+import AdminMenu from './components/Admin/AdminMenu.vue';
+Vue.component('AdminMenu', AdminMenu).defaults;
 
 
 const app = new Vue({
-    el: '#app',    
+    el: '#app',
     components: { App },
-    router    
+    router
 });

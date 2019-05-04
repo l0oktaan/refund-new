@@ -1,5 +1,5 @@
 <template>
-  
+
 
 </template>
 
@@ -7,7 +7,7 @@
 export default {
     data(){
         return{
-            
+
         }
     }
 }
