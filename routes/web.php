@@ -14,3 +14,7 @@
 Route::any('/{any?}', function (){
     return view('index');
 })->where('any', '[\/\w\.-]*')->name('app');
+
+/* Route::any('/admin', function (){
+    return view('admin');
+})->where('any', '[\/\w\.-]*')->name('app'); */
