@@ -1,23 +1,31 @@
 <template>
-    <b-container fluid>
+    <div  class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+        <admin-nav></admin-nav>
+        <div class="app-body" id="app">
+            <admin-menu></admin-menu>
 
-    </b-container>
+            <main class="main">
+                <admin-breadcrumb></admin-breadcrumb>
+                <div class="container-fluid">
+                    <div class="animated fadeIn">
+                    <!--  @yield('content') -->
+                        <router-view></router-view>
+                    </div>
+                </div>
+            </main>
+            <admin-side></admin-side>
+        </div> <!-- End app-body -->
+        <footer class="app-footer">
+            <div>
+                <a href="https://coreui.io">My App</a>
+                <span>&copy; 2018 creativeLabs.</span>
+            </div>
+            <div class="ml-auto">
+                <span>Powered by</span>
+                <a href="https://coreui.io">My Company</a>
+            </div>
+        </footer>
+    </div>
 </template>
 <script>
-export default {
-    data(){
-        return{
 
-        }
-    }
-}
-</script>
-<style scoped>
-
-@media (min-width: 768px) {
-    .main {
-        padding-right: 40px;
-        padding-left: 220px; /* 180 + 40 */
-    }
-}
-</style>

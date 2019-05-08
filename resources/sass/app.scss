@@ -9,10 +9,18 @@
 //@import '~bootstrap/scss/bootstrap';
 
 // CoreUI
-@import '~@coreui/coreui/dist/css/coreui.css';
+//@import '~@coreui/coreui/dist/css/coreui.css';
+@import "~@coreui/coreui/scss/coreui";
 
 // Icons
 @import '~simple-line-icons/css/simple-line-icons.css';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
+
+@media (min-width: 768px){
+    .main{
+        padding-right: 0px!important;
+        padding-left: 0px!important;
+    }
+}
 

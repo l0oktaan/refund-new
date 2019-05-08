@@ -16,7 +16,8 @@ Vue.use(VueRouter)
 
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
-import 'bootstrap/dist/css/bootstrap.css'
+
+//import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Vuex from 'vuex'
@@ -37,6 +38,7 @@ import Home from './views/Home.vue'
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
 
+import FormIndex from './views/Admin/Form/FormIndex'
 
 const router = new VueRouter({
     mode: 'history',
@@ -44,16 +46,32 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            component: Home
+            component: Home,
+            meta: {
+                breadCrumb: 'หน้าหลัก' //crumb
+            }
         },
         {
             path: '/admin',
             component: Admin,
             mode: 'history',
+            meta: {
+                breadCrumb: 'Dashboard' //crumb
+            },
             children: [
                 {
                     path: '',
-                    component: AdminIndex
+                    component: AdminIndex,
+                    meta: {
+                        breadCrumb: 'Admin' //crumb
+                    }
+                },
+                {
+                    path: 'form',
+                    component: FormIndex,
+                    meta: {
+                        breadCrumb: 'จัดการแบบฟอร์ม' //crumb
+                    }
                 }
             ]
         }
@@ -65,6 +83,23 @@ Vue.component('AdminNav', AdminNav).defaults;
 import AdminMenu from './components/Admin/AdminMenu.vue';
 Vue.component('AdminMenu', AdminMenu).defaults;
 
+import AdminBreadcrumb from './components/Admin/AdminBreadcrumb.vue';
+Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
+
+import AdminSide from './components/Admin/AdminSide.vue';
+Vue.component('AdminSide', AdminSide).defaults;
+
+import FormFind from './components/Admin/Form/FormFind.vue';
+Vue.component('FormFind', FormFind).defaults;
+
+import FormCover from './components/Admin/Form/FormCover.vue';
+Vue.component('FormCover', FormCover).defaults;
+
+import FormDetail from './components/Admin/Form/FormDetail.vue';
+Vue.component('FormDetail', FormDetail).defaults;
+
+import FormRuleList from './components/Admin/Form/FormRuleList.vue';
+Vue.component('FormRuleList', FormRuleList).defaults;
 
 const app = new Vue({
     el: '#app',
