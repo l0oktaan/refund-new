@@ -4456,10 +4456,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
-    return {};
+    return {
+      status: "new"
+    };
   },
   methods: {
     showModal2: function showModal2() {
@@ -4470,9 +4481,13 @@ __webpack_require__.r(__webpack_exports__);
         modalName = 'modalRule';
       } else {
         modalName = 'modal-2' + this.form_id;
+        this.status = "edit";
       }
 
       this.$root.$emit('bv::show::modal', modalName);
+    },
+    onSubmit: function onSubmit(e) {
+      e.preventDefault();
     }
   }
 });
@@ -68114,65 +68129,87 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c(
-            "b-form-group",
+            "b-form",
+            { on: { submit: _vm.onSubmit } },
             [
-              _c("label", { attrs: { for: "formName1" } }, [
-                _vm._v("ชื่อแบบฟอร์ม")
-              ]),
+              _c(
+                "b-form-group",
+                [
+                  _c("label", { attrs: { for: "formName1" } }, [
+                    _vm._v("ชื่อแบบฟอร์ม")
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    attrs: {
+                      type: "text",
+                      id: "formName1",
+                      placeholder: "ชื่อแบบฟอร์ม",
+                      value: _vm.form_id
+                    }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("b-form-input", {
-                attrs: {
-                  type: "text",
-                  id: "formName1",
-                  placeholder: "ชื่อแบบฟอร์ม",
-                  value: _vm.form_id
-                }
-              })
+              _c(
+                "b-form-group",
+                [
+                  _c("label", { attrs: { for: "formName2" } }, [
+                    _vm._v("ชื่อแบบฟอร์ม เพิ่มเติม")
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    attrs: {
+                      type: "text",
+                      id: "formName2",
+                      placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-form-group",
+                [
+                  _c("label", { attrs: { for: "formName3" } }, [
+                    _vm._v("ชื่อแบบฟอร์ม เพิ่มเติม")
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    attrs: {
+                      type: "text",
+                      id: "formName3",
+                      placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-center" },
+                [
+                  _c(
+                    "b-button",
+                    { attrs: { type: "submit", variant: "primary" } },
+                    [_vm._v("บันทึกข้อมูล")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    { attrs: { type: "reset", variant: "danger" } },
+                    [_vm._v("ยกเลิก")]
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
           _vm._v(" "),
-          _c(
-            "b-form-group",
-            [
-              _c("label", { attrs: { for: "formName2" } }, [
-                _vm._v("ชื่อแบบฟอร์ม เพิ่มเติม")
-              ]),
-              _vm._v(" "),
-              _c("b-form-input", {
-                attrs: {
-                  type: "text",
-                  id: "formName2",
-                  placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-form-group",
-            [
-              _c("label", { attrs: { for: "formName3" } }, [
-                _vm._v("ชื่อแบบฟอร์ม เพิ่มเติม")
-              ]),
-              _vm._v(" "),
-              _c("b-form-input", {
-                attrs: {
-                  type: "text",
-                  id: "formName3",
-                  placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("form-rule-list"),
-          _vm._v(" "),
-          _c("b-button", { on: { click: _vm.showModal2 } }, [
-            _vm._v("Open First Modal")
-          ])
+          _c("form-rule-list")
         ],
         1
       )
