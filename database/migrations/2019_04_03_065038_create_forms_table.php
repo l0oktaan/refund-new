@@ -18,6 +18,7 @@ class CreateFormsTable extends Migration
             $table->string("name1");
             $table->string("name2");
             $table->string("name3");
+            $table->tinyInteger("order");
             $table->string("create_by");
             $table->tinyInteger("status");
             $table->timestamps();

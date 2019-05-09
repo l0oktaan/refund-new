@@ -12,6 +12,7 @@ class Form extends Model
         'name1',
         'name2',
         'name3',
+        'order',
         'create_by',
         'status'
     ];

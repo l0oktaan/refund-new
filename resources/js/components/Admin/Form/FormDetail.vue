@@ -17,6 +17,18 @@
                     <label for="formName3">ชื่อแบบฟอร์ม เพิ่มเติม</label>
                     <b-form-input type="text" id="formName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
                 </b-form-group>
+                <b-row>
+                    <b-col sm="4">
+                         <b-form-group >
+                            <label for="month1">ลำดับฟอร์ม</label>
+                            <b-form-select id="month1"
+                            :plain="true"
+                            :options="[1,2,3,4,5,6,7,8,9,10,11,12]">
+                            </b-form-select>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
                 <div class="text-center">
                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                     <b-button type="reset" variant="danger">ยกเลิก</b-button>
@@ -24,9 +36,6 @@
 
             </b-form>
             <form-rule-list></form-rule-list>
-
-
-
         </b-card>
     </div>
 </template>
@@ -40,7 +49,6 @@ export default {
     },
     methods: {
         showModal2(){
-
             //var modalName = 'modal-2'+this.form_id
             var modalName
             if (this.form_id == null ){

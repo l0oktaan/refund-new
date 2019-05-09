@@ -21,6 +21,7 @@ class FormResource extends Resource
             'name1' => $this->name1,
             'name2' => $this->name2,
             'name3' => $this->name3,
+            'order' => $this->order,
             'create_by' => $this->create_by,
             'status' => $this->status
         ];

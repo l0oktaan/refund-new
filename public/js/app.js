@@ -4465,6 +4465,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
@@ -68183,6 +68192,37 @@ var render = function() {
                       placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
                     }
                   })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-row",
+                [
+                  _c(
+                    "b-col",
+                    { attrs: { sm: "4" } },
+                    [
+                      _c(
+                        "b-form-group",
+                        [
+                          _c("label", { attrs: { for: "month1" } }, [
+                            _vm._v("ลำดับฟอร์ม")
+                          ]),
+                          _vm._v(" "),
+                          _c("b-form-select", {
+                            attrs: {
+                              id: "month1",
+                              plain: true,
+                              options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
