@@ -33,6 +33,30 @@ window.axios.defaults.headers.common = {
 };
 Vue.use(VueAxios, axios)
 
+import VueSwal from 'vue-swal'
+Vue.use(VueSwal)
+
+import VeeValidate from 'vee-validate';
+
+const config = {
+  //aria: true,
+  //classNames: {},
+  //classes: false,
+ // delay: 0,
+  //dictionary: null,
+  //errorBagName: 'errors', // change if property conflicts
+  //events: 'input|blur',
+  fieldsBagName: 'veeFields',
+  //i18n: null, // the vue-i18n plugin instance
+  //i18nRootKey: 'validations', // the nested key under which the validation messages will be located
+  inject: true,
+  //locale: 'en',
+  //validity: false,
+  //useConstraintAttrs: true
+};
+
+Vue.use(VeeValidate, config);
+
 import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Admin from './views/Admin/Admin'
@@ -100,6 +124,9 @@ Vue.component('FormDetail', FormDetail).defaults;
 
 import FormRuleList from './components/Admin/Form/FormRuleList.vue';
 Vue.component('FormRuleList', FormRuleList).defaults;
+
+import MyAlert from './components/MyAlert.vue';
+Vue.component('MyAlert', MyAlert).default;
 
 const app = new Vue({
     el: '#app',

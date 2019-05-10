@@ -50,22 +50,7 @@
             </b-card> -->
 
         </transition>
-        <b-modal :id="'modal-1' + form_id"
-            :ref="'modal-1' + form_id"
-            size="xl"
-            @hide-header="true" hideFooter
-            no-close-on-backdrop
-            no-close-on-esc>
-            <form-detail :form_id="form_id"></form-detail>
-        </b-modal>
-        <b-modal :id="'modal-2' + form_id"
-            :ref="'modal-2' + form_id"
-            size="lg"
-            @hide-header="true" hideFooter
-            no-close-on-backdrop
-            no-close-on-esc>
-            <h2>Modal {{form_id}}</h2>
-        </b-modal>
+
     </b-col>
 
 </template>
@@ -74,13 +59,18 @@ export default {
     props : ['form_id'],
     data(){
         return {
+            select_id: 0,
             show: true
         }
     },
     methods: {
         showForm(){
-            var modalName = 'modal-1' + this.form_id;
-            this.$refs[modalName].show()
+            //var modalName = 'modal-1' + this.form_id;
+            //this.$refs[modalName].show()
+            //this.select_id = this.form_id;
+            //this.$root.$emit('onShowForm');
+            //this.$root.$emit('bv::show::modal', 'modalForm');
+            this.$emit('onShowForm',this.form_id);
         }
     }
 }
