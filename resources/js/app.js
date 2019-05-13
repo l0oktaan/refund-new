@@ -36,26 +36,8 @@ Vue.use(VueAxios, axios)
 import VueSwal from 'vue-swal'
 Vue.use(VueSwal)
 
-import VeeValidate from 'vee-validate';
-
-const config = {
-  //aria: true,
-  //classNames: {},
-  //classes: false,
- // delay: 0,
-  //dictionary: null,
-  //errorBagName: 'errors', // change if property conflicts
-  //events: 'input|blur',
-  fieldsBagName: 'veeFields',
-  //i18n: null, // the vue-i18n plugin instance
-  //i18nRootKey: 'validations', // the nested key under which the validation messages will be located
-  inject: true,
-  //locale: 'en',
-  //validity: false,
-  //useConstraintAttrs: true
-};
-
-Vue.use(VeeValidate, config);
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 
 import App from './views/App.vue'
 import Home from './views/Home.vue'

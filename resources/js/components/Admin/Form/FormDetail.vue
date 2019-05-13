@@ -7,45 +7,49 @@
                 <strong>รายละเอียดฟอร์ม</strong>
             </div>
             <b-form @submit="onSubmit">
-                <b-form-group id="lblName1" label="name1" label-for="txtFormName1">
-                    <label for="formName1">ชื่อแบบฟอร์ม</label>
-                    <b-form-input type="text" v-model="name1"
-                        id="txtFormName1"
+                <b-form-group id="gName1" label="ชื่อแบบฟอร์ม" label-for="name1" :class="{'form-group-error': $v.name1.$error }">
+                    <b-form-input type="text"
+                        id="name1"
                         placeholder="ชื่อแบบฟอร์ม"
-                        :value="form_id"
-                        name="formName1"
-                        v-validate="{ required: true, min:2 }"
-                        :state="validateState('name1')"
-                        aria-describedby="input-1-live-feedback">
+                        name="name1"
+                        @blur="$v.name1.$touch()"
+                        v-model="name1"
+                        >
                     </b-form-input>
-                    <b-form-invalid-feedback id="input-1-live-feedback">
-                        This is a required field and must be at least 3 characters
-                    </b-form-invalid-feedback>
+                    <div class="error" v-if="!$v.name1.required">กรุณากรอกข้อมูล</div>
+                    <div class="error" v-if="!$v.name1.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name1.$params.minLength.min}} ตัวอักษร.</div>
                 </b-form-group>
-                <b-form-group>
-                    <label for="formName2">ชื่อแบบฟอร์ม เพิ่มเติม</label>
-                    <b-form-input type="text" v-model="name2" id="txtFormName2" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
+                <b-form-group :class="{'form-group-error': $v.name2.$error }">
+                    <label for="name2">ชื่อแบบฟอร์ม เพิ่มเติม</label>
+                    <b-form-input type="text"
+                        v-model.trim="$v.name2.$model"
+                        id="name2"
+                        placeholder="ชื่อแบบฟอร์ม เพิ่มเติม">
+                    </b-form-input>
+                    <div class="error" v-if="!$v.name2.required">กรุณากรอกข้อมูล</div>
+                    <div class="error" v-if="!$v.name2.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name2.$params.minLength.min}} ตัวอักษร.</div>
                 </b-form-group>
-                <b-form-group>
+                <b-form-group :class="{invalid: $v.name1.$error}">
                     <label for="formName3">ชื่อแบบฟอร์ม เพิ่มเติม</label>
                     <b-form-input type="text" v-model="name3" id="txtFormName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
                 </b-form-group>
                 <b-row>
                     <b-col sm="4">
-                         <b-form-group >
+                         <b-form-group :class="{'form-group-error': $v.order.$error }">
                             <label for="month1">ลำดับฟอร์ม</label>
                             <b-form-select v-model="order"
                                 id="order"
                                 name="order"
                                 :plain="true"
-                                :options="[1,2,3,4,5,6,7,8,9,10,11,12]">
+                                :options="[1,2,3,4,5,6,7,8,9,10,11,12]"
+                                @blur="$v.order.$touch">
                             </b-form-select>
+                            <div class="error" v-if="!$v.order.required">กรุณากรอกข้อมูล</div>
                         </b-form-group>
                     </b-col>
                 </b-row>
 
                 <div class="text-center">
-
                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                     <b-button type="reset" variant="danger" @click="toCloseForm">ยกเลิก</b-button>
                 </div>
@@ -58,6 +62,8 @@
     </div>
 </template>
 <script>
+import { validationMixin } from 'vuelidate'
+import { required,minLength } from 'vuelidate/lib/validators'
 export default {
     props: ['form_id'],
     data(){
@@ -65,11 +71,25 @@ export default {
             alert: '',
             state: 'new',
             form: {},
-
+            submitStatus: null,
             name1: '',
             name2: '',
             name3: '',
-            order: 0
+            order: 0,
+        }
+    },
+    mixins: [validationMixin],
+    validations: {
+        name1: {
+            required,
+            minLength: minLength(4)
+        },
+        name2: {
+            required,
+            minLength: minLength(4)
+        },
+        order: {
+            required
         }
     },
     created(){
@@ -78,31 +98,20 @@ export default {
     watch:{
         form_id(){
             console.log('start');
-            if (this.form_id != 0){
+            if (this.form_id > 0){
                 this.fetchData();
+            }else{
+                this.$v.$reset();
+                console.log("Rest Valid")
             }
 
         }
     },
-    methods: {
-        validateState(ref) {
-            if (this.veeFields[ref] && (this.veeFields[ref].dirty || this.veeFields[ref].validated)) {
-            return !this.errors.has(ref)
-            }
-            return null
-        },
-        validateBeforeSubmit(e) {
-            this.$validator.validateAll().then((result) => {
-            if (result) {
-            // eslint-disable-next-line
-                alert('Form Submitted!');
-                return;
-            }
+    computed: {
 
-            alert('Correct them errors!');
-            e.preventDefault();
-        });
-        },
+    },
+    methods: {
+
         fetchData(){
             let path = `/api/forms/${this.form_id}`;
             this.state = "update";
@@ -143,51 +152,61 @@ export default {
         onSubmit(e){
             e.preventDefault();
 
-            let path;
-            path = '/api/forms';
-            var form = {};
-            if (this.state == "new"){
-                axios.post(path,{
-                    name1 : this.name1,
-                    name2 : this.name2,
-                    name3 : this.name3,
-                    order : this.order,
-                    create_by : 'Songwut',
-                    status : 1
-                }).then((response)=>{
-                    this.alert = "success";
-                    this.state = "update";
+            this.$v.$touch()
+            if (this.$v.$invalid) {
+                this.submitStatus = 'ERROR'
+            } else {
+                let path;
+                path = '/api/forms';
+                var form = {};
+                if (this.state == "new"){
+                    axios.post(path,{
+                        name1 : this.name1,
+                        name2 : this.name2,
+                        name3 : this.name3,
+                        order : this.order,
+                        create_by : 'Songwut',
+                        status : 1
+                    }).then((response)=>{
+                        this.alert = "success";
+                        this.state = "update";
 
-                    form = response.data.data;
-                    this.form_id = form.id;
-                    this.name1 = form.name1;
-                    this.name2 = form.name2;
-                    this.name3 = form.name3;
-                    this.order = form.order;
-                    console.log(form);
-                this
-                })
-            }else if (this.state == "update"){
-                axios.put(`${path}/${this.form_id}`,{
-                    name1 : this.name1,
-                    name2 : this.name2,
-                    name3 : this.name3,
-                    order : this.order,
-                    create_by : 'Songwut',
-                    status : 1
-                }).then((response)=>{
-                    this.alert = "success";
-                    form = response.data.data;
-                    this.name1 = form.name1;
-                    this.name2 = form.name2;
-                    this.name3 = form.name3;
-                    this.order = form.order;
-                }).catch(error=>{
-                    console.log(error);
-                    this.alert = "error";
-                })
+                        form = response.data.data;
+                        this.form_id = form.id;
+                        this.name1 = form.name1;
+                        this.name2 = form.name2;
+                        this.name3 = form.name3;
+                        this.order = form.order;
+                        console.log(form);
+                    this
+                    })
+                }else if (this.state == "update"){
+                    axios.put(`${path}/${this.form_id}`,{
+                        name1 : this.name1,
+                        name2 : this.name2,
+                        name3 : this.name3,
+                        order : this.order,
+                        create_by : 'Songwut',
+                        status : 1
+                    }).then((response)=>{
+                        this.alert = "success";
+                        form = response.data.data;
+                        this.name1 = form.name1;
+                        this.name2 = form.name2;
+                        this.name3 = form.name3;
+                        this.order = form.order;
+                    }).catch(error=>{
+                        console.log(error);
+                        this.alert = "error";
+                    })
 
+                }
+                this.submitStatus = 'PENDING'
+                setTimeout(() => {
+                this.submitStatus = 'OK'
+                }, 500)
             }
+
         }
 
     }

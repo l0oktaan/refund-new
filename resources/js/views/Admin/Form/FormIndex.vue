@@ -1,7 +1,15 @@
 <template>
     <div class="animated fadeIn">
-        <form-find></form-find>
-        <h2 @click="showForm">รายการแบบฟอร์ม</h2>
+        <div class="text-right">
+            <b-button variant="outline-success" @click="showForm(0)">
+                <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>เพิ่มแบบฟอร์ม</span>
+            </b-button>
+            <b-button variant="outline-primary">
+                <i class="fas fa-search fa-2x"></i>&nbsp;<span>ค้นหา</span>
+            </b-button>
+
+        </div>
+        <h2>รายการแบบฟอร์ม</h2>
         <b-row>
             <form-cover @onShowForm = "showForm" v-for="form in forms" :key="form.id" :form_id="form.id"></form-cover>
 
@@ -9,7 +17,7 @@
         <b-modal id="modalForm"
             ref="modalForm"
             size="xl"
-            @hide-header="true" hideFooter
+            hide-header hideFooter
             no-close-on-backdrop
             no-close-on-esc
             @hidden="resetModalForm">
@@ -31,7 +39,7 @@ export default {
     data(){
         return{
             id: 1,
-            form_id: 0,
+            form_id: -1,
             forms : []
         }
     },
@@ -42,7 +50,7 @@ export default {
             this.$refs['modalForm'].show();
         },
         resetModalForm(){
-            this.form_id = 0;
+            this.form_id = -1;
         },
         fetchData(){
             axios.get('/api/forms')
@@ -64,5 +72,12 @@ export default {
     height: 45px;
     padding: 0px;
     vertical-align: middle;
+}
+.btn{
+    padding-top: 15px!important;
+    padding-bottom: 15px!important;
+}
+i{
+    vertical-align: middle!important;
 }
 </style>

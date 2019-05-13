@@ -24,3 +24,11 @@
     }
 }
 
+.form-group-error input{
+    border: 1px solid red;
+    background-color: #ffc9aa;
+
+}
+.form-group-error div.error {
+    color: red;
+}
