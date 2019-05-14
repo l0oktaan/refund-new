@@ -7,13 +7,13 @@
                 <strong>รายละเอียดฟอร์ม</strong>
             </div>
             <b-form @submit="onSubmit">
-                <b-form-group id="gName1" label="ชื่อแบบฟอร์ม" label-for="name1" :class="{'form-group-error': $v.name1.$error }">
+                <b-form-group :class="{'form-group-error': $v.name1.$error }">
+                    <label for="name1">ชื่อแบบฟอร์ม</label>
                     <b-form-input type="text"
                         id="name1"
                         placeholder="ชื่อแบบฟอร์ม"
                         name="name1"
-                        @blur="$v.name1.$touch()"
-                        v-model="name1"
+                        v-model.trim="$v.name1.$model"
                         >
                     </b-form-input>
                     <div class="error" v-if="!$v.name1.required">กรุณากรอกข้อมูล</div>
@@ -35,23 +35,27 @@
                 </b-form-group>
                 <b-row>
                     <b-col sm="4">
-                         <b-form-group :class="{'form-group-error': $v.order.$error }">
+                         <b-form-group >
                             <label for="month1">ลำดับฟอร์ม</label>
                             <b-form-select v-model="order"
                                 id="order"
                                 name="order"
                                 :plain="true"
-                                :options="[1,2,3,4,5,6,7,8,9,10,11,12]"
-                                @blur="$v.order.$touch">
+                                :options="form_order_list"
+                                >
                             </b-form-select>
-                            <div class="error" v-if="!$v.order.required">กรุณากรอกข้อมูล</div>
+                            <div class="error">กรุณากรอกข้อมูล</div>
                         </b-form-group>
                     </b-col>
                 </b-row>
 
                 <div class="text-center">
                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                    <b-button type="reset" variant="danger" @click="toCloseForm">ยกเลิก</b-button>
+                    <b-button type="reset" variant="danger" @click="toCloseForm">ปิด</b-button>
+                    <p>fid: {{fid}}</p>
+                    <p>count : {{fCount}}</p>
+                    <p>max : {{form_order_max}}</p>
+                    <p>state : {{state}}</p>
                 </div>
 
             </b-form>
@@ -63,19 +67,22 @@
 </template>
 <script>
 import { validationMixin } from 'vuelidate'
-import { required,minLength } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
-    props: ['form_id'],
+    props: ['form_id','fCount'],
     data(){
         return{
             alert: '',
             state: 'new',
             form: {},
             submitStatus: null,
+            fid: 0,
             name1: '',
             name2: '',
             name3: '',
             order: 0,
+            form_order_list: [],
+            form_order_max: 0
         }
     },
     mixins: [validationMixin],
@@ -87,9 +94,6 @@ export default {
         name2: {
             required,
             minLength: minLength(4)
-        },
-        order: {
-            required
         }
     },
     created(){
@@ -97,14 +101,16 @@ export default {
     },
     watch:{
         form_id(){
-            console.log('start');
             if (this.form_id > 0){
+                this.fid = this.form_id;
                 this.fetchData();
             }else{
+                this.state = "new";
+                this.clearForm();
                 this.$v.$reset();
-                console.log("Rest Valid")
+                console.log("reset");
             }
-
+            this.getFormOrderList();
         }
     },
     computed: {
@@ -113,7 +119,8 @@ export default {
     methods: {
 
         fetchData(){
-            let path = `/api/forms/${this.form_id}`;
+
+            let path = `/api/forms/${this.fid}`;
             this.state = "update";
             console.log('path' + path);
             axios.get(path)
@@ -126,6 +133,22 @@ export default {
                 this.order = form.order;
                 console.log(form);
             })
+        },
+        getFormOrderList(){
+            var max = this.fCount;
+            var order = [];
+
+            order.push({'value': 0, text: 'ลำดับ'});
+            if (this.state == "new"){
+                max = max + 1;
+            }
+            for (let i = 1; i <= max; i++){
+                order.push({value: i, text: i});
+            }
+            this.form_order_list = order;
+            this.form_order_max = order[order.length-1].value;
+
+
         },
         showModal2(){
             //var modalName = 'modal-2'+this.form_id
@@ -141,9 +164,11 @@ export default {
         toCloseForm(){
             this.clearForm();
             this.$root.$emit('bv::hide::modal','modalForm');
+            this.$root.$emit('fetchData');
         },
         clearForm(){
             //this.form_id = 0;
+            this.fid = 0;
             this.name1 = "";
             this.name2 = "";
             this.name3 = "";
@@ -170,9 +195,8 @@ export default {
                     }).then((response)=>{
                         this.alert = "success";
                         this.state = "update";
-
                         form = response.data.data;
-                        this.form_id = form.id;
+                        this.fid = form.id;
                         this.name1 = form.name1;
                         this.name2 = form.name2;
                         this.name3 = form.name3;
@@ -181,7 +205,7 @@ export default {
                     this
                     })
                 }else if (this.state == "update"){
-                    axios.put(`${path}/${this.form_id}`,{
+                    axios.put(`${path}/${this.fid}`,{
                         name1 : this.name1,
                         name2 : this.name2,
                         name3 : this.name3,

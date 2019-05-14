@@ -11,8 +11,8 @@
                 <b-dropdown-item @click="showForm"><i class="fas fa-edit"></i>&nbsp;แก้ไขแบบฟอร์ม</b-dropdown-item>
                 <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบแบบฟอร์ม</b-dropdown-item>
                 </b-dropdown>
-                <h4 class="mb-0">ฟอร์มหมายเลข {{form_id}}</h4>
-                <p>ฟอร์มการถอนคืนเงินรายได้แผ่นดินหมายเลข {{form_id}}</p>
+                <h4 class="mb-0">ฟอร์มหมายเลข {{order}}</h4>
+                <p>{{name1}}</p>
 
             </b-card-body>
 
@@ -56,11 +56,12 @@
 </template>
 <script>
 export default {
-    props : ['form_id'],
+    props : ['form_id','name1','name2','order'],
     data(){
         return {
             select_id: 0,
-            show: true
+            show: true,
+
         }
     },
     methods: {
