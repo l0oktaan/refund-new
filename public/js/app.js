@@ -4490,10 +4490,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4522,6 +4518,9 @@ __webpack_require__.r(__webpack_exports__);
     name2: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
       minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["minLength"])(4)
+    },
+    order: {
+      minValue: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["minValue"])(1)
     }
   },
   created: function created() {},
@@ -4533,7 +4532,6 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.state = "new";
         this.clearForm();
-        this.$v.$reset();
         console.log("reset");
       }
 
@@ -4605,6 +4603,7 @@ __webpack_require__.r(__webpack_exports__);
       this.name2 = "";
       this.name3 = "";
       this.order = 0;
+      this.$v.$reset();
     },
     onSubmit: function onSubmit(e) {
       var _this2 = this;
@@ -4711,6 +4710,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['rule_id', 'rCount']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRuleList.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin/Form/FormRuleList.vue?vue&type=script&lang=js& ***!
@@ -4750,22 +4767,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['form_id'],
   data: function data() {
     return {
       // Note `isActive` is left out and will not appear in the rendered table
-      tebleFileds: [{
-        key: 'index',
+      tableFileds: [{
+        key: 'order',
         label: 'ลำดับ'
-      }, 'first_name', 'last_name', 'age', {
+      }, {
+        key: 'name',
+        label: 'ชื่อเกณฑ์'
+      }, {
         key: 'manage',
         label: 'จัดการ'
       }, {
         key: 'condition',
         label: 'เงื่อนไข'
       }],
-      items: []
+      items: [],
+      rules: [],
+      fid: 0,
+      rule_id: rule_id,
+      rCount: rCount
     };
+  },
+  mounted: function mounted() {
+    this.rules = [];
+  },
+  watch: {
+    form_id: function form_id() {
+      this.fid = this.form_id;
+
+      if (this.fid > 0) {
+        this.fetchData();
+        console.log('get rule');
+      } else {
+        this.clearData();
+      }
+    }
+  },
+  methods: {
+    fetchData: function fetchData() {
+      var _this = this;
+
+      var path = "/api/forms/".concat(this.form_id, "/form_rules");
+      console.log('path :' + path);
+      axios.get(path).then(function (response) {
+        _this.rules = response.data.data;
+        console.log('rule :' + _this.rules);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    clearData: function clearData() {
+      this.fid = -1;
+      this.rules = [];
+    }
   }
 });
 
@@ -33611,7 +33691,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.card-body[data-v-a48813a4]{\n    padding: 0px!important;\n}\n", ""]);
+exports.push([module.i, "\n.card-body[data-v-a48813a4]{\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\n    padding: 5px!important;\n}\n", ""]);
 
 // exports
 
@@ -68434,7 +68514,6 @@ var render = function() {
                   _c("b-form-input", {
                     attrs: {
                       type: "text",
-                      id: "name1",
                       placeholder: "ชื่อแบบฟอร์ม",
                       name: "name1"
                     },
@@ -68453,7 +68532,7 @@ var render = function() {
                   _vm._v(" "),
                   !_vm.$v.name1.required
                     ? _c("div", { staticClass: "error" }, [
-                        _vm._v("กรุณากรอกข้อมูล")
+                        _vm._v("กรุณากรอกข้อมูล" + _vm._s(_vm.$v.name1.require))
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -68481,7 +68560,6 @@ var render = function() {
                   _c("b-form-input", {
                     attrs: {
                       type: "text",
-                      id: "name2",
                       placeholder: "ชื่อแบบฟอร์ม เพิ่มเติม"
                     },
                     model: {
@@ -68551,6 +68629,7 @@ var render = function() {
                     [
                       _c(
                         "b-form-group",
+                        { class: { "form-group-error": _vm.$v.order.$error } },
                         [
                           _c("label", { attrs: { for: "month1" } }, [
                             _vm._v("ลำดับฟอร์ม")
@@ -68558,23 +68637,24 @@ var render = function() {
                           _vm._v(" "),
                           _c("b-form-select", {
                             attrs: {
-                              id: "order",
                               name: "order",
                               plain: true,
                               options: _vm.form_order_list
                             },
                             model: {
-                              value: _vm.order,
+                              value: _vm.$v.order.$model,
                               callback: function($$v) {
-                                _vm.order = $$v
+                                _vm.$set(_vm.$v.order, "$model", $$v)
                               },
-                              expression: "order"
+                              expression: "$v.order.$model"
                             }
                           }),
                           _vm._v(" "),
-                          _c("div", { staticClass: "error" }, [
-                            _vm._v("กรุณากรอกข้อมูล")
-                          ])
+                          !_vm.$v.order.minValue
+                            ? _c("div", { staticClass: "error" }, [
+                                _vm._v("กรุณากรอกข้อมูล")
+                              ])
+                            : _vm._e()
                         ],
                         1
                       )
@@ -68602,15 +68682,7 @@ var render = function() {
                       on: { click: _vm.toCloseForm }
                     },
                     [_vm._v("ปิด")]
-                  ),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("fid: " + _vm._s(_vm.fid))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("count : " + _vm._s(_vm.fCount))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("max : " + _vm._s(_vm.form_order_max))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("state : " + _vm._s(_vm.state))])
+                  )
                 ],
                 1
               )
@@ -68618,7 +68690,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("form-rule-list")
+          _c("form-rule-list", { attrs: { form_id: _vm.form_id } })
         ],
         1
       )
@@ -68689,6 +68761,30 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRuleList.vue?vue&type=template&id=a48813a4&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin/Form/FormRuleList.vue?vue&type=template&id=a48813a4&scoped=true& ***!
@@ -68714,17 +68810,154 @@ var render = function() {
           _c(
             "b-col",
             [
-              _c("b-card", [
-                _c("div", { attrs: { slot: "header" }, slot: "header" }, [
-                  _c("i", { staticClass: "fa fa-align-justify" }),
-                  _vm._v(
-                    "\n                     หลักเกณฑ์เงื่อนไข\n                 "
+              _c(
+                "b-card",
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "navbar",
+                      attrs: { slot: "header" },
+                      slot: "header"
+                    },
+                    [
+                      _c(
+                        "ul",
+                        { staticClass: "nav navbar-nav d-md-down-none" },
+                        [
+                          _c("li", { staticClass: "nav-item px-3" }, [
+                            _c("i", { staticClass: "fa fa-align-justify" }),
+                            _vm._v(
+                              "\n                                หลักเกณฑ์เงื่อนไข\n                        "
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
+                        _c(
+                          "li",
+                          { staticClass: "nav-item px-3" },
+                          [
+                            _c(
+                              "b-button",
+                              { attrs: { variant: "outline-success" } },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-plus-circle fa-2x"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("เพิ่มหลักเกณฑ์")])
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-table",
+                    {
+                      attrs: {
+                        striped: "",
+                        hover: "",
+                        items: _vm.rules,
+                        fields: _vm.tableFileds
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "index",
+                          fn: function(data) {
+                            return [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(data.index + 1) +
+                                  "\n                    "
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c("template", { slot: "manage" }, [
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "btn-square btn-sm",
+                                attrs: { variant: "warning" }
+                              },
+                              [_c("i", { staticClass: "fas fa-edit" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "btn-square btn-sm",
+                                attrs: { variant: "danger" }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash" })]
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "template",
+                        { slot: "condition" },
+                        [
+                          _c(
+                            "b-button",
+                            {
+                              staticClass: "btn-square btn-sm",
+                              attrs: { block: "", variant: "primary" }
+                            },
+                            [
+                              _c("i", { staticClass: "far fa-check-circle" }),
+                              _vm._v(" เงื่อนไข")
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    2
                   )
-                ])
-              ])
+                ],
+                1
+              )
             ],
             1
           )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          ref: "modalRule",
+          attrs: {
+            id: "modalRule",
+            size: "xl",
+            "hide-header": "",
+            hideFooter: "",
+            "no-close-on-backdrop": "",
+            "no-close-on-esc": ""
+          },
+          on: { hidden: _vm.resetModalForm }
+        },
+        [
+          _c("form-rule", {
+            attrs: { rule_id: _vm.rule_id, rCount: _vm.rCount }
+          })
         ],
         1
       )
@@ -87440,7 +87673,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Admin_Form_FormCover_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/Admin/Form/FormCover.vue */ "./resources/js/components/Admin/Form/FormCover.vue");
 /* harmony import */ var _components_Admin_Form_FormDetail_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Admin/Form/FormDetail.vue */ "./resources/js/components/Admin/Form/FormDetail.vue");
 /* harmony import */ var _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Admin/Form/FormRuleList.vue */ "./resources/js/components/Admin/Form/FormRuleList.vue");
-/* harmony import */ var _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/MyAlert.vue */ "./resources/js/components/MyAlert.vue");
+/* harmony import */ var _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Admin/Form/FormRule.vue */ "./resources/js/components/Admin/Form/FormRule.vue");
+/* harmony import */ var _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/MyAlert.vue */ "./resources/js/components/MyAlert.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -87528,7 +87762,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormDetail', _components_A
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRuleList', _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_21__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyAlert', _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_22__["default"])["default"];
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRule', _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_22__["default"]).defaults;
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyAlert', _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_23__["default"])["default"];
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
@@ -88081,6 +88317,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormFind_vue_vue_type_template_id_18c7c4ad_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormFind_vue_vue_type_template_id_18c7c4ad_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Form/FormRule.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Admin/Form/FormRule.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormRule.vue?vue&type=template&id=6ec50c70& */ "./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70&");
+/* harmony import */ var _FormRule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormRule.vue?vue&type=script&lang=js& */ "./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormRule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Admin/Form/FormRule.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormRule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormRule.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRule.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormRule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormRule.vue?vue&type=template&id=6ec50c70& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin/Form/FormRule.vue?vue&type=template&id=6ec50c70&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormRule_vue_vue_type_template_id_6ec50c70___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

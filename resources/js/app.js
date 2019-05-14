@@ -107,6 +107,9 @@ Vue.component('FormDetail', FormDetail).defaults;
 import FormRuleList from './components/Admin/Form/FormRuleList.vue';
 Vue.component('FormRuleList', FormRuleList).defaults;
 
+import FormRule from './components/Admin/Form/FormRule.vue';
+Vue.component('FormRule', FormRule).defaults;
+
 import MyAlert from './components/MyAlert.vue';
 Vue.component('MyAlert', MyAlert).default;
 

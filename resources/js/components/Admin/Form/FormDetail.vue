@@ -10,20 +10,20 @@
                 <b-form-group :class="{'form-group-error': $v.name1.$error }">
                     <label for="name1">ชื่อแบบฟอร์ม</label>
                     <b-form-input type="text"
-                        id="name1"
+
                         placeholder="ชื่อแบบฟอร์ม"
                         name="name1"
                         v-model.trim="$v.name1.$model"
                         >
                     </b-form-input>
-                    <div class="error" v-if="!$v.name1.required">กรุณากรอกข้อมูล</div>
+                    <div class="error" v-if="!$v.name1.required">กรุณากรอกข้อมูล{{$v.name1.require}}</div>
                     <div class="error" v-if="!$v.name1.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name1.$params.minLength.min}} ตัวอักษร.</div>
                 </b-form-group>
                 <b-form-group :class="{'form-group-error': $v.name2.$error }">
                     <label for="name2">ชื่อแบบฟอร์ม เพิ่มเติม</label>
                     <b-form-input type="text"
                         v-model.trim="$v.name2.$model"
-                        id="name2"
+
                         placeholder="ชื่อแบบฟอร์ม เพิ่มเติม">
                     </b-form-input>
                     <div class="error" v-if="!$v.name2.required">กรุณากรอกข้อมูล</div>
@@ -35,16 +35,16 @@
                 </b-form-group>
                 <b-row>
                     <b-col sm="4">
-                         <b-form-group >
+                         <b-form-group :class="{'form-group-error': $v.order.$error }">
                             <label for="month1">ลำดับฟอร์ม</label>
-                            <b-form-select v-model="order"
-                                id="order"
+                            <b-form-select v-model="$v.order.$model"
+
                                 name="order"
                                 :plain="true"
                                 :options="form_order_list"
                                 >
                             </b-form-select>
-                            <div class="error">กรุณากรอกข้อมูล</div>
+                            <div class="error" v-if="!$v.order.minValue">กรุณากรอกข้อมูล</div>
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -52,14 +52,10 @@
                 <div class="text-center">
                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                     <b-button type="reset" variant="danger" @click="toCloseForm">ปิด</b-button>
-                    <p>fid: {{fid}}</p>
-                    <p>count : {{fCount}}</p>
-                    <p>max : {{form_order_max}}</p>
-                    <p>state : {{state}}</p>
                 </div>
 
             </b-form>
-            <form-rule-list></form-rule-list>
+            <form-rule-list :form_id="form_id"></form-rule-list>
 
         </b-card>
 
@@ -67,7 +63,7 @@
 </template>
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, minValue } from 'vuelidate/lib/validators'
 export default {
     props: ['form_id','fCount'],
     data(){
@@ -94,6 +90,9 @@ export default {
         name2: {
             required,
             minLength: minLength(4)
+        },
+        order:{
+            minValue: minValue(1)
         }
     },
     created(){
@@ -107,9 +106,9 @@ export default {
             }else{
                 this.state = "new";
                 this.clearForm();
-                this.$v.$reset();
                 console.log("reset");
             }
+
             this.getFormOrderList();
         }
     },
@@ -173,6 +172,7 @@ export default {
             this.name2 = "";
             this.name3 = "";
             this.order = 0;
+            this.$v.$reset();
         },
         onSubmit(e){
             e.preventDefault();
