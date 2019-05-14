@@ -33527,7 +33527,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\n    color: #000!important;\n}\n", ""]);
+exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\r\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\r\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\r\n    color: #000!important;\n}\r\n", ""]);
 
 // exports
 
@@ -33603,7 +33603,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\n    border-radius: 50%;\n    width: 45px;\n    height: 45px;\n    padding: 0px;\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\n    vertical-align: middle!important;\n}\n", ""]);
+exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\r\n    border-radius: 50%;\r\n    width: 45px;\r\n    height: 45px;\r\n    padding: 0px;\r\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\r\n    vertical-align: middle!important;\n}\r\n", ""]);
 
 // exports
 
