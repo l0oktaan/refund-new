@@ -4393,7 +4393,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['form_id'],
+  props: ['form_id', 'name1', 'name2', 'order'],
   data: function data() {
     return {
       select_id: 0,
@@ -4490,20 +4490,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['form_id'],
+  props: ['form_id', 'fCount'],
   data: function data() {
     return {
       alert: '',
       state: 'new',
       form: {},
       submitStatus: null,
+      fid: 0,
       name1: '',
       name2: '',
       name3: '',
-      order: 0
+      order: 0,
+      form_order_list: [],
+      form_order_max: 0
     };
   },
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_0__["validationMixin"]],
@@ -4515,22 +4522,22 @@ __webpack_require__.r(__webpack_exports__);
     name2: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"],
       minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["minLength"])(4)
-    },
-    order: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__["required"]
     }
   },
   created: function created() {},
   watch: {
     form_id: function form_id() {
-      console.log('start');
-
       if (this.form_id > 0) {
+        this.fid = this.form_id;
         this.fetchData();
       } else {
+        this.state = "new";
+        this.clearForm();
         this.$v.$reset();
-        console.log("Rest Valid");
+        console.log("reset");
       }
+
+      this.getFormOrderList();
     }
   },
   computed: {},
@@ -4538,7 +4545,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
-      var path = "/api/forms/".concat(this.form_id);
+      var path = "/api/forms/".concat(this.fid);
       this.state = "update";
       console.log('path' + path);
       axios.get(path).then(function (response) {
@@ -4550,6 +4557,28 @@ __webpack_require__.r(__webpack_exports__);
         _this.order = form.order;
         console.log(form);
       });
+    },
+    getFormOrderList: function getFormOrderList() {
+      var max = this.fCount;
+      var order = [];
+      order.push({
+        'value': 0,
+        text: 'ลำดับ'
+      });
+
+      if (this.state == "new") {
+        max = max + 1;
+      }
+
+      for (var i = 1; i <= max; i++) {
+        order.push({
+          value: i,
+          text: i
+        });
+      }
+
+      this.form_order_list = order;
+      this.form_order_max = order[order.length - 1].value;
     },
     showModal2: function showModal2() {
       //var modalName = 'modal-2'+this.form_id
@@ -4567,9 +4596,11 @@ __webpack_require__.r(__webpack_exports__);
     toCloseForm: function toCloseForm() {
       this.clearForm();
       this.$root.$emit('bv::hide::modal', 'modalForm');
+      this.$root.$emit('fetchData');
     },
     clearForm: function clearForm() {
       //this.form_id = 0;
+      this.fid = 0;
       this.name1 = "";
       this.name2 = "";
       this.name3 = "";
@@ -4600,7 +4631,7 @@ __webpack_require__.r(__webpack_exports__);
             _this2.alert = "success";
             _this2.state = "update";
             form = response.data.data;
-            _this2.form_id = form.id;
+            _this2.fid = form.id;
             _this2.name1 = form.name1;
             _this2.name2 = form.name2;
             _this2.name3 = form.name3;
@@ -4609,7 +4640,7 @@ __webpack_require__.r(__webpack_exports__);
             _this2;
           });
         } else if (this.state == "update") {
-          axios.put("".concat(path, "/").concat(this.form_id), {
+          axios.put("".concat(path, "/").concat(this.fid), {
             name1: this.name1,
             name2: this.name2,
             name3: this.name3,
@@ -4890,12 +4921,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       id: 1,
       form_id: -1,
-      forms: []
+      forms: [],
+      fCount: 0
     };
   },
   methods: {
@@ -4906,12 +4950,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetModalForm: function resetModalForm() {
       this.form_id = -1;
+      this.fetchData();
     },
     fetchData: function fetchData() {
       var _this = this;
 
       axios.get('/api/forms').then(function (response) {
         _this.forms = response.data.data;
+        _this.fCount = _this.forms.length;
         console.log(_this.forms);
       });
     }
@@ -68321,15 +68367,10 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("h4", { staticClass: "mb-0" }, [
-                    _vm._v("ฟอร์มหมายเลข " + _vm._s(_vm.form_id))
+                    _vm._v("ฟอร์มหมายเลข " + _vm._s(_vm.order))
                   ]),
                   _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "ฟอร์มการถอนคืนเงินรายได้แผ่นดินหมายเลข " +
-                        _vm._s(_vm.form_id)
-                    )
-                  ])
+                  _c("p", [_vm._v(_vm._s(_vm.name1))])
                 ],
                 1
               )
@@ -68384,15 +68425,12 @@ var render = function() {
             [
               _c(
                 "b-form-group",
-                {
-                  class: { "form-group-error": _vm.$v.name1.$error },
-                  attrs: {
-                    id: "gName1",
-                    label: "ชื่อแบบฟอร์ม",
-                    "label-for": "name1"
-                  }
-                },
+                { class: { "form-group-error": _vm.$v.name1.$error } },
                 [
+                  _c("label", { attrs: { for: "name1" } }, [
+                    _vm._v("ชื่อแบบฟอร์ม")
+                  ]),
+                  _vm._v(" "),
                   _c("b-form-input", {
                     attrs: {
                       type: "text",
@@ -68400,17 +68438,16 @@ var render = function() {
                       placeholder: "ชื่อแบบฟอร์ม",
                       name: "name1"
                     },
-                    on: {
-                      blur: function($event) {
-                        return _vm.$v.name1.$touch()
-                      }
-                    },
                     model: {
-                      value: _vm.name1,
+                      value: _vm.$v.name1.$model,
                       callback: function($$v) {
-                        _vm.name1 = $$v
+                        _vm.$set(
+                          _vm.$v.name1,
+                          "$model",
+                          typeof $$v === "string" ? $$v.trim() : $$v
+                        )
                       },
-                      expression: "name1"
+                      expression: "$v.name1.$model"
                     }
                   }),
                   _vm._v(" "),
@@ -68514,7 +68551,6 @@ var render = function() {
                     [
                       _c(
                         "b-form-group",
-                        { class: { "form-group-error": _vm.$v.order.$error } },
                         [
                           _c("label", { attrs: { for: "month1" } }, [
                             _vm._v("ลำดับฟอร์ม")
@@ -68525,9 +68561,8 @@ var render = function() {
                               id: "order",
                               name: "order",
                               plain: true,
-                              options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                              options: _vm.form_order_list
                             },
-                            on: { blur: _vm.$v.order.$touch },
                             model: {
                               value: _vm.order,
                               callback: function($$v) {
@@ -68537,11 +68572,9 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          !_vm.$v.order.required
-                            ? _c("div", { staticClass: "error" }, [
-                                _vm._v("กรุณากรอกข้อมูล")
-                              ])
-                            : _vm._e()
+                          _c("div", { staticClass: "error" }, [
+                            _vm._v("กรุณากรอกข้อมูล")
+                          ])
                         ],
                         1
                       )
@@ -68568,8 +68601,16 @@ var render = function() {
                       attrs: { type: "reset", variant: "danger" },
                       on: { click: _vm.toCloseForm }
                     },
-                    [_vm._v("ยกเลิก")]
-                  )
+                    [_vm._v("ปิด")]
+                  ),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("fid: " + _vm._s(_vm.fid))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("count : " + _vm._s(_vm.fCount))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("max : " + _vm._s(_vm.form_order_max))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("state : " + _vm._s(_vm.state))])
                 ],
                 1
               )
@@ -68883,12 +68924,19 @@ var render = function() {
       _vm._v(" "),
       _c("h2", [_vm._v("รายการแบบฟอร์ม")]),
       _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.fCount))]),
+      _vm._v(" "),
       _c(
         "b-row",
         _vm._l(_vm.forms, function(form) {
           return _c("form-cover", {
             key: form.id,
-            attrs: { form_id: form.id },
+            attrs: {
+              form_id: form.id,
+              name1: form.name1,
+              name2: form.name2,
+              order: form.order
+            },
             on: { onShowForm: _vm.showForm }
           })
         }),
@@ -68909,7 +68957,11 @@ var render = function() {
           },
           on: { hidden: _vm.resetModalForm }
         },
-        [_c("form-detail", { attrs: { form_id: _vm.form_id } })],
+        [
+          _c("form-detail", {
+            attrs: { form_id: _vm.form_id, fCount: _vm.fCount }
+          })
+        ],
         1
       ),
       _vm._v(" "),

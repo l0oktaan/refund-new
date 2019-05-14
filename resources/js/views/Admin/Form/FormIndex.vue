@@ -10,9 +10,17 @@
 
         </div>
         <h2>รายการแบบฟอร์ม</h2>
+        <p>{{fCount}}</p>
         <b-row>
-            <form-cover @onShowForm = "showForm" v-for="form in forms" :key="form.id" :form_id="form.id"></form-cover>
+            <form-cover @onShowForm = "showForm"
+                v-for = "form in forms"
+                :key = "form.id"
+                :form_id = "form.id"
+                :name1 = "form.name1"
+                :name2 = "form.name2"
+                :order = "form.order"
 
+            ></form-cover>
         </b-row>
         <b-modal id="modalForm"
             ref="modalForm"
@@ -20,8 +28,12 @@
             hide-header hideFooter
             no-close-on-backdrop
             no-close-on-esc
-            @hidden="resetModalForm">
-            <form-detail :form_id="form_id"></form-detail>
+            @hidden="resetModalForm"
+            >
+            <form-detail
+                :form_id = "form_id"
+                :fCount = "fCount"
+            ></form-detail>
         </b-modal>
         <b-modal id="modalRule"
             ref="modalRule"
@@ -40,7 +52,8 @@ export default {
         return{
             id: 1,
             form_id: -1,
-            forms : []
+            forms : [],
+            fCount: 0
         }
     },
     methods: {
@@ -51,11 +64,13 @@ export default {
         },
         resetModalForm(){
             this.form_id = -1;
+            this.fetchData();
         },
         fetchData(){
             axios.get('/api/forms')
             .then(response=>{
                 this.forms = response.data.data;
+                this.fCount = this.forms.length;
                 console.log(this.forms);
             })
         }

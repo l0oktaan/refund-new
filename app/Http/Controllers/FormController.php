@@ -17,7 +17,13 @@ class FormController extends Controller
      */
     public function index()
     {
-        return FormResource::collection(Form::all());
+        //return FormResource::collection(Form::all());
+
+        $form = new Form;
+        $form = Form::orderBy('order')
+                    ->where('status','<>',0)
+                    ->get();
+        return FormResource::collection($form);
     }
 
     /**
