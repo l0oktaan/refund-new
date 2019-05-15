@@ -12,7 +12,7 @@
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item px-3">
-                                <b-button variant="outline-success">
+                                <b-button variant="outline-success" @click="addRule">
                                     <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>เพิ่มหลักเกณฑ์</span>
                                 </b-button>
                             </li>
@@ -22,9 +22,9 @@
                         <template slot="index" slot-scope="data">
                             {{ data.index + 1 }}
                         </template>
-                        <template slot="manage" >
+                        <template slot="manage" slot-scope="data">
                             <div>
-                                <b-button variant="warning" class="btn-square btn-sm"><i class="fas fa-edit"></i></b-button>
+                                <b-button variant="success" class="btn-square btn-sm" @click="editRule(data.item.id)"><i class="fas fa-edit"></i></b-button>
                                 <b-button variant="danger" class="btn-square btn-sm"><i class="fas fa-trash"></i></b-button>
                             </div>
                         </template>
@@ -37,15 +37,15 @@
         </b-row>
         <b-modal id="modalRule"
             ref="modalRule"
-            size="xl"
+            size="lg"
             hide-header hideFooter
             no-close-on-backdrop
             no-close-on-esc
-            @hidden="resetModalForm"
+            @hidden="resetModalRule"
             >
             <form-rule
+                :form_id = "form_id"
                 :rule_id = "rule_id"
-                :rCount = "rCount"
             ></form-rule>
         </b-modal>
     </div>
@@ -65,8 +65,8 @@ export default {
         items: [],
         rules: [],
         fid: 0,
-        rule_id,
-        rCount
+        rule_id: -1,
+        rCount: 0
       }
     },
     mounted(){
@@ -99,6 +99,18 @@ export default {
         clearData(){
             this.fid = -1;
             this.rules = [];
+        },
+        editRule(id){
+            this.rule_id = id;
+            this.$refs['modalRule'].show();
+        },
+        addRule(){
+            this.rule_id = 0;
+            this.$refs['modalRule'].show();
+        },
+        resetModalRule(){
+            this.rule_id = -1;
+            this.fetchData();
         }
     }
 }

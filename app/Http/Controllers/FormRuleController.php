@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Form;
 use App\FormRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests\FormRuleRequest;
 use App\Http\Resources\FormRuleResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,20 @@ class FormRuleController extends Controller
     {
 
         $form_rules = new FormRule;
-        $form_rules = $form->form_rules()
+        if (Input::has('sub_of'))
+        {
+            $sub_of = Input::get('sub_of');
+            $form_rules = $form->form_rules()
+                        ->where('sub_of','=',$sub_of)
+                        ->orderBy('order')
+                        ->get();
+        }else
+        {
+            $form_rules = $form->form_rules()
                         ->orderBy('id')
                         ->get();
+        }
+
         return FormRuleResource::collection($form_rules);
     }
 

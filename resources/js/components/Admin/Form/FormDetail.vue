@@ -55,8 +55,7 @@
                 </div>
 
             </b-form>
-            <form-rule-list :form_id="form_id"></form-rule-list>
-
+            <form-rule-list :form_id="form_id" v-show="state=='update'"></form-rule-list>
         </b-card>
 
     </div>
@@ -236,3 +235,6 @@ export default {
     }
 }
 </script>
+<style scoped>
+
+</style>
