@@ -39,6 +39,8 @@ Vue.use(VueSwal)
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
+
+
 import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Admin from './views/Admin/Admin'

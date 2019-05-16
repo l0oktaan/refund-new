@@ -18,20 +18,63 @@
                             </li>
                         </ul>
                     </div>
-                    <b-table striped hover :items="rules" :fields="tableFileds">
+                    {{rules}}
+                    <b-table :items="rules" :fields="tableFileds" striped >
+                        <template slot="show" slot-scope="row">
+                            {{ row }}
+                        </template>
+                        <template slot="manage" slot-scope="row">
+                            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+                            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+                            </b-button>
+
+                            <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+                            <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails">
+                            Details via check
+                            </b-form-checkbox>
+                        </template>
+
+                        <template slot="row-details" slot-scope="row">
+                            <b-card>
+                            <b-row class="mb-2">
+                                <b-col sm="3" class="text-sm-right"><b>Age:</b></b-col>
+                                <b-col>{{ row.order }}</b-col>
+                            </b-row>
+
+                            <b-row class="mb-2">
+                                <b-col sm="3" class="text-sm-right"><b>Is Active:</b></b-col>
+                                <b-col>{{ row.name }}</b-col>
+                            </b-row>
+
+                            <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+                            </b-card>
+                        </template>
+                    </b-table>
+                    <!--b-table striped hover :items="rules" :fields="tableFileds">
                         <template slot="index" slot-scope="data">
                             {{ data.index + 1 }}
                         </template>
+                        <template slot="show_details" slot-scope="row">
+                            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+                            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+                            </b-button>
+
+
+
+
+                        </template>
+
                         <template slot="manage" slot-scope="data">
                             <div>
                                 <b-button variant="success" class="btn-square btn-sm" @click="editRule(data.item.id)"><i class="fas fa-edit"></i></b-button>
                                 <b-button variant="danger" class="btn-square btn-sm"><i class="fas fa-trash"></i></b-button>
                             </div>
                         </template>
-                        <template slot="condition" >
-                            <b-button block variant="primary" class="btn-square btn-sm"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
+                        <template slot="condition" slot-scope="data">
+                            <b-button block variant="primary" class="btn-square btn-sm" v-if="data.item.rule_type!=1"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
                         </template>
-                    </b-table>
+                    </b-table-->
+
                  </b-card>
             </b-col>
         </b-row>
@@ -57,11 +100,14 @@ export default {
     data() {
       return {
         // Note `isActive` is left out and will not appear in the rendered table
-        tableFileds: [{key:'order', label: 'ลำดับ'},
+        tableFileds: [
+            {key:'show',label: 'Show'},
+            {key:'order', label: 'ลำดับ'},
             {key:'name' ,label: 'ชื่อเกณฑ์'},
             {key:'manage', label:'จัดการ'},
             {key:'condition', label:'เงื่อนไข'}
         ],
+
         items: [],
         rules: [],
         fid: 0,
@@ -85,7 +131,7 @@ export default {
     },
     methods: {
         fetchData(){
-            var path = `/api/forms/${this.form_id}/form_rules`;
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=0`;
             console.log('path :' + path);
             axios.get(path)
             .then(response=>{
@@ -95,6 +141,22 @@ export default {
             .catch(error=>{
                 console.log(error);
             })
+        },
+        getSubRule(r_id){
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${r_id}`;
+            var sub_rule = [];
+            console.log('path :' + path);
+            axios.get(path)
+            .then(response=>{
+                sub_rule = response.data.data;
+                return sub_rule;
+            })
+            .catch(error=>{
+
+            })
+        },
+        showDetail(row){
+            row._showDetails = "true";
         },
         clearData(){
             this.fid = -1;

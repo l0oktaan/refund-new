@@ -1,6 +1,7 @@
 <template>
     <div class="animated fadeIn">
-        <b-form>
+        <my-alert :AlertType="alert"></my-alert>
+        <b-form @submit="onSubmit">
             <b-form-group :class="{'form-group-error': $v.rule.name.$error }">
                 <label for="name">ชื่อหลักเกณฑ์</label>
                 <b-form-input type="text"
@@ -15,7 +16,7 @@
                 <div class="error" v-if="!$v.rule.name.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.rule.name.$params.minLength.min}} ตัวอักษร.</div>
             </b-form-group>
             <b-row>
-                <b-col>
+                <b-col sm="4">
                     <b-form-group label="ตัวเลือกหลักเกณฑ์">
                         <b-form-radio-group
                             v-model="r_opt"
@@ -24,8 +25,8 @@
                         ></b-form-radio-group>
                     </b-form-group>
                 </b-col>
-                <b-col sm="4">
-                    <b-form-group>
+                <b-col sm="8">
+                    <b-form-group v-if="r_opt==1">
                         <label for="mainRule">หลักเกณฑ์หลัก</label>
                         <b-form-select v-model="rule.sub_of"
                             :plain="true"
@@ -76,16 +77,17 @@ export default {
                 order: 0,
                 options: 0,
                 sub_of: 0,
-                type: 0,
-                result_type: 0
+                rule_type: 0,
+                result_type: 0,
+                status: 1
             },
             state: 'new',
             order_list: [],
             rule_list: [],
             r_opt: -1,
             rule_options: [
-                {value: '0', text: 'หลักเกณฑ์หลัก'},
-                {value: '1', text: 'หลักเกณฑ์ย่อย'}
+                {value: 0, text: 'หลักเกณฑ์หลัก'},
+                {value: 1, text: 'หลักเกณฑ์ย่อย'}
             ],
             rule_sub_of: [],
             rule_type: [
@@ -96,7 +98,8 @@ export default {
             ],
             result_type: [
 
-            ]
+            ],
+            alert: ''
 
         }
     },
@@ -131,6 +134,47 @@ export default {
         }
     },
     methods: {
+        onSubmit(e){
+            e.preventDefault();
+            var path = `/api/forms/${this.form_id}/form_rules`;
+            //console.log('name rule : ' + this.rule.name+' ' + this.rule.order+ ' ' + this.rule.sub_of+' ' + this.rule.rule_type+' ' + this.rule.status);
+            if (this.state == 'new'){
+                axios.post(path,{
+                    name: this.rule.name,
+                    order: this.rule.order,
+                    sub_of: this.rule.sub_of,
+                    rule_type: this.rule.rule_type,
+                    result_type: this.rule.result_type,
+                    status: this.rule.status,
+                })
+                .then(response=>{
+                    this.rule = response.data.data;
+                    this.alert = "success"
+                })
+                .catch(error=>{
+                    this.alert = "error";
+                })
+            }else if (this.state == 'update'){
+                //console.log('update rule id:' + this.rule.id);
+                console.log('name rule : ' + this.rule.name+' ' + this.rule.order+ ' ' + this.rule.sub_of+' ' + this.rule.rule_type+' ' + this.rule.status);
+                path = `${path}/${this.r_id}`;
+                axios.put(`${path}`,{
+                    name: this.rule.name,
+                    order: this.rule.order,
+                    sub_of: this.rule.sub_of,
+                    rule_type: this.rule.rule_type,
+                    result_type: this.rule.result_type,
+                    status: this.rule.status,
+                })
+                .then(response=>{
+                    this.alert = "success";
+                    this.rule = response.data.data;
+                })
+                .catch(error=>{
+                    this.alert = "error";
+                })
+            }
+        },
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules/${this.r_id}`;
             var rule = {};
@@ -162,6 +206,19 @@ export default {
             this.rule.result_type = 0;
             this.r_opt = -1;
             this.rule_list = [];
+        },
+        /* ค้นหาหลักเกณฑ์ย่อย ของหลักเกณฑ์ */
+        getSubRule(rule_id){
+            var subRules = [];
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${rule_id}`;
+            axios.get(`${path}`)
+            .then(response=>{
+                subRules = response.data.data;
+            })
+            .catch(error=>{
+                subRules = [];
+            })
+            return subRules;
         },
         getOrderList(){
 

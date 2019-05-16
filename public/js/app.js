@@ -4784,6 +4784,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4797,18 +4798,19 @@ __webpack_require__.r(__webpack_exports__);
         order: 0,
         options: 0,
         sub_of: 0,
-        type: 0,
-        result_type: 0
+        rule_type: 0,
+        result_type: 0,
+        status: 1
       },
       state: 'new',
       order_list: [],
       rule_list: [],
       r_opt: -1,
       rule_options: [{
-        value: '0',
+        value: 0,
         text: 'หลักเกณฑ์หลัก'
       }, {
-        value: '1',
+        value: 1,
         text: 'หลักเกณฑ์ย่อย'
       }],
       rule_sub_of: [],
@@ -4825,7 +4827,8 @@ __webpack_require__.r(__webpack_exports__);
         value: 3,
         text: 'ข้อใดข้อหนึ่ง'
       }],
-      result_type: []
+      result_type: [],
+      alert: ''
     };
   },
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_0__["validationMixin"]],
@@ -4858,8 +4861,47 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    fetchData: function fetchData() {
+    onSubmit: function onSubmit(e) {
       var _this = this;
+
+      e.preventDefault();
+      var path = "/api/forms/".concat(this.form_id, "/form_rules"); //console.log('name rule : ' + this.rule.name+' ' + this.rule.order+ ' ' + this.rule.sub_of+' ' + this.rule.rule_type+' ' + this.rule.status);
+
+      if (this.state == 'new') {
+        axios.post(path, {
+          name: this.rule.name,
+          order: this.rule.order,
+          sub_of: this.rule.sub_of,
+          rule_type: this.rule.rule_type,
+          result_type: this.rule.result_type,
+          status: this.rule.status
+        }).then(function (response) {
+          _this.rule = response.data.data;
+          _this.alert = "success";
+        })["catch"](function (error) {
+          _this.alert = "error";
+        });
+      } else if (this.state == 'update') {
+        //console.log('update rule id:' + this.rule.id);
+        console.log('name rule : ' + this.rule.name + ' ' + this.rule.order + ' ' + this.rule.sub_of + ' ' + this.rule.rule_type + ' ' + this.rule.status);
+        path = "".concat(path, "/").concat(this.r_id);
+        axios.put("".concat(path), {
+          name: this.rule.name,
+          order: this.rule.order,
+          sub_of: this.rule.sub_of,
+          rule_type: this.rule.rule_type,
+          result_type: this.rule.result_type,
+          status: this.rule.status
+        }).then(function (response) {
+          _this.alert = "success";
+          _this.rule = response.data.data;
+        })["catch"](function (error) {
+          _this.alert = "error";
+        });
+      }
+    },
+    fetchData: function fetchData() {
+      var _this2 = this;
 
       var path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.r_id);
       var rule = {}; //this.clearData();
@@ -4867,14 +4909,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(path).then(function (response) {
         rule = response.data.data; //console.log('get rule: '+ rule);
 
-        _this.rule = rule; //console.log('get rule :' + this.rule.sub_of);
+        _this2.rule = rule; //console.log('get rule :' + this.rule.sub_of);
 
-        _this.$forceUpdate();
+        _this2.$forceUpdate();
 
-        if (_this.rule.sub_of == 0) {
-          _this.r_opt = 0;
+        if (_this2.rule.sub_of == 0) {
+          _this2.r_opt = 0;
         } else {
-          _this.r_opt = 1;
+          _this2.r_opt = 1;
         }
       });
     },
@@ -4892,8 +4934,20 @@ __webpack_require__.r(__webpack_exports__);
       this.r_opt = -1;
       this.rule_list = [];
     },
+
+    /* ค้นหาหลักเกณฑ์ย่อย ของหลักเกณฑ์ */
+    getSubRule: function getSubRule(rule_id) {
+      var subRules = [];
+      var path = "/api/forms/".concat(this.form_id, "/form_rules?sub_of=").concat(rule_id);
+      axios.get("".concat(path)).then(function (response) {
+        subRules = response.data.data;
+      })["catch"](function (error) {
+        subRules = [];
+      });
+      return subRules;
+    },
     getOrderList: function getOrderList() {
-      var _this2 = this;
+      var _this3 = this;
 
       var order = [];
       var rules = [];
@@ -4909,15 +4963,15 @@ __webpack_require__.r(__webpack_exports__);
         rules = response.data.data; //Add rule list to select
 
         console.log('rule length:' + rules.length);
-        _this2.rule_list = [];
+        _this3.rule_list = [];
 
-        _this2.rule_list.push({
+        _this3.rule_list.push({
           value: 0,
           text: 'หลักเกณฑ์หลัก'
         });
 
         for (var i = 0; i < rules.length; i++) {
-          _this2.rule_list.push({
+          _this3.rule_list.push({
             value: rules[i].id,
             text: rules[i].name
           });
@@ -4926,7 +4980,7 @@ __webpack_require__.r(__webpack_exports__);
 
         order_max = rules.length; //console.log('order_max:'+ order_max + 'state :' + this.state + ' rule id :' + this.rule_id + ' r_id :' + this.r_id);
 
-        if (_this2.state == 'new') {
+        if (_this3.state == 'new') {
           order_max = order_max + 1;
         }
 
@@ -4943,7 +4997,7 @@ __webpack_require__.r(__webpack_exports__);
         } //console.log('order :' + order);
 
 
-        _this2.order_list = order;
+        _this3.order_list = order;
       });
     },
     getAllRule: function getAllRule() {},
@@ -5018,12 +5072,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
     return {
       // Note `isActive` is left out and will not appear in the rendered table
       tableFileds: [{
+        key: 'show',
+        label: 'Show'
+      }, {
         key: 'order',
         label: 'ลำดับ'
       }, {
@@ -5062,7 +5162,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
-      var path = "/api/forms/".concat(this.form_id, "/form_rules");
+      var path = "/api/forms/".concat(this.form_id, "/form_rules?sub_of=0");
       console.log('path :' + path);
       axios.get(path).then(function (response) {
         _this.rules = response.data.data;
@@ -5070,6 +5170,18 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    getSubRule: function getSubRule(r_id) {
+      var path = "/api/forms/".concat(this.form_id, "/form_rules?sub_of=").concat(r_id);
+      var sub_rule = [];
+      console.log('path :' + path);
+      axios.get(path).then(function (response) {
+        sub_rule = response.data.data;
+        return sub_rule;
+      })["catch"](function (error) {});
+    },
+    showDetail: function showDetail(row) {
+      row._showDetails = "true";
     },
     clearData: function clearData() {
       this.fid = -1;
@@ -69080,8 +69192,11 @@ var render = function() {
     "div",
     { staticClass: "animated fadeIn" },
     [
+      _c("my-alert", { attrs: { AlertType: _vm.alert } }),
+      _vm._v(" "),
       _c(
         "b-form",
+        { on: { submit: _vm.onSubmit } },
         [
           _c(
             "b-form-group",
@@ -69135,6 +69250,7 @@ var render = function() {
             [
               _c(
                 "b-col",
+                { attrs: { sm: "4" } },
                 [
                   _c(
                     "b-form-group",
@@ -69162,38 +69278,40 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "b-col",
-                { attrs: { sm: "4" } },
+                { attrs: { sm: "8" } },
                 [
-                  _c(
-                    "b-form-group",
-                    [
-                      _c("label", { attrs: { for: "mainRule" } }, [
-                        _vm._v("หลักเกณฑ์หลัก")
-                      ]),
-                      _vm._v(" "),
-                      _c("b-form-select", {
-                        attrs: {
-                          plain: true,
-                          name: "mainRule",
-                          options: _vm.rule_list
-                        },
-                        model: {
-                          value: _vm.rule.sub_of,
-                          callback: function($$v) {
-                            _vm.$set(_vm.rule, "sub_of", $$v)
-                          },
-                          expression: "rule.sub_of"
-                        }
-                      }),
-                      _vm._v(" "),
-                      !_vm.$v.rule.order.minValue
-                        ? _c("div", { staticClass: "error" }, [
-                            _vm._v("กรุณากรอกข้อมูล")
-                          ])
-                        : _vm._e()
-                    ],
-                    1
-                  )
+                  _vm.r_opt == 1
+                    ? _c(
+                        "b-form-group",
+                        [
+                          _c("label", { attrs: { for: "mainRule" } }, [
+                            _vm._v("หลักเกณฑ์หลัก")
+                          ]),
+                          _vm._v(" "),
+                          _c("b-form-select", {
+                            attrs: {
+                              plain: true,
+                              name: "mainRule",
+                              options: _vm.rule_list
+                            },
+                            model: {
+                              value: _vm.rule.sub_of,
+                              callback: function($$v) {
+                                _vm.$set(_vm.rule, "sub_of", $$v)
+                              },
+                              expression: "rule.sub_of"
+                            }
+                          }),
+                          _vm._v(" "),
+                          !_vm.$v.rule.order.minValue
+                            ? _c("div", { staticClass: "error" }, [
+                                _vm._v("กรุณากรอกข้อมูล")
+                              ])
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e()
                 ],
                 1
               )
@@ -69358,90 +69476,132 @@ var render = function() {
                       ])
                     ]
                   ),
-                  _vm._v(" "),
-                  _c(
-                    "b-table",
-                    {
-                      attrs: {
-                        striped: "",
-                        hover: "",
-                        items: _vm.rules,
-                        fields: _vm.tableFileds
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "index",
-                          fn: function(data) {
-                            return [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(data.index + 1) +
-                                  "\n                    "
-                              )
-                            ]
-                          }
-                        },
-                        {
-                          key: "manage",
-                          fn: function(data) {
-                            return [
-                              _c(
-                                "div",
-                                [
-                                  _c(
-                                    "b-button",
-                                    {
-                                      staticClass: "btn-square btn-sm",
-                                      attrs: { variant: "success" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.editRule(data.item.id)
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fas fa-edit" })]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-button",
-                                    {
-                                      staticClass: "btn-square btn-sm",
-                                      attrs: { variant: "danger" }
-                                    },
-                                    [_c("i", { staticClass: "fas fa-trash" })]
-                                  )
-                                ],
-                                1
-                              )
-                            ]
-                          }
-                        }
-                      ])
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.rules) +
+                      "\n                "
+                  ),
+                  _c("b-table", {
+                    attrs: {
+                      items: _vm.rules,
+                      fields: _vm.tableFileds,
+                      striped: ""
                     },
-                    [
-                      _vm._v(" "),
-                      _vm._v(" "),
-                      _c(
-                        "template",
-                        { slot: "condition" },
-                        [
-                          _c(
-                            "b-button",
-                            {
-                              staticClass: "btn-square btn-sm",
-                              attrs: { block: "", variant: "primary" }
-                            },
-                            [
-                              _c("i", { staticClass: "far fa-check-circle" }),
-                              _vm._v(" เงื่อนไข")
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    2
-                  )
+                    scopedSlots: _vm._u([
+                      {
+                        key: "show",
+                        fn: function(row) {
+                          return [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(row) +
+                                "\n                    "
+                            )
+                          ]
+                        }
+                      },
+                      {
+                        key: "manage",
+                        fn: function(row) {
+                          return [
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "mr-2",
+                                attrs: { size: "sm" },
+                                on: { click: row.toggleDetails }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(
+                                      row.detailsShowing ? "Hide" : "Show"
+                                    ) +
+                                    " Details\n                        "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-form-checkbox",
+                              {
+                                on: { change: row.toggleDetails },
+                                model: {
+                                  value: row.detailsShowing,
+                                  callback: function($$v) {
+                                    _vm.$set(row, "detailsShowing", $$v)
+                                  },
+                                  expression: "row.detailsShowing"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        Details via check\n                        "
+                                )
+                              ]
+                            )
+                          ]
+                        }
+                      },
+                      {
+                        key: "row-details",
+                        fn: function(row) {
+                          return [
+                            _c(
+                              "b-card",
+                              [
+                                _c(
+                                  "b-row",
+                                  { staticClass: "mb-2" },
+                                  [
+                                    _c(
+                                      "b-col",
+                                      {
+                                        staticClass: "text-sm-right",
+                                        attrs: { sm: "3" }
+                                      },
+                                      [_c("b", [_vm._v("Age:")])]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("b-col", [_vm._v(_vm._s(row.order))])
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-row",
+                                  { staticClass: "mb-2" },
+                                  [
+                                    _c(
+                                      "b-col",
+                                      {
+                                        staticClass: "text-sm-right",
+                                        attrs: { sm: "3" }
+                                      },
+                                      [_c("b", [_vm._v("Is Active:")])]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("b-col", [_vm._v(_vm._s(row.name))])
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: { size: "sm" },
+                                    on: { click: row.toggleDetails }
+                                  },
+                                  [_vm._v("Hide Details")]
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
                 ],
                 1
               )

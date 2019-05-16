@@ -27,6 +27,7 @@
         "@coreui/coreui": "^2.1.9",
         "@coreui/vue": "^2.1.2",
         "bootstrap-vue": "^2.0.0-rc.18",
+        "buefy": "^0.7.5",
         "finalhandler": "^1.1.1",
         "perfect-scrollbar": "^1.4.0",
         "simple-line-icons": "^2.4.1",

@@ -28,8 +28,7 @@ class FormRuleController extends Controller
                         ->where('sub_of','=',$sub_of)
                         ->orderBy('order')
                         ->get();
-        }else
-        {
+        } else {
             $form_rules = $form->form_rules()
                         ->orderBy('id')
                         ->get();
