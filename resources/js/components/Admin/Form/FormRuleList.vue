@@ -45,7 +45,7 @@
                                                 <b-col sm="4">{{rule.name}}</b-col>
                                                 <b-col sm="2">
                                                     <div>
-                                                        <b-button variant="success" class="btn-square btn-sm" @click="editRule(rule.id)"><i class="fas fa-edit"></i></b-button>
+                                                        <b-button variant="success" class="btn-square btn-sm" @click="editRule(rule.id,rule.sub_of)"><i class="fas fa-edit"></i></b-button>
                                                         <b-button variant="danger" class="btn-square btn-sm"><i class="fas fa-trash"></i></b-button>
                                                     </div>
                                                 </b-col>
@@ -108,6 +108,7 @@
             <form-rule
                 :form_id = "form_id"
                 :rule_id = "rule_id"
+                :main_rule = "sub_of"
             ></form-rule>
         </b-modal>
     </div>
@@ -130,6 +131,7 @@ export default {
         rules: [],
         fid: 0,
         rule_id: -1,
+        sub_of: 0,
         rCount: 0,
         sub_rules:[]
       }
@@ -206,7 +208,8 @@ export default {
             this.fid = -1;
             this.rules = [];
         },
-        editRule(id){
+        editRule(id,sub_of=0){
+            this.sub_of = sub_of;
             this.rule_id = id;
             this.$refs['modalRule'].show();
         },
