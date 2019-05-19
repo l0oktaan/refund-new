@@ -18,36 +18,55 @@
                             </li>
                         </ul>
                     </div>
-                    {{rules}}
+
                     <b-table :items="rules" :fields="tableFileds" striped >
-                        <template slot="show" slot-scope="row">
-                            {{ row }}
+                        <template slot="row-details" slot-scope="data">
+                            <b-card-group deck>
+                                <b-card no-body>
+                                    <div slot="header" class="navbar">
+                                        <ul class="nav navbar-nav d-md-down-none">
+                                            <li class="nav-item px-3">
+                                                <i class='fa fa-align-justify'></i>
+                                                    หลักเกณฑ์ย่อย
+                                            </li>
+                                        </ul>
+                                        <ul class="nav navbar-nav ml-auto">
+                                            <li class="nav-item px-3">
+                                                <!-- <b-button variant="outline-success" @click="addRule">
+                                                    <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>เพิ่มหลักเกณฑ์</span>
+                                                </b-button> -->
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <b-list-group flush>
+                                        <b-list-group-item v-for="rule in data.item.sub_rules" :key="rule.id">
+                                            <b-row>
+                                                <b-col sm="2">{{data.item.order + '.' + rule.order}}</b-col>
+                                                <b-col sm="4">{{rule.name}}</b-col>
+                                                <b-col sm="2">
+                                                    <div>
+                                                        <b-button variant="success" class="btn-square btn-sm" @click="editRule(rule.id)"><i class="fas fa-edit"></i></b-button>
+                                                        <b-button variant="danger" class="btn-square btn-sm"><i class="fas fa-trash"></i></b-button>
+                                                    </div>
+                                                </b-col>
+                                                <b-col>
+                                                    <b-button block variant="primary" class="btn-square btn-sm"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
+                                                </b-col>
+                                            </b-row>
+                                        </b-list-group-item>
+                                    </b-list-group>
+
+                                </b-card>
+                            </b-card-group>
                         </template>
-                        <template slot="manage" slot-scope="row">
-                            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-                            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
-                            </b-button>
-
-                            <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-                            <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails">
-                            Details via check
-                            </b-form-checkbox>
+                        <template slot="manage" slot-scope="data">
+                            <div>
+                                <b-button variant="success" class="btn-square btn-sm" @click="editRule(data.item.id)"><i class="fas fa-edit"></i></b-button>
+                                <b-button variant="danger" class="btn-square btn-sm"><i class="fas fa-trash"></i></b-button>
+                            </div>
                         </template>
-
-                        <template slot="row-details" slot-scope="row">
-                            <b-card>
-                            <b-row class="mb-2">
-                                <b-col sm="3" class="text-sm-right"><b>Age:</b></b-col>
-                                <b-col>{{ row.order }}</b-col>
-                            </b-row>
-
-                            <b-row class="mb-2">
-                                <b-col sm="3" class="text-sm-right"><b>Is Active:</b></b-col>
-                                <b-col>{{ row.name }}</b-col>
-                            </b-row>
-
-                            <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
-                            </b-card>
+                        <template slot="condition" slot-scope="data">
+                            <b-button block variant="primary" class="btn-square btn-sm" v-if="data.item.rule_type!=1"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
                         </template>
                     </b-table>
                     <!--b-table striped hover :items="rules" :fields="tableFileds">
@@ -101,7 +120,6 @@ export default {
       return {
         // Note `isActive` is left out and will not appear in the rendered table
         tableFileds: [
-            {key:'show',label: 'Show'},
             {key:'order', label: 'ลำดับ'},
             {key:'name' ,label: 'ชื่อเกณฑ์'},
             {key:'manage', label:'จัดการ'},
@@ -112,7 +130,8 @@ export default {
         rules: [],
         fid: 0,
         rule_id: -1,
-        rCount: 0
+        rCount: 0,
+        sub_rules:[]
       }
     },
     mounted(){
@@ -123,38 +142,63 @@ export default {
             this.fid = this.form_id;
             if (this.fid > 0){
                 this.fetchData();
-                console.log('get rule');
+                //this.getSubRule();
+
             }else{
                 this.clearData();
             }
+        },
+        rules(){
+
         }
     },
     methods: {
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules?sub_of=0`;
             console.log('path :' + path);
+            var sub_rule = [];
             axios.get(path)
             .then(response=>{
                 this.rules = response.data.data;
-                console.log('rule :' + this.rules);
+                this.getSubRule();
             })
             .catch(error=>{
                 console.log(error);
             })
-        },
-        getSubRule(r_id){
-            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${r_id}`;
-            var sub_rule = [];
-            console.log('path :' + path);
-            axios.get(path)
-            .then(response=>{
-                sub_rule = response.data.data;
-                return sub_rule;
-            })
-            .catch(error=>{
+            //
 
-            })
+
+
         },
+        getSubRule(){
+            var path = '';
+            var id = 0;
+            var sub_rule = [];
+            console.log('get sub rule' + this.rules.length);
+            for (let i = 0 ; i < this.rules.length ; i++){
+                id = this.rules[i].id;
+                path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
+                console.log('get sub rule path :' + path);
+                axios.get(path)
+                .then(response=>{
+                    sub_rule = response.data.data;
+                    console.log('sub rule ' + id + ': ' + sub_rule.length);
+                    if (sub_rule.length > 0){
+                        Object.assign(this.rules[i],{_showDetails: true});
+                        //this.rules[i] = _.extend({},this.rules[i],{_showDetails: true});
+                        //this.rules[i] = _.extend({},this.rules[i],{sub_rules: sub_rule});
+                        Object.assign(this.rules[i],{sub_rules: sub_rule});
+                        //return sub_rule;
+                    }
+
+                    this.$forceUpdate();
+                })
+                .catch(error=>{
+
+                })
+            }
+        },
+
         showDetail(row){
             row._showDetails = "true";
         },

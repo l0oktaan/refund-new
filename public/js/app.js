@@ -5115,15 +5115,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
     return {
       // Note `isActive` is left out and will not appear in the rendered table
       tableFileds: [{
-        key: 'show',
-        label: 'Show'
-      }, {
         key: 'order',
         label: 'ลำดับ'
       }, {
@@ -5140,7 +5156,8 @@ __webpack_require__.r(__webpack_exports__);
       rules: [],
       fid: 0,
       rule_id: -1,
-      rCount: 0
+      rCount: 0,
+      sub_rules: []
     };
   },
   mounted: function mounted() {
@@ -5151,12 +5168,12 @@ __webpack_require__.r(__webpack_exports__);
       this.fid = this.form_id;
 
       if (this.fid > 0) {
-        this.fetchData();
-        console.log('get rule');
+        this.fetchData(); //this.getSubRule();
       } else {
         this.clearData();
       }
-    }
+    },
+    rules: function rules() {}
   },
   methods: {
     fetchData: function fetchData() {
@@ -5164,21 +5181,49 @@ __webpack_require__.r(__webpack_exports__);
 
       var path = "/api/forms/".concat(this.form_id, "/form_rules?sub_of=0");
       console.log('path :' + path);
+      var sub_rule = [];
       axios.get(path).then(function (response) {
         _this.rules = response.data.data;
-        console.log('rule :' + _this.rules);
+
+        _this.getSubRule();
       })["catch"](function (error) {
         console.log(error);
-      });
+      }); //
     },
-    getSubRule: function getSubRule(r_id) {
-      var path = "/api/forms/".concat(this.form_id, "/form_rules?sub_of=").concat(r_id);
+    getSubRule: function getSubRule() {
+      var _this2 = this;
+
+      var path = '';
+      var id = 0;
       var sub_rule = [];
-      console.log('path :' + path);
-      axios.get(path).then(function (response) {
-        sub_rule = response.data.data;
-        return sub_rule;
-      })["catch"](function (error) {});
+      console.log('get sub rule' + this.rules.length);
+
+      var _loop = function _loop(i) {
+        id = _this2.rules[i].id;
+        path = "/api/forms/".concat(_this2.form_id, "/form_rules?sub_of=").concat(id);
+        console.log('get sub rule path :' + path);
+        axios.get(path).then(function (response) {
+          sub_rule = response.data.data;
+          console.log('sub rule ' + id + ': ' + sub_rule.length);
+
+          if (sub_rule.length > 0) {
+            Object.assign(_this2.rules[i], {
+              _showDetails: true
+            }); //this.rules[i] = _.extend({},this.rules[i],{_showDetails: true});
+            //this.rules[i] = _.extend({},this.rules[i],{sub_rules: sub_rule});
+
+            Object.assign(_this2.rules[i], {
+              sub_rules: sub_rule
+            }); //return sub_rule;
+          }
+
+          _this2.$forceUpdate();
+        })["catch"](function (error) {});
+      };
+
+      for (var i = 0; i < this.rules.length; i++) {
+        _loop(i);
+      }
     },
     showDetail: function showDetail(row) {
       row._showDetails = "true";
@@ -69476,11 +69521,7 @@ var render = function() {
                       ])
                     ]
                   ),
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.rules) +
-                      "\n                "
-                  ),
+                  _vm._v(" "),
                   _c("b-table", {
                     attrs: {
                       items: _vm.rules,
@@ -69489,114 +69530,247 @@ var render = function() {
                     },
                     scopedSlots: _vm._u([
                       {
-                        key: "show",
-                        fn: function(row) {
+                        key: "row-details",
+                        fn: function(data) {
                           return [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(row) +
-                                "\n                    "
+                            _c(
+                              "b-card-group",
+                              { attrs: { deck: "" } },
+                              [
+                                _c(
+                                  "b-card",
+                                  { attrs: { "no-body": "" } },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "navbar",
+                                        attrs: { slot: "header" },
+                                        slot: "header"
+                                      },
+                                      [
+                                        _c(
+                                          "ul",
+                                          {
+                                            staticClass:
+                                              "nav navbar-nav d-md-down-none"
+                                          },
+                                          [
+                                            _c(
+                                              "li",
+                                              { staticClass: "nav-item px-3" },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa fa-align-justify"
+                                                }),
+                                                _vm._v(
+                                                  "\n                                                หลักเกณฑ์ย่อย\n                                        "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "ul",
+                                          {
+                                            staticClass:
+                                              "nav navbar-nav ml-auto"
+                                          },
+                                          [
+                                            _c("li", {
+                                              staticClass: "nav-item px-3"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-list-group",
+                                      { attrs: { flush: "" } },
+                                      _vm._l(data.item.sub_rules, function(
+                                        rule
+                                      ) {
+                                        return _c(
+                                          "b-list-group-item",
+                                          { key: rule.id },
+                                          [
+                                            _c(
+                                              "b-row",
+                                              [
+                                                _c(
+                                                  "b-col",
+                                                  { attrs: { sm: "2" } },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        data.item.order +
+                                                          "." +
+                                                          rule.order
+                                                      )
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-col",
+                                                  { attrs: { sm: "4" } },
+                                                  [_vm._v(_vm._s(rule.name))]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-col",
+                                                  { attrs: { sm: "2" } },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      [
+                                                        _c(
+                                                          "b-button",
+                                                          {
+                                                            staticClass:
+                                                              "btn-square btn-sm",
+                                                            attrs: {
+                                                              variant: "success"
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.editRule(
+                                                                  rule.id
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fas fa-edit"
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "b-button",
+                                                          {
+                                                            staticClass:
+                                                              "btn-square btn-sm",
+                                                            attrs: {
+                                                              variant: "danger"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fas fa-trash"
+                                                            })
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "b-col",
+                                                  [
+                                                    _c(
+                                                      "b-button",
+                                                      {
+                                                        staticClass:
+                                                          "btn-square btn-sm",
+                                                        attrs: {
+                                                          block: "",
+                                                          variant: "primary"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "far fa-check-circle"
+                                                        }),
+                                                        _vm._v(" เงื่อนไข")
+                                                      ]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      }),
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
                             )
                           ]
                         }
                       },
                       {
                         key: "manage",
-                        fn: function(row) {
+                        fn: function(data) {
                           return [
                             _c(
-                              "b-button",
-                              {
-                                staticClass: "mr-2",
-                                attrs: { size: "sm" },
-                                on: { click: row.toggleDetails }
-                              },
+                              "div",
                               [
-                                _vm._v(
-                                  "\n                        " +
-                                    _vm._s(
-                                      row.detailsShowing ? "Hide" : "Show"
-                                    ) +
-                                    " Details\n                        "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "b-form-checkbox",
-                              {
-                                on: { change: row.toggleDetails },
-                                model: {
-                                  value: row.detailsShowing,
-                                  callback: function($$v) {
-                                    _vm.$set(row, "detailsShowing", $$v)
+                                _c(
+                                  "b-button",
+                                  {
+                                    staticClass: "btn-square btn-sm",
+                                    attrs: { variant: "success" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editRule(data.item.id)
+                                      }
+                                    }
                                   },
-                                  expression: "row.detailsShowing"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                        Details via check\n                        "
-                                )
-                              ]
-                            )
-                          ]
-                        }
-                      },
-                      {
-                        key: "row-details",
-                        fn: function(row) {
-                          return [
-                            _c(
-                              "b-card",
-                              [
-                                _c(
-                                  "b-row",
-                                  { staticClass: "mb-2" },
-                                  [
-                                    _c(
-                                      "b-col",
-                                      {
-                                        staticClass: "text-sm-right",
-                                        attrs: { sm: "3" }
-                                      },
-                                      [_c("b", [_vm._v("Age:")])]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("b-col", [_vm._v(_vm._s(row.order))])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-row",
-                                  { staticClass: "mb-2" },
-                                  [
-                                    _c(
-                                      "b-col",
-                                      {
-                                        staticClass: "text-sm-right",
-                                        attrs: { sm: "3" }
-                                      },
-                                      [_c("b", [_vm._v("Is Active:")])]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("b-col", [_vm._v(_vm._s(row.name))])
-                                  ],
-                                  1
+                                  [_c("i", { staticClass: "fas fa-edit" })]
                                 ),
                                 _vm._v(" "),
                                 _c(
                                   "b-button",
                                   {
-                                    attrs: { size: "sm" },
-                                    on: { click: row.toggleDetails }
+                                    staticClass: "btn-square btn-sm",
+                                    attrs: { variant: "danger" }
                                   },
-                                  [_vm._v("Hide Details")]
+                                  [_c("i", { staticClass: "fas fa-trash" })]
                                 )
                               ],
                               1
                             )
+                          ]
+                        }
+                      },
+                      {
+                        key: "condition",
+                        fn: function(data) {
+                          return [
+                            data.item.rule_type != 1
+                              ? _c(
+                                  "b-button",
+                                  {
+                                    staticClass: "btn-square btn-sm",
+                                    attrs: { block: "", variant: "primary" }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "far fa-check-circle"
+                                    }),
+                                    _vm._v(" เงื่อนไข")
+                                  ]
+                                )
+                              : _vm._e()
                           ]
                         }
                       }
