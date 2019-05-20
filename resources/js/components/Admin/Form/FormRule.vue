@@ -1,7 +1,8 @@
 <template>
     <div class="animated fadeIn">
-        <b-form >
-            <b-form-group :class="{'form-group-error': $v.r_name.$error }">
+        <my-alert :AlertType="alert"></my-alert>
+        <b-form @submit="onSubmit">
+            <b-form-group :class="{'form-group-error': $v.r_name.$error }" >
                 <label for="name">ชื่อหลักเกณฑ์</label>
                 <b-form-input type="text"
                     placeholder="ชื่อหลักเกณฑ์"
@@ -20,20 +21,21 @@
                             v-model="r_rule_type"
                             :options="arr_rule_type"
                             name="ruleOption"
+                            :disabled="state === 'update'"
                         ></b-form-radio-group>
                     </b-form-group>
                 </b-col>
                 <b-col sm="8">
-                    <b-form-group v-if="r_rule_type == 2">
+                    <b-form-group v-if="r_rule_type == 2" >
                         <label for="mainRule">หลักเกณฑ์หลัก</label>
                         <b-form-select
                             v-model="r_sub_of"
                             :plain="true"
                             name="mainRule"
                             :options="arr_main_rule"
+                            :disabled="state === 'update'"
                         >
                         </b-form-select>
-
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -52,7 +54,6 @@
                     </b-form-group>
                 </b-col>
             </b-row>
-            {{r_id}}{{r_order}}
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>
@@ -69,15 +70,13 @@ export default {
     props: ['form_id','rule_id','main_rule'],
     mixins: [validationMixin],
     validations: {
-
-            r_order:{
-                minValue: minValue(1)
-            },
-            r_name:{
-                required,
-                minLength: minLength(4)
-            }
-
+        r_order:{
+            minValue: minValue(1)
+        },
+        r_name:{
+            required,
+            minLength: minLength(4)
+        }
     },
     data(){
         return {
@@ -97,11 +96,11 @@ export default {
             arr_rule_order: [],
             arr_result_type: [
                 {value: 0, text: 'ประเภทหลักเกณ์'},
-                {value: 1, text: 'ป้อนค่า'},
-                {value: 2, text: 'ตรงทุกข้อ'},
-                {value: 3, text: 'ข้อใดข้อหนึ่ง'},
+                {value: 1, text: 'ตรงทุกข้อ'},
+                {value: 2, text: 'ข้อใดข้อหนึ่ง'},
             ],
-            state: 'new'
+            state: 'new',
+            alert: ''
         }
     },
     watch : {
@@ -110,18 +109,104 @@ export default {
                 if (this.rule_id == 0){
                     this.state = 'new';
                     this.getMainRule();
+                    if (this.main_rule != 0){
+                    this.r_rule_type = 2;
+                    this.r_sub_of = this.main_rule;
+                }
                 }else{
                     this.state = 'update';
                     this.r_id = this.rule_id;
                     this.getMainRule();
                     this.fetchData();
-                    this.getOrderRule()
                 }
+            }
+        },
+
+        r_sub_of(){
+            console.log('change sub -of');
+            this.getOrderRule(this.r_sub_of);
+        },
+        r_rule_type(){
+            if (this.r_rule_type == 1){
+                this.getOrderRule(0);
+                this.$forceUpdate();
             }
         }
     },
-
+    mounted(){
+        //this.getOrderRule();
+    },
     methods: {
+        onSubmit(e){
+            e.preventDefault();
+            var path = `/api/forms/${this.form_id}/form_rules`;
+            var rule = {};
+            console.log('name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
+            if (this.state == 'new'){
+                axios.post(path,{
+                    name: this.r_name,
+                    order: this.r_order,
+                    sub_of: this.r_sub_of,
+                    rule_type: this.r_rule_type,
+                    result_type: 0,
+                    status: this.r_status,
+                })
+                .then(response=>{
+                    rule = response.data.data;
+                    this.r_id = rule.id;
+                    this.r_name = rule.name;
+                    if (rule.rule_type == 0){
+                        this.getOrderRule(0);
+                    }else{
+                        this.getOrderRule(rule.sub_of);
+                    }
+                    this.r_rule_type = rule.rule_type;
+                    this.r_order = rule.order;
+                    this.r_sub_of = rule.sub_of;
+                    this.r_result_type = rule.result_type;;
+                    this.r_status = rule.status;
+                    this.state == 'update'
+                    this.$forceUpdate();
+                    this.alert = "success"
+                })
+                .catch(error=>{
+                    this.alert = "error";
+                })
+            }else if (this.state == 'update'){
+                //console.log('update rule id:' + this.rule.id);
+                console.log('update name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
+                path = `${path}/${this.r_id}`;
+                axios.put(`${path}`,{
+                    name: this.r_name,
+                    order: this.r_order,
+                    rule_type: this.r_rule_type,
+                    result_type: this.r_result_type,
+                    sub_of: this.r_sub_of,
+                    status: this.r_status,
+                })
+                .then(response=>{
+                    rule = response.data.data;
+                    this.r_id = rule.id;
+                    this.r_name = rule.name;
+                    if (rule.rule_type == 0){
+                        this.getOrderRule(0);
+                    }else{
+                        this.getOrderRule(rule.sub_of);
+                    }
+                    this.r_rule_type = rule.rule_type;
+                    this.r_order = rule.order;
+                    this.r_sub_of = rule.sub_of;
+                    this.r_result_type = rule.result_type;
+                    this.r_status = rule.status;
+                    this.state == 'update'
+                    this.$forceUpdate();
+                    this.alert = "success"
+                })
+                .catch(error=>{
+                    this.alert = "error";
+                })
+            }
+        },
         fetchData(){
             var path = '';
             var rule = {};
@@ -131,12 +216,18 @@ export default {
                 rule = response.data.data;
                 this.r_id = rule.id;
                 this.r_name = rule.name;
-                this.r_order = rule.order;
+
+                if (rule.rule_type == 0){
+                    this.getOrderRule(0);
+                }else{
+                    this.getOrderRule(rule.sub_of);
+                }
                 this.r_rule_type = rule.rule_type;
+                this.r_order = rule.order;
                 this.r_sub_of = rule.sub_of;
                 this.r_result_type = rule.result_type;
                 this.r_status = rule.status;
-
+                this.$forceUpdate();
             })
         },
         getMainRule(){
@@ -151,30 +242,63 @@ export default {
                 for (let i=0 ;i < rules.length ; i++){
                     this.arr_main_rule.push({value: rules[i].id, text: rules[i].name});
                 }
+
             })
 
         },
-        getOrderRule(){
-            var path = `/api/forms/${this.form_id}/form_rules?sub_of`;
+        getOrderRule(sub_of){
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${sub_of}`;
+            var arr = [];
             var rules = [];
-            if (this.r_rule_type == 1){ //เกณฑ์หลัก
-                path = `${path}=0`
-            }else{
-                path = `${path}=${this.r_sub_of}`;
-            }
+            var max = 0;
             console.log('get order :' + path);
             axios.get(path)
             .then(response=>{
                 rules = response.data.data;
+                console.log('rule length: '+ rules.length);
                 this.arr_rule_order = [];
-                this.arr_rule_order.push({value: 0,text: 'ลำดับ'});
-                for (let i=1 ; i < rules.length ; i++){
-                    this.arr_rule_order.push({value: i, text: i});
+                max = rules.length;
+                if (this.state == 'new'){
+                    max = max + 1;
+                }
+                arr.push({value: 0,text: 'ลำดับ'});
+
+                for (let i=1 ; i <= max ; i++){
+                    arr.push({value: i, text: i});
+                }
+
+                this.arr_rule_order = arr;
+                this.$forceUpdate();
+            })
+        },
+        isSingleRule(id){
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
+            var rules = [];
+            axios.get(path)
+            .then(response=>{
+                rules = response.data.data;
+
+                if (rules.length == 0){
+                    console.log('rule id :' + id + 'is single');
+                    return true;
+                }else{
+                    return false;
                 }
             })
         },
         clearData(){
+            this.state = 'new';
+            this.r_id = 0;
+            this.r_name = '';
+            this.r_sub_of = 0;
+            this.r_order = -1;
+            this.r_rule_type = -1;
 
+            this.r_result_type = 0;
+            this.r_status = 0;
+
+            this.arr_main_rule = [];
+            this.arr_rule_order = [];
         },
         toCloseRule(){
             this.clearData();

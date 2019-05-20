@@ -113,6 +113,12 @@ Vue.component('FormRuleList', FormRuleList).defaults;
 import FormRule from './components/Admin/Form/FormRule.vue';
 Vue.component('FormRule', FormRule).defaults;
 
+import RuleCover from './components/Admin/Form/RuleCover.vue';
+Vue.component('RuleCover', RuleCover).defaults;
+
+import SubRule from './components/Admin/Form/SubRule.vue';
+Vue.component('SubRule', SubRule).defaults;
+
 import MyAlert from './components/MyAlert.vue';
 Vue.component('MyAlert', MyAlert).default;
 

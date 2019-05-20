@@ -18,8 +18,16 @@
                             </li>
                         </ul>
                     </div>
-
-                    <b-table :items="rules" :fields="tableFileds" striped >
+                    <rule-cover
+                        v-for="rule in showRule"
+                        :key="rule.id"
+                        :rule="rule"
+                        :form_id="form_id"
+                        @editRule="editRule2"
+                        @addSubRule="addSubRule"
+                    >
+                    </rule-cover>
+                    <b-table :items="rules" :fields="tableFileds" striped v-if="false">
                         <template slot="row-details" slot-scope="data">
                             <b-card-group deck>
                                 <b-card no-body>
@@ -66,7 +74,7 @@
                             </div>
                         </template>
                         <template slot="condition" slot-scope="data">
-                            <b-button block variant="primary" class="btn-square btn-sm" v-if="data.item.rule_type!=1"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
+                            <b-button block variant="primary" class="btn-square btn-sm" v-if="data.item.sub_rules.length == 0"><i class="far fa-check-circle"></i>&nbsp;เงื่อนไข</b-button>
                         </template>
                     </b-table>
                     <!--b-table striped hover :items="rules" :fields="tableFileds">
@@ -133,7 +141,9 @@ export default {
         rule_id: -1,
         sub_of: 0,
         rCount: 0,
-        sub_rules:[]
+        sub_rules:[],
+        showRule: [],
+
       }
     },
     mounted(){
@@ -154,6 +164,9 @@ export default {
 
         }
     },
+    computed: {
+
+    },
     methods: {
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules?sub_of=0`;
@@ -163,6 +176,7 @@ export default {
             .then(response=>{
                 this.rules = response.data.data;
                 this.getSubRule();
+                this.$forceUpdate();
             })
             .catch(error=>{
                 console.log(error);
@@ -176,15 +190,18 @@ export default {
             var path = '';
             var id = 0;
             var sub_rule = [];
+            this.showRule =[];
             console.log('get sub rule' + this.rules.length);
             for (let i = 0 ; i < this.rules.length ; i++){
                 id = this.rules[i].id;
                 path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
                 console.log('get sub rule path :' + path);
+                Object.assign(this.rules[i],{sub_rules: sub_rule});
                 axios.get(path)
                 .then(response=>{
                     sub_rule = response.data.data;
                     console.log('sub rule ' + id + ': ' + sub_rule.length);
+
                     if (sub_rule.length > 0){
                         Object.assign(this.rules[i],{_showDetails: true});
                         //this.rules[i] = _.extend({},this.rules[i],{_showDetails: true});
@@ -192,7 +209,7 @@ export default {
                         Object.assign(this.rules[i],{sub_rules: sub_rule});
                         //return sub_rule;
                     }
-
+                    this.showRule = this.rules;
                     this.$forceUpdate();
                 })
                 .catch(error=>{
@@ -208,6 +225,11 @@ export default {
             this.fid = -1;
             this.rules = [];
         },
+        editRule2(edit_rule){
+            this.rule_id = edit_rule.id;
+            this.sub_of = edit_rule.sub_of;
+            this.$refs['modalRule'].show();
+        },
         editRule(id,sub_of=0){
             this.sub_of = sub_of;
             this.rule_id = id;
@@ -217,9 +239,30 @@ export default {
             this.rule_id = 0;
             this.$refs['modalRule'].show();
         },
+        addSubRule(sub_of){
+            this.rule_id = 0;
+            this.sub_of = sub_of;
+            this.$refs['modalRule'].show();
+        },
         resetModalRule(){
             this.rule_id = -1;
+            this.sub_of = 0;
             this.fetchData();
+        },
+        isSingleRule(id){
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
+            var rules = [];
+            axios.get(path)
+            .then(response=>{
+                rules = response.data.data;
+
+                if (rules.length == 0){
+                    console.log('rule id :' + id + 'is single');
+                    return true;
+                }else{
+                    return false;
+                }
+            })
         }
     }
 }

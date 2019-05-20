@@ -26,9 +26,7 @@ class FormRuleRequest extends FormRequest
         return [
             'order' => 'required',
             'name' => 'required',
-            'sub_of' => 'required',
             'rule_type' => 'required',
-            'result_type' => 'required',
             'status' => 'required'
         ];
     }
