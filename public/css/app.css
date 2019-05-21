@@ -870,7 +870,7 @@ section {
 body {
   margin: 0;
   font-family: "Trirong", sans-serif;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.6;
   color: #23282c;
@@ -1199,36 +1199,36 @@ h6,
 
 h1,
 .h1 {
-  font-size: 2.5rem;
+  font-size: 1.875rem;
 }
 
 h2,
 .h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 h3,
 .h3 {
-  font-size: 1.75rem;
+  font-size: 1.3125rem;
 }
 
 h4,
 .h4 {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
 }
 
 h5,
 .h5 {
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
 }
 
 h6,
 .h6 {
-  font-size: 1rem;
+  font-size: 0.75rem;
 }
 
 .lead {
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   font-weight: 300;
 }
 
@@ -1300,7 +1300,7 @@ mark,
 
 .blockquote {
   margin-bottom: 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
 }
 
 .blockquote-footer {
@@ -2772,7 +2772,7 @@ pre code {
   width: 100%;
   height: calc(1.6em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.6;
   color: #5c6873;
@@ -2850,14 +2850,14 @@ select.form-control:focus::-ms-value {
 .col-form-label-lg {
   padding-top: calc(0.5rem + 1px);
   padding-bottom: calc(0.5rem + 1px);
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
 }
 
 .col-form-label-sm {
   padding-top: calc(0.25rem + 1px);
   padding-bottom: calc(0.25rem + 1px);
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.5;
 }
 
@@ -2883,7 +2883,7 @@ select.form-control:focus::-ms-value {
 .form-control-sm {
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }
@@ -2891,7 +2891,7 @@ select.form-control:focus::-ms-value {
 .form-control-lg {
   height: calc(1.5em + 1rem + 2px);
   padding: 0.5rem 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
@@ -2977,7 +2977,7 @@ textarea.form-control {
   max-width: 100%;
   padding: 0.25rem 0.5rem;
   margin-top: 0.1rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.6;
   color: #fff;
   background-color: rgba(56, 193, 114, 0.9);
@@ -3119,7 +3119,7 @@ textarea.form-control.is-valid {
   max-width: 100%;
   padding: 0.25rem 0.5rem;
   margin-top: 0.1rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.6;
   color: #fff;
   background-color: rgba(227, 52, 47, 0.9);
@@ -3325,7 +3325,7 @@ textarea.form-control.is-invalid {
   background-color: transparent;
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.75rem;
   line-height: 1.6;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -3976,7 +3976,7 @@ fieldset:disabled a.btn {
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 0.5rem 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
@@ -3984,7 +3984,7 @@ fieldset:disabled a.btn {
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }
@@ -4071,7 +4071,7 @@ input[type=button].btn-block {
   min-width: 10rem;
   padding: 0 0;
   margin: 0.125rem 0 0;
-  font-size: 1rem;
+  font-size: 0.75rem;
   color: #23282c;
   text-align: left;
   list-style: none;
@@ -4292,7 +4292,7 @@ input[type=button].btn-block {
   display: block;
   padding: 0 1.5rem;
   margin-bottom: 0;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   color: #73818f;
   white-space: nowrap;
 }
@@ -4537,7 +4537,7 @@ input[type=button].btn-block {
   align-items: center;
   padding: 0.375rem 0.75rem;
   margin-bottom: 0;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.6;
   color: #5c6873;
@@ -4565,7 +4565,7 @@ input[type=button].btn-block {
 .input-group-lg > .input-group-prepend > .btn,
 .input-group-lg > .input-group-append > .btn {
   padding: 0.5rem 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
@@ -4582,7 +4582,7 @@ input[type=button].btn-block {
 .input-group-sm > .input-group-prepend > .btn,
 .input-group-sm > .input-group-append > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }
@@ -4615,7 +4615,7 @@ input[type=button].btn-block {
 .custom-control {
   position: relative;
   display: block;
-  min-height: 1.6rem;
+  min-height: 1.2rem;
   padding-left: 1.5rem;
 }
 
@@ -4666,7 +4666,7 @@ input[type=button].btn-block {
 
 .custom-control-label::before {
   position: absolute;
-  top: 0.3rem;
+  top: 0.1rem;
   left: -1.5rem;
   display: block;
   width: 1rem;
@@ -4679,7 +4679,7 @@ input[type=button].btn-block {
 
 .custom-control-label::after {
   position: absolute;
-  top: 0.3rem;
+  top: 0.1rem;
   left: -1.5rem;
   display: block;
   width: 1rem;
@@ -4737,7 +4737,7 @@ input[type=button].btn-block {
 }
 
 .custom-switch .custom-control-label::after {
-  top: calc(0.3rem + 2px);
+  top: calc(0.1rem + 2px);
   left: calc(-2.25rem + 2px);
   width: calc(1rem - 4px);
   height: calc(1rem - 4px);
@@ -4769,7 +4769,7 @@ input[type=button].btn-block {
   width: 100%;
   height: calc(1.6em + 0.75rem + 2px);
   padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.6;
   color: #5c6873;
@@ -4815,7 +4815,7 @@ input[type=button].btn-block {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
 }
 
 .custom-select-lg {
@@ -4823,7 +4823,7 @@ input[type=button].btn-block {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
 }
 
 .custom-file {
@@ -5174,10 +5174,10 @@ input[type=button].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
   margin-right: 1rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: inherit;
   white-space: nowrap;
 }
@@ -5219,7 +5219,7 @@ input[type=button].btn-block {
 
 .navbar-toggler {
   padding: 0.25rem 0.75rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1;
   background-color: transparent;
   border: 1px solid transparent;
@@ -5887,7 +5887,7 @@ input[type=button].btn-block {
 
 .pagination-lg .page-link {
   padding: 0.75rem 1.5rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
 }
 
@@ -5903,7 +5903,7 @@ input[type=button].btn-block {
 
 .pagination-sm .page-link {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   line-height: 1.5;
 }
 
@@ -6128,7 +6128,7 @@ a.badge-dark.focus {
 }
 
 .alert-dismissible {
-  padding-right: 4rem;
+  padding-right: 3.625rem;
 }
 
 .alert-dismissible .close {
@@ -6275,7 +6275,7 @@ a.badge-dark.focus {
   display: flex;
   height: 1rem;
   overflow: hidden;
-  font-size: 0.75rem;
+  font-size: 0.5625rem;
   background-color: #f0f3f5;
   border-radius: 0.25rem;
 }
@@ -6658,7 +6658,7 @@ a.badge-dark.focus {
 
 .close {
   float: right;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1;
   color: #000;
@@ -6968,7 +6968,7 @@ a.close.disabled {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   word-wrap: break-word;
   opacity: 0;
 }
@@ -7093,7 +7093,7 @@ a.close.disabled {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: padding-box;
@@ -7235,7 +7235,7 @@ a.close.disabled {
 .popover-header {
   padding: 0.5rem 0.75rem;
   margin-bottom: 0;
-  font-size: 1rem;
+  font-size: 0.75rem;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
   border-top-left-radius: calc(0.3rem - 1px);
@@ -11901,9 +11901,9 @@ a.text-dark:focus {
 
 .btn-brand i {
   display: inline-block;
-  width: 2.35rem;
+  width: 1.95rem;
   margin: -0.375rem -0.75rem;
-  line-height: 2.35rem;
+  line-height: 1.95rem;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
@@ -11915,9 +11915,9 @@ a.text-dark:focus {
 
 .btn-brand.btn-lg i,
 .btn-group-lg > .btn-brand.btn i {
-  width: 2.875rem;
+  width: 2.40625rem;
   margin: -0.5rem -1rem;
-  line-height: 2.875rem;
+  line-height: 2.40625rem;
   border-radius: 0.3rem;
 }
 
@@ -11928,9 +11928,9 @@ a.text-dark:focus {
 
 .btn-brand.btn-sm i,
 .btn-group-sm > .btn-brand.btn i {
-  width: 1.8125rem;
+  width: 1.484375rem;
   margin: -0.25rem -0.5rem;
-  line-height: 1.8125rem;
+  line-height: 1.484375rem;
   border-radius: 0.2rem;
 }
 
@@ -13514,7 +13514,7 @@ a.text-dark:focus {
 
 .card-header-icon-bg {
   display: inline-block;
-  width: 3.1rem;
+  width: 2.7rem;
   padding: 0.75rem 0;
   margin: -0.75rem 1.25rem -0.75rem -1.25rem;
   line-height: inherit;
@@ -13637,22 +13637,22 @@ canvas {
 }
 
 .chartjs-tooltip .tooltip-header-item {
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   font-weight: 700;
 }
 
 .chartjs-tooltip .tooltip-body-item {
   display: flex;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   white-space: nowrap;
 }
 
 .chartjs-tooltip .tooltip-body-item-color {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin-right: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .chartjs-tooltip .tooltip-body-item-value {
@@ -14169,11 +14169,11 @@ canvas {
 
 .progress-group-icon {
   margin: 0 1rem 0 0.25rem;
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
 }
 
 .progress-group-text {
-  font-size: 0.875rem;
+  font-size: 0.65625rem;
   color: #73818f;
 }
 
@@ -14308,9 +14308,9 @@ canvas {
 
 .sidebar .nav-link .nav-icon {
   display: inline-block;
-  width: 1.25rem;
+  width: 0.9375rem;
   margin: 0 0.5rem 0 0;
-  font-size: 1rem;
+  font-size: 0.75rem;
   color: #73818f;
   text-align: center;
 }
@@ -15546,7 +15546,7 @@ html[dir=rtl] .aside-menu {
   }
 
   .aside-menu-fixed .aside-menu .tab-content {
-    height: calc(100vh - 2.5rem - 55px);
+    height: calc(100vh - 2.25rem - 55px);
   }
 
   .aside-menu-fixed .app-header + .app-body .aside-menu {
@@ -15575,7 +15575,7 @@ html[dir=rtl] .aside-menu {
 }
 
 .breadcrumb-fixed .main {
-  padding-top: 4rem;
+  padding-top: 3.75rem;
 }
 
 .breadcrumb-fixed .breadcrumb {
@@ -16944,17 +16944,17 @@ body {
 }
 
 .text-value {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 600;
 }
 
 .text-value-sm {
-  font-size: 1.25rem;
+  font-size: 0.9375rem;
   font-weight: 600;
 }
 
 .text-value-lg {
-  font-size: 1.75rem;
+  font-size: 1.3125rem;
   font-weight: 600;
 }
 

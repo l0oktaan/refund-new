@@ -119,6 +119,7 @@
                 :main_rule = "sub_of"
             ></form-rule>
         </b-modal>
+
     </div>
 </template>
 <script>

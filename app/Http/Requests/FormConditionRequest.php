@@ -24,7 +24,6 @@ class FormConditionRequest extends FormRequest
     public function rules()
     {
         return [
-            'order' => 'required',
             'name' => 'required',
             'condition_type' => 'required',
             'status' => 'required'

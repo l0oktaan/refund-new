@@ -3,14 +3,26 @@
         <div>
             <b-card no-body class="bg-primary">
                 <b-card-body class="pb-0">
+
                     <b-dropdown class="float-right" variant="transparent p-0" right>
                     <template slot="button-content">
                         <i class="icon-settings"></i>
                     </template>
                         <b-dropdown-item @click="addSubRule(rule.id)"><i class="fas fa-plus"></i>&nbsp;เพิ่มหลักเกณฑ์ย่อย</b-dropdown-item>
                         <b-dropdown-item @click="editRule"><i class="fas fa-edit"></i>&nbsp;แก้ไขหลักเกณฑ์</b-dropdown-item>
+                        <b-dropdown-item @click="editSubRule(sub_rule.id,sub_rule.sub_of)" v-if="rule.sub_rules.length == 0"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
                         <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์</b-dropdown-item>
                     </b-dropdown>
+                    <b-form-group label="ตัวเลือกหลักย่อย" v-if="rule.sub_rules.length != 0" class="float-right">
+                        <b-form-radio-group
+                            id="btn-radios-2"
+                            v-model="result_type"
+                            :options="arrResultType"
+                            buttons
+                            button-variant="outline-warning"
+                            name="radio-btn-outline"
+                        ></b-form-radio-group>
+                    </b-form-group>
                     <b-row>
                         <b-col sm="1">
                             <div class="showSub" :class="{noSub: rule.sub_rules.length == 0}" @click="showSub = !showSub">
@@ -21,17 +33,7 @@
                         <b-col>
                             <h4 class="mb-0">ลำดับที่ :{{rule.order}}</h4>
                             <p>{{rule.name}}</p>
-                            <b-form-group label="ตัวเลือกของหลักเกณฑ์/เงื่อนไขย่อย" v-if="rule.sub_rules.length != 0">
-                                <b-form-radio-group
-                                    id="btn-radios-2"
-                                    v-model="result_type"
-                                    :options="arrResultType"
-                                    buttons
-                                    button-variant="outline-warning"
-                                    name="radio-btn-outline"
 
-                                ></b-form-radio-group>
-                            </b-form-group>
                         </b-col>
                     </b-row>
 
@@ -45,6 +47,7 @@
                         <i class="icon-settings sub_rule"></i>
                     </template>
                         <b-dropdown-item @click="editSubRule(sub_rule.id,sub_rule.sub_of)"><i class="fas fa-edit"></i>&nbsp;แก้ไขหลักเกณฑ์ย่อย</b-dropdown-item>
+                        <b-dropdown-item @click="showCondition(sub_rule.id)"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
                         <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
                     </b-dropdown>
                     <b-row>
@@ -54,14 +57,24 @@
                         <b-col>
                             <h5 class="mb-0">เกณฑ์ย่อย ลำดับที่ :{{sub_rule.order}}</h5>
                             <p>{{sub_rule.name}}</p>
-
                         </b-col>
                     </b-row>
-
                 </b-card-body>
             </b-card>
             </div>
-
+            <b-modal id="modalCondition"
+                ref="modalCondition"
+                    size="lg"
+                    hide-header hideFooter
+                    no-close-on-backdrop
+                    no-close-on-esc
+                    @hidden="resetModalRule"
+                    >
+                    <rule-condition
+                        :form_id = "form_id"
+                        :rule_id = "c_rule_id"
+                    ></rule-condition>
+            </b-modal>
         </div>
     </div>
 </template>
@@ -75,10 +88,13 @@ export default {
             sub_rules: [],
             iRule: {},
             arrResultType: [
-                {value : 1, text: 'ข้อใดข้อหนึง'},
-                {value : 2, text: 'ต้องครบทุกข้อ'}
+                {value : 1, text: 'หรือ'},
+                {value : 2, text: 'และ'}
             ],
-            result_type: 0
+            result_type: 0,
+
+            condition: [],
+            c_rule_id: 0
         }
     },
     watch: {
@@ -149,6 +165,13 @@ export default {
         },
         addSubRule(sub_of){
             this.$emit('addSubRule',sub_of);
+        },
+        showCondition(rule_id){
+            this.c_rule_id = rule_id;
+            this.$refs['modalCondition'].show();
+        },
+        resetModalRule(){
+
         }
     }
 }
