@@ -171,6 +171,8 @@ import RefundBreadcrumb from './components/Refund/RefundBreadcrumb.vue';
 Vue.component('RefundBreadcrumb', RefundBreadcrumb).defaults;
 import RefundSide from './components/Refund/RefundSide.vue';
 Vue.component('RefundSide', RefundSide).defaults;
+import RefundCover from './components/Refund/RefundCover.vue';
+Vue.component('RefundCover', RefundCover).defaults;
 
 const app = new Vue({
     el: '#app',
