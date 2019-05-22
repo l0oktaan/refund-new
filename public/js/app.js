@@ -34617,7 +34617,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.card-body[data-v-a48813a4]{\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\n    padding: 5px!important;\n}\n", ""]);
+exports.push([module.i, "\n.card-body[data-v-a48813a4]{\r\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\r\n    padding: 5px!important;\n}\r\n", ""]);
 
 // exports
 
@@ -34636,7 +34636,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-c8557b8a]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\n    color: rgb(97, 97, 97)!important;\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\n    margin-right: 5px;\n}\n", ""]);
+exports.push([module.i, "\n.btn[data-v-c8557b8a]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\r\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\r\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\r\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\r\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\r\n    color: rgb(97, 97, 97)!important;\r\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\r\n    margin-right: 5px;\n}\r\n", ""]);
 
 // exports
 
