@@ -6012,16 +6012,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['refund'],
+  props: ['state', 'refund'],
   data: function data() {
     return {
       iRefund: [],
@@ -6030,7 +6022,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   watch: {
-    refund: function refund() {
+    state: function state() {
       this.iRefund = this.refund; //this.getContract();
 
       this.$forceUpdate();
@@ -6708,9 +6700,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundForm.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundList.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -6735,29 +6727,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      refunds: [{
-        id: 1,
-        refund_date: '2/10/2565',
-        contract_no: '24/2564',
-        contract_party: 'บริษัท ช ทวี จำกัด',
-        status: 1
-      }, {
-        id: 2,
-        refund_date: '10/10/2565',
-        contract_no: '24/2564',
-        contract_party: 'บริษัท มาสเตอร์ เมคเกอ จำกัด',
-        status: 2
-      }, {
-        id: 3,
-        refund_date: '10/10/2565',
-        contract_no: '24/2564',
-        contract_party: 'บริษัท มาสเตอร์ เมคเกอ จำกัด',
-        status: 2
-      }],
-      office_id: 1
+      refunds: [],
+      office_id: 1,
+      state: ''
     };
   },
   mounted: function mounted() {
@@ -6794,6 +6770,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.refunds = refunds;
 
         _this.$forceUpdate();
+      });
+    },
+    getContract: function getContract() {
+      var _this2 = this;
+
+      var contract = [];
+      var path = '';
+      path = "/api/offices/".concat(this.office_id, "/refunds/1/contract");
+      console.log('get contract ' + path);
+      axios.get(path).then(function (response) {
+        contract = response.data.data;
+        _this2.contracts = contract[0];
+
+        _this2.$forceUpdate(); //Object.assign(refunds[i],{contract: contracts[0]});
+
       });
     }
   }
@@ -35406,7 +35397,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-18c7c4ad]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-18c7c4ad]{\n    vertical-align: middle!important;\n}\n", ""]);
+exports.push([module.i, "\n.btn[data-v-18c7c4ad]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-18c7c4ad]{\r\n    vertical-align: middle!important;\n}\r\n", ""]);
 
 // exports
 
@@ -35463,7 +35454,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nimg[data-v-74b91af0]{\n    max-width: 150px;\n    margin-bottom: 15px!important;\n}\n.alertBox[data-v-74b91af0]{\n    margin-top: 15px;\n}\n", ""]);
+exports.push([module.i, "\nimg[data-v-74b91af0]{\r\n    max-width: 150px;\r\n    margin-bottom: 15px!important;\n}\n.alertBox[data-v-74b91af0]{\r\n    margin-top: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -35482,7 +35473,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.swal-title[data-v-58494f16]{\n  font-size: 0.8em!important;\n}\n", ""]);
+exports.push([module.i, "\n.swal-title[data-v-58494f16]{\r\n  font-size: 0.8em!important;\n}\r\n", ""]);
 
 // exports
 
@@ -35501,7 +35492,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.card[data-v-3e79d6da]{\n    margin-bottom: 5px!important;\n}\n.card-body[data-v-3e79d6da]{\n    padding-top: 10px!important;\n}\n.textFiled[data-v-3e79d6da]{\n    font-weight: bold;\n    color :rgb(38, 41, 122);\n}\n.status1[data-v-3e79d6da]{\n    background-color: rgb(247, 230, 158);\n}\n.status2[data-v-3e79d6da]{\n    background-color: rgb(170, 224, 149);\n}\n.dropdown-item i[data-v-3e79d6da]{\n    color: #000!important;\n}\n", ""]);
+exports.push([module.i, "\n.card[data-v-3e79d6da]{\r\n    margin-bottom: 5px!important;\n}\n.card-body[data-v-3e79d6da]{\r\n    padding-top: 10px!important;\n}\n.textFiled[data-v-3e79d6da]{\r\n    font-weight: bold;\r\n    color :rgb(38, 41, 122);\n}\n.status1[data-v-3e79d6da]{\r\n    background-color: rgb(247, 230, 158);\n}\n.status2[data-v-3e79d6da]{\r\n    background-color: rgb(170, 224, 149);\n}\n.dropdown-item i[data-v-3e79d6da]{\r\n    color: #000!important;\n}\r\n", ""]);
 
 // exports
 
@@ -35527,9 +35518,9 @@ exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\r\n    border-radius: 50%;\
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&":
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& ***!
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -35539,7 +35530,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.btnAdd[data-v-17a5d68a]{\n    border-radius: 50%;\n    width: 45px;\n    height: 45px;\n    padding: 0px;\n    vertical-align: middle;\n}\n.btn[data-v-17a5d68a]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-17a5d68a]{\n    vertical-align: middle!important;\n}\n.topHead[data-v-17a5d68a]{\n    margin-bottom: 10px;\n}\n\n", ""]);
+exports.push([module.i, "\n.btnAdd[data-v-28263b95]{\r\n    border-radius: 50%;\r\n    width: 45px;\r\n    height: 45px;\r\n    padding: 0px;\r\n    vertical-align: middle;\n}\n.btn[data-v-28263b95]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-28263b95]{\r\n    vertical-align: middle!important;\n}\n.topHead[data-v-28263b95]{\r\n    margin-bottom: 10px;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -67956,15 +67947,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&":
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& ***!
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -69104,7 +69095,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Upgrade NPM & Bower\n                            "),
+                  _vm._v("Upgrade NPM & Bower\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("0%")])
                   ])
@@ -69126,7 +69117,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("ReactJS Version\n                            "),
+                  _vm._v("ReactJS Version\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("25%")])
                   ])
@@ -69148,7 +69139,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("VueJS Version\n                            "),
+                  _vm._v("VueJS Version\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("50%")])
                   ])
@@ -69170,7 +69161,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Add new layouts\n                            "),
+                  _vm._v("Add new layouts\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("75%")])
                   ])
@@ -69192,7 +69183,9 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Angular 2 Cli Version\n                            "),
+                  _vm._v(
+                    "Angular 2 Cli Version\r\n                            "
+                  ),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("100%")])
                   ])
@@ -69462,25 +69455,25 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-bell-o" }),
-              _vm._v(" Updates\n                "),
+              _vm._v(" Updates\r\n                "),
               _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-envelope-o" }),
-              _vm._v(" Messages\n                "),
+              _vm._v(" Messages\r\n                "),
               _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-tasks" }),
-              _vm._v(" Tasks\n                "),
+              _vm._v(" Tasks\r\n                "),
               _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-comments" }),
-              _vm._v(" Comments\n                "),
+              _vm._v(" Comments\r\n                "),
               _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
@@ -69500,13 +69493,13 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-usd" }),
-              _vm._v(" Payments\n                    "),
+              _vm._v(" Payments\r\n                    "),
               _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-file" }),
-              _vm._v(" Projects\n                    "),
+              _vm._v(" Projects\r\n                    "),
               _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
@@ -71994,34 +71987,17 @@ var render = function() {
                 "b-row",
                 [
                   _c("b-col", { attrs: { sm: "2" } }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.iRefund) +
-                        "\n                    "
-                    ),
                     _c("div", { staticClass: "textFiled" }, [
                       _vm._v("สร้างรายการเมื่อ :")
                     ]),
                     _vm._v(" "),
                     _c("div", [_vm._v(_vm._s(_vm.iRefund.create_date))])
                   ]),
-                  _vm._v(" "),
-                  _c("b-col", { attrs: { sm: "2" } }, [
-                    _c("div", { staticClass: "textFiled" }, [
-                      _vm._v("เลขที่สัญญา :")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [_vm._v(_vm._s(_vm.contracts.contract_no))])
-                  ]),
-                  _vm._v(" "),
-                  _c("b-col", { attrs: { sm: "4" } }, [
-                    _c("div", { staticClass: "textFiled" }, [
-                      _vm._v("คู่สัญญา :")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [_vm._v(_vm._s(_vm.contracts.contract_party))])
-                  ]),
-                  _vm._v(" "),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.iRefund) +
+                      "\n                "
+                  ),
                   _c("b-col", { attrs: { sm: "2" } }, [
                     _c("div", { staticClass: "textFiled" }, [
                       _vm._v("สถานะรายการ :")
@@ -72526,7 +72502,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Upgrade NPM & Bower\n                            "),
+                  _vm._v("Upgrade NPM & Bower\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("0%")])
                   ])
@@ -72548,7 +72524,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("ReactJS Version\n                            "),
+                  _vm._v("ReactJS Version\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("25%")])
                   ])
@@ -72570,7 +72546,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("VueJS Version\n                            "),
+                  _vm._v("VueJS Version\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("50%")])
                   ])
@@ -72592,7 +72568,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Add new layouts\n                            "),
+                  _vm._v("Add new layouts\r\n                            "),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("75%")])
                   ])
@@ -72614,7 +72590,9 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Angular 2 Cli Version\n                            "),
+                  _vm._v(
+                    "Angular 2 Cli Version\r\n                            "
+                  ),
                   _c("span", { staticClass: "float-right" }, [
                     _c("strong", [_vm._v("100%")])
                   ])
@@ -72884,25 +72862,25 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-bell-o" }),
-              _vm._v(" Updates\n                "),
+              _vm._v(" Updates\r\n                "),
               _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-envelope-o" }),
-              _vm._v(" Messages\n                "),
+              _vm._v(" Messages\r\n                "),
               _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-tasks" }),
-              _vm._v(" Tasks\n                "),
+              _vm._v(" Tasks\r\n                "),
               _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-comments" }),
-              _vm._v(" Comments\n                "),
+              _vm._v(" Comments\r\n                "),
               _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
@@ -72922,13 +72900,13 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-usd" }),
-              _vm._v(" Payments\n                    "),
+              _vm._v(" Payments\r\n                    "),
               _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("i", { staticClass: "fa fa-file" }),
-              _vm._v(" Projects\n                    "),
+              _vm._v(" Projects\r\n                    "),
               _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
             ]),
             _vm._v(" "),
@@ -74156,9 +74134,9 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true&":
 /*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true& ***!
   \********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -74203,9 +74181,12 @@ var render = function() {
         ],
         1
       ),
-      _vm._v(" "),
+      _vm._v("\n    " + _vm._s(_vm.refunds) + "\n    "),
       _vm._l(_vm.refunds, function(refund, index) {
-        return _c("refund-cover", { key: index, attrs: { refund: refund } })
+        return _c("refund-cover", {
+          key: index,
+          attrs: { state: _vm.state, refund: refund }
+        })
       })
     ],
     2
@@ -92611,7 +92592,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Login_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/Login.vue */ "./resources/js/views/Login.vue");
 /* harmony import */ var _views_Refund_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/Refund.vue */ "./resources/js/views/Refund.vue");
 /* harmony import */ var _views_Office_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/Office.vue */ "./resources/js/views/Office.vue");
-/* harmony import */ var _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/RefundForm.vue */ "./resources/js/views/RefundForm.vue");
+/* harmony import */ var _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/RefundList.vue */ "./resources/js/views/RefundList.vue");
 /* harmony import */ var _views_Admin_Admin__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/Admin/Admin */ "./resources/js/views/Admin/Admin.vue");
 /* harmony import */ var _views_Admin_AdminIndex__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./views/Admin/AdminIndex */ "./resources/js/views/Admin/AdminIndex.vue");
 /* harmony import */ var _views_Admin_Form_FormIndex__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./views/Admin/Form/FormIndex */ "./resources/js/views/Admin/Form/FormIndex.vue");
@@ -92699,7 +92680,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     },
     children: [{
       path: 'form',
-      component: _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+      component: _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
       meta: {
         breadCrumb: 'แบบถอนคืนฯ' //crumb
 
@@ -94779,18 +94760,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/RefundForm.vue":
+/***/ "./resources/js/views/RefundList.vue":
 /*!*******************************************!*\
-  !*** ./resources/js/views/RefundForm.vue ***!
+  !*** ./resources/js/views/RefundList.vue ***!
   \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true& */ "./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true&");
-/* harmony import */ var _RefundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RefundForm.vue?vue&type=script&lang=js& */ "./resources/js/views/RefundForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& */ "./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&");
+/* harmony import */ var _RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RefundList.vue?vue&type=template&id=28263b95&scoped=true& */ "./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true&");
+/* harmony import */ var _RefundList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RefundList.vue?vue&type=script&lang=js& */ "./resources/js/views/RefundList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& */ "./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -94801,66 +94782,66 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _RefundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _RefundList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "17a5d68a",
+  "28263b95",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/RefundForm.vue"
+component.options.__file = "resources/js/views/RefundList.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/RefundForm.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/views/RefundList.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
-  !*** ./resources/js/views/RefundForm.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/views/RefundList.vue?vue&type=script&lang=js& ***!
   \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&":
+/***/ "./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&":
 /*!****************************************************************************************************!*\
-  !*** ./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& ***!
+  !*** ./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& ***!
   \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=style&index=0&id=17a5d68a&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_style_index_0_id_17a5d68a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=style&index=0&id=28263b95&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_style_index_0_id_28263b95_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true&":
+/***/ "./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true&":
 /*!**************************************************************************************!*\
-  !*** ./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true& ***!
+  !*** ./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true& ***!
   \**************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundForm.vue?vue&type=template&id=17a5d68a&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./RefundList.vue?vue&type=template&id=28263b95&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/RefundList.vue?vue&type=template&id=28263b95&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundForm_vue_vue_type_template_id_17a5d68a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundList_vue_vue_type_template_id_28263b95_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -94884,8 +94865,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\code\laravel\refund\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\code\laravel\refund\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\dev\laravel\refund\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\dev\laravel\refund\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -20,10 +20,24 @@ class RefundController extends Controller
     public function index(Office $office)
     {
         //return $office->refunds();
-        $refund = new Refund;
-        $refund = $office->refunds()->get();
-        //$refund = Office::with('refunds')->get();
-        return RefundResource::collection($refund);
+
+        // $refund = new Refund;
+        // $refund = $office->refunds()->get();
+        // //$refund = Office::with('refunds')->get();
+        // return RefundResource::collection($refund);
+        $office_id = $office->id;
+        // $refund = Refund::with([
+        //     'contracts'=>function($query){
+        //     //$query->select('refund_id');
+        //     },
+        //     'contract_budget_edits'=>function($query){
+
+        //     }
+        // ])->get();
+        $refund = Refund::with('contracts')
+            ->where('office_id',$office_id)
+            ->get();
+        return $refund;
     }
 
     /**

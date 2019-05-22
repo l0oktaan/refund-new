@@ -47,7 +47,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Refund from './views/Refund.vue'
 import Office from './views/Office.vue'
-import RefundForm from './views/RefundForm.vue'
+import RefundList from './views/RefundList.vue'
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
 
@@ -80,7 +80,7 @@ const router = new VueRouter({
             children: [
                 {
                     path: 'form',
-                    component: RefundForm,
+                    component: RefundList,
                     meta: {
                         breadCrumb: 'แบบถอนคืนฯ' //crumb
                     }

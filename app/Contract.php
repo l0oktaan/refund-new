@@ -20,6 +20,6 @@ class Contract extends Model
     ];
 
     public function refund(){
-        return $this->belongsTo('App\Refund');
+        return $this->belongsTo(Refund::class);
     }
 }

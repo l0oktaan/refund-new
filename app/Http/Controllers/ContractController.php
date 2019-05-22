@@ -23,6 +23,11 @@ class ContractController extends Controller
                             ->where('refund_id','=',$refund->id)
                             ->get();
         return ContractResource::collection($contract);
+        
+        
+
+
+
         //return ContractResource::collection($office->refunds()->contract()->get());
     }
 

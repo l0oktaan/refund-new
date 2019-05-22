@@ -27,8 +27,8 @@ class Refund extends Model
         return $this->belongsTo('App\Office');
     }
 
-    public function contract(){
-        return $this->hasOne('App\Contract');
+    public function contracts(){
+        return $this->hasMany('App\Contract','refund_id','id');
     }
 
     public function contract_budget_edits(){

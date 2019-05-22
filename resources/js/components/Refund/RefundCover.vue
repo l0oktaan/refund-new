@@ -12,19 +12,11 @@
                     <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
-                    <b-col sm="2">
-                        {{iRefund}}
+                    <b-col sm="2">                        
                         <div class="textFiled">สร้างรายการเมื่อ :</div>
                         <div>{{iRefund.create_date}}</div>
                     </b-col>
-                    <b-col sm="2">
-                        <div  class="textFiled">เลขที่สัญญา :</div>
-                        <div>{{contracts.contract_no}}</div>
-                    </b-col>
-                    <b-col sm="4">
-                        <div class="textFiled">คู่สัญญา :</div>
-                        <div>{{contracts.contract_party}}</div>
-                    </b-col>
+                    {{iRefund}}
                     <b-col sm="2">
                         <div class="textFiled">สถานะรายการ :</div>
                         <div>{{iRefund.status}}</div>
@@ -36,7 +28,7 @@
 </template>
 <script>
 export default {
-    props: ['refund'],
+    props: ['state','refund'],
     data(){
         return {
             iRefund: [],
@@ -45,7 +37,7 @@ export default {
         }
     },
     watch: {
-        refund(){
+        state(){
             this.iRefund = this.refund;
 
             //this.getContract();

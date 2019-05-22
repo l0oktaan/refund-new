@@ -13,41 +13,22 @@
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
             </b-col>
         </b-row>
-        <refund-cover :refund="refund" v-for="(refund,index) in refunds" :key="index"  ></refund-cover>
+        {{refunds}}
+        <refund-cover :state="state" :refund="refund" v-for="(refund,index) in refunds" :key="index"  ></refund-cover>
     </div>
 </template>
 <script>
 export default {
     data(){
         return {
-            refunds: [
-                {
-                    id: 1,
-                    refund_date: '2/10/2565',
-                    contract_no: '24/2564',
-                    contract_party: 'บริษัท ช ทวี จำกัด',
-                    status: 1
-                },
-                {
-                    id: 2,
-                    refund_date: '10/10/2565',
-                    contract_no: '24/2564',
-                    contract_party: 'บริษัท มาสเตอร์ เมคเกอ จำกัด',
-                    status: 2
-                },
-                {
-                    id: 3,
-                    refund_date: '10/10/2565',
-                    contract_no: '24/2564',
-                    contract_party: 'บริษัท มาสเตอร์ เมคเกอ จำกัด',
-                    status: 2
-                },
-            ],
+            refunds: [],
             office_id: 1,
+            state: ''
         }
     },
     mounted(){
         this.fetchData();
+
     },
     methods: {
         fetchData(){
@@ -71,10 +52,24 @@ export default {
 
                 }
                 this.refunds = refunds;
+                
                 this.$forceUpdate();
 
             })
         },
+        getContract(){
+            var contract = [];
+            var path = '';
+            path = `/api/offices/${this.office_id}/refunds/1/contract`
+            console.log('get contract ' + path);
+            axios.get(path)
+            .then(response=>{
+                contract = response.data.data;
+                this.contracts = contract[0];
+                this.$forceUpdate();
+                //Object.assign(refunds[i],{contract: contracts[0]});
+            })
+        }
 
     }
 }
