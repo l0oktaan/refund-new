@@ -17,8 +17,9 @@ class CreateFormConditionsTable extends Migration
             $table->increments('id');
             $table->integer('form_rule_id')->unsigned()->index();
             $table->foreign('form_rule_id')->references('id')->on('10_form_rules')->onDelete('cascade');
-            $table->integer('order');
+            //$table->integer('order');
             $table->string('name');
+            $table->string('description')->nullable();
             $table->integer('condition_type');
             $table->tinyInteger('status');
             $table->timestamps();

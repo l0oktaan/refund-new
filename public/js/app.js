@@ -5400,6 +5400,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5408,29 +5417,34 @@ __webpack_require__.r(__webpack_exports__);
     return {
       c_id: 0,
       c_name: '',
+      c_description: '',
       c_type: 0,
       c_status: 1,
       state: 'new',
       arr_type: [{
-        value: 0,
-        text: 'ประเภทของเงื่อนไข'
-      }, {
         value: 1,
         text: 'ใช่หรือไม่'
       }, {
-        value: 1,
+        value: 2,
         text: 'กำหนดค่า'
       }],
-      alert: ''
+      alert: '',
+      conditions: {}
     };
   },
   watch: {
     rule_id: function rule_id() {
+      console.log(' watch rule id :' + this.rule_id);
+
       if (this.rule_id > 0) {
         this.fetchData();
+        this.$forceUpdate();
+      } else {
+        this.$forceUpdate();
       }
     }
   },
+  mounted: function mounted() {},
   mixins: [vuelidate__WEBPACK_IMPORTED_MODULE_0__["validationMixin"]],
   validations: {
     c_type: {
@@ -5442,42 +5456,93 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    toCloseCondition: function toCloseCondition() {},
+    toCloseCondition: function toCloseCondition() {
+      //this.$parent.$refs
+      this.clearData();
+      this.$root.$emit('bv::hide::modal', 'modalCondition');
+    },
     fetchData: function fetchData() {
       var _this = this;
 
-      var conditions = [];
-      var path = "/api/forms/".concat(form_id, "/form_rules/").concat(rule_id, "/form_conditions");
+      var condition = [];
+      var path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_conditions");
+      console.log('get con :' + path);
       axios.get(path).then(function (response) {
-        conditions = response.data.data;
+        condition = response.data.data;
+        console.log('show con :' + condition[0].name);
 
-        if (conditions.length > 0) {
-          _this.c_id = conditions.id;
-          _this.c_name = conditions.name;
-          _this.c_type = conditions.condition_type;
-          _this.c_status = conditions.status;
+        if (condition.length > 0) {
+          _this.state = 'update';
+          _this.c_id = condition[0].id;
+          _this.c_name = condition[0].name;
+          _this.c_description = condition[0].description;
+          _this.c_type = condition[0].condition_type;
+          _this.c_status = condition[0].status;
+          _this.conditions = condition[0];
+        } else {
+          _this.clearData();
         }
       })["catch"](function (error) {});
     },
-    onSubmit: function onSubmit() {
+    onSubmit: function onSubmit(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var condition = {};
-      var path = "/api/forms/".concat(form_id, "/form_rules/").concat(rule_id, "/form_conditions");
-      axios.post(path, {
-        name: this.c_name,
-        condition_type: this.c_type,
-        status: this.c_status
-      }).then(function (response) {
-        condition = response.data.data;
-        _this2.alert = "success";
-        _this2.c_id = condition.id;
-        _this2.c_name = condition.name;
-        _this2.c_type = condition.condition_type;
-        _this2.c_status = condition.status;
-      })["catch"](function (error) {
-        _this2.alert = "error";
-      });
+      var path = '';
+      console.log('state :' + this.state);
+
+      if (this.state == 'new') {
+        path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_conditions");
+        axios.post(path, {
+          name: this.c_name,
+          condition_type: this.c_type,
+          description: this.c_description,
+          status: this.c_status
+        }).then(function (response) {
+          condition = response.data.data;
+          _this2.alert = "success";
+          _this2.c_id = condition.id;
+          _this2.c_name = condition.name;
+          _this2.c_description = condition.description;
+          _this2.c_type = condition.condition_type;
+          _this2.c_status = condition.status;
+          _this2.conditions = condition;
+          _this2.state = 'update';
+        })["catch"](function (error) {
+          _this2.alert = "error";
+        });
+      } else if (this.state == 'update') {
+        path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_conditions/").concat(this.c_id);
+        axios.put(path, {
+          name: this.c_name,
+          condition_type: this.c_type,
+          description: this.c_description,
+          status: this.c_status
+        }).then(function (response) {
+          condition = response.data.data;
+          _this2.alert = "success";
+          _this2.c_id = condition.id;
+          _this2.c_name = condition.name;
+          _this2.c_description = condition.description;
+          _this2.c_type = condition.condition_type;
+          _this2.c_status = condition.status;
+          _this2.conditions = condition;
+          _this2.state = 'update';
+        })["catch"](function (error) {
+          _this2.alert = "error";
+        });
+      }
+    },
+    clearData: function clearData() {
+      this.alert = '';
+      this.c_id = 0;
+      this.c_name = '';
+      this.c_description = '';
+      this.c_type = 0;
+      this.c_status = 1;
+      this.state = 'new';
+      this.conditions = {};
     }
   }
 });
@@ -5493,6 +5558,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5657,7 +5723,9 @@ __webpack_require__.r(__webpack_exports__);
       this.c_rule_id = rule_id;
       this.$refs['modalCondition'].show();
     },
-    resetModalRule: function resetModalRule() {}
+    resetModalRule: function resetModalRule() {
+      this.c_rule_id = 0;
+    }
   }
 });
 
@@ -34568,7 +34636,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-c8557b8a]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\n    color: rgb(97, 97, 97)!important;\n    cursor: default;\n}\n", ""]);
+exports.push([module.i, "\n.btn[data-v-c8557b8a]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\n    color: rgb(97, 97, 97)!important;\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\n    margin-right: 5px;\n}\n", ""]);
 
 // exports
 
@@ -70039,8 +70107,153 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "animated fadeIn" }, [
+    _c(
+      "div",
+      [
+        _c("my-alert", { attrs: { AlertType: _vm.alert } }),
+        _vm._v(" "),
+        _c(
+          "b-form",
+          { on: { submit: _vm.onSubmit } },
+          [
+            _c(
+              "b-form-group",
+              [
+                _c("label", { attrs: { for: "name" } }, [
+                  _vm._v("รายละเอียดเงื่อนไข")
+                ]),
+                _vm._v(" "),
+                _c("b-form-input", {
+                  attrs: {
+                    type: "text",
+                    placeholder: "รายละเอียดเงื่อนไข",
+                    name: "name"
+                  },
+                  on: {
+                    blur: function($event) {
+                      return _vm.$v.c_name.$touch()
+                    }
+                  },
+                  model: {
+                    value: _vm.c_name,
+                    callback: function($$v) {
+                      _vm.c_name = $$v
+                    },
+                    expression: "c_name"
+                  }
+                }),
+                _vm._v(" "),
+                !_vm.$v.c_name.required
+                  ? _c("div", { staticClass: "error" }, [
+                      _vm._v("กรุณากรอกข้อมูล")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.$v.c_name.minLength
+                  ? _c("div", { staticClass: "error" }, [
+                      _vm._v(
+                        "กรุณากรอกข้อมูลความยาวไม่น้อยกว่า " +
+                          _vm._s(_vm.$v.c_name.$params.minLength.min) +
+                          " ตัวอักษร."
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-form-group",
+              [
+                _c("label", { attrs: { for: "description" } }, [
+                  _vm._v("คำอธิบาย")
+                ]),
+                _vm._v(" "),
+                _c("b-form-input", {
+                  attrs: {
+                    type: "text",
+                    placeholder: "คำอธิบาย",
+                    name: "description"
+                  },
+                  model: {
+                    value: _vm.c_description,
+                    callback: function($$v) {
+                      _vm.c_description = $$v
+                    },
+                    expression: "c_description"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-row",
+              [
+                _c(
+                  "b-col",
+                  { attrs: { sm: "6" } },
+                  [
+                    _c(
+                      "b-form-group",
+                      { attrs: { label: "ประเภทเงื่อนไข" } },
+                      [
+                        _c("b-form-radio-group", {
+                          attrs: { options: _vm.arr_type, name: "c_type" },
+                          model: {
+                            value: _vm.c_type,
+                            callback: function($$v) {
+                              _vm.c_type = $$v
+                            },
+                            expression: "c_type"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "text-center" },
+              [
+                _c(
+                  "b-button",
+                  { attrs: { type: "submit", variant: "primary" } },
+                  [_vm._v("บันทึกข้อมูล")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "reset", variant: "danger" },
+                    on: { click: _vm.toCloseCondition }
+                  },
+                  [_vm._v("ปิด")]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 
@@ -70110,10 +70323,7 @@ var render = function() {
                           {
                             on: {
                               click: function($event) {
-                                return _vm.editSubRule(
-                                  _vm.sub_rule.id,
-                                  _vm.sub_rule.sub_of
-                                )
+                                return _vm.showCondition(_vm.rule.id)
                               }
                             }
                           },
@@ -89123,7 +89333,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Admin/Form/FormRule.vue */ "./resources/js/components/Admin/Form/FormRule.vue");
 /* harmony import */ var _components_Admin_Form_RuleCover_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Admin/Form/RuleCover.vue */ "./resources/js/components/Admin/Form/RuleCover.vue");
 /* harmony import */ var _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Admin/Form/SubRule.vue */ "./resources/js/components/Admin/Form/SubRule.vue");
-/* harmony import */ var _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/Admin/Form/RuleCondition.vue */ "./resources/js/components/Admin/Form/RuleCondition.vue");
+/* harmony import */ var _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Admin/Form/RuleCondition.vue */ "./resources/js/components/Admin/Form/RuleCondition.vue");
 /* harmony import */ var _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/MyAlert.vue */ "./resources/js/components/MyAlert.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -89218,7 +89428,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCover', _components_Ad
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('SubRule', _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_24__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCondition', _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_27__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCondition', _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_25__["default"]).defaults;
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyAlert', _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_26__["default"])["default"];
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
