@@ -12,6 +12,7 @@ class FormCondition extends Model
         'form_rule_id',
         'order',
         'name',
+        'description',
         'condition_type',
         'status'
     ];

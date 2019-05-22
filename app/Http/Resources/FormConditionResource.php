@@ -21,6 +21,7 @@ class FormConditionResource extends Resource
             'form_rule_id' => $this->form_rule_id,
             'order' => $this->order,
             'name' => $this->name,
+            'description' => $this->description,
             'condition_type' => $this->condition_type,
             'status' => $this->status
         ];

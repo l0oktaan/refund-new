@@ -191,7 +191,9 @@ export default {
             var path = '';
             var id = 0;
             var sub_rule = [];
+
             this.showRule =[];
+
             console.log('get sub rule' + this.rules.length);
             for (let i = 0 ; i < this.rules.length ; i++){
                 id = this.rules[i].id;
@@ -218,6 +220,7 @@ export default {
                 })
             }
         },
+
 
         showDetail(row){
             row._showDetails = "true";
