@@ -23,8 +23,8 @@ class ContractController extends Controller
                             ->where('refund_id','=',$refund->id)
                             ->get();
         return ContractResource::collection($contract);
-        
-        
+
+
 
 
 
@@ -51,7 +51,7 @@ class ContractController extends Controller
     {
 
         $contract = new Contract($request->all());
-        $refund->contract()->save($contract) ;
+        $refund->contracts()->save($contract) ;
 
         return response([
             'data' => new ContractResource($contract)

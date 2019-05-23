@@ -40,6 +40,8 @@ Vue.use(VueSwal)
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
+import ToggleButton from 'vue-js-toggle-button'
+Vue.use(ToggleButton)
 
 
 import App from './views/App.vue'
@@ -48,6 +50,8 @@ import Login from './views/Login.vue'
 import Refund from './views/Refund.vue'
 import Office from './views/Office.vue'
 import RefundList from './views/RefundList.vue'
+import RefundForm from './views/RefundForm.vue'
+
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
 
@@ -79,11 +83,27 @@ const router = new VueRouter({
             },
             children: [
                 {
-                    path: 'form',
+                    path: 'refunds',
                     component: RefundList,
                     meta: {
-                        breadCrumb: 'แบบถอนคืนฯ' //crumb
+                        breadCrumb: 'แบบถอนคืนเงินรายได้ฯ' //crumb
                     }
+                },
+                {
+                    path: 'refunds/:id',
+                    component: RefundForm,
+                    meta: {
+                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                    }
+
+                },
+                {
+                    path: 'form',
+                    component: RefundForm,
+                    meta: {
+                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                    }
+
                 },
                 {
                     path: 'office',
@@ -173,6 +193,8 @@ import RefundSide from './components/Refund/RefundSide.vue';
 Vue.component('RefundSide', RefundSide).defaults;
 import RefundCover from './components/Refund/RefundCover.vue';
 Vue.component('RefundCover', RefundCover).defaults;
+import RefundFormCover from './components/Refund/RefundFormCover.vue';
+Vue.component('RefundFormCover', RefundFormCover).defaults;
 
 const app = new Vue({
     el: '#app',

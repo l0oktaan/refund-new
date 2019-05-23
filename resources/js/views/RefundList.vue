@@ -3,7 +3,7 @@
         <b-row>
             <b-col>
                 <div class="topHead float-right">
-                    <b-button variant="outline-success">
+                    <b-button variant="outline-success" @click="createRefund">
                         <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
                     </b-button>
                     <b-button variant="outline-primary">
@@ -13,7 +13,6 @@
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
             </b-col>
         </b-row>
-        {{refunds}}
         <refund-cover :state="state" :refund="refund" v-for="(refund,index) in refunds" :key="index"  ></refund-cover>
     </div>
 </template>
@@ -22,7 +21,7 @@ export default {
     data(){
         return {
             refunds: [],
-            office_id: 1,
+            office_id: 2,
             state: ''
         }
     },
@@ -32,43 +31,20 @@ export default {
     },
     methods: {
         fetchData(){
-            var path = `/api/offices/${this.office_id}/refunds`;
+            var path = `/api/offices/${this.office_id}/refunds?fields=contracts`;
             var refunds = [];
             var contracts = [];
+            console.log('path :' + path);
             axios.get(path)
             .then(response=>{
-                refunds = response.data.data;
-                console.log('get refund ' + refunds[0].id);
-                if (refunds.length > 0){
-                    for (let i = 0 ; i < refunds.length ; i++){
-                        path = `/api/offices/${this.office_id}/refunds/${refunds[i].id}/contract`
-                        console.log('get contract ' + path);
-                        axios.get(path)
-                        .then(response=>{
-                            contracts = response.data.data;
-                            Object.assign(refunds[i],{contract: contracts[0]});
-                        })
-                    }
-
-                }
+                refunds = response.data;
                 this.refunds = refunds;
-                
+                this.state = 'show';
                 this.$forceUpdate();
-
             })
         },
-        getContract(){
-            var contract = [];
-            var path = '';
-            path = `/api/offices/${this.office_id}/refunds/1/contract`
-            console.log('get contract ' + path);
-            axios.get(path)
-            .then(response=>{
-                contract = response.data.data;
-                this.contracts = contract[0];
-                this.$forceUpdate();
-                //Object.assign(refunds[i],{contract: contracts[0]});
-            })
+        createRefund(){
+            this.$router.push({path: 'form'});
         }
 
     }

@@ -46,7 +46,7 @@
                             </ul>
                         </li>
                         <b-nav vertical>
-                            <b-nav-item v-for="(lMenu,index) in leftMenu" :key="index"  :to="lMenu.path"><i :class="lMenu.icon"></i>&nbsp;{{lMenu.menu}}</b-nav-item>                            
+                            <b-nav-item v-for="(lMenu,index) in leftMenu" :key="index"  :to="lMenu.path"><i :class="lMenu.icon"></i>&nbsp;{{lMenu.menu}}</b-nav-item>
                         </b-nav>
 
 
@@ -70,9 +70,9 @@ export default {
     data(){
         return {
             leftMenu: [
-                {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'}, 
-                {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},                 
-                {menu: 'การถอนคืนฯ', path: '/refund/form', icon: 'fa fa-align-justify'},
+                {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
+                {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},
+                {menu: 'การถอนคืนฯ', path: '/refund/refunds', icon: 'fa fa-align-justify'},
             ]
         }
     }

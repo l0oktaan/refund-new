@@ -12,14 +12,21 @@
                     <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
-                    <b-col sm="2">                        
+                    <b-col sm="2">
                         <div class="textFiled">สร้างรายการเมื่อ :</div>
-                        <div>{{iRefund.create_date}}</div>
+                        <div>{{refund.create_date}}</div>
                     </b-col>
-                    {{iRefund}}
+                    <b-col sm="2">
+                        <div class="textFiled">สัญญาเลขที่ :</div>
+                        <div>{{refund.contracts[0].contract_no}}</div>
+                    </b-col>
+                    <b-col sm="4">
+                        <div class="textFiled">คู่สัญญา :</div>
+                        <div>{{refund.contracts[0].contract_party}}</div>
+                    </b-col>
                     <b-col sm="2">
                         <div class="textFiled">สถานะรายการ :</div>
-                        <div>{{iRefund.status}}</div>
+                        <div>{{refund.status}}</div>
                     </b-col>
                 </b-row>
             </b-card-body>
@@ -37,9 +44,8 @@ export default {
         }
     },
     watch: {
-        state(){
+        refund(){
             this.iRefund = this.refund;
-
             //this.getContract();
             this.$forceUpdate();
         }

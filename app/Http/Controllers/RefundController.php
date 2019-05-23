@@ -7,6 +7,7 @@ use App\Refund;
 use OfficeController;
 use Illuminate\Http\Request;
 use App\Http\Requests\RefundRequest;
+use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Refunds as RefundResource;
 
@@ -34,9 +35,17 @@ class RefundController extends Controller
 
         //     }
         // ])->get();
-        $refund = Refund::with('contracts')
+        if (Input::has('fields'))
+        {
+            $fields = Input::get('fields');
+
+            $refund = Refund::with(explode("|",$fields))
             ->where('office_id',$office_id)
             ->get();
+        }else{
+            $refund = $office->refunds()->get();
+        }
+
         return $refund;
     }
 
