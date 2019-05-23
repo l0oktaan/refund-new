@@ -20,6 +20,9 @@ class Form extends Model
     public function form_rules(){
         return $this->hasMany('App\FormRule');
     }
+    public function refund_forms(){
+        return $this->hasMany('App\RefundForm');
+    }
     public function form_conditions(){
         return $this->hasManyThrough(
             'App\FormCondition',

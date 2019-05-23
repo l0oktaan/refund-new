@@ -26,6 +26,7 @@ Route::group(['prefix'=>'offices'],function(){
     Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
     Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
     Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
+    Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
 
     //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
 });

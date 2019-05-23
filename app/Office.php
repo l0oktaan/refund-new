@@ -74,4 +74,13 @@ class Office extends Model
             'refund_id'
         );
     }
+
+    public function refund_forms(){
+        return $this->hasManyThrough(
+            'App\RefundForm',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
 }

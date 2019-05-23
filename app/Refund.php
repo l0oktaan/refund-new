@@ -8,6 +8,7 @@ use ContractTimeEdit;
 use Deliver;
 use DepositPenalty;
 use ApproveRefund;
+use RefundForm;
 use Illuminate\Database\Eloquent\Model;
 
 class Refund extends Model
@@ -49,5 +50,9 @@ class Refund extends Model
 
     public function approve_refunds(){
         return $this->hasMany('App\ApproveRefund','refund_id','id');
+    }
+
+    public function refund_forms(){
+        return $this->hasMany('App\RefundForm','refund_id','id');
     }
 }

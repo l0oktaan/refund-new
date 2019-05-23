@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Refund;
 use Illuminate\Database\Eloquent\Model;
 
 class RefundForm extends Model
@@ -14,4 +14,12 @@ class RefundForm extends Model
         'result',
         'status'
     ];
+    
+    public function refund(){
+        return $this->belongsTo('App\Refund');
+    }
+
+    public function form(){
+        return $this->belongsTo('App\Form');
+    }
 }

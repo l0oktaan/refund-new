@@ -4,8 +4,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#">
-            <img class="navbar-brand-full" src="https://coreui.io/demo/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-            <img class="navbar-brand-minimized" src="https://coreui.io/demo/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+            <img class="navbar-brand-full" src="/images/refund.png" width="135" alt="CGD Refund">
+            <img class="navbar-brand-minimized" src="/images/refund.png" width="30" height="30" alt="CGD Refund">
         </a>
         <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
             <span class="navbar-toggler-icon"></span>
