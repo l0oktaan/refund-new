@@ -185,16 +185,36 @@ Vue.component('MyLogin', MyLogin).default;
 //***********************Refund************************* */
 import RefundNav from './components/Refund/RefundNav.vue';
 Vue.component('RefundNav', RefundNav).defaults;
+
 import RefundMenu from './components/Refund/RefundMenu.vue';
 Vue.component('RefundMenu', RefundMenu).defaults;
+
 import RefundBreadcrumb from './components/Refund/RefundBreadcrumb.vue';
 Vue.component('RefundBreadcrumb', RefundBreadcrumb).defaults;
+
 import RefundSide from './components/Refund/RefundSide.vue';
 Vue.component('RefundSide', RefundSide).defaults;
+
 import RefundCover from './components/Refund/RefundCover.vue';
 Vue.component('RefundCover', RefundCover).defaults;
+
 import RefundFormCover from './components/Refund/RefundFormCover.vue';
 Vue.component('RefundFormCover', RefundFormCover).defaults;
+
+import ContractForm from './components/Refund/ContractForm.vue';
+Vue.component('ContractForm', ContractForm).defaults;
+
+import ContractTimeEdit from './components/Refund/ContractTimeEdit.vue';
+Vue.component('ContractTimeEdit', ContractTimeEdit).defaults;
+
+import Delivery from './components/Refund/Delivery.vue';
+Vue.component('Delivery', Delivery).defaults;
+
+import DepositPenalty from './components/Refund/DepositPenalty.vue';
+Vue.component('DepositPenalty', DepositPenalty).defaults;
+
+import RefundSummary from './components/Refund/RefundSummary.vue';
+Vue.component('RefundSummary', RefundSummary).defaults;
 
 const app = new Vue({
     el: '#app',

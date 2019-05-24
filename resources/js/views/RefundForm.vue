@@ -41,33 +41,41 @@
                   </b-col>
               </b-row>
             </b-tab>
-            <b-tab :disabled="tabs[0].status == 0">
-              <template slot="title">
-                <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
-                <span>{{tabs[1].title}}</span>
-              </template>
-              <br> 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-              et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum.
+            <b-tab>
+                <template slot="title">
+                    <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[1].title}}</span>
+                </template>
+                <contract-form></contract-form>
             </b-tab>
-            <b-tab :disabled="tabs[1].status == 0">
-              <template slot="title">
-                <h5>ขั้นตอนที่ 3 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
-                <span>{{tabs[2].title}}</span>
-              </template>
-              <br> 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-              et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum.
+            <b-tab :disabled="tabs[2].status == 1">
+                <template slot="title">
+                    <h5>ขั้นตอนที่ 3 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[2].title}}</span>
+                </template>
+                <contract-time-edit></contract-time-edit>
+
+            </b-tab>
+            <b-tab :disabled="tabs[2].status == 1">
+                <template slot="title">
+                    <h5>ขั้นตอนที่ 4 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[3].title}}</span>
+                </template>
+                <delivery></delivery>
+                <deposit-penalty></deposit-penalty>
             </b-tab>
             <b-tab v-for="(tab,index) in tab_forms" :key="index" >
                 <template slot="title">
-                <h5><i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
+                <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
+            </b-tab>
+            <b-tab :disabled="tabs[2].status == 1">
+                <template slot="title">
+                    <h5>สรุปข้อมูล : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[3].title}}</span>
+                </template>
+                <refund-summary></refund-summary>
             </b-tab>
           </b-tabs>
           <p>{{tabIndex}}</p>
@@ -86,6 +94,8 @@ export default {
                 {title: 'เลือกแบบฟอร์มขอถอนคืน', status: 0},
                 {title: 'ข้อมูลสัญญา', status: 0},
                 {title: 'ข้อมูลการอนุมัติ งด/ลด/ขยายเวลา', status: 0},
+                {title: 'ข้อมูลการส่งมอบงาน', status: 0},
+
             ],
             tab_forms: [],
             forms: [],
@@ -113,7 +123,7 @@ export default {
             }else{
                 return [];
             }
-            
+
         }
     },
     mounted(){
@@ -175,21 +185,21 @@ export default {
             this.refund_status = 'new';
         },
         saveRefundForm(){
-            
+
             if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
                 this.$swal({
                     title: "กรุณาตรวจสอบข้อมูล",
                     text: "หากบันทึกแล้วจะไม่สามารถเพิ่มฟอร์มใหม่ได้",
                     icon: "warning",
-                    buttons: [                        
+                    buttons: [
                         'ยกเลิก',
                         'ยืนยัน'
                     ],
-                    
+
                 }).then(isConfirm =>{
                     if (isConfirm){
                         var refund = {};
-                        var path = '';                
+                        var path = '';
                         // Create Refund
                         path = `/api/offices/${this.office_id}/refunds`;
                         axios.post(`${path}`,{
@@ -202,11 +212,11 @@ export default {
                             for (let i = 0 ; i < this.arrFormSelected.length ; i++){
                                 path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
                                 axios.post(path,{
-                                    form_id: this.arrFormSelected[i].id,                            
+                                    form_id: this.arrFormSelected[i].id,
                                     result: 0,
                                     status: 0
                                 })
-                                .then(response=>{                            
+                                .then(response=>{
                                     this.refund_forms.push(response.data);
                                     this.tab_forms.push(
                                         {title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order, status : 0}
@@ -219,24 +229,24 @@ export default {
 
                             }
                             if (this.arrFormSelected.length > 0){
-                                
+
                                 console.log('array ' + this.arrFormSelected.length);
                                 this.alert = 'success';
                                 this.tabs[0].status = 1;
-                                
+
                                 this.$forceUpdate();
                                 this.tabIndex++;
                                 this.$forceUpdate();
-                                
+
                             }
-                        })   
+                        })
                         .catch(error=>{
                             this.alert = 'error';
-                        })    
+                        })
                     }
-                             
+
                 });
-                
+
             }else{
 
             }
