@@ -48,6 +48,7 @@ import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Refund from './views/Refund.vue'
+import RefundDashboard from './views/Dashboard.vue'
 import Office from './views/Office.vue'
 import RefundList from './views/RefundList.vue'
 import RefundForm from './views/RefundForm.vue'
@@ -82,6 +83,13 @@ const router = new VueRouter({
                 breadCrumb: 'หน้าแรก' //crumb
             },
             children: [
+                {
+                    path: '',
+                    component: RefundDashboard,
+                    meta: {
+                        breadCrumb: 'Dashboard' //crumb
+                    }
+                },
                 {
                     path: 'refunds',
                     component: RefundList,

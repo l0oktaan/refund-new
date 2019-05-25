@@ -6702,6 +6702,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -70495,678 +70499,703 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "header",
+    { staticClass: "app-header navbar" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "router-link",
+        { staticClass: "navbar-brand", attrs: { to: "/admin" } },
+        [
+          _c("img", {
+            staticClass: "navbar-brand-full",
+            attrs: {
+              src: "/images/refund.png",
+              width: "135",
+              alt: "CGD Refund"
+            }
+          }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "navbar-brand-minimized",
+            attrs: {
+              src: "/images/refund.png",
+              width: "30",
+              height: "30",
+              alt: "CGD Refund"
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _vm._m(5)
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "app-header navbar" }, [
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler sidebar-toggler d-lg-none mr-auto",
-          attrs: { type: "button", "data-toggle": "sidebar-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "navbar-brand-full",
-          attrs: { src: "/images/refund.png", width: "135", alt: "CGD Refund" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass: "navbar-brand-minimized",
-          attrs: {
-            src: "/images/refund.png",
-            width: "30",
-            height: "30",
-            alt: "CGD Refund"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler sidebar-toggler d-md-down-none",
-          attrs: { type: "button", "data-toggle": "sidebar-lg-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c("ul", { staticClass: "nav navbar-nav d-md-down-none" }, [
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Dashboard")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Users")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Settings")
-          ])
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler sidebar-toggler d-lg-none mr-auto",
+        attrs: { type: "button", "data-toggle": "sidebar-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler sidebar-toggler d-md-down-none",
+        attrs: { type: "button", "data-toggle": "sidebar-lg-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav navbar-nav d-md-down-none" }, [
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Dashboard")
         ])
       ]),
       _vm._v(" "),
-      _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-bell" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-danger" }, [
-                _vm._v("5")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 5 notifications")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-user-follow text-success" }),
-                _vm._v(" New user registered")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-user-unfollow text-danger" }),
-                _vm._v(" User deleted")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-chart text-info" }),
-                _vm._v(" Sales report is ready")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-basket-loaded text-primary" }),
-                _vm._v(" New client")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-speedometer text-warning" }),
-                _vm._v(" Server overloaded")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("Server")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("CPU Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "25%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "25",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("348 Processes. 1/4 Cores.")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("Memory Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-warning",
-                    staticStyle: { width: "70%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "70",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("11444GB/16384MB")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("SSD 1 Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-danger",
-                    staticStyle: { width: "95%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "95",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("243GB/256GB")
-                ])
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-list" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-warning" }, [
-                _vm._v("15")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 5 pending tasks")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Upgrade NPM & Bower\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("0%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "0%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "0",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("ReactJS Version\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("25%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-danger",
-                    staticStyle: { width: "25%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "25",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("VueJS Version\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("50%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-warning",
-                    staticStyle: { width: "50%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "50",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Add new layouts\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("75%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "75%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "75",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v(
-                    "Angular 2 Cli Version\r\n                            "
-                  ),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("100%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-success",
-                    staticStyle: { width: "100%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "100",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item text-center",
-                  attrs: { href: "#" }
-                },
-                [_c("strong", [_vm._v("View all tasks")])]
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-envelope-letter" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-info" }, [
-                _vm._v("7")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 4 messages")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/7.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-success" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("Just now")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _c("span", {
-                      staticClass: "fa fa-exclamation text-danger"
-                    }),
-                    _vm._v(" Important message")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/6.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-warning" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("5 minutes ago")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "https://coreui.io/demo/img/avatars/5.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-danger" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("1:52 PM")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/4.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-info" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("4:03 PM")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item text-center",
-                  attrs: { href: "#" }
-                },
-                [_c("strong", [_vm._v("View all messages")])]
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("img", {
-                staticClass: "img-avatar",
-                attrs: {
-                  src: "https://coreui.io/demo/img/avatars/1.jpg",
-                  alt: "admin@bootstrapmaster.com"
-                }
-              })
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-            _c("div", { staticClass: "dropdown-header text-center" }, [
-              _c("strong", [_vm._v("Account")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-bell-o" }),
-              _vm._v(" Updates\r\n                "),
-              _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-envelope-o" }),
-              _vm._v(" Messages\r\n                "),
-              _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-tasks" }),
-              _vm._v(" Tasks\r\n                "),
-              _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-comments" }),
-              _vm._v(" Comments\r\n                "),
-              _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-header text-center" }, [
-              _c("strong", [_vm._v("Settings")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-user" }),
-              _vm._v(" Profile")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-wrench" }),
-              _vm._v(" Settings")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-usd" }),
-              _vm._v(" Payments\r\n                    "),
-              _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-file" }),
-              _vm._v(" Projects\r\n                    "),
-              _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-divider" }),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-shield" }),
-              _vm._v(" Lock Account")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-lock" }),
-              _vm._v(" Logout")
-            ])
-          ])
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Users")
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler aside-menu-toggler d-md-down-none",
-          attrs: { type: "button", "data-toggle": "aside-menu-lg-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler aside-menu-toggler d-lg-none",
-          attrs: { type: "button", "data-toggle": "aside-menu-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      )
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Settings")
+        ])
+      ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-bell" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-danger" }, [
+              _vm._v("5")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 5 notifications")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-user-follow text-success" }),
+              _vm._v(" New user registered")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-user-unfollow text-danger" }),
+              _vm._v(" User deleted")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-chart text-info" }),
+              _vm._v(" Sales report is ready")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-basket-loaded text-primary" }),
+              _vm._v(" New client")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-speedometer text-warning" }),
+              _vm._v(" Server overloaded")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("Server")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("CPU Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "25%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "25",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("348 Processes. 1/4 Cores.")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("Memory Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-warning",
+                  staticStyle: { width: "70%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "70",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("11444GB/16384MB")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("SSD 1 Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-danger",
+                  staticStyle: { width: "95%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "95",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("243GB/256GB")
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-list" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-warning" }, [
+              _vm._v("15")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 5 pending tasks")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Upgrade NPM & Bower\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("0%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "0%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "0",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("ReactJS Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("25%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-danger",
+                  staticStyle: { width: "25%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "25",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("VueJS Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("50%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-warning",
+                  staticStyle: { width: "50%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "50",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Add new layouts\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("75%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "75%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "75",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Angular 2 Cli Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("100%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-success",
+                  staticStyle: { width: "100%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "100",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item text-center",
+                attrs: { href: "#" }
+              },
+              [_c("strong", [_vm._v("View all tasks")])]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-envelope-letter" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-info" }, [
+              _vm._v("7")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 4 messages")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/7.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-success" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("Just now")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _c("span", { staticClass: "fa fa-exclamation text-danger" }),
+                  _vm._v(" Important message")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/6.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-warning" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("5 minutes ago")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "https://coreui.io/demo/img/avatars/5.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-danger" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("1:52 PM")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/4.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-info" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("4:03 PM")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item text-center",
+                attrs: { href: "#" }
+              },
+              [_c("strong", [_vm._v("View all messages")])]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("img", {
+              staticClass: "img-avatar",
+              attrs: {
+                src: "https://coreui.io/demo/img/avatars/1.jpg",
+                alt: "admin@bootstrapmaster.com"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+          _c("div", { staticClass: "dropdown-header text-center" }, [
+            _c("strong", [_vm._v("Account")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-bell-o" }),
+            _vm._v(" Updates\n                "),
+            _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-envelope-o" }),
+            _vm._v(" Messages\n                "),
+            _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-tasks" }),
+            _vm._v(" Tasks\n                "),
+            _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-comments" }),
+            _vm._v(" Comments\n                "),
+            _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-header text-center" }, [
+            _c("strong", [_vm._v("Settings")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-user" }),
+            _vm._v(" Profile")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-wrench" }),
+            _vm._v(" Settings")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-usd" }),
+            _vm._v(" Payments\n                    "),
+            _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-file" }),
+            _vm._v(" Projects\n                    "),
+            _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-shield" }),
+            _vm._v(" Lock Account")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-lock" }),
+            _vm._v(" Logout")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler aside-menu-toggler d-md-down-none",
+        attrs: { type: "button", "data-toggle": "aside-menu-lg-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler aside-menu-toggler d-lg-none",
+        attrs: { type: "button", "data-toggle": "aside-menu-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
   }
 ]
 render._withStripped = true
@@ -75752,678 +75781,703 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "header",
+    { staticClass: "app-header navbar" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "router-link",
+        { staticClass: "navbar-brand", attrs: { to: "/refund" } },
+        [
+          _c("img", {
+            staticClass: "navbar-brand-full",
+            attrs: {
+              src: "/images/refund.png",
+              width: "135",
+              alt: "CGD Refund"
+            }
+          }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "navbar-brand-minimized",
+            attrs: {
+              src: "/images/refund.png",
+              width: "30",
+              height: "30",
+              alt: "CGD Refund"
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _vm._m(5)
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "app-header navbar" }, [
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler sidebar-toggler d-lg-none mr-auto",
-          attrs: { type: "button", "data-toggle": "sidebar-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "navbar-brand-full",
-          attrs: { src: "/images/refund.png", width: "135", alt: "CGD Refund" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass: "navbar-brand-minimized",
-          attrs: {
-            src: "/images/refund.png",
-            width: "30",
-            height: "30",
-            alt: "CGD Refund"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler sidebar-toggler d-md-down-none",
-          attrs: { type: "button", "data-toggle": "sidebar-lg-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c("ul", { staticClass: "nav navbar-nav d-md-down-none" }, [
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Dashboard")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Users")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item px-3" }, [
-          _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-            _vm._v("Settings")
-          ])
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler sidebar-toggler d-lg-none mr-auto",
+        attrs: { type: "button", "data-toggle": "sidebar-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler sidebar-toggler d-md-down-none",
+        attrs: { type: "button", "data-toggle": "sidebar-lg-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav navbar-nav d-md-down-none" }, [
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Dashboard")
         ])
       ]),
       _vm._v(" "),
-      _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-bell" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-danger" }, [
-                _vm._v("5")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 5 notifications")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-user-follow text-success" }),
-                _vm._v(" New user registered")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-user-unfollow text-danger" }),
-                _vm._v(" User deleted")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-chart text-info" }),
-                _vm._v(" Sales report is ready")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-basket-loaded text-primary" }),
-                _vm._v(" New client")
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "icon-speedometer text-warning" }),
-                _vm._v(" Server overloaded")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("Server")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("CPU Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "25%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "25",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("348 Processes. 1/4 Cores.")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("Memory Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-warning",
-                    staticStyle: { width: "70%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "70",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("11444GB/16384MB")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "text-uppercase mb-1" }, [
-                  _c("small", [_c("b", [_vm._v("SSD 1 Usage")])])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-danger",
-                    staticStyle: { width: "95%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "95",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" }, [
-                  _vm._v("243GB/256GB")
-                ])
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-list" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-warning" }, [
-                _vm._v("15")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 5 pending tasks")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Upgrade NPM & Bower\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("0%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "0%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "0",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("ReactJS Version\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("25%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-danger",
-                    staticStyle: { width: "25%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "25",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("VueJS Version\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("50%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-warning",
-                    staticStyle: { width: "50%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "50",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v("Add new layouts\r\n                            "),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("75%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-info",
-                    staticStyle: { width: "75%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "75",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "small mb-1" }, [
-                  _vm._v(
-                    "Angular 2 Cli Version\r\n                            "
-                  ),
-                  _c("span", { staticClass: "float-right" }, [
-                    _c("strong", [_vm._v("100%")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "progress progress-xs" }, [
-                  _c("div", {
-                    staticClass: "progress-bar bg-success",
-                    staticStyle: { width: "100%" },
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": "100",
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item text-center",
-                  attrs: { href: "#" }
-                },
-                [_c("strong", [_vm._v("View all tasks")])]
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-envelope-letter" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge badge-pill badge-info" }, [
-                _vm._v("7")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg"
-            },
-            [
-              _c("div", { staticClass: "dropdown-header text-center" }, [
-                _c("strong", [_vm._v("You have 4 messages")])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/7.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-success" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("Just now")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _c("span", {
-                      staticClass: "fa fa-exclamation text-danger"
-                    }),
-                    _vm._v(" Important message")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/6.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-warning" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("5 minutes ago")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "https://coreui.io/demo/img/avatars/5.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-danger" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("1:52 PM")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-                _c("div", { staticClass: "message" }, [
-                  _c("div", { staticClass: "py-3 mr-3 float-left" }, [
-                    _c("div", { staticClass: "avatar" }, [
-                      _c("img", {
-                        staticClass: "img-avatar",
-                        attrs: {
-                          src: "img/avatars/4.jpg",
-                          alt: "admin@bootstrapmaster.com"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "avatar-status badge-info" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("small", { staticClass: "text-muted" }, [
-                      _vm._v("John Doe")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      { staticClass: "text-muted float-right mt-1" },
-                      [_vm._v("4:03 PM")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-truncate font-weight-bold" }, [
-                    _vm._v("Lorem ipsum dolor sit amet")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "small text-muted text-truncate" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "dropdown-item text-center",
-                  attrs: { href: "#" }
-                },
-                [_c("strong", [_vm._v("View all messages")])]
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item dropdown" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link nav-link",
-              attrs: {
-                "data-toggle": "dropdown",
-                href: "#",
-                role: "button",
-                "aria-haspopup": "true",
-                "aria-expanded": "false"
-              }
-            },
-            [
-              _c("img", {
-                staticClass: "img-avatar",
-                attrs: {
-                  src: "https://coreui.io/demo/img/avatars/1.jpg",
-                  alt: "admin@bootstrapmaster.com"
-                }
-              })
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-            _c("div", { staticClass: "dropdown-header text-center" }, [
-              _c("strong", [_vm._v("Account")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-bell-o" }),
-              _vm._v(" Updates\r\n                "),
-              _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-envelope-o" }),
-              _vm._v(" Messages\r\n                "),
-              _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-tasks" }),
-              _vm._v(" Tasks\r\n                "),
-              _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-comments" }),
-              _vm._v(" Comments\r\n                "),
-              _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-header text-center" }, [
-              _c("strong", [_vm._v("Settings")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-user" }),
-              _vm._v(" Profile")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-wrench" }),
-              _vm._v(" Settings")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-usd" }),
-              _vm._v(" Payments\r\n                    "),
-              _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-file" }),
-              _vm._v(" Projects\r\n                    "),
-              _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-divider" }),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-shield" }),
-              _vm._v(" Lock Account")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fa fa-lock" }),
-              _vm._v(" Logout")
-            ])
-          ])
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Users")
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler aside-menu-toggler d-md-down-none",
-          attrs: { type: "button", "data-toggle": "aside-menu-lg-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggler aside-menu-toggler d-lg-none",
-          attrs: { type: "button", "data-toggle": "aside-menu-show" }
-        },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
-      )
+      _c("li", { staticClass: "nav-item px-3" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v("Settings")
+        ])
+      ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-bell" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-danger" }, [
+              _vm._v("5")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 5 notifications")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-user-follow text-success" }),
+              _vm._v(" New user registered")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-user-unfollow text-danger" }),
+              _vm._v(" User deleted")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-chart text-info" }),
+              _vm._v(" Sales report is ready")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-basket-loaded text-primary" }),
+              _vm._v(" New client")
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("i", { staticClass: "icon-speedometer text-warning" }),
+              _vm._v(" Server overloaded")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("Server")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("CPU Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "25%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "25",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("348 Processes. 1/4 Cores.")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("Memory Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-warning",
+                  staticStyle: { width: "70%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "70",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("11444GB/16384MB")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "text-uppercase mb-1" }, [
+                _c("small", [_c("b", [_vm._v("SSD 1 Usage")])])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-danger",
+                  staticStyle: { width: "95%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "95",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("243GB/256GB")
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-list" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-warning" }, [
+              _vm._v("15")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 5 pending tasks")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Upgrade NPM & Bower\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("0%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "0%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "0",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("ReactJS Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("25%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-danger",
+                  staticStyle: { width: "25%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "25",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("VueJS Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("50%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-warning",
+                  staticStyle: { width: "50%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "50",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Add new layouts\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("75%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-info",
+                  staticStyle: { width: "75%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "75",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "small mb-1" }, [
+                _vm._v("Angular 2 Cli Version\n                            "),
+                _c("span", { staticClass: "float-right" }, [
+                  _c("strong", [_vm._v("100%")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "progress progress-xs" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-success",
+                  staticStyle: { width: "100%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "100",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item text-center",
+                attrs: { href: "#" }
+              },
+              [_c("strong", [_vm._v("View all tasks")])]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown d-md-down-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("i", { staticClass: "icon-envelope-letter" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "badge badge-pill badge-info" }, [
+              _vm._v("7")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-lg" },
+          [
+            _c("div", { staticClass: "dropdown-header text-center" }, [
+              _c("strong", [_vm._v("You have 4 messages")])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/7.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-success" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("Just now")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _c("span", { staticClass: "fa fa-exclamation text-danger" }),
+                  _vm._v(" Important message")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/6.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-warning" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("5 minutes ago")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "https://coreui.io/demo/img/avatars/5.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-danger" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("1:52 PM")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _c("div", { staticClass: "message" }, [
+                _c("div", { staticClass: "py-3 mr-3 float-left" }, [
+                  _c("div", { staticClass: "avatar" }, [
+                    _c("img", {
+                      staticClass: "img-avatar",
+                      attrs: {
+                        src: "img/avatars/4.jpg",
+                        alt: "admin@bootstrapmaster.com"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "avatar-status badge-info" })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("John Doe")
+                  ]),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted float-right mt-1" }, [
+                    _vm._v("4:03 PM")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-truncate font-weight-bold" }, [
+                  _vm._v("Lorem ipsum dolor sit amet")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "small text-muted text-truncate" }, [
+                  _vm._v(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item text-center",
+                attrs: { href: "#" }
+              },
+              [_c("strong", [_vm._v("View all messages")])]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link nav-link",
+            attrs: {
+              "data-toggle": "dropdown",
+              href: "#",
+              role: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _c("img", {
+              staticClass: "img-avatar",
+              attrs: {
+                src: "https://coreui.io/demo/img/avatars/1.jpg",
+                alt: "admin@bootstrapmaster.com"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+          _c("div", { staticClass: "dropdown-header text-center" }, [
+            _c("strong", [_vm._v("Account")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-bell-o" }),
+            _vm._v(" Updates\n                "),
+            _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-envelope-o" }),
+            _vm._v(" Messages\n                "),
+            _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-tasks" }),
+            _vm._v(" Tasks\n                "),
+            _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-comments" }),
+            _vm._v(" Comments\n                "),
+            _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-header text-center" }, [
+            _c("strong", [_vm._v("Settings")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-user" }),
+            _vm._v(" Profile")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-wrench" }),
+            _vm._v(" Settings")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-usd" }),
+            _vm._v(" Payments\n                    "),
+            _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-file" }),
+            _vm._v(" Projects\n                    "),
+            _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-shield" }),
+            _vm._v(" Lock Account")
+          ]),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _c("i", { staticClass: "fa fa-lock" }),
+            _vm._v(" Logout")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler aside-menu-toggler d-md-down-none",
+        attrs: { type: "button", "data-toggle": "aside-menu-lg-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler aside-menu-toggler d-lg-none",
+        attrs: { type: "button", "data-toggle": "aside-menu-show" }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
   }
 ]
 render._withStripped = true
@@ -77505,7 +77559,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("Admin Index")])
+  return _c("h1", [_vm._v("Admin Dashboard")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -77648,6 +77702,30 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6& ***!
+  \*******************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h4", [_vm._v("Dashboard")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -96582,37 +96660,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Home_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/Home.vue */ "./resources/js/views/Home.vue");
 /* harmony import */ var _views_Login_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/Login.vue */ "./resources/js/views/Login.vue");
 /* harmony import */ var _views_Refund_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/Refund.vue */ "./resources/js/views/Refund.vue");
-/* harmony import */ var _views_Office_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/Office.vue */ "./resources/js/views/Office.vue");
-/* harmony import */ var _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/RefundList.vue */ "./resources/js/views/RefundList.vue");
-/* harmony import */ var _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./views/RefundForm.vue */ "./resources/js/views/RefundForm.vue");
-/* harmony import */ var _views_Admin_Admin__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./views/Admin/Admin */ "./resources/js/views/Admin/Admin.vue");
-/* harmony import */ var _views_Admin_AdminIndex__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./views/Admin/AdminIndex */ "./resources/js/views/Admin/AdminIndex.vue");
-/* harmony import */ var _views_Admin_Form_FormIndex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./views/Admin/Form/FormIndex */ "./resources/js/views/Admin/Form/FormIndex.vue");
-/* harmony import */ var _components_Admin_AdminNav_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Admin/AdminNav.vue */ "./resources/js/components/Admin/AdminNav.vue");
-/* harmony import */ var _components_Admin_AdminMenu_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Admin/AdminMenu.vue */ "./resources/js/components/Admin/AdminMenu.vue");
-/* harmony import */ var _components_Admin_AdminBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Admin/AdminBreadcrumb.vue */ "./resources/js/components/Admin/AdminBreadcrumb.vue");
-/* harmony import */ var _components_Admin_AdminSide_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Admin/AdminSide.vue */ "./resources/js/components/Admin/AdminSide.vue");
-/* harmony import */ var _components_Admin_Form_FormFind_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Admin/Form/FormFind.vue */ "./resources/js/components/Admin/Form/FormFind.vue");
-/* harmony import */ var _components_Admin_Form_FormCover_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Admin/Form/FormCover.vue */ "./resources/js/components/Admin/Form/FormCover.vue");
-/* harmony import */ var _components_Admin_Form_FormDetail_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Admin/Form/FormDetail.vue */ "./resources/js/components/Admin/Form/FormDetail.vue");
-/* harmony import */ var _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/Admin/Form/FormRuleList.vue */ "./resources/js/components/Admin/Form/FormRuleList.vue");
-/* harmony import */ var _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Admin/Form/FormRule.vue */ "./resources/js/components/Admin/Form/FormRule.vue");
-/* harmony import */ var _components_Admin_Form_RuleCover_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/Admin/Form/RuleCover.vue */ "./resources/js/components/Admin/Form/RuleCover.vue");
-/* harmony import */ var _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Admin/Form/SubRule.vue */ "./resources/js/components/Admin/Form/SubRule.vue");
-/* harmony import */ var _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/Admin/Form/RuleCondition.vue */ "./resources/js/components/Admin/Form/RuleCondition.vue");
-/* harmony import */ var _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/MyAlert.vue */ "./resources/js/components/MyAlert.vue");
-/* harmony import */ var _components_Login_Login_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/Login/Login.vue */ "./resources/js/components/Login/Login.vue");
-/* harmony import */ var _components_Refund_RefundNav_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/Refund/RefundNav.vue */ "./resources/js/components/Refund/RefundNav.vue");
-/* harmony import */ var _components_Refund_RefundMenu_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/Refund/RefundMenu.vue */ "./resources/js/components/Refund/RefundMenu.vue");
-/* harmony import */ var _components_Refund_RefundBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./components/Refund/RefundBreadcrumb.vue */ "./resources/js/components/Refund/RefundBreadcrumb.vue");
-/* harmony import */ var _components_Refund_RefundSide_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./components/Refund/RefundSide.vue */ "./resources/js/components/Refund/RefundSide.vue");
-/* harmony import */ var _components_Refund_RefundCover_vue__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./components/Refund/RefundCover.vue */ "./resources/js/components/Refund/RefundCover.vue");
-/* harmony import */ var _components_Refund_RefundFormCover_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./components/Refund/RefundFormCover.vue */ "./resources/js/components/Refund/RefundFormCover.vue");
-/* harmony import */ var _components_Refund_ContractForm_vue__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./components/Refund/ContractForm.vue */ "./resources/js/components/Refund/ContractForm.vue");
-/* harmony import */ var _components_Refund_ContractTimeEdit_vue__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./components/Refund/ContractTimeEdit.vue */ "./resources/js/components/Refund/ContractTimeEdit.vue");
-/* harmony import */ var _components_Refund_Delivery_vue__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./components/Refund/Delivery.vue */ "./resources/js/components/Refund/Delivery.vue");
-/* harmony import */ var _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./components/Refund/DepositPenalty.vue */ "./resources/js/components/Refund/DepositPenalty.vue");
-/* harmony import */ var _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./components/Refund/RefundSummary.vue */ "./resources/js/components/Refund/RefundSummary.vue");
+/* harmony import */ var _views_Dashboard_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/Dashboard.vue */ "./resources/js/views/Dashboard.vue");
+/* harmony import */ var _views_Office_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/Office.vue */ "./resources/js/views/Office.vue");
+/* harmony import */ var _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./views/RefundList.vue */ "./resources/js/views/RefundList.vue");
+/* harmony import */ var _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./views/RefundForm.vue */ "./resources/js/views/RefundForm.vue");
+/* harmony import */ var _views_Admin_Admin__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./views/Admin/Admin */ "./resources/js/views/Admin/Admin.vue");
+/* harmony import */ var _views_Admin_AdminIndex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./views/Admin/AdminIndex */ "./resources/js/views/Admin/AdminIndex.vue");
+/* harmony import */ var _views_Admin_Form_FormIndex__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./views/Admin/Form/FormIndex */ "./resources/js/views/Admin/Form/FormIndex.vue");
+/* harmony import */ var _components_Admin_AdminNav_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/Admin/AdminNav.vue */ "./resources/js/components/Admin/AdminNav.vue");
+/* harmony import */ var _components_Admin_AdminMenu_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/Admin/AdminMenu.vue */ "./resources/js/components/Admin/AdminMenu.vue");
+/* harmony import */ var _components_Admin_AdminBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Admin/AdminBreadcrumb.vue */ "./resources/js/components/Admin/AdminBreadcrumb.vue");
+/* harmony import */ var _components_Admin_AdminSide_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Admin/AdminSide.vue */ "./resources/js/components/Admin/AdminSide.vue");
+/* harmony import */ var _components_Admin_Form_FormFind_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Admin/Form/FormFind.vue */ "./resources/js/components/Admin/Form/FormFind.vue");
+/* harmony import */ var _components_Admin_Form_FormCover_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Admin/Form/FormCover.vue */ "./resources/js/components/Admin/Form/FormCover.vue");
+/* harmony import */ var _components_Admin_Form_FormDetail_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/Admin/Form/FormDetail.vue */ "./resources/js/components/Admin/Form/FormDetail.vue");
+/* harmony import */ var _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/Admin/Form/FormRuleList.vue */ "./resources/js/components/Admin/Form/FormRuleList.vue");
+/* harmony import */ var _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/Admin/Form/FormRule.vue */ "./resources/js/components/Admin/Form/FormRule.vue");
+/* harmony import */ var _components_Admin_Form_RuleCover_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/Admin/Form/RuleCover.vue */ "./resources/js/components/Admin/Form/RuleCover.vue");
+/* harmony import */ var _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./components/Admin/Form/SubRule.vue */ "./resources/js/components/Admin/Form/SubRule.vue");
+/* harmony import */ var _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/Admin/Form/RuleCondition.vue */ "./resources/js/components/Admin/Form/RuleCondition.vue");
+/* harmony import */ var _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/MyAlert.vue */ "./resources/js/components/MyAlert.vue");
+/* harmony import */ var _components_Login_Login_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/Login/Login.vue */ "./resources/js/components/Login/Login.vue");
+/* harmony import */ var _components_Refund_RefundNav_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/Refund/RefundNav.vue */ "./resources/js/components/Refund/RefundNav.vue");
+/* harmony import */ var _components_Refund_RefundMenu_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./components/Refund/RefundMenu.vue */ "./resources/js/components/Refund/RefundMenu.vue");
+/* harmony import */ var _components_Refund_RefundBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./components/Refund/RefundBreadcrumb.vue */ "./resources/js/components/Refund/RefundBreadcrumb.vue");
+/* harmony import */ var _components_Refund_RefundSide_vue__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./components/Refund/RefundSide.vue */ "./resources/js/components/Refund/RefundSide.vue");
+/* harmony import */ var _components_Refund_RefundCover_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./components/Refund/RefundCover.vue */ "./resources/js/components/Refund/RefundCover.vue");
+/* harmony import */ var _components_Refund_RefundFormCover_vue__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./components/Refund/RefundFormCover.vue */ "./resources/js/components/Refund/RefundFormCover.vue");
+/* harmony import */ var _components_Refund_ContractForm_vue__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./components/Refund/ContractForm.vue */ "./resources/js/components/Refund/ContractForm.vue");
+/* harmony import */ var _components_Refund_ContractTimeEdit_vue__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./components/Refund/ContractTimeEdit.vue */ "./resources/js/components/Refund/ContractTimeEdit.vue");
+/* harmony import */ var _components_Refund_Delivery_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./components/Refund/Delivery.vue */ "./resources/js/components/Refund/Delivery.vue");
+/* harmony import */ var _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./components/Refund/DepositPenalty.vue */ "./resources/js/components/Refund/DepositPenalty.vue");
+/* harmony import */ var _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./components/Refund/RefundSummary.vue */ "./resources/js/components/Refund/RefundSummary.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -96655,6 +96734,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_js_toggle_button__WEBPACK_IMP
 
 
 
+
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   base: '/',
@@ -96680,29 +96760,36 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
     },
     children: [{
+      path: '',
+      component: _views_Dashboard_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+      meta: {
+        breadCrumb: 'Dashboard' //crumb
+
+      }
+    }, {
       path: 'refunds',
-      component: _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+      component: _views_RefundList_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
       meta: {
         breadCrumb: 'แบบถอนคืนเงินรายได้ฯ' //crumb
 
       }
     }, {
       path: 'refunds/:id',
-      component: _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+      component: _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
       meta: {
         breadCrumb: "\u0E41\u0E1A\u0E1A\u0E16\u0E2D\u0E19\u0E04\u0E37\u0E19\u0E40\u0E07\u0E34\u0E19\u0E23\u0E32\u0E22" //crumb
 
       }
     }, {
       path: 'form',
-      component: _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+      component: _views_RefundForm_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
       meta: {
         breadCrumb: "\u0E41\u0E1A\u0E1A\u0E16\u0E2D\u0E19\u0E04\u0E37\u0E19\u0E40\u0E07\u0E34\u0E19\u0E23\u0E32\u0E22" //crumb
 
       }
     }, {
       path: 'office',
-      component: _views_Office_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+      component: _views_Office_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
       meta: {
         breadCrumb: 'ข้อมูลหน่วยงาน' //crumb
 
@@ -96710,7 +96797,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     }]
   }, {
     path: '/admin',
-    component: _views_Admin_Admin__WEBPACK_IMPORTED_MODULE_17__["default"],
+    component: _views_Admin_Admin__WEBPACK_IMPORTED_MODULE_18__["default"],
     mode: 'history',
     meta: {
       breadCrumb: 'Dashboard' //crumb
@@ -96718,14 +96805,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     },
     children: [{
       path: '',
-      component: _views_Admin_AdminIndex__WEBPACK_IMPORTED_MODULE_18__["default"],
+      component: _views_Admin_AdminIndex__WEBPACK_IMPORTED_MODULE_19__["default"],
       meta: {
         breadCrumb: 'Admin' //crumb
 
       }
     }, {
       path: 'form',
-      component: _views_Admin_Form_FormIndex__WEBPACK_IMPORTED_MODULE_19__["default"],
+      component: _views_Admin_Form_FormIndex__WEBPACK_IMPORTED_MODULE_20__["default"],
       meta: {
         breadCrumb: 'จัดการแบบฟอร์ม' //crumb
 
@@ -96734,56 +96821,56 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   }]
 });
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminNav', _components_Admin_AdminNav_vue__WEBPACK_IMPORTED_MODULE_20__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminNav', _components_Admin_AdminNav_vue__WEBPACK_IMPORTED_MODULE_21__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminMenu', _components_Admin_AdminMenu_vue__WEBPACK_IMPORTED_MODULE_21__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminMenu', _components_Admin_AdminMenu_vue__WEBPACK_IMPORTED_MODULE_22__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminBreadcrumb', _components_Admin_AdminBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_22__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminBreadcrumb', _components_Admin_AdminBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_23__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminSide', _components_Admin_AdminSide_vue__WEBPACK_IMPORTED_MODULE_23__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('AdminSide', _components_Admin_AdminSide_vue__WEBPACK_IMPORTED_MODULE_24__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormFind', _components_Admin_Form_FormFind_vue__WEBPACK_IMPORTED_MODULE_24__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormFind', _components_Admin_Form_FormFind_vue__WEBPACK_IMPORTED_MODULE_25__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormCover', _components_Admin_Form_FormCover_vue__WEBPACK_IMPORTED_MODULE_25__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormCover', _components_Admin_Form_FormCover_vue__WEBPACK_IMPORTED_MODULE_26__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormDetail', _components_Admin_Form_FormDetail_vue__WEBPACK_IMPORTED_MODULE_26__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormDetail', _components_Admin_Form_FormDetail_vue__WEBPACK_IMPORTED_MODULE_27__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRuleList', _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_27__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRuleList', _components_Admin_Form_FormRuleList_vue__WEBPACK_IMPORTED_MODULE_28__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRule', _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_28__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('FormRule', _components_Admin_Form_FormRule_vue__WEBPACK_IMPORTED_MODULE_29__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCover', _components_Admin_Form_RuleCover_vue__WEBPACK_IMPORTED_MODULE_29__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCover', _components_Admin_Form_RuleCover_vue__WEBPACK_IMPORTED_MODULE_30__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('SubRule', _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_30__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('SubRule', _components_Admin_Form_SubRule_vue__WEBPACK_IMPORTED_MODULE_31__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCondition', _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_31__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RuleCondition', _components_Admin_Form_RuleCondition_vue__WEBPACK_IMPORTED_MODULE_32__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyAlert', _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_32__["default"])["default"];
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyAlert', _components_MyAlert_vue__WEBPACK_IMPORTED_MODULE_33__["default"])["default"];
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyLogin', _components_Login_Login_vue__WEBPACK_IMPORTED_MODULE_33__["default"])["default"]; //***********************Refund************************* */
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('MyLogin', _components_Login_Login_vue__WEBPACK_IMPORTED_MODULE_34__["default"])["default"]; //***********************Refund************************* */
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundNav', _components_Refund_RefundNav_vue__WEBPACK_IMPORTED_MODULE_34__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundNav', _components_Refund_RefundNav_vue__WEBPACK_IMPORTED_MODULE_35__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundMenu', _components_Refund_RefundMenu_vue__WEBPACK_IMPORTED_MODULE_35__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundMenu', _components_Refund_RefundMenu_vue__WEBPACK_IMPORTED_MODULE_36__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundBreadcrumb', _components_Refund_RefundBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_36__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundBreadcrumb', _components_Refund_RefundBreadcrumb_vue__WEBPACK_IMPORTED_MODULE_37__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundSide', _components_Refund_RefundSide_vue__WEBPACK_IMPORTED_MODULE_37__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundSide', _components_Refund_RefundSide_vue__WEBPACK_IMPORTED_MODULE_38__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundCover', _components_Refund_RefundCover_vue__WEBPACK_IMPORTED_MODULE_38__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundCover', _components_Refund_RefundCover_vue__WEBPACK_IMPORTED_MODULE_39__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundFormCover', _components_Refund_RefundFormCover_vue__WEBPACK_IMPORTED_MODULE_39__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundFormCover', _components_Refund_RefundFormCover_vue__WEBPACK_IMPORTED_MODULE_40__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ContractForm', _components_Refund_ContractForm_vue__WEBPACK_IMPORTED_MODULE_40__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ContractForm', _components_Refund_ContractForm_vue__WEBPACK_IMPORTED_MODULE_41__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ContractTimeEdit', _components_Refund_ContractTimeEdit_vue__WEBPACK_IMPORTED_MODULE_41__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ContractTimeEdit', _components_Refund_ContractTimeEdit_vue__WEBPACK_IMPORTED_MODULE_42__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('Delivery', _components_Refund_Delivery_vue__WEBPACK_IMPORTED_MODULE_42__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('Delivery', _components_Refund_Delivery_vue__WEBPACK_IMPORTED_MODULE_43__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('DepositPenalty', _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_43__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('DepositPenalty', _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_44__["default"]).defaults;
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundSummary', _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_44__["default"]).defaults;
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundSummary', _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_45__["default"]).defaults;
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
@@ -98975,6 +99062,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_91ac6b5c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_91ac6b5c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Dashboard.vue":
+/*!******************************************!*\
+  !*** ./resources/js/views/Dashboard.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dashboard.vue?vue&type=template&id=1f79daf6& */ "./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Dashboard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Dashboard.vue?vue&type=template&id=1f79daf6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Dashboard.vue?vue&type=template&id=1f79daf6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_1f79daf6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

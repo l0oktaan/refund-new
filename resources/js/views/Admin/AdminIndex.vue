@@ -1,11 +1,11 @@
 <template>
-    <h1>Admin Index</h1>
+    <h1>Admin Dashboard</h1>
 </template>
 <script>
 export default {
     data(){
         return{
-            
+
         }
     }
 }
