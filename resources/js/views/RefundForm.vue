@@ -41,6 +41,12 @@
                   </b-col>
               </b-row>
             </b-tab>
+            <b-tab v-for="(tab,index) in tab_forms" :key="index" >
+                <template slot="title">
+                <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
+                <span>{{tab.title}}</span>
+              </template>
+            </b-tab>
             <b-tab>
                 <template slot="title">
                     <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
@@ -64,12 +70,7 @@
                 <delivery></delivery>
                 <deposit-penalty></deposit-penalty>
             </b-tab>
-            <b-tab v-for="(tab,index) in tab_forms" :key="index" >
-                <template slot="title">
-                <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
-                <span>{{tab.title}}</span>
-              </template>
-            </b-tab>
+
             <b-tab :disabled="tabs[2].status == 1">
                 <template slot="title">
                     <h5>สรุปข้อมูล : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
