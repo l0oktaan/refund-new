@@ -18,11 +18,11 @@
                     </b-col>
                     <b-col sm="2">
                         <div class="textFiled">สัญญาเลขที่ :</div>
-                        <div>{{refund.contracts[0].contract_no}}</div>
+                        <div v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_no}}</div>
                     </b-col>
                     <b-col sm="4">
                         <div class="textFiled">คู่สัญญา :</div>
-                        <div>{{refund.contracts[0].contract_party}}</div>
+                        <div v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_party}}</div>
                     </b-col>
                     <b-col sm="2">
                         <div class="textFiled">สถานะรายการ :</div>

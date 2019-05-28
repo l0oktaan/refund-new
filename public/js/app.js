@@ -75450,9 +75450,11 @@ var render = function() {
                       _vm._v("สัญญาเลขที่ :")
                     ]),
                     _vm._v(" "),
-                    _c("div", [
-                      _vm._v(_vm._s(_vm.refund.contracts[0].contract_no))
-                    ])
+                    _vm.refund.contracts.length > 0
+                      ? _c("div", [
+                          _vm._v(_vm._s(_vm.refund.contracts[0].contract_no))
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("b-col", { attrs: { sm: "4" } }, [
@@ -75460,9 +75462,11 @@ var render = function() {
                       _vm._v("คู่สัญญา :")
                     ]),
                     _vm._v(" "),
-                    _c("div", [
-                      _vm._v(_vm._s(_vm.refund.contracts[0].contract_party))
-                    ])
+                    _vm.refund.contracts.length > 0
+                      ? _c("div", [
+                          _vm._v(_vm._s(_vm.refund.contracts[0].contract_party))
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("b-col", { attrs: { sm: "2" } }, [
