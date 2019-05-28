@@ -20,4 +20,9 @@ class FormCondition extends Model
     {
         return $this->belongsTo('App\FormRule');
     }
+
+    public function form_details()
+    {
+        return $this->hasMany('App\FormDetail');
+    }
 }

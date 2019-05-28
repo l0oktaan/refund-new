@@ -14,12 +14,16 @@ class RefundForm extends Model
         'result',
         'status'
     ];
-    
+
     public function refund(){
         return $this->belongsTo('App\Refund');
     }
 
     public function form(){
         return $this->belongsTo('App\Form');
+    }
+
+    public function refund_details(){
+        return $this->hasMany('App\RefundDetail','refund_form_id','id');
     }
 }
