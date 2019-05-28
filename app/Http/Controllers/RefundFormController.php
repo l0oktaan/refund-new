@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Office;
-
+use App\Form;
 use App\Refund;
 use App\RefundForm;
 use Illuminate\Http\Request;
@@ -16,9 +16,9 @@ class RefundFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office, Refund $refund)
     {
-        //
+        return $refund->refund_forms()->get();
     }
 
     /**
@@ -58,7 +58,7 @@ class RefundFormController extends Controller
         // $office->refunds()->save($refund);
         // return response([
         //     'data' => new RefundResource($refund)
-        // ],Response::HTTP_CREATED);        
+        // ],Response::HTTP_CREATED);
     }
 
     /**

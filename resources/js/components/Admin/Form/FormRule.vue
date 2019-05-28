@@ -299,6 +299,8 @@ export default {
 
             this.arr_main_rule = [];
             this.arr_rule_order = [];
+            this.$v.reset;
+
         },
         toCloseRule(){
             this.clearData();

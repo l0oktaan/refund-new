@@ -5052,6 +5052,7 @@ __webpack_require__.r(__webpack_exports__);
       this.r_status = 0;
       this.arr_main_rule = [];
       this.arr_rule_order = [];
+      this.$v.reset;
     },
     toCloseRule: function toCloseRule() {
       this.clearData();
@@ -6975,6 +6976,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -72282,7 +72284,7 @@ var render = function() {
                 expression: "state=='update'"
               }
             ],
-            attrs: { form_id: _vm.form_id }
+            attrs: { form_id: _vm.fid }
           })
         ],
         1
@@ -78066,6 +78068,26 @@ var render = function() {
             2
           ),
           _vm._v(" "),
+          _vm._l(_vm.tab_forms, function(tab, index) {
+            return _c(
+              "b-tab",
+              { key: index },
+              [
+                _c("template", { slot: "title" }, [
+                  _c("h5", [
+                    _vm._v("แบบฟอร์ม :"),
+                    _c("i", {
+                      class: tab.status == 1 ? _vm.icon_check : _vm.icon_uncheck
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(tab.title))])
+                ])
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
           _c(
             "b-tab",
             [
@@ -78135,26 +78157,6 @@ var render = function() {
             ],
             2
           ),
-          _vm._v(" "),
-          _vm._l(_vm.tab_forms, function(tab, index) {
-            return _c(
-              "b-tab",
-              { key: index },
-              [
-                _c("template", { slot: "title" }, [
-                  _c("h5", [
-                    _vm._v("แบบฟอร์ม :"),
-                    _c("i", {
-                      class: tab.status == 1 ? _vm.icon_check : _vm.icon_uncheck
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(tab.title))])
-                ])
-              ],
-              2
-            )
-          }),
           _vm._v(" "),
           _c(
             "b-tab",

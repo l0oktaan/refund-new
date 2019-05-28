@@ -55,7 +55,7 @@
                 </div>
 
             </b-form>
-            <form-rule-list :form_id="form_id" v-show="state=='update'"></form-rule-list>
+            <form-rule-list :form_id="fid" v-show="state=='update'"></form-rule-list>
         </b-card>
 
     </div>
@@ -222,7 +222,6 @@ export default {
                         console.log(error);
                         this.alert = "error";
                     })
-
                 }
                 this.submitStatus = 'PENDING'
                 setTimeout(() => {
