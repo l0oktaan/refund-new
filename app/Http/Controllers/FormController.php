@@ -6,6 +6,8 @@ use App\Form;
 use Illuminate\Http\Request;
 use App\Http\Requests\iFormRequest;
 use App\Http\Resources\FormResource;
+
+use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends Controller
@@ -60,9 +62,7 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        $iForm = new Form;
-        $iForm = Form::find($form->id);
-        return new FormResource($iForm);
+        return new FormResource($form);
     }
 
     /**

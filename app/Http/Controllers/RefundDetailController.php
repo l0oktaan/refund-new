@@ -9,6 +9,7 @@ use App\RefundDetail;
 use RefundFormController;
 use App\Http\Requests\RefundDetailRequest;
 use App\Http\Resources\RefundDetailResource;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class RefundDetailController extends Controller
@@ -41,12 +42,12 @@ class RefundDetailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RefundDetailRequest $request, Office $office, Refund $refund, RefundForm $refund_form)
+    public function store(Request $request, Office $office, Refund $refund, RefundForm $refund_form)
     {
-
+        return $request;
         $detail = new RefundDetail($request->all());
         $refund_form->refund_details()->save($detail);
-        return $detail;
+        return RefundDetailResource::collection($detail);
     }
 
     /**

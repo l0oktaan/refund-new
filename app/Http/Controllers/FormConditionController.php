@@ -19,7 +19,7 @@ class FormConditionController extends Controller
      */
     public function index(Form $form, FormRule $formRule)
     {
-
+        return FormConditionResource::collection($formRule->form_conditions()->get());
         $formCondition = new FormCondition;
         $formCondition = $form->form_conditions()
                             ->where('form_rule_id','=',$formRule->id)

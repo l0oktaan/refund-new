@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Http\Resources\Json\Resource;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\FormRuleResource;
+use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class FormResource extends Resource
 {
@@ -22,6 +24,7 @@ class FormResource extends Resource
             'name2' => $this->name2,
             'name3' => $this->name3,
             'order' => $this->order,
+            'rules' => FormRuleResource::collection($this->form_rules),
             'create_by' => $this->create_by,
             'status' => $this->status
         ];
