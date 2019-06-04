@@ -44,10 +44,20 @@ class RefundDetailController extends Controller
      */
     public function store(Request $request, Office $office, Refund $refund, RefundForm $refund_form)
     {
-        return $request;
-        $detail = new RefundDetail($request->all());
-        $refund_form->refund_details()->save($detail);
-        return RefundDetailResource::collection($detail);
+        if ($request->has('data'))
+        {
+            $details = $request->data;
+            foreach($details as $item)
+            {
+                if (!empty($item))
+                {
+
+                    $detail = new RefundDetail($item);
+                    $refund_form->refund_details()->save($detail);
+                }
+            }
+            return $details;
+        }
     }
 
     /**

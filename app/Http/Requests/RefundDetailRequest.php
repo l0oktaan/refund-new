@@ -24,7 +24,7 @@ class RefundDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'condition_id' => 'required'
+            //'condition_id' => 'required'
         ];
     }
 }

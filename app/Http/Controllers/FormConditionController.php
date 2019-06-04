@@ -74,13 +74,14 @@ class FormConditionController extends Controller
                             ['form_rule_id','=',$formRule->id]
                         ])
                         ->findOrFail($formCondition->id);
-        if ($condition == null){
-            return response(null,Response::HTTP_NOT_FOUND);
-        }else{
-            return response([
-                'data' => new FormConditionResource($condition)
-            ],Response::HTTP_CREATED);
-        }
+        return $condition;
+        // if ($condition == null){
+        //     return response(null,Response::HTTP_NOT_FOUND);
+        // }else{
+        //     return response([
+        //         'data' => new FormConditionResource($condition)
+        //     ],Response::HTTP_CREATED);
+        // }
     }
 
     /**

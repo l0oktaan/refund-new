@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use FormCondition;
 use Illuminate\Database\Eloquent\Model;
 
 class FormRule extends Model
@@ -23,6 +23,6 @@ class FormRule extends Model
     }
 
     public function form_conditions(){
-        return $this->hasMany('App\FormCondition');
+        return $this->hasMany('App\FormCondition','form_rule_id','id');
     }
 }

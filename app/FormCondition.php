@@ -16,6 +16,7 @@ class FormCondition extends Model
         'condition_type',
         'status'
     ];
+
     public function form_rule()
     {
         return $this->belongsTo('App\FormRule');
@@ -25,4 +26,8 @@ class FormCondition extends Model
     {
         return $this->hasMany('App\FormDetail');
     }
+    public function form(){
+        return $this->belongsTo('App\Form');
+    }
+
 }
