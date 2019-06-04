@@ -23,13 +23,13 @@ class Form extends Model
     public function refund_forms(){
         return $this->hasMany('App\RefundForm');
     }
-    /* public function form_conditions(){
+    public function form_conditions(){
         return $this->hasManyThrough(
             'App\FormCondition',
             'App\FormRule',
             'form_id',
             'form_rule_id'
         );
-    } */
+    }
 }
 
