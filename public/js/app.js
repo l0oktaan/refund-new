@@ -6196,6 +6196,71 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['form_id'],
+  data: function data() {
+    return {
+      form_rule: []
+    };
+  },
+  mounted: function mounted() {
+    console.log('get form rule');
+    this.fetchData();
+  },
+  methods: {
+    fetchData: function fetchData() {
+      var _this = this;
+
+      var path = "/api/forms/".concat(this.form_id, "/form_rules");
+      axios.get(path).then(function (response) {
+        _this.form_rule = response.data.data;
+      });
+    },
+    getRule: function getRule() {
+      var main_rule = this.form_rule.filter(function (rule) {
+        return rule.sub_of == 0;
+      });
+      return main_rule;
+    },
+    getSubRule: function getSubRule(id) {
+      var sub_rule = this.form_rule.filter(function (rule) {
+        return rule.sub_of == id;
+      });
+      return sub_rule;
+    }
+  },
+  computed: {
+    rulename: function rulename(order, name) {
+      return "".concat(order, " ").concat(name);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCover.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/RefundCover.vue?vue&type=script&lang=js& ***!
@@ -7064,6 +7129,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7201,7 +7271,7 @@ __webpack_require__.r(__webpack_exports__);
                   result: 0,
                   status: 0
                 }).then(function (response) {
-                  _this2.refund_forms.push(response.data);
+                  _this2.refund_forms.push(response.data.data);
 
                   _this2.tab_forms.push({
                     title: 'ฟอร์มหมายเลข :' + _this2.arrFormSelected[i].order,
@@ -75373,6 +75443,56 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "b-list-group",
+        _vm._l(_vm.getRule(), function(rule, index) {
+          return _c("b-list-group-item", { key: index }, [
+            _c("div", [
+              _c("h4", [_vm._v(_vm._s(rule.name))]),
+              _vm._v(" "),
+              _c(
+                "ul",
+                _vm._l(_vm.getSubRule(rule.id), function(sub_rule, index) {
+                  return _c("li", { key: index }, [
+                    _vm._v(_vm._s(sub_rule.name))
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        }),
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCover.vue?vue&type=template&id=3e79d6da&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/RefundCover.vue?vue&type=template&id=3e79d6da&scoped=true& ***!
@@ -78086,7 +78206,17 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("span", [_vm._v(_vm._s(tab.title))])
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-row",
+                  [
+                    _c("refund-check", {
+                      attrs: { form_id: _vm.refund_forms[index].form_id }
+                    })
+                  ],
+                  1
+                )
               ],
               2
             )
@@ -78188,7 +78318,15 @@ var render = function() {
         2
       ),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.tabIndex))])
+      _c("p", [_vm._v(_vm._s(_vm.tabIndex))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("is select" + _vm._s(_vm.isSelect))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("select" + _vm._s(_vm.arrFormSelected))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("refund form" + _vm._s(_vm.refund_forms))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("tabs" + _vm._s(_vm.tab_forms))])
     ],
     1
   )
@@ -96698,6 +96836,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Refund_Delivery_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./components/Refund/Delivery.vue */ "./resources/js/components/Refund/Delivery.vue");
 /* harmony import */ var _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./components/Refund/DepositPenalty.vue */ "./resources/js/components/Refund/DepositPenalty.vue");
 /* harmony import */ var _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./components/Refund/RefundSummary.vue */ "./resources/js/components/Refund/RefundSummary.vue");
+/* harmony import */ var _components_Refund_RefundCheck_vue__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./components/Refund/RefundCheck.vue */ "./resources/js/components/Refund/RefundCheck.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -96877,6 +97016,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('Delivery', _components_Ref
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('DepositPenalty', _components_Refund_DepositPenalty_vue__WEBPACK_IMPORTED_MODULE_44__["default"]).defaults;
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundSummary', _components_Refund_RefundSummary_vue__WEBPACK_IMPORTED_MODULE_45__["default"]).defaults;
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('RefundCheck', _components_Refund_RefundCheck_vue__WEBPACK_IMPORTED_MODULE_46__["default"]).defaults;
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
@@ -98353,6 +98494,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundBreadcrumb_vue_vue_type_template_id_19f2e1d7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundBreadcrumb_vue_vue_type_template_id_19f2e1d7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Refund/RefundCheck.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Refund/RefundCheck.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RefundCheck.vue?vue&type=template&id=faf6d538& */ "./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538&");
+/* harmony import */ var _RefundCheck_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RefundCheck.vue?vue&type=script&lang=js& */ "./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RefundCheck_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Refund/RefundCheck.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundCheck_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./RefundCheck.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCheck.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundCheck_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./RefundCheck.vue?vue&type=template&id=faf6d538& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundCheck.vue?vue&type=template&id=faf6d538&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RefundCheck_vue_vue_type_template_id_faf6d538___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

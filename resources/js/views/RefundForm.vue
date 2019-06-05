@@ -41,12 +41,17 @@
                   </b-col>
               </b-row>
             </b-tab>
+            <!--================================= Tab Form ==================================-->
             <b-tab v-for="(tab,index) in tab_forms" :key="index" >
                 <template slot="title">
                 <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
+              <b-row>
+                  <refund-check :form_id="refund_forms[index].form_id"></refund-check>
+              </b-row>
             </b-tab>
+            <!--==================================== Tab Form End =====================================-->
             <b-tab>
                 <template slot="title">
                     <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
@@ -80,10 +85,10 @@
             </b-tab>
           </b-tabs>
           <p>{{tabIndex}}</p>
-            <!-- <p>is select{{isSelect}}</p>
+            <p>is select{{isSelect}}</p>
             <p>select{{arrFormSelected}}</p>
             <p>refund form{{refund_forms}}</p>
-            <p>tabs{{tab_forms}}</p> -->
+            <p>tabs{{tab_forms}}</p>
     </div>
 </template>
 <script>
@@ -199,6 +204,7 @@ export default {
 
                 }).then(isConfirm =>{
                     if (isConfirm){
+
                         var refund = {};
                         var path = '';
                         // Create Refund
@@ -218,7 +224,7 @@ export default {
                                     status: 0
                                 })
                                 .then(response=>{
-                                    this.refund_forms.push(response.data);
+                                    this.refund_forms.push(response.data.data);
                                     this.tab_forms.push(
                                         {title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order, status : 0}
                                     );

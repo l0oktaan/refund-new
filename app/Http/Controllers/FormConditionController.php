@@ -69,19 +69,24 @@ class FormConditionController extends Controller
     public function show(Form $form, FormRule $formRule, FormCondition $formCondition)
     {
         $condition = new FormCondition;
+        // return $form->form_conditions()
+        //     ->where([
+        //         ['form_rule_id','=',$formRule->id]
+        //     ])
+        //     ->get();
         $condition = $form->form_conditions()
                         ->where([
                             ['form_rule_id','=',$formRule->id]
                         ])
                         ->findOrFail($formCondition->id);
-        return $condition;
-        // if ($condition == null){
-        //     return response(null,Response::HTTP_NOT_FOUND);
-        // }else{
-        //     return response([
-        //         'data' => new FormConditionResource($condition)
-        //     ],Response::HTTP_CREATED);
-        // }
+
+        if ($condition == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            return response([
+                'data' => new FormConditionResource($condition)
+            ],Response::HTTP_CREATED);
+        }
     }
 
     /**

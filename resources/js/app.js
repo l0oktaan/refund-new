@@ -224,6 +224,8 @@ Vue.component('DepositPenalty', DepositPenalty).defaults;
 import RefundSummary from './components/Refund/RefundSummary.vue';
 Vue.component('RefundSummary', RefundSummary).defaults;
 
+import RefundCheck from './components/Refund/RefundCheck.vue';
+Vue.component('RefundCheck', RefundCheck).defaults;
 const app = new Vue({
     el: '#app',
     components: { App },

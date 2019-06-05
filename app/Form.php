@@ -18,7 +18,8 @@ class Form extends Model
     ];
 
     public function form_rules(){
-        return $this->hasMany('App\FormRule');
+        return $this->hasMany('App\FormRule')
+            ->orderBy('order');
     }
     public function refund_forms(){
         return $this->hasMany('App\RefundForm');
