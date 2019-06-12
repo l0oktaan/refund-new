@@ -17,6 +17,8 @@ class FormRuleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index(Form $form)
     {
 
@@ -57,6 +59,7 @@ class FormRuleController extends Controller
     {
         $form_rule = new FormRule($request->all());
         $form->form_rules()->save($form_rule);
+        //$form_rule_new = new FormRuleResource($form_rule);
         return response([
             'data' => new FormRuleResource($form_rule)
         ],Response::HTTP_CREATED);

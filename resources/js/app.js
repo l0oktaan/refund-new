@@ -52,6 +52,7 @@ import RefundDashboard from './views/Dashboard.vue'
 import Office from './views/Office.vue'
 import RefundList from './views/RefundList.vue'
 import RefundForm from './views/RefundForm.vue'
+import RefundFormTest from './views/RefundFormTest.vue'
 
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
@@ -110,6 +111,14 @@ const router = new VueRouter({
                     component: RefundForm,
                     meta: {
                         breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                    }
+
+                },
+                {
+                    path: 'form/:id',
+                    component: RefundFormTest,
+                    meta: {
+                        breadCrumb: `แบบถอนคืนเงินรายได้ เลขที่` //crumb
                     }
 
                 },
