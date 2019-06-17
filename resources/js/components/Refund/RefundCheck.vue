@@ -1,6 +1,6 @@
 <template>
 <div class="animated fadeIn">
-        <b-card no-body class="sub_rule" v-for="(rule,index) in form_rule_list" :key="index">
+        <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
             <b-card-body class="pb-0 sub_rule">
                 <b-row align-v="center">
                     <b-col>
@@ -32,6 +32,7 @@
                                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                                 style="padding-top:4px; line-height:0px;"
                                 v-if="condition.condition_type == 1"
+
                             />
                             <b-form-input type="text" v-else></b-form-input>
                         </div>
@@ -39,7 +40,8 @@
                 </b-row>
             </b-card-body>
         </b-card>
-        {{form_rule_list}}
+        <p>{{form_rule_list}}</p>
+        <p>{{condition_list}}</p>
     </div>
     <!-- <div>
         <b-list-group>
@@ -73,6 +75,7 @@ export default {
     methods: {
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules`;
+            var arr = [];
             axios.get(path)
             .then(response=>{
                 this.form_rule = response.data.data;
@@ -81,7 +84,24 @@ export default {
                 for (let i = 0 ; i < this.form_rule_list.length ; i++){
                     Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
                     //Object.assign(this.form_rule_list[i],{result: ''});
+                    if (this.form_rule_list[i]['sub_rules'].length > 0){
+                        for (let j=0 ; j < this.form_rule_list[i]['sub_rules'].length ; j++){
+                            arr.push({
+                                main_rule: this.form_rule_list[i]['id'],
+                                result_type: this.form_rule_list[i]['result_type'],
+                                condition: this.form_rule_list[i]['sub_rules'][j]['name']
+                            })
+                        }
+                    }else{
+                        arr.push({
+                            main_rule: this.form_rule_list[i]['id'],
+                            result_type: this.form_rule_list[i]['result_type'],
+                            condition: this.form_rule_list[i]['conditions'][0]['name']
+                        });
+                        console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);
+                    }
                 }
+                this.condition_list = arr;
             })
         },
         createConditionList(){
@@ -97,7 +117,7 @@ export default {
         addDefaultResult(){
             var arr = this.form_rule;
             this.form_rule.forEach(function(element,index,arr){
-                Object.assign(arr[index],{result: 'xxx'});
+                Object.assign(arr[index],{result: false});
             });
             this.form_rule = arr;
         },

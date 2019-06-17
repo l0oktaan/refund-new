@@ -6261,6 +6261,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
@@ -6279,6 +6281,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var path = "/api/forms/".concat(this.form_id, "/form_rules");
+      var arr = [];
       axios.get(path).then(function (response) {
         _this.form_rule = response.data.data;
 
@@ -6290,7 +6293,26 @@ __webpack_require__.r(__webpack_exports__);
           Object.assign(_this.form_rule_list[i], {
             sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
           }); //Object.assign(this.form_rule_list[i],{result: ''});
+
+          if (_this.form_rule_list[i]['sub_rules'].length > 0) {
+            for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
+              arr.push({
+                main_rule: _this.form_rule_list[i]['id'],
+                result_type: _this.form_rule_list[i]['result_type'],
+                condition: _this.form_rule_list[i]['sub_rules'][j]['name']
+              });
+            }
+          } else {
+            arr.push({
+              main_rule: _this.form_rule_list[i]['id'],
+              result_type: _this.form_rule_list[i]['result_type'],
+              condition: _this.form_rule_list[i]['conditions'][0]['name']
+            });
+            console.log('Sub Rule ID :' + _this.form_rule_list[i]['name']);
+          }
         }
+
+        _this.condition_list = arr;
       });
     },
     createConditionList: function createConditionList() {
@@ -6309,7 +6331,7 @@ __webpack_require__.r(__webpack_exports__);
       var arr = this.form_rule;
       this.form_rule.forEach(function (element, index, arr) {
         Object.assign(arr[index], {
-          result: 'xxx'
+          result: false
         });
       });
       this.form_rule = arr;
@@ -75614,10 +75636,10 @@ var render = function() {
     "div",
     { staticClass: "animated fadeIn" },
     [
-      _vm._l(_vm.form_rule_list, function(rule, index) {
+      _vm._l(_vm.form_rule_list, function(rule, x_index) {
         return _c(
           "b-card",
-          { key: index, staticClass: "sub_rule", attrs: { "no-body": "" } },
+          { key: x_index, staticClass: "sub_rule", attrs: { "no-body": "" } },
           [
             _c(
               "b-card-body",
@@ -75757,7 +75779,10 @@ var render = function() {
           1
         )
       }),
-      _vm._v("\n        " + _vm._s(_vm.form_rule_list) + "\n    ")
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.form_rule_list))]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.condition_list))])
     ],
     2
   )
