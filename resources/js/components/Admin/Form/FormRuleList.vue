@@ -25,6 +25,7 @@
                         :form_id="form_id"
                         @editRule="editRule2"
                         @addSubRule="addSubRule"
+                        @fetchRule="fetchData"
                     >
                     </rule-cover>
                     <b-table :items="rules" :fields="tableFileds" striped v-if="false">

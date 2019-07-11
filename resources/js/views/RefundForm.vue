@@ -197,6 +197,7 @@ export default {
                     title: "กรุณาตรวจสอบข้อมูล",
                     text: "หากบันทึกแล้วจะไม่สามารถเพิ่มฟอร์มใหม่ได้",
                     icon: "warning",
+                    closeOnClickOutside: false,
                     buttons: [
                         'ยกเลิก',
                         'ยืนยัน'

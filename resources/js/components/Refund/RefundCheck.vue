@@ -83,7 +83,7 @@ export default {
                 this.form_rule_list = this.getMainRule();
                 for (let i = 0 ; i < this.form_rule_list.length ; i++){
                     Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
-                    //Object.assign(this.form_rule_list[i],{result: ''});
+
                     if (this.form_rule_list[i]['sub_rules'].length > 0){
                         for (let j=0 ; j < this.form_rule_list[i]['sub_rules'].length ; j++){
                             arr.push({

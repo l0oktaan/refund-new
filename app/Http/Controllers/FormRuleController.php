@@ -121,8 +121,12 @@ class FormRuleController extends Controller
      */
     public function destroy(Form $form, FormRule $formRule)
     {
-        if ($formRule->form_id = $form->id){
+        if ($formRule->form_id == $form->id){
             $formRule->delete();
+            $form_rules = new FormRule;
+            $form_rules = $form->form_rules()
+                        ->where('sub_of','=',$formRule->id)
+                        ->delete();
             return response(null,Response::HTTP_CREATED);
         }else{
             return response(null,Response::HTTP_NOT_FOUND);

@@ -107,7 +107,8 @@ export default {
         rule_id(){
             if (this.rule_id >= 0){
                 if (this.rule_id == 0){
-                    this.state = 'new';
+                    //this.state = 'new';
+                    this.clearData();
                     this.getMainRule();
                     if (this.main_rule != 0){
                     this.r_rule_type = 2;

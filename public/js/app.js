@@ -4836,7 +4836,8 @@ __webpack_require__.r(__webpack_exports__);
     rule_id: function rule_id() {
       if (this.rule_id >= 0) {
         if (this.rule_id == 0) {
-          this.state = 'new';
+          //this.state = 'new';
+          this.clearData();
           this.getMainRule();
 
           if (this.main_rule != 0) {
@@ -5073,6 +5074,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5724,6 +5726,24 @@ __webpack_require__.r(__webpack_exports__);
       this.c_rule_id = rule_id;
       this.$refs['modalCondition'].show();
     },
+    delRule: function delRule(id) {
+      var _this2 = this;
+
+      this.$swal({
+        title: "กรุณายืนยันการลบหลักเกณฑ์",
+        text: "หากยืนยันการลบ หลักเกณฑ์ย่อยและเงื่อนไขจะถูกลบไปด้วย",
+        icon: "error",
+        closeOnClickOutside: false,
+        buttons: ['ยกเลิก', 'ยืนยัน']
+      }).then(function (isConfirm) {
+        if (isConfirm) {
+          var path = "/api/forms/".concat(_this2.form_id, "/form_rules/").concat(id);
+          axios["delete"](path).then(function (response) {
+            _this2.$emit('fetchRule');
+          });
+        }
+      });
+    },
     resetModalRule: function resetModalRule() {
       this.c_rule_id = 0;
     }
@@ -6292,7 +6312,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < _this.form_rule_list.length; i++) {
           Object.assign(_this.form_rule_list[i], {
             sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
-          }); //Object.assign(this.form_rule_list[i],{result: ''});
+          });
 
           if (_this.form_rule_list[i]['sub_rules'].length > 0) {
             for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
@@ -7353,6 +7373,7 @@ __webpack_require__.r(__webpack_exports__);
           title: "กรุณาตรวจสอบข้อมูล",
           text: "หากบันทึกแล้วจะไม่สามารถเพิ่มฟอร์มใหม่ได้",
           icon: "warning",
+          closeOnClickOutside: false,
           buttons: ['ยกเลิก', 'ยืนยัน']
         }).then(function (isConfirm) {
           if (isConfirm) {
@@ -36127,7 +36148,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.card-body[data-v-a48813a4]{\r\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\r\n    padding: 5px!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.card-body[data-v-a48813a4]{\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\n    padding: 5px!important;\n}\n", ""]);
 
 // exports
 
@@ -36146,7 +36167,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-c8557b8a]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\r\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\r\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\r\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\r\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\r\n    color: rgb(97, 97, 97)!important;\r\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\r\n    margin-right: 5px;\n}\r\n", ""]);
+exports.push([module.i, "\n.btn[data-v-c8557b8a]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\n    color: rgb(97, 97, 97)!important;\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\n    margin-right: 5px;\n}\n", ""]);
 
 // exports
 
@@ -72896,7 +72917,8 @@ var render = function() {
                       attrs: { rule: rule, form_id: _vm.form_id },
                       on: {
                         editRule: _vm.editRule2,
-                        addSubRule: _vm.addSubRule
+                        addSubRule: _vm.addSubRule,
+                        fetchRule: _vm.fetchData
                       }
                     })
                   }),
@@ -73188,10 +73210,20 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    _c("b-dropdown-item", [
-                      _c("i", { staticClass: "fas fa-trash" }),
-                      _vm._v(" ลบหลักเกณฑ์")
-                    ])
+                    _c(
+                      "b-dropdown-item",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.delRule(_vm.rule.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-trash" }),
+                        _vm._v(" ลบหลักเกณฑ์")
+                      ]
+                    )
                   ],
                   2
                 ),
@@ -73337,10 +73369,20 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _c("b-dropdown-item", [
-                              _c("i", { staticClass: "fas fa-trash" }),
-                              _vm._v(" ลบหลักเกณฑ์ย่อย")
-                            ])
+                            _c(
+                              "b-dropdown-item",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.delRule(sub_rule.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-trash" }),
+                                _vm._v(" ลบหลักเกณฑ์ย่อย")
+                              ]
+                            )
                           ],
                           2
                         ),
