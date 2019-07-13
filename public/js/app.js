@@ -6386,7 +6386,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       form_rule: [],
       form_rule_list: [],
-      condition_list: []
+      condition_list: [],
+      result_list: []
     };
   },
   mounted: function mounted() {
@@ -6399,6 +6400,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var path = "/api/forms/".concat(this.form_id, "/form_rules");
       var arr = [];
+      var result = [];
       axios.get(path).then(function (response) {
         _this.form_rule = response.data.data;
 
@@ -6447,9 +6449,21 @@ __webpack_require__.r(__webpack_exports__);
     addDefaultResult: function addDefaultResult() {
       var arr = this.form_rule;
       this.form_rule.forEach(function (element, index, arr) {
-        Object.assign(arr[index], {
-          result: false
-        });
+        if (arr[index]['conditions'].length > 0) {
+          if (arr[index]['conditions'][0]['condition_type'] == 1) {
+            Object.assign(arr[index], {
+              result: false
+            });
+          } else {
+            Object.assign(arr[index], {
+              result: ''
+            });
+          }
+        } else {
+          Object.assign(arr[index], {
+            result: false
+          });
+        }
       });
       this.form_rule = arr;
     },

@@ -63,7 +63,8 @@ export default {
         return {
             form_rule: [],
             form_rule_list: [],
-            condition_list: []
+            condition_list: [],
+            result_list:[]
         }
     },
     mounted() {
@@ -76,6 +77,7 @@ export default {
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules`;
             var arr = [];
+            var result = [];
             axios.get(path)
             .then(response=>{
                 this.form_rule = response.data.data;
@@ -89,7 +91,7 @@ export default {
                             arr.push({
                                 main_rule: this.form_rule_list[i]['id'],
                                 result_type: this.form_rule_list[i]['result_type'],
-                                condition: this.form_rule_list[i]['sub_rules'][j]['name']
+                                condition: this.form_rule_list[i]['sub_rules'][j]['name'],
                             })
                         }
                     }else{
@@ -117,7 +119,16 @@ export default {
         addDefaultResult(){
             var arr = this.form_rule;
             this.form_rule.forEach(function(element,index,arr){
-                Object.assign(arr[index],{result: false});
+                if (arr[index]['conditions'].length > 0){
+                    if (arr[index]['conditions'][0]['condition_type'] == 1){
+                        Object.assign(arr[index],{result: false});
+                    }else{
+                        Object.assign(arr[index],{result: ''});
+                    }
+                }else{
+                    Object.assign(arr[index],{result: false});
+                }
+
             });
             this.form_rule = arr;
         },
