@@ -6,6 +6,7 @@
                     <b-col>
                         <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name + '. ' + rule.result}}</span>
 
+
                     </b-col>
                     <b-col>
                         <div v-for="condition in rule.conditions" :key="condition.id" >
@@ -39,7 +40,7 @@
                 </b-row>
             </b-card-body>
         </b-card>
-        <p>{{form_rule}}</p>
+        <p>{{form_rule_list}}</p>
         <p>{{condition_list}}</p>
     </div>
     <!-- <div>
@@ -81,6 +82,28 @@ export default {
             .then(response=>{
                 this.form_rule = response.data.data;
                 this.addDefaultResult();
+                this.form_rule_list = this.getMainRule();
+                for (let i = 0 ; i < this.form_rule_list.length ; i++){
+                    Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
+
+                    if (this.form_rule_list[i]['sub_rules'].length > 0){
+                        for (let j=0 ; j < this.form_rule_list[i]['sub_rules'].length ; j++){
+                            arr.push({
+                                main_rule: this.form_rule_list[i]['id'],
+                                result_type: this.form_rule_list[i]['result_type'],
+                                condition: this.form_rule_list[i]['sub_rules'][j]['name'],
+                            })
+                        }
+                    }else{
+                        arr.push({
+                            main_rule: this.form_rule_list[i]['id'],
+                            result_type: this.form_rule_list[i]['result_type'],
+                            condition: this.form_rule_list[i]['conditions'][0]['name']
+                        });
+                        console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);
+                    }
+                }
+                this.condition_list = arr;
             })
         },
         createConditionList(){
@@ -96,10 +119,14 @@ export default {
         addDefaultResult(){
             var arr = this.form_rule;
             this.form_rule.forEach(function(element,index,arr){
-                if (arr[index]['condition_type'] == 1){
-                    Object.assign(arr[index],{result: false});
+                if (arr[index]['conditions'].length > 0){
+                    if (arr[index]['conditions'][0]['condition_type'] == 1){
+                        Object.assign(arr[index],{result: false});
+                    }else{
+                        Object.assign(arr[index],{result: ''});
+                    }
                 }else{
-                    Object.assign(arr[index],{result: ''});
+                    Object.assign(arr[index],{result: false});
                 }
 
             });

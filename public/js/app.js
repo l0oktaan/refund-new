@@ -4505,6 +4505,24 @@ __webpack_require__.r(__webpack_exports__);
       //this.$root.$emit('onShowForm');
       //this.$root.$emit('bv::show::modal', 'modalForm');
       this.$emit('onShowForm', this.form_id);
+    },
+    delForm: function delForm() {
+      var _this = this;
+
+      this.$swal({
+        title: "กรุณายืนยันการลบแบบฟอร์ม",
+        text: "หากยืนยันการลบ หลักเกณฑ์และเงื่อนไขจะถูกลบไปด้วย",
+        icon: "error",
+        closeOnClickOutside: false,
+        buttons: ['ยกเลิก', 'ยืนยัน']
+      }).then(function (isConfirm) {
+        if (isConfirm) {
+          var path = "/api/forms/".concat(_this.form_id);
+          axios["delete"](path).then(function (response) {
+            _this.$emit('fetchForm');
+          });
+        }
+      });
     }
   }
 });
@@ -4883,6 +4901,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4905,7 +4955,10 @@ __webpack_require__.r(__webpack_exports__);
       r_rule_type: 0,
       r_sub_of: 0,
       r_result_type: 0,
-      r_status: 0,
+      c_name: '',
+      c_description: '',
+      c_type: 0,
+      r_status: 1,
       arr_rule_type: [{
         value: 1,
         text: 'หลักเกณฑ์หลัก'
@@ -4924,6 +4977,13 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         value: 2,
         text: 'ข้อใดข้อหนึ่ง'
+      }],
+      arr_c_type: [{
+        value: 1,
+        text: 'ใช่หรือไม่'
+      }, {
+        value: 2,
+        text: 'กำหนดค่า'
       }],
       state: 'new',
       alert: ''
@@ -4978,6 +5038,9 @@ __webpack_require__.r(__webpack_exports__);
           sub_of: this.r_sub_of,
           rule_type: this.r_rule_type,
           result_type: 0,
+          condition: this.c_name,
+          condition_type: this.c_type,
+          description: this.c_description,
           status: this.r_status
         }).then(function (response) {
           rule = response.data.data;
@@ -4994,7 +5057,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.r_order = rule.order;
           _this.r_sub_of = rule.sub_of;
           _this.r_result_type = rule.result_type;
-          ;
+          _this.c_name = rule.condition;
+          _this.c_type = rule.condition_type;
+          _this.c_description = rule.description;
           _this.r_status = rule.status;
           _this.state == 'update';
 
@@ -5014,6 +5079,9 @@ __webpack_require__.r(__webpack_exports__);
           rule_type: this.r_rule_type,
           result_type: this.r_result_type,
           sub_of: this.r_sub_of,
+          condition: this.c_name,
+          condition_type: this.c_type,
+          description: this.c_description,
           status: this.r_status
         }).then(function (response) {
           rule = response.data.data;
@@ -5030,6 +5098,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.r_order = rule.order;
           _this.r_sub_of = rule.sub_of;
           _this.r_result_type = rule.result_type;
+          _this.c_name = rule.condition;
+          _this.c_type = rule.condition_type;
+          _this.c_description = rule.description;
           _this.r_status = rule.status;
           _this.state == 'update';
 
@@ -5062,6 +5133,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.r_order = rule.order;
         _this2.r_sub_of = rule.sub_of;
         _this2.r_result_type = rule.result_type;
+        _this2.c_name = rule.condition;
+        _this2.c_type = rule.condition_type;
+        _this2.c_description = rule.description;
         _this2.r_status = rule.status;
 
         _this2.$forceUpdate();
@@ -5148,12 +5222,15 @@ __webpack_require__.r(__webpack_exports__);
       this.r_rule_type = -1;
       this.r_result_type = 0;
       this.r_status = 0;
+      this.c_name = '';
+      this.c_description = '';
+      this.c_type = 0;
       this.arr_main_rule = [];
       this.arr_rule_order = [];
-      this.$v.reset;
     },
     toCloseRule: function toCloseRule() {
       this.clearData();
+      this.$v.reset;
       this.$root.$emit('bv::hide::modal', 'modalRule');
       this.$root.$emit('fetchData');
     }
@@ -6379,7 +6456,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
@@ -6405,33 +6481,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.form_rule = response.data.data;
 
         _this.addDefaultResult();
-
-        _this.form_rule_list = _this.getMainRule();
-
-        for (var i = 0; i < _this.form_rule_list.length; i++) {
-          Object.assign(_this.form_rule_list[i], {
-            sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
-          });
-
-          if (_this.form_rule_list[i]['sub_rules'].length > 0) {
-            for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
-              arr.push({
-                main_rule: _this.form_rule_list[i]['id'],
-                result_type: _this.form_rule_list[i]['result_type'],
-                condition: _this.form_rule_list[i]['sub_rules'][j]['name']
-              });
-            }
-          } else {
-            arr.push({
-              main_rule: _this.form_rule_list[i]['id'],
-              result_type: _this.form_rule_list[i]['result_type'],
-              condition: _this.form_rule_list[i]['conditions'][0]['name']
-            });
-            console.log('Sub Rule ID :' + _this.form_rule_list[i]['name']);
-          }
-        }
-
-        _this.condition_list = arr;
       });
     },
     createConditionList: function createConditionList() {
@@ -6449,19 +6498,13 @@ __webpack_require__.r(__webpack_exports__);
     addDefaultResult: function addDefaultResult() {
       var arr = this.form_rule;
       this.form_rule.forEach(function (element, index, arr) {
-        if (arr[index]['conditions'].length > 0) {
-          if (arr[index]['conditions'][0]['condition_type'] == 1) {
-            Object.assign(arr[index], {
-              result: false
-            });
-          } else {
-            Object.assign(arr[index], {
-              result: ''
-            });
-          }
-        } else {
+        if (arr[index]['condition_type'] == 1) {
           Object.assign(arr[index], {
             result: false
+          });
+        } else {
+          Object.assign(arr[index], {
+            result: ''
           });
         }
       });
@@ -7082,6 +7125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -36221,7 +36265,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\r\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\r\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\r\n    color: #000!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\n    color: #000!important;\n}\n", ""]);
 
 // exports
 
@@ -36468,7 +36512,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\r\n    border-radius: 50%;\r\n    width: 45px;\r\n    height: 45px;\r\n    padding: 0px;\r\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\r\n    vertical-align: middle!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\n    border-radius: 50%;\n    width: 45px;\n    height: 45px;\n    padding: 0px;\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\n    vertical-align: middle!important;\n}\n", ""]);
 
 // exports
 
@@ -72367,7 +72411,7 @@ var render = function() {
                         _vm._v(" แก้ไขแบบฟอร์ม")
                       ]),
                       _vm._v(" "),
-                      _c("b-dropdown-item", [
+                      _c("b-dropdown-item", { on: { click: _vm.delForm } }, [
                         _c("i", { staticClass: "fas fa-trash" }),
                         _vm._v(" ลบแบบฟอร์ม")
                       ])
@@ -72881,6 +72925,87 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
+            "b-form-group",
+            [
+              _c("label", { attrs: { for: "name" } }, [
+                _vm._v("รายละเอียดเงื่อนไข")
+              ]),
+              _vm._v(" "),
+              _c("b-form-input", {
+                attrs: {
+                  type: "text",
+                  placeholder: "รายละเอียดเงื่อนไข",
+                  name: "name"
+                },
+                model: {
+                  value: _vm.c_name,
+                  callback: function($$v) {
+                    _vm.c_name = $$v
+                  },
+                  expression: "c_name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-form-group",
+            [
+              _c("label", { attrs: { for: "description" } }, [
+                _vm._v("คำอธิบาย")
+              ]),
+              _vm._v(" "),
+              _c("b-form-input", {
+                attrs: {
+                  type: "text",
+                  placeholder: "คำอธิบาย",
+                  name: "description"
+                },
+                model: {
+                  value: _vm.c_description,
+                  callback: function($$v) {
+                    _vm.c_description = $$v
+                  },
+                  expression: "c_description"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                { attrs: { sm: "6" } },
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "ประเภทเงื่อนไข" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: { options: _vm.arr_c_type, name: "c_type" },
+                        model: {
+                          value: _vm.c_type,
+                          callback: function($$v) {
+                            _vm.c_type = $$v
+                          },
+                          expression: "c_type"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
             "div",
             { staticClass: "text-center" },
             [
@@ -73272,23 +73397,6 @@ var render = function() {
                       _vm._v(" แก้ไขหลักเกณฑ์")
                     ]),
                     _vm._v(" "),
-                    _vm.rule.sub_rules.length == 0
-                      ? _c(
-                          "b-dropdown-item",
-                          {
-                            on: {
-                              click: function($event) {
-                                return _vm.showCondition(_vm.rule.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fas fa-link" }),
-                            _vm._v(" ข้อมูลเงื่อนไข")
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c(
                       "b-dropdown-item",
                       {
@@ -73430,21 +73538,6 @@ var render = function() {
                               [
                                 _c("i", { staticClass: "fas fa-edit" }),
                                 _vm._v(" แก้ไขหลักเกณฑ์ย่อย")
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "b-dropdown-item",
-                              {
-                                on: {
-                                  click: function($event) {
-                                    return _vm.showCondition(sub_rule.id)
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-link" }),
-                                _vm._v(" ข้อมูลเงื่อนไข")
                               ]
                             ),
                             _vm._v(" "),
@@ -75901,7 +75994,7 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.form_rule_list))]),
+      _c("p", [_vm._v(_vm._s(_vm.form_rule))]),
       _vm._v(" "),
       _c("p", [_vm._v(_vm._s(_vm.condition_list))])
     ],
@@ -78180,7 +78273,7 @@ var render = function() {
               name2: form.name2,
               order: form.order
             },
-            on: { onShowForm: _vm.showForm }
+            on: { onShowForm: _vm.showForm, fetchForm: _vm.fetchData }
           })
         }),
         1

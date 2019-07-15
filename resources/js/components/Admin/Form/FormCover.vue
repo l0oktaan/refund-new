@@ -9,7 +9,7 @@
                 </template>
                 <b-dropdown-item><i class="fas fa-align-justify"></i>&nbsp;แสดงแบบฟอร์ม</b-dropdown-item>
                 <b-dropdown-item @click="showForm"><i class="fas fa-edit"></i>&nbsp;แก้ไขแบบฟอร์ม</b-dropdown-item>
-                <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบแบบฟอร์ม</b-dropdown-item>
+                <b-dropdown-item @click="delForm"><i class="fas fa-trash"></i>&nbsp;ลบแบบฟอร์ม</b-dropdown-item>
                 </b-dropdown>
                 <h4 class="mb-0">ฟอร์มหมายเลข {{order}}</h4>
                 <p>{{name1}}</p>
@@ -72,7 +72,29 @@ export default {
             //this.$root.$emit('onShowForm');
             //this.$root.$emit('bv::show::modal', 'modalForm');
             this.$emit('onShowForm',this.form_id);
-        }
+        },
+        delForm(){
+            this.$swal({
+                    title: "กรุณายืนยันการลบแบบฟอร์ม",
+                    text: "หากยืนยันการลบ หลักเกณฑ์และเงื่อนไขจะถูกลบไปด้วย",
+                    icon: "error",
+                    closeOnClickOutside: false,
+                    buttons: [
+                        'ยกเลิก',
+                        'ยืนยัน'
+                    ],
+
+                }).then(isConfirm =>{
+                    if (isConfirm){
+                        let path = `/api/forms/${this.form_id}`;
+                        axios.delete(path)
+                        .then(response=>{
+                            this.$emit('fetchForm');
+                        })
+                    }
+
+                });
+        },
     }
 }
 </script>

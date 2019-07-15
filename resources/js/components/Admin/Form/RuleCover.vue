@@ -10,7 +10,7 @@
                     </template>
                         <b-dropdown-item @click="addSubRule(rule.id)"><i class="fas fa-plus"></i>&nbsp;เพิ่มหลักเกณฑ์ย่อย</b-dropdown-item>
                         <b-dropdown-item @click="editRule"><i class="fas fa-edit"></i>&nbsp;แก้ไขหลักเกณฑ์</b-dropdown-item>
-                        <b-dropdown-item @click="showCondition(rule.id)" v-if="rule.sub_rules.length == 0"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
+                        <!--b-dropdown-item @click="showCondition(rule.id)" v-if="rule.sub_rules.length == 0"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item-->
                         <b-dropdown-item @click="delRule(rule.id)"><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์</b-dropdown-item>
                     </b-dropdown>
                     <b-form-group label="ตัวเลือกหลักย่อย" v-if="rule.sub_rules.length != 0" class="float-right">
@@ -47,7 +47,7 @@
                         <i class="icon-settings sub_rule"></i>
                     </template>
                         <b-dropdown-item @click="editSubRule(sub_rule.id,sub_rule.sub_of)"><i class="fas fa-edit"></i>&nbsp;แก้ไขหลักเกณฑ์ย่อย</b-dropdown-item>
-                        <b-dropdown-item @click="showCondition(sub_rule.id)"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
+                        <!--b-dropdown-item @click="showCondition(sub_rule.id)"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item-->
                         <b-dropdown-item @click="delRule(sub_rule.id)"><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
                     </b-dropdown>
                     <b-row>

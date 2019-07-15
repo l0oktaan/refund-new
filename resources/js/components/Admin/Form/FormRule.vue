@@ -54,6 +54,38 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            <b-form-group>
+                <label for="name">รายละเอียดเงื่อนไข</label>
+                <b-form-input type="text"
+                    placeholder="รายละเอียดเงื่อนไข"
+                    name="name"
+                    v-model = "c_name"
+
+                    >
+                </b-form-input>
+
+            </b-form-group>
+            <b-form-group>
+                <label for="description">คำอธิบาย</label>
+                <b-form-input type="text"
+                    placeholder="คำอธิบาย"
+                    name="description"
+                    v-model = "c_description"
+                    >
+                </b-form-input>
+            </b-form-group>
+            <b-row>
+                <b-col sm="6">
+                    <b-form-group label="ประเภทเงื่อนไข">
+                        <b-form-radio-group
+                            v-model="c_type"
+                            :options="arr_c_type"
+                            name="c_type"
+                        ></b-form-radio-group>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>
@@ -86,7 +118,10 @@ export default {
             r_rule_type: 0,
             r_sub_of: 0,
             r_result_type: 0,
-            r_status: 0,
+            c_name: '',
+            c_description: '',
+            c_type: 0,
+            r_status: 1,
 
             arr_rule_type: [
                 {value: 1, text: 'หลักเกณฑ์หลัก'},
@@ -98,6 +133,11 @@ export default {
                 {value: 0, text: 'ประเภทหลักเกณ์'},
                 {value: 1, text: 'ตรงทุกข้อ'},
                 {value: 2, text: 'ข้อใดข้อหนึ่ง'},
+            ],
+            arr_c_type: [
+
+                {value: 1, text: 'ใช่หรือไม่'},
+                {value: 2, text: 'กำหนดค่า'}
             ],
             state: 'new',
             alert: ''
@@ -150,6 +190,9 @@ export default {
                     sub_of: this.r_sub_of,
                     rule_type: this.r_rule_type,
                     result_type: 0,
+                    condition: this.c_name,
+                    condition_type: this.c_type,
+                    description: this.c_description,
                     status: this.r_status,
                 })
                 .then(response=>{
@@ -164,7 +207,10 @@ export default {
                     this.r_rule_type = rule.rule_type;
                     this.r_order = rule.order;
                     this.r_sub_of = rule.sub_of;
-                    this.r_result_type = rule.result_type;;
+                    this.r_result_type = rule.result_type;
+                    this.c_name = rule.condition;
+                    this.c_type = rule.condition_type;
+                    this.c_description = rule.description;
                     this.r_status = rule.status;
                     this.state == 'update'
                     this.$forceUpdate();
@@ -183,6 +229,9 @@ export default {
                     rule_type: this.r_rule_type,
                     result_type: this.r_result_type,
                     sub_of: this.r_sub_of,
+                    condition: this.c_name,
+                    condition_type: this.c_type,
+                    description: this.c_description,
                     status: this.r_status,
                 })
                 .then(response=>{
@@ -198,6 +247,9 @@ export default {
                     this.r_order = rule.order;
                     this.r_sub_of = rule.sub_of;
                     this.r_result_type = rule.result_type;
+                    this.c_name = rule.condition;
+                    this.c_type = rule.condition_type;
+                    this.c_description = rule.description;
                     this.r_status = rule.status;
                     this.state == 'update'
                     this.$forceUpdate();
@@ -227,6 +279,9 @@ export default {
                 this.r_order = rule.order;
                 this.r_sub_of = rule.sub_of;
                 this.r_result_type = rule.result_type;
+                this.c_name = rule.condition;
+                this.c_type = rule.condition_type;
+                this.c_description = rule.description;
                 this.r_status = rule.status;
                 this.$forceUpdate();
             })
@@ -297,14 +352,17 @@ export default {
 
             this.r_result_type = 0;
             this.r_status = 0;
-
+            this.c_name = '';
+            this.c_description= '';
+            this.c_type = 0;
             this.arr_main_rule = [];
             this.arr_rule_order = [];
-            this.$v.reset;
+
 
         },
         toCloseRule(){
             this.clearData();
+            this.$v.reset;
             this.$root.$emit('bv::hide::modal','modalRule');
             this.$root.$emit('fetchData');
         }

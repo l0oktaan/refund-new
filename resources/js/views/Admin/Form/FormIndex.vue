@@ -19,6 +19,7 @@
                 :name1 = "form.name1"
                 :name2 = "form.name2"
                 :order = "form.order"
+                @fetchForm = "fetchData"
 
             ></form-cover>
         </b-row>

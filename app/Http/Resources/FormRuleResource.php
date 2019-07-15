@@ -25,8 +25,11 @@ class FormRuleResource extends Resource
             'sub_of' => $this->sub_of,
             'rule_type' => $this->rule_type,
             'result_type' => $this->result_type,
-            'status' => $this->status,
-            'conditions' => $this->form_conditions
+            'condition' => $this->condition,
+            'condition_type' => $this->condition_type,
+            'description' => $this->description,
+            'status' => $this->status
+            //'conditions' => $this->form_conditions
         ];
     }
 }
