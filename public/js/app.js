@@ -6456,6 +6456,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
@@ -6481,6 +6488,37 @@ __webpack_require__.r(__webpack_exports__);
         _this.form_rule = response.data.data;
 
         _this.addDefaultResult();
+
+        _this.form_rule_list = _this.getMainRule();
+
+        for (var i = 0; i < _this.form_rule_list.length; i++) {
+          Object.assign(_this.form_rule_list[i], {
+            sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
+          });
+
+          if (_this.form_rule_list[i]['sub_rules'].length > 0) {
+            for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
+              arr.push({
+                rule: _this.form_rule_list[i]['sub_rules'][j]['id'],
+                main_rule: _this.form_rule_list[i]['id'],
+                condition: _this.form_rule_list[i]['sub_rules'][j]['condition'],
+                condition_type: _this.form_rule_list[i]['sub_rules'][j]['condition'],
+                result: _this.form_rule_list[i]['sub_rules'][j]['result']
+              });
+            }
+          } else {
+            arr.push({
+              rule: _this.form_rule_list[i]['id'],
+              main_rule: 0,
+              condition: _this.form_rule_list[i]['condition'],
+              condition_type: _this.form_rule_list[i]['condition'],
+              result: _this.form_rule_list[i]['result']
+            });
+            console.log('Sub Rule ID :' + _this.form_rule_list[i]['name']);
+          }
+        }
+
+        _this.result_list = arr;
       });
     },
     createConditionList: function createConditionList() {
@@ -6527,6 +6565,27 @@ __webpack_require__.r(__webpack_exports__);
         return rule.sub_of == id;
       });
       return sub_rule;
+    },
+    changeResult: function changeResult(rule_id) {
+      var x_index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1;
+      //console.log('x_index :' + x_index + ' index :' + index);
+      var rule_index = this.result_list.findIndex(function (i) {
+        return i.rule === rule_id;
+      });
+
+      if (index >= 0) {
+        this.form_rule_list[x_index]['sub_rules'][index].result = !this.form_rule_list[x_index]['sub_rules'][index].result;
+      } else {
+        this.form_rule_list[x_index].result = !this.form_rule_list[x_index].result;
+      }
+
+      this.$forceUpdate();
+    },
+    find_rule_index: function find_rule_index(rule_id) {
+      return this.result_list.findIndex(function (i) {
+        return i.rule === rule_id;
+      });
     }
   },
   computed: {
@@ -75879,47 +75938,69 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "b-col",
-                      _vm._l(rule.conditions, function(condition) {
-                        return _c(
-                          "div",
-                          { key: condition.id },
-                          [
-                            condition.condition_type == 1
-                              ? _c("toggle-button", {
-                                  staticStyle: {
-                                    "padding-top": "4px",
-                                    "line-height": "0px"
-                                  },
-                                  attrs: {
-                                    value: false,
-                                    sync: true,
-                                    width: 60,
-                                    height: 25,
-                                    labels: {
-                                      checked: "ใช่",
-                                      unchecked: "ไม่ใช่"
+                    _c("b-col", [
+                      rule.sub_rules.length == 0
+                        ? _c(
+                            "div",
+                            [
+                              rule.condition_type == 1
+                                ? _c("toggle-button", {
+                                    staticStyle: {
+                                      "padding-top": "4px",
+                                      "line-height": "0px"
                                     },
-                                    color: {
-                                      checked: "#41831b",
-                                      unchecked: "#7c7c7c"
+                                    attrs: {
+                                      value: false,
+                                      sync: true,
+                                      width: 60,
+                                      height: 25,
+                                      labels: {
+                                        checked: "ใช่",
+                                        unchecked: "ไม่ใช่"
+                                      },
+                                      color: {
+                                        checked: "#41831b",
+                                        unchecked: "#7c7c7c"
+                                      }
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.changeResult(
+                                          rule.id,
+                                          x_index
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.result_list[
+                                          _vm.find_rule_index(rule.id)
+                                        ]["result"],
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.result_list[
+                                            _vm.find_rule_index(rule.id)
+                                          ],
+                                          "result",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "result_list[find_rule_index(rule.id)]['result']"
                                     }
-                                  }
-                                })
-                              : _c("b-form-input", {
-                                  attrs: {
-                                    type: "text",
-                                    value: condition.name,
-                                    width: "120px"
-                                  }
-                                })
-                          ],
-                          1
-                        )
-                      }),
-                      0
-                    )
+                                  })
+                                : _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      value: rule.condition,
+                                      width: "120px"
+                                    }
+                                  })
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ])
                   ],
                   1
                 ),
@@ -75947,40 +76028,57 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "b-col",
-                        _vm._l(sub_rule.conditions, function(condition) {
-                          return _c(
-                            "div",
-                            { key: condition.id },
-                            [
-                              condition.condition_type == 1
-                                ? _c("toggle-button", {
-                                    staticStyle: {
-                                      "padding-top": "4px",
-                                      "line-height": "0px"
-                                    },
-                                    attrs: {
-                                      value: false,
-                                      sync: true,
-                                      width: 60,
-                                      height: 25,
-                                      labels: {
-                                        checked: "ใช่",
-                                        unchecked: "ไม่ใช่"
-                                      },
-                                      color: {
-                                        checked: "#41831b",
-                                        unchecked: "#7c7c7c"
-                                      }
-                                    }
-                                  })
-                                : _c("b-form-input", {
-                                    attrs: { type: "text" }
-                                  })
-                            ],
-                            1
-                          )
-                        }),
-                        0
+                        [
+                          sub_rule.condition_type == 1
+                            ? _c("toggle-button", {
+                                staticStyle: {
+                                  "padding-top": "4px",
+                                  "line-height": "0px"
+                                },
+                                attrs: {
+                                  value: false,
+                                  sync: true,
+                                  width: 60,
+                                  height: 25,
+                                  labels: {
+                                    checked: "ใช่",
+                                    unchecked: "ไม่ใช่"
+                                  },
+                                  color: {
+                                    checked: "#41831b",
+                                    unchecked: "#7c7c7c"
+                                  }
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.changeResult(
+                                      sub_rule.id,
+                                      x_index,
+                                      index
+                                    )
+                                  }
+                                },
+                                model: {
+                                  value:
+                                    _vm.result_list[
+                                      _vm.find_rule_index(sub_rule.id)
+                                    ]["result"],
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.result_list[
+                                        _vm.find_rule_index(sub_rule.id)
+                                      ],
+                                      "result",
+                                      $$v
+                                    )
+                                  },
+                                  expression:
+                                    "result_list[find_rule_index(sub_rule.id)]['result']"
+                                }
+                              })
+                            : _c("b-form-input", { attrs: { type: "text" } })
+                        ],
+                        1
                       )
                     ],
                     1
@@ -75994,9 +76092,15 @@ var render = function() {
         )
       }),
       _vm._v(" "),
+      _c("h5", [_vm._v("Form Rule :")]),
+      _vm._v(" "),
       _c("p", [_vm._v(_vm._s(_vm.form_rule))]),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.condition_list))])
+      _c("h5", [_vm._v("Form Rule List:")]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.form_rule_list))]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.result_list))])
     ],
     2
   )

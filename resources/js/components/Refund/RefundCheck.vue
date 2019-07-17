@@ -8,14 +8,17 @@
 
                     </b-col>
                     <b-col>
-                        <div v-for="condition in rule.conditions" :key="condition.id" >
+                        <div v-if="rule.sub_rules.length == 0">
+
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
                                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                                 style="padding-top:4px; line-height:0px;"
-                                v-if="condition.condition_type == 1"
+                                v-model="result_list[find_rule_index(rule.id)]['result']"
+                                @change="changeResult(rule.id,x_index)"
+                                v-if="rule.condition_type == 1"
                             />
-                            <b-form-input type="text" v-else :value="condition.name" width="120px"></b-form-input>
+                            <b-form-input type="text" :value="rule.condition" width="120px" v-else ></b-form-input>
                         </div>
                     </b-col>
                 </b-row>
@@ -25,22 +28,26 @@
 
                     </b-col>
                     <b-col>
-                        <div v-for="condition in sub_rule.conditions" :key="condition.id" >
+
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
                                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                                 style="padding-top:4px; line-height:0px;"
-                                v-if="condition.condition_type == 1"
-
+                                v-model="result_list[find_rule_index(sub_rule.id)]['result']"
+                                @change="changeResult(sub_rule.id,x_index,index)"
+                                v-if="sub_rule.condition_type == 1"
                             />
                             <b-form-input type="text" v-else></b-form-input>
-                        </div>
+
                     </b-col>
                 </b-row>
             </b-card-body>
         </b-card>
+        <h5>Form Rule :</h5>
         <p>{{form_rule}}</p>
-        <p>{{condition_list}}</p>
+        <h5>Form Rule List:</h5>
+        <p>{{form_rule_list}}</p>
+        <p>{{result_list}}</p>
     </div>
     <!-- <div>
         <b-list-group>
@@ -81,6 +88,33 @@ export default {
             .then(response=>{
                 this.form_rule = response.data.data;
                 this.addDefaultResult();
+                this.form_rule_list = this.getMainRule();
+                for (let i = 0 ; i < this.form_rule_list.length ; i++){
+                    Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
+
+                    if (this.form_rule_list[i]['sub_rules'].length > 0){
+                        for (let j=0 ; j < this.form_rule_list[i]['sub_rules'].length ; j++){
+                            arr.push({
+                                rule: this.form_rule_list[i]['sub_rules'][j]['id'],
+                                main_rule: this.form_rule_list[i]['id'],
+                                condition: this.form_rule_list[i]['sub_rules'][j]['condition'],
+                                condition_type:this.form_rule_list[i]['sub_rules'][j]['condition'],
+                                result:this.form_rule_list[i]['sub_rules'][j]['result'],
+                            })
+                        }
+                    }else{
+                        arr.push({
+                            rule: this.form_rule_list[i]['id'],
+                            main_rule: 0,
+                            condition: this.form_rule_list[i]['condition'],
+                            condition_type:this.form_rule_list[i]['condition'],
+                            result:this.form_rule_list[i]['result'],
+                        });
+                        console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);
+                    }
+
+                }
+                this.result_list = arr;
             })
         },
         createConditionList(){
@@ -122,6 +156,20 @@ export default {
                 return rule.sub_of == id;
             })
             return sub_rule;
+        },
+        changeResult(rule_id,x_index=-1,index=-1){
+            //console.log('x_index :' + x_index + ' index :' + index);
+            let rule_index = this.result_list.findIndex(i => i.rule === rule_id);
+            if (index >= 0){
+                this.form_rule_list[x_index]['sub_rules'][index].result = !this.form_rule_list[x_index]['sub_rules'][index].result;
+            }else{
+                this.form_rule_list[x_index].result = !this.form_rule_list[x_index].result;
+            }
+
+            this.$forceUpdate();
+        },
+        find_rule_index(rule_id){
+            return this.result_list.findIndex(i => i.rule === rule_id);
         }
     },
     computed: {
