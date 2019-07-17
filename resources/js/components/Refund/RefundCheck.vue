@@ -170,6 +170,17 @@ export default {
         },
         find_rule_index(rule_id){
             return this.result_list.findIndex(i => i.rule === rule_id);
+        },
+        createSolution(){
+            var pass = false;
+            for (i = 0 ; i <= this.result_list.length ; i++){
+                if (this.result_list[i]['main_rule'] == 0){
+
+                }else{
+
+                    let result_type = this.form_rule.findIndex
+                }
+            }
         }
     },
     computed: {
