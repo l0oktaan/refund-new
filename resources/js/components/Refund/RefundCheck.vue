@@ -98,7 +98,7 @@ export default {
                                 rule: this.form_rule_list[i]['sub_rules'][j]['id'],
                                 main_rule: this.form_rule_list[i]['id'],
                                 condition: this.form_rule_list[i]['sub_rules'][j]['condition'],
-                                condition_type:this.form_rule_list[i]['sub_rules'][j]['condition'],
+                                condition_type:this.form_rule_list[i]['sub_rules'][j]['condition_type'],
                                 result:this.form_rule_list[i]['sub_rules'][j]['result'],
                             })
                         }
@@ -107,7 +107,7 @@ export default {
                             rule: this.form_rule_list[i]['id'],
                             main_rule: 0,
                             condition: this.form_rule_list[i]['condition'],
-                            condition_type:this.form_rule_list[i]['condition'],
+                            condition_type:this.form_rule_list[i]['condition_type'],
                             result:this.form_rule_list[i]['result'],
                         });
                         console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);

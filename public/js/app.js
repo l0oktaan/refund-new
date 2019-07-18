@@ -6491,30 +6491,30 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.form_rule_list = _this.getMainRule();
 
-        for (var i = 0; i < _this.form_rule_list.length; i++) {
-          Object.assign(_this.form_rule_list[i], {
-            sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
+        for (var _i = 0; _i < _this.form_rule_list.length; _i++) {
+          Object.assign(_this.form_rule_list[_i], {
+            sub_rules: _this.getSubRule(_this.form_rule_list[_i]['id'])
           });
 
-          if (_this.form_rule_list[i]['sub_rules'].length > 0) {
-            for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
+          if (_this.form_rule_list[_i]['sub_rules'].length > 0) {
+            for (var j = 0; j < _this.form_rule_list[_i]['sub_rules'].length; j++) {
               arr.push({
-                rule: _this.form_rule_list[i]['sub_rules'][j]['id'],
-                main_rule: _this.form_rule_list[i]['id'],
-                condition: _this.form_rule_list[i]['sub_rules'][j]['condition'],
-                condition_type: _this.form_rule_list[i]['sub_rules'][j]['condition'],
-                result: _this.form_rule_list[i]['sub_rules'][j]['result']
+                rule: _this.form_rule_list[_i]['sub_rules'][j]['id'],
+                main_rule: _this.form_rule_list[_i]['id'],
+                condition: _this.form_rule_list[_i]['sub_rules'][j]['condition'],
+                condition_type: _this.form_rule_list[_i]['sub_rules'][j]['condition_type'],
+                result: _this.form_rule_list[_i]['sub_rules'][j]['result']
               });
             }
           } else {
             arr.push({
-              rule: _this.form_rule_list[i]['id'],
+              rule: _this.form_rule_list[_i]['id'],
               main_rule: 0,
-              condition: _this.form_rule_list[i]['condition'],
-              condition_type: _this.form_rule_list[i]['condition'],
-              result: _this.form_rule_list[i]['result']
+              condition: _this.form_rule_list[_i]['condition'],
+              condition_type: _this.form_rule_list[_i]['condition_type'],
+              result: _this.form_rule_list[_i]['result']
             });
-            console.log('Sub Rule ID :' + _this.form_rule_list[i]['name']);
+            console.log('Sub Rule ID :' + _this.form_rule_list[_i]['name']);
           }
         }
 
@@ -6586,6 +6586,15 @@ __webpack_require__.r(__webpack_exports__);
       return this.result_list.findIndex(function (i) {
         return i.rule === rule_id;
       });
+    },
+    createSolution: function createSolution() {
+      var pass = false;
+
+      for (i = 0; i <= this.result_list.length; i++) {
+        if (this.result_list[i]['main_rule'] == 0) {} else {
+          var result_type = this.form_rule.findIndex;
+        }
+      }
     }
   },
   computed: {
