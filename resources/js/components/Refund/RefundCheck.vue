@@ -4,7 +4,7 @@
             <b-card-body class="pb-0 sub_rule">
                 <b-row align-v="center">
                     <b-col>
-                        <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name + '. ' + rule.result}}</span>
+                        <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name}}</span>
 
                     </b-col>
                     <b-col>
@@ -18,13 +18,20 @@
                                 @change="changeResult(rule.id,x_index)"
                                 v-if="rule.condition_type == 1"
                             />
-                            <b-form-input type="text" :value="rule.condition" width="120px" v-else ></b-form-input>
+                            <b-form-input type="text"
+                                :value="rule.condition"
+                                width="120px"
+                                v-else
+                                v-model="result_list[find_rule_index(rule.id)]['result']"
+                                @change="changeResult(rule.id,x_index)"
+                            >
+                            </b-form-input>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row v-for="(sub_rule,index) in rule.sub_rules" :key="index" align-v="center">
                     <b-col>
-                        <span class="sub_rule_name">{{sub_rule.order + '. (' + sub_rule.id + ')' + sub_rule.name + '. ' + sub_rule.result}}</span>
+                        <span class="sub_rule_name">{{sub_rule.order + '. (' + sub_rule.id + ')' + sub_rule.name}}</span>
 
                     </b-col>
                     <b-col>
@@ -48,6 +55,9 @@
         <h5>Form Rule List:</h5>
         <p>{{form_rule_list}}</p>
         <p>{{result_list}}</p>
+
+        <h5>Array Result:</h5>
+        <p>{{arrResult}}</p>
     </div>
     <!-- <div>
         <b-list-group>
@@ -70,7 +80,8 @@ export default {
             form_rule: [],
             form_rule_list: [],
             condition_list: [],
-            result_list:[]
+            result_list:[],
+            arrResult: []
         }
     },
     mounted() {
@@ -89,6 +100,7 @@ export default {
                 this.form_rule = response.data.data;
                 this.addDefaultResult();
                 this.form_rule_list = this.getMainRule();
+
                 for (let i = 0 ; i < this.form_rule_list.length ; i++){
                     Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
 
@@ -115,6 +127,7 @@ export default {
 
                 }
                 this.result_list = arr;
+                this.getResult();
             })
         },
         createConditionList(){
@@ -133,7 +146,7 @@ export default {
                 if (arr[index]['condition_type'] == 1){
                     Object.assign(arr[index],{result: false});
                 }else{
-                    Object.assign(arr[index],{result: ''});
+                    Object.assign(arr[index],{result: arr[index]['condition']});
                 }
 
             });
@@ -157,35 +170,77 @@ export default {
             })
             return sub_rule;
         },
-        changeResult(rule_id,x_index=-1,index=-1){
-            //console.log('x_index :' + x_index + ' index :' + index);
+        changeResult(rule_id,i_index=-1,j_index=-1){
+            //console.log('i_index :' + i_index + ' index :' + index);
             let rule_index = this.result_list.findIndex(i => i.rule === rule_id);
-            if (index >= 0){
-                this.form_rule_list[x_index]['sub_rules'][index].result = !this.form_rule_list[x_index]['sub_rules'][index].result;
+            if (j_index >= 0){
+                if (this.form_rule_list[i_index]['sub_rules'][j_index].result_type == 1){
+                    this.form_rule_list[i_index]['sub_rules'][j_index].result = !this.form_rule_list[i_index]['sub_rules'][j_index].result;
+                }else{
+                    this.form_rule_list[i_index]['sub_rules'][j_index].result = this.result_list[rule_index].result;
+                }
+
             }else{
-                this.form_rule_list[x_index].result = !this.form_rule_list[x_index].result;
+                if (this.form_rule_list[i_index].result_type == 1){
+                    this.form_rule_list[i_index].result = !this.form_rule_list[i_index].result;
+                }else{
+                    this.form_rule_list[i_index].result = this.result_list[rule_index].result;
+                }
+
             }
 
             this.$forceUpdate();
+            this.getResult();
         },
         find_rule_index(rule_id){
             return this.result_list.findIndex(i => i.rule === rule_id);
         },
-        createSolution(){
-            var pass = false;
-            for (i = 0 ; i <= this.result_list.length ; i++){
-                if (this.result_list[i]['main_rule'] == 0){
 
+        getResult(){
+            var result = false;
+            var arrResult = [];
+            this.form_rule_list.forEach(function(element,index){
+                let arr = [];
+                if (element.sub_rules.length > 0){
+                    for (let i = 0 ; i < element.sub_rules.length ; i++){
+                        if (element.sub_rules[i]['condition_type'] == 1){
+                            arr.push(element.sub_rules[i]['result']);
+                        }else{
+                            if (element.sub_rules[i]['condition'] == element.sub_rules[i]['result']){
+                                arr.push(false);
+                            }else{
+                                arr.push(true);
+                            }
+                        }
+                    }
+                    if (element.result_type == 1){
+                        arrResult.push(arr.some(x=> x == true));
+                    }else{
+                        arrResult.push(arr.every(x=> x == true));
+                    }
                 }else{
-
-                    let result_type = this.form_rule.findIndex
+                    if (element.condition_type == 1){
+                        arrResult.push(element.result);
+                    }else{
+                        if (element.condition == element.result){
+                            arrResult.push(false);
+                        }else{
+                            arrResult.push(true);
+                        }
+                    }
                 }
-            }
+            });
+            this.arrResult = arrResult;
         }
     },
     computed: {
         rulename(order , name){
             return `${order} ${name}`;
+        }
+    },
+    watch : {
+        result_list(){
+            //this.getResult();
         }
     }
 }

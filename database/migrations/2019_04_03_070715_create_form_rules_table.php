@@ -22,8 +22,9 @@ class CreateFormRulesTable extends Migration
             $table->integer('sub_of');
             $table->integer('rule_type');
             $table->integer('result_type')->nullable();
-            $table->string('condition');
-            $table->integer('condition_type');
+            $table->string('condition')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('condition_type')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
         });

@@ -6463,6 +6463,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id'],
   data: function data() {
@@ -6470,7 +6480,8 @@ __webpack_require__.r(__webpack_exports__);
       form_rule: [],
       form_rule_list: [],
       condition_list: [],
-      result_list: []
+      result_list: [],
+      arrResult: []
     };
   },
   mounted: function mounted() {
@@ -6491,34 +6502,36 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.form_rule_list = _this.getMainRule();
 
-        for (var _i = 0; _i < _this.form_rule_list.length; _i++) {
-          Object.assign(_this.form_rule_list[_i], {
-            sub_rules: _this.getSubRule(_this.form_rule_list[_i]['id'])
+        for (var i = 0; i < _this.form_rule_list.length; i++) {
+          Object.assign(_this.form_rule_list[i], {
+            sub_rules: _this.getSubRule(_this.form_rule_list[i]['id'])
           });
 
-          if (_this.form_rule_list[_i]['sub_rules'].length > 0) {
-            for (var j = 0; j < _this.form_rule_list[_i]['sub_rules'].length; j++) {
+          if (_this.form_rule_list[i]['sub_rules'].length > 0) {
+            for (var j = 0; j < _this.form_rule_list[i]['sub_rules'].length; j++) {
               arr.push({
-                rule: _this.form_rule_list[_i]['sub_rules'][j]['id'],
-                main_rule: _this.form_rule_list[_i]['id'],
-                condition: _this.form_rule_list[_i]['sub_rules'][j]['condition'],
-                condition_type: _this.form_rule_list[_i]['sub_rules'][j]['condition_type'],
-                result: _this.form_rule_list[_i]['sub_rules'][j]['result']
+                rule: _this.form_rule_list[i]['sub_rules'][j]['id'],
+                main_rule: _this.form_rule_list[i]['id'],
+                condition: _this.form_rule_list[i]['sub_rules'][j]['condition'],
+                condition_type: _this.form_rule_list[i]['sub_rules'][j]['condition_type'],
+                result: _this.form_rule_list[i]['sub_rules'][j]['result']
               });
             }
           } else {
             arr.push({
-              rule: _this.form_rule_list[_i]['id'],
+              rule: _this.form_rule_list[i]['id'],
               main_rule: 0,
-              condition: _this.form_rule_list[_i]['condition'],
-              condition_type: _this.form_rule_list[_i]['condition_type'],
-              result: _this.form_rule_list[_i]['result']
+              condition: _this.form_rule_list[i]['condition'],
+              condition_type: _this.form_rule_list[i]['condition_type'],
+              result: _this.form_rule_list[i]['result']
             });
-            console.log('Sub Rule ID :' + _this.form_rule_list[_i]['name']);
+            console.log('Sub Rule ID :' + _this.form_rule_list[i]['name']);
           }
         }
 
         _this.result_list = arr;
+
+        _this.getResult();
       });
     },
     createConditionList: function createConditionList() {
@@ -6542,7 +6555,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         } else {
           Object.assign(arr[index], {
-            result: ''
+            result: arr[index]['condition']
           });
         }
       });
@@ -6567,39 +6580,85 @@ __webpack_require__.r(__webpack_exports__);
       return sub_rule;
     },
     changeResult: function changeResult(rule_id) {
-      var x_index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1;
-      //console.log('x_index :' + x_index + ' index :' + index);
+      var i_index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+      var j_index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -1;
+      //console.log('i_index :' + i_index + ' index :' + index);
       var rule_index = this.result_list.findIndex(function (i) {
         return i.rule === rule_id;
       });
 
-      if (index >= 0) {
-        this.form_rule_list[x_index]['sub_rules'][index].result = !this.form_rule_list[x_index]['sub_rules'][index].result;
+      if (j_index >= 0) {
+        if (this.form_rule_list[i_index]['sub_rules'][j_index].result_type == 1) {
+          this.form_rule_list[i_index]['sub_rules'][j_index].result = !this.form_rule_list[i_index]['sub_rules'][j_index].result;
+        } else {
+          this.form_rule_list[i_index]['sub_rules'][j_index].result = this.result_list[rule_index].result;
+        }
       } else {
-        this.form_rule_list[x_index].result = !this.form_rule_list[x_index].result;
+        if (this.form_rule_list[i_index].result_type == 1) {
+          this.form_rule_list[i_index].result = !this.form_rule_list[i_index].result;
+        } else {
+          this.form_rule_list[i_index].result = this.result_list[rule_index].result;
+        }
       }
 
       this.$forceUpdate();
+      this.getResult();
     },
     find_rule_index: function find_rule_index(rule_id) {
       return this.result_list.findIndex(function (i) {
         return i.rule === rule_id;
       });
     },
-    createSolution: function createSolution() {
-      var pass = false;
+    getResult: function getResult() {
+      var result = false;
+      var arrResult = [];
+      this.form_rule_list.forEach(function (element, index) {
+        var arr = [];
 
-      for (i = 0; i <= this.result_list.length; i++) {
-        if (this.result_list[i]['main_rule'] == 0) {} else {
-          var result_type = this.form_rule.findIndex;
+        if (element.sub_rules.length > 0) {
+          for (var i = 0; i < element.sub_rules.length; i++) {
+            if (element.sub_rules[i]['condition_type'] == 1) {
+              arr.push(element.sub_rules[i]['result']);
+            } else {
+              if (element.sub_rules[i]['condition'] == element.sub_rules[i]['result']) {
+                arr.push(false);
+              } else {
+                arr.push(true);
+              }
+            }
+          }
+
+          if (element.result_type == 1) {
+            arrResult.push(arr.some(function (x) {
+              return x == true;
+            }));
+          } else {
+            arrResult.push(arr.every(function (x) {
+              return x == true;
+            }));
+          }
+        } else {
+          if (element.condition_type == 1) {
+            arrResult.push(element.result);
+          } else {
+            if (element.condition == element.result) {
+              arrResult.push(false);
+            } else {
+              arrResult.push(true);
+            }
+          }
         }
-      }
+      });
+      this.arrResult = arrResult;
     }
   },
   computed: {
     rulename: function rulename(order, name) {
       return "".concat(order, " ").concat(name);
+    }
+  },
+  watch: {
+    result_list: function result_list() {//this.getResult();
     }
   }
 });
@@ -75934,15 +75993,7 @@ var render = function() {
                     _c("b-col", [
                       _c("span", { staticClass: "sub_rule_name" }, [
                         _vm._v(
-                          _vm._s(
-                            rule.order +
-                              ".(" +
-                              rule.id +
-                              ")" +
-                              rule.name +
-                              ". " +
-                              rule.result
-                          )
+                          _vm._s(rule.order + ".(" + rule.id + ")" + rule.name)
                         )
                       ])
                     ]),
@@ -76003,6 +76054,31 @@ var render = function() {
                                       type: "text",
                                       value: rule.condition,
                                       width: "120px"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.changeResult(
+                                          rule.id,
+                                          x_index
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.result_list[
+                                          _vm.find_rule_index(rule.id)
+                                        ]["result"],
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.result_list[
+                                            _vm.find_rule_index(rule.id)
+                                          ],
+                                          "result",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "result_list[find_rule_index(rule.id)]['result']"
                                     }
                                   })
                             ],
@@ -76027,9 +76103,7 @@ var render = function() {
                                 ". (" +
                                 sub_rule.id +
                                 ")" +
-                                sub_rule.name +
-                                ". " +
-                                sub_rule.result
+                                sub_rule.name
                             )
                           )
                         ])
@@ -76109,7 +76183,11 @@ var render = function() {
       _vm._v(" "),
       _c("p", [_vm._v(_vm._s(_vm.form_rule_list))]),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.result_list))])
+      _c("p", [_vm._v(_vm._s(_vm.result_list))]),
+      _vm._v(" "),
+      _c("h5", [_vm._v("Array Result:")]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.arrResult))])
     ],
     2
   )
