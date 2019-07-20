@@ -7679,6 +7679,16 @@ __webpack_require__.r(__webpack_exports__);
                 }).then(function (response) {
                   _this2.refund_forms.push(response.data.data);
 
+                  var arr = _this2.refund_forms;
+
+                  _this2.refund_forms.forEach(function (element, index, arr) {
+                    Object.assign(arr[index], {
+                      result: false
+                    });
+                  });
+
+                  _this2.refund_forms = arr;
+
                   _this2.tab_forms.push({
                     title: 'ฟอร์มหมายเลข :' + _this2.arrFormSelected[i].order,
                     status: 0

@@ -226,8 +226,18 @@ export default {
                                 })
                                 .then(response=>{
                                     this.refund_forms.push(response.data.data);
+                                    var arr = this.refund_forms;
+                                    this.refund_forms.forEach(function(element,index,arr){
+                                        Object.assign(arr[index],{result: false});
+
+                                    });
+                                    this.refund_forms = arr;
+
                                     this.tab_forms.push(
-                                        {title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order, status : 0}
+                                        {
+                                            title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order,
+                                            status : 0
+                                        }
                                     );
                                     this.$forceUpdate();
                                 })
