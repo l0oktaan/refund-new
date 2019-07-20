@@ -107,6 +107,7 @@ export default {
             forms: [],
             arrFormSelected: [],
             isSelect: [],
+            form_id : this.$route.params.id,
             form_id: 0,
             office_id: 2,
             refund_id: 0,
