@@ -99,9 +99,9 @@
                             </ul>
                             <ul class="nav navbar-nav ml-auto">
                                 <li class="nav-item px-3">
-                                    <b-button variant="outline-success">
+                                    <!-- <b-button variant="outline-success">
                                         <i class="fas fa-save fa-2x"></i>&nbsp;<span>บันทึกข้อมูล</span>
-                                    </b-button>
+                                    </b-button> -->
                                 </li>
                             </ul>
                         </div>
@@ -138,6 +138,13 @@
                                                 >
                                                 </b-form-input>
                                             </b-form-group>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col>
+                                            <div class="text-center" style="margin-bottom:5px;">
+                                                <b-button variant="primary">บันทึกข้อมูล</b-button>
+                                            </div>
                                         </b-col>
                                     </b-row>
                                 </b-card-body>

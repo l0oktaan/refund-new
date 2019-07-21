@@ -6340,6 +6340,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -74436,24 +74443,7 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-                            _c(
-                              "li",
-                              { staticClass: "nav-item px-3" },
-                              [
-                                _c(
-                                  "b-button",
-                                  { attrs: { variant: "outline-success" } },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fas fa-save fa-2x"
-                                    }),
-                                    _vm._v(" "),
-                                    _c("span", [_vm._v("บันทึกข้อมูล")])
-                                  ]
-                                )
-                              ],
-                              1
-                            )
+                            _c("li", { staticClass: "nav-item px-3" })
                           ])
                         ]
                       ),
@@ -74563,6 +74553,32 @@ var render = function() {
                                         ],
                                         1
                                       )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-row",
+                                    [
+                                      _c("b-col", [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "text-center",
+                                            staticStyle: {
+                                              "margin-bottom": "5px"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "b-button",
+                                              { attrs: { variant: "primary" } },
+                                              [_vm._v("บันทึกข้อมูล")]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ])
                                     ],
                                     1
                                   )
@@ -74780,18 +74796,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-                _c(
-                  "li",
-                  { staticClass: "nav-item px-3" },
-                  [
-                    _c("b-button", { attrs: { variant: "outline-success" } }, [
-                      _c("i", { staticClass: "fas fa-save fa-2x" }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("บันทึกข้อมูล")])
-                    ])
-                  ],
-                  1
-                )
+                _c("li", { staticClass: "nav-item px-3" })
               ])
             ]
           ),
@@ -75195,18 +75200,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-                _c(
-                  "li",
-                  { staticClass: "nav-item px-3" },
-                  [
-                    _c("b-button", { attrs: { variant: "outline-success" } }, [
-                      _c("i", { staticClass: "fas fa-save fa-2x" }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("บันทึกข้อมูล")])
-                    ])
-                  ],
-                  1
-                )
+                _c("li", { staticClass: "nav-item px-3" })
               ])
             ]
           ),
@@ -75611,18 +75605,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("ul", { staticClass: "nav navbar-nav ml-auto" }, [
-                _c(
-                  "li",
-                  { staticClass: "nav-item px-3" },
-                  [
-                    _c("b-button", { attrs: { variant: "outline-success" } }, [
-                      _c("i", { staticClass: "fas fa-save fa-2x" }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("บันทึกข้อมูล")])
-                    ])
-                  ],
-                  1
-                )
+                _c("li", { staticClass: "nav-item px-3" })
               ])
             ]
           ),

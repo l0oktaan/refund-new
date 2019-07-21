@@ -10,9 +10,9 @@
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item px-3">
-                        <b-button variant="outline-success">
+                        <!-- <b-button variant="outline-success">
                             <i class="fas fa-save fa-2x"></i>&nbsp;<span>บันทึกข้อมูล</span>
-                        </b-button>
+                        </b-button> -->
                     </li>
                 </ul>
             </div>
