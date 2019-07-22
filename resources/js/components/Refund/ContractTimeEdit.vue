@@ -43,13 +43,25 @@
                             <b-col sm="3">
                                 <b-form-group>
                                     <label for="time_edit_type">ประเภทการอนุมัติ :</label>
+                                    <b-form-select
+                                        value="0"
+                                        :options="arrEditType"
+                                    >
+                                    </b-form-select>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="time_edit_days">ระบุ :</label>
                                     <b-form-input type="text"
-                                        placeholder="ประเภทการอนุมัติ"
-                                        name="time_edit_type"
+                                        placeholder="ระบุประเภทการอนุมัติ"
+                                        name="time_edit_days"
                                     >
                                     </b-form-input>
                                 </b-form-group>
                             </b-col>
+                        </b-row>
+                        <b-row>
                             <b-col sm="3">
                                 <b-form-group>
                                     <label for="time_edit_days">จำนวนวัน :</label>
@@ -60,14 +72,67 @@
                                     </b-form-input>
                                 </b-form-group>
                             </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="time_edit_days">จำนวนเงิน :</label>
+                                    <b-form-input type="text"
+                                        placeholder="จำนวนเงิน"
+                                        name="time_edit_money"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="time_edit_date">สิ้นสุดสัญญาวันที่ :</label>
+                                    <b-form-input type="text"
+                                        placeholder="วันที่"
+                                        name="time_edit_date"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
                         </b-row>
+
                         <b-row>
-                            <b-col sm="12">
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="time_edit_type">อนุมัติให้ตาม :</label>
+                                    <b-form-select
+                                        value="0"
+                                        :options="arrApproveType"
+                                    >
+                                    </b-form-select>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="9">
                                 <b-form-group>
                                     <label for="time_edit_detail">กรณี :</label>
                                     <b-form-input type="text"
                                         placeholder="กรณี"
                                         name="time_edit_detail"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="obstacle_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
+                                    <b-form-input type="text"
+                                        placeholder="วันที่"
+                                        name="obstacle_end_date"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="obstacle_book_date">หนังสือแจ้งเหตุวันที่ :</label>
+                                    <b-form-input type="text"
+                                        placeholder="วันที่"
+                                        name="obstacle_book_date"
                                     >
                                     </b-form-input>
                                 </b-form-group>
@@ -145,6 +210,28 @@
         </b-card>
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            arrEditType : [
+                {text: 'ประเภทการอนุมัติ', value : 0},
+                {text: 'ขยาย', value : 1},
+                {text: 'งดหรือลด', value : 2},
+                {text: 'อื่นๆ', value : 3}
+            ],
+            arrApproveType : [
+                {text: 'อนุมัติให้ตาม', value: 0},
+                {text: 'มติ ครม. ว 63', value: 1},
+                {text: 'มติ ครม. ว 66', value: 2},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 3},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 4},
+            ]
+        }
+    }
+}
+</script>
+
 <style scoped>
 
 .description{

@@ -33,7 +33,10 @@
                                     label-align-sm="right"
                                     label-for="approve_refund_days"
                                 >
-                                    <b-form-input id="approve_refund_days"></b-form-input>
+                                    <b-input-group append="วัน">
+                                       <b-form-input id="approve_refund_days"></b-form-input>
+                                    </b-input-group>
+
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -45,7 +48,10 @@
                                     label-align-sm="right"
                                     label-for="approve_refund_amount"
                                 >
-                                    <b-form-input id="approve_refund_amount"></b-form-input>
+                                    <b-input-group append="บาท">
+                                       <b-form-input id="approve_refund_amount"></b-form-input>
+                                    </b-input-group>
+
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -57,7 +63,10 @@
                                     label-align-sm="right"
                                     label-for="amount"
                                 >
-                                    <b-form-input id="approve_refund_mount"></b-form-input>
+                                    <b-input-group append="บาท">
+                                       <b-form-input id="approve_refund_mount"></b-form-input>
+                                    </b-input-group>
+
                                 </b-form-group>
                             </b-col>
                         </b-row>

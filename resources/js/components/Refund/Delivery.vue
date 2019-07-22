@@ -42,6 +42,26 @@
                                     </b-form-input>
                                 </b-form-group>
                             </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="time_edit_date">งวดที่ :</label>
+                                    <b-form-input type="text"
+                                        placeholder="งวดที่ส่งมอบงาน"
+                                        name="time_edit_date"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="overdue_days">ครั้งที่ :</label>
+                                    <b-form-input type="text"
+                                        placeholder="ครั้งที่ส่งมอบงาน"
+                                        name="overdue_days"
+                                    >
+                                    </b-form-input>
+                                </b-form-group>
+                            </b-col>
                         </b-row>
                         <b-row>
                             <b-col sm="4">

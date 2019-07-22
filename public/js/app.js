@@ -6351,6 +6351,265 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      arrEditType: [{
+        text: 'ประเภทการอนุมัติ',
+        value: 0
+      }, {
+        text: 'ขยาย',
+        value: 1
+      }, {
+        text: 'งดหรือลด',
+        value: 2
+      }, {
+        text: 'อื่นๆ',
+        value: 3
+      }],
+      arrApproveType: [{
+        text: 'อนุมัติให้ตาม',
+        value: 0
+      }, {
+        text: 'มติ ครม. ว 63',
+        value: 1
+      }, {
+        text: 'มติ ครม. ว 66',
+        value: 2
+      }, {
+        text: 'ระเบียบพัสดุ 2535 ข้อ 136',
+        value: 3
+      }, {
+        text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)',
+        value: 4
+      }]
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/RefundBreadcrumb.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Refund/RefundBreadcrumb.vue?vue&type=script&lang=js& ***!
@@ -6406,6 +6665,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7548,6 +7812,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -7565,6 +7830,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         status: 0
       }, {
         title: 'ข้อมูลการส่งมอบงาน',
+        status: 0
+      }, {
+        title: 'จำนวนเงินที่ขออนุมัติ',
         status: 0
       }],
       tab_forms: [],
@@ -7709,16 +7977,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               }
 
               if (_this2.arrFormSelected.length > 0) {
-                console.log('array ' + _this2.arrFormSelected.length);
+                //console.log('array ' + this.arrFormSelected.length);
                 _this2.alert = 'success';
                 _this2.tabs[0].status = 1;
 
                 _this2.$forceUpdate();
-
-                _this2.tabIndex++;
-
-                _this2.$forceUpdate();
               }
+
+              setInterval(function () {
+                this.tabIndex = 1;
+                console.log("tab Index   :" + this.tabIndex);
+              }, 3000);
             })["catch"](function (error) {
               _this2.alert = 'error';
             });
@@ -36406,7 +36675,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\r\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\r\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\r\n    color: #000!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.btn[data-v-5f2ecd73]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-5f2ecd73]{\n    background-color: #20a8d8 !important;\n}\n.card-body[data-v-5f2ecd73]{\n    color: #fff!important;\n}\n.dropdown-item>i[data-v-5f2ecd73]{\n    color: #000!important;\n}\n", ""]);
 
 // exports
 
@@ -36425,7 +36694,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-18c7c4ad]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-18c7c4ad]{\r\n    vertical-align: middle!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.btn[data-v-18c7c4ad]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-18c7c4ad]{\n    vertical-align: middle!important;\n}\n", ""]);
 
 // exports
 
@@ -36444,7 +36713,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.card-body[data-v-a48813a4]{\r\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\r\n    padding: 5px!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.card-body[data-v-a48813a4]{\n    padding: 0px!important;\n}\n.btn[data-v-a48813a4]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\ni[data-v-a48813a4]{\n    vertical-align: middle!important;\n}\n.card-header[data-v-a48813a4]{\n    padding: 5px!important;\n}\n", ""]);
 
 // exports
 
@@ -36463,7 +36732,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-c8557b8a]{\r\n    padding-left: 15px!important;\r\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\r\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\r\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\r\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\r\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\r\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\r\n    color: rgb(97, 97, 97)!important;\r\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\r\n    margin-right: 5px;\n}\r\n", ""]);
+exports.push([module.i, "\n.btn[data-v-c8557b8a]{\n    padding-left: 15px!important;\n    padding-right: 15px!important;\n}\n.bg-primary[data-v-c8557b8a]{\n    background-color: #20a8d8 !important;\n}\n.bg-default[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card-body[data-v-c8557b8a]{\n    color: #fff!important;\n}\n.sub_rule[data-v-c8557b8a]{\n    color: #000!important;\n}\n.card[data-v-c8557b8a]{\n    margin: 10px!important;\n}\n.dropdown-item>i[data-v-c8557b8a]{\n    color: #000!important;\n}\n.showSub[data-v-c8557b8a]{\n    cursor: pointer;\n}\n.noSub[data-v-c8557b8a]{\n    color: rgb(97, 97, 97)!important;\n    cursor: default;\n}\n.float-right[data-v-c8557b8a]{\n    margin-right: 5px;\n}\n", ""]);
 
 // exports
 
@@ -36482,7 +36751,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nimg[data-v-74b91af0]{\r\n    max-width: 150px;\r\n    margin-bottom: 15px!important;\n}\n.alertBox[data-v-74b91af0]{\r\n    margin-top: 15px;\n}\r\n", ""]);
+exports.push([module.i, "\nimg[data-v-74b91af0]{\n    max-width: 150px;\n    margin-bottom: 15px!important;\n}\n.alertBox[data-v-74b91af0]{\n    margin-top: 15px;\n}\n", ""]);
 
 // exports
 
@@ -36501,7 +36770,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.swal-title[data-v-58494f16]{\r\n  font-size: 0.8em!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.swal-title[data-v-58494f16]{\n  font-size: 0.8em!important;\n}\n", ""]);
 
 // exports
 
@@ -36539,7 +36808,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.description[data-v-21cd0236]{\r\n    font-size: 0.8em!important;\r\n    color: rgb(49, 49, 49);\r\n    margin-left: 20px;\n}\n.btn[data-v-21cd0236]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-21cd0236]{\r\n    padding: 5px!important;\n}\n.list[data-v-21cd0236]{\r\n    padding: 10px!important;\n}\n.btn-transparent[data-v-21cd0236]{\r\n    color: black!important;\n}\n.dropdown-item i[data-v-21cd0236]{\r\n    color: black!important;\n}\n.edit_list[data-v-21cd0236]{\r\n    background-color: rgb(176, 243, 248);\r\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-21cd0236]{\r\n    color: black!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-21cd0236]{\n    font-size: 0.8em!important;\n    color: rgb(49, 49, 49);\n    margin-left: 20px;\n}\n.btn[data-v-21cd0236]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\n.card-header[data-v-21cd0236]{\n    padding: 5px!important;\n}\n.list[data-v-21cd0236]{\n    padding: 10px!important;\n}\n.btn-transparent[data-v-21cd0236]{\n    color: black!important;\n}\n.dropdown-item i[data-v-21cd0236]{\n    color: black!important;\n}\n.edit_list[data-v-21cd0236]{\n    background-color: rgb(176, 243, 248);\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-21cd0236]{\n    color: black!important;\n}\n", ""]);
 
 // exports
 
@@ -36558,7 +36827,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.description[data-v-3cb6d0a0]{\r\n    font-size: 0.8em!important;\r\n    color: rgb(49, 49, 49);\r\n    margin-left: 20px;\n}\n.btn[data-v-3cb6d0a0]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-3cb6d0a0]{\r\n    padding: 5px!important;\n}\n.list[data-v-3cb6d0a0]{\r\n    padding: 10px!important;\n}\n.btn-transparent[data-v-3cb6d0a0]{\r\n    color: black!important;\n}\n.dropdown-item i[data-v-3cb6d0a0]{\r\n    color: black!important;\n}\n.edit_list[data-v-3cb6d0a0]{\r\n    background-color: rgb(176, 243, 248);\r\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-3cb6d0a0]{\r\n    color: black!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-3cb6d0a0]{\n    font-size: 0.8em!important;\n    color: rgb(49, 49, 49);\n    margin-left: 20px;\n}\n.btn[data-v-3cb6d0a0]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\n.card-header[data-v-3cb6d0a0]{\n    padding: 5px!important;\n}\n.list[data-v-3cb6d0a0]{\n    padding: 10px!important;\n}\n.btn-transparent[data-v-3cb6d0a0]{\n    color: black!important;\n}\n.dropdown-item i[data-v-3cb6d0a0]{\n    color: black!important;\n}\n.edit_list[data-v-3cb6d0a0]{\n    background-color: rgb(176, 243, 248);\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-3cb6d0a0]{\n    color: black!important;\n}\n", ""]);
 
 // exports
 
@@ -36596,7 +36865,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.tabTitle[data-v-faf6d538]{\r\n    font-size: 1rem;\r\n    font-weight: bold;\n}\n.nav-link[data-v-faf6d538]{\r\n    padding-top: 10px!important;\n}\n.sub_rule[data-v-faf6d538]{\r\n    padding-bottom: 10px!important;\n}\n.sub_rule_name[data-v-faf6d538]{\r\n    padding-top: 5px!important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.tabTitle[data-v-faf6d538]{\n    font-size: 1rem;\n    font-weight: bold;\n}\n.nav-link[data-v-faf6d538]{\n    padding-top: 10px!important;\n}\n.sub_rule[data-v-faf6d538]{\n    padding-bottom: 10px!important;\n}\n.sub_rule_name[data-v-faf6d538]{\n    padding-top: 5px!important;\n}\n\n", ""]);
 
 // exports
 
@@ -36634,7 +36903,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.description[data-v-84810ffc]{\r\n    font-size: 0.8em!important;\r\n    color: rgb(49, 49, 49);\r\n    margin-left: 20px;\n}\n.btn[data-v-84810ffc]{\r\n    padding-top: 5px!important;\r\n    padding-bottom: 5px!important;\r\n    vertical-align: middle!important;\n}\n.card-header[data-v-84810ffc]{\r\n    padding: 5px!important;\n}\n.list[data-v-84810ffc]{\r\n    padding: 10px!important;\n}\n.btn-transparent[data-v-84810ffc]{\r\n    color: black!important;\n}\n.dropdown-item i[data-v-84810ffc]{\r\n    color: black!important;\n}\n.edit_list[data-v-84810ffc]{\r\n    background-color: rgb(176, 243, 248);\r\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-84810ffc]{\r\n    color: black!important;\n}\ninput[data-v-84810ffc]{\r\n    max-width: 150px!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-84810ffc]{\n    font-size: 0.8em!important;\n    color: rgb(49, 49, 49);\n    margin-left: 20px;\n}\n.btn[data-v-84810ffc]{\n    padding-top: 5px!important;\n    padding-bottom: 5px!important;\n    vertical-align: middle!important;\n}\n.card-header[data-v-84810ffc]{\n    padding: 5px!important;\n}\n.list[data-v-84810ffc]{\n    padding: 10px!important;\n}\n.btn-transparent[data-v-84810ffc]{\n    color: black!important;\n}\n.dropdown-item i[data-v-84810ffc]{\n    color: black!important;\n}\n.edit_list[data-v-84810ffc]{\n    background-color: rgb(176, 243, 248);\n    margin-bottom: 5px!important;\n}\n.dropdown-item[data-v-84810ffc]{\n    color: black!important;\n}\ninput[data-v-84810ffc]{\n    max-width: 150px!important;\n}\n", ""]);
 
 // exports
 
@@ -36653,7 +36922,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\r\n    border-radius: 50%;\r\n    width: 45px;\r\n    height: 45px;\r\n    padding: 0px;\r\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\r\n    vertical-align: middle!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.btnAdd[data-v-52211dc2]{\n    border-radius: 50%;\n    width: 45px;\n    height: 45px;\n    padding: 0px;\n    vertical-align: middle;\n}\n.btn[data-v-52211dc2]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-52211dc2]{\n    vertical-align: middle!important;\n}\n", ""]);
 
 // exports
 
@@ -36672,7 +36941,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.tabTitle[data-v-17a5d68a]{\r\n    font-size: 1rem;\r\n    font-weight: bold;\n}\n.nav-link[data-v-17a5d68a]{\r\n    padding-top: 10px!important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.tabTitle[data-v-17a5d68a]{\n    font-size: 1rem;\n    font-weight: bold;\n}\n.nav-link[data-v-17a5d68a]{\n    padding-top: 10px!important;\n}\n\n", ""]);
 
 // exports
 
@@ -36691,7 +36960,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.btnAdd[data-v-28263b95]{\r\n    border-radius: 50%;\r\n    width: 45px;\r\n    height: 45px;\r\n    padding: 0px;\r\n    vertical-align: middle;\n}\n.btn[data-v-28263b95]{\r\n    padding-top: 15px!important;\r\n    padding-bottom: 15px!important;\n}\ni[data-v-28263b95]{\r\n    vertical-align: middle!important;\n}\n.topHead[data-v-28263b95]{\r\n    margin-bottom: 10px;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.btnAdd[data-v-28263b95]{\n    border-radius: 50%;\n    width: 45px;\n    height: 45px;\n    padding: 0px;\n    vertical-align: middle;\n}\n.btn[data-v-28263b95]{\n    padding-top: 15px!important;\n    padding-bottom: 15px!important;\n}\ni[data-v-28263b95]{\n    vertical-align: middle!important;\n}\n.topHead[data-v-28263b95]{\n    margin-bottom: 10px;\n}\n\n", ""]);
 
 // exports
 
@@ -47395,7 +47664,7 @@ return jQuery;
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
  * @license
  * Lodash <https://lodash.com/>
- * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -47406,7 +47675,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.11';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -50065,10 +50334,16 @@ return jQuery;
         value.forEach(function(subValue) {
           result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
         });
-      } else if (isMap(value)) {
+
+        return result;
+      }
+
+      if (isMap(value)) {
         value.forEach(function(subValue, key) {
           result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
         });
+
+        return result;
       }
 
       var keysFunc = isFull
@@ -50992,8 +51267,8 @@ return jQuery;
         return;
       }
       baseFor(source, function(srcValue, key) {
-        stack || (stack = new Stack);
         if (isObject(srcValue)) {
+          stack || (stack = new Stack);
           baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
         }
         else {
@@ -52810,7 +53085,7 @@ return jQuery;
       return function(number, precision) {
         number = toNumber(number);
         precision = precision == null ? 0 : nativeMin(toInteger(precision), 292);
-        if (precision && nativeIsFinite(number)) {
+        if (precision) {
           // Shift with exponential notation to avoid floating-point issues.
           // See [MDN](https://mdn.io/round#Examples) for more details.
           var pair = (toString(number) + 'e').split('e'),
@@ -53993,7 +54268,7 @@ return jQuery;
     }
 
     /**
-     * Gets the value at `key`, unless `key` is "__proto__" or "constructor".
+     * Gets the value at `key`, unless `key` is "__proto__".
      *
      * @private
      * @param {Object} object The object to query.
@@ -54001,10 +54276,6 @@ return jQuery;
      * @returns {*} Returns the property value.
      */
     function safeGet(object, key) {
-      if (key === 'constructor' && typeof object[key] === 'function') {
-        return;
-      }
-
       if (key == '__proto__') {
         return;
       }
@@ -57805,7 +58076,6 @@ return jQuery;
           }
           if (maxing) {
             // Handle invocations in a tight loop.
-            clearTimeout(timerId);
             timerId = setTimeout(timerExpired, wait);
             return invokeFunc(lastCallTime);
           }
@@ -62192,12 +62462,9 @@ return jQuery;
       , 'g');
 
       // Use a sourceURL for easier debugging.
-      // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
       var sourceURL = '//# sourceURL=' +
-        (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+        ('sourceURL' in options
+          ? options.sourceURL
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -62230,9 +62497,7 @@ return jQuery;
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
-      var variable = hasOwnProperty.call(options, 'variable') && options.variable;
+      var variable = options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
       }
@@ -64437,11 +64702,10 @@ return jQuery;
     baseForOwn(LazyWrapper.prototype, function(func, methodName) {
       var lodashFunc = lodash[methodName];
       if (lodashFunc) {
-        var key = lodashFunc.name + '';
-        if (!hasOwnProperty.call(realNames, key)) {
-          realNames[key] = [];
-        }
-        realNames[key].push({ 'name': methodName, 'func': lodashFunc });
+        var key = (lodashFunc.name + ''),
+            names = realNames[key] || (realNames[key] = []);
+
+        names.push({ 'name': methodName, 'func': lodashFunc });
       }
     });
 
@@ -71298,7 +71562,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Upgrade NPM & Bower\r\n                            "),
+                _vm._v("Upgrade NPM & Bower\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("0%")])
                 ])
@@ -71320,7 +71584,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("ReactJS Version\r\n                            "),
+                _vm._v("ReactJS Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("25%")])
                 ])
@@ -71342,7 +71606,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("VueJS Version\r\n                            "),
+                _vm._v("VueJS Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("50%")])
                 ])
@@ -71364,7 +71628,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Add new layouts\r\n                            "),
+                _vm._v("Add new layouts\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("75%")])
                 ])
@@ -71386,7 +71650,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Angular 2 Cli Version\r\n                            "),
+                _vm._v("Angular 2 Cli Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("100%")])
                 ])
@@ -71644,25 +71908,25 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-bell-o" }),
-            _vm._v(" Updates\r\n                "),
+            _vm._v(" Updates\n                "),
             _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-envelope-o" }),
-            _vm._v(" Messages\r\n                "),
+            _vm._v(" Messages\n                "),
             _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-tasks" }),
-            _vm._v(" Tasks\r\n                "),
+            _vm._v(" Tasks\n                "),
             _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-comments" }),
-            _vm._v(" Comments\r\n                "),
+            _vm._v(" Comments\n                "),
             _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
@@ -71682,13 +71946,13 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-usd" }),
-            _vm._v(" Payments\r\n                    "),
+            _vm._v(" Payments\n                    "),
             _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-file" }),
-            _vm._v(" Projects\r\n                    "),
+            _vm._v(" Projects\n                    "),
             _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
@@ -74882,11 +75146,10 @@ var render = function() {
                                     [_vm._v("ประเภทการอนุมัติ :")]
                                   ),
                                   _vm._v(" "),
-                                  _c("b-form-input", {
+                                  _c("b-form-select", {
                                     attrs: {
-                                      type: "text",
-                                      placeholder: "ประเภทการอนุมัติ",
-                                      name: "time_edit_type"
+                                      value: "0",
+                                      options: _vm.arrEditType
                                     }
                                   })
                                 ],
@@ -74896,6 +75159,39 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "time_edit_days" } },
+                                    [_vm._v("ระบุ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "ระบุประเภทการอนุมัติ",
+                                      name: "time_edit_days"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-row",
+                        [
                           _c(
                             "b-col",
                             { attrs: { sm: "3" } },
@@ -74921,6 +75217,60 @@ var render = function() {
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "time_edit_days" } },
+                                    [_vm._v("จำนวนเงิน :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "จำนวนเงิน",
+                                      name: "time_edit_money"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "time_edit_date" } },
+                                    [_vm._v("สิ้นสุดสัญญาวันที่ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "วันที่",
+                                      name: "time_edit_date"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -74931,7 +75281,33 @@ var render = function() {
                         [
                           _c(
                             "b-col",
-                            { attrs: { sm: "12" } },
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "time_edit_type" } },
+                                    [_vm._v("อนุมัติให้ตาม :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-select", {
+                                    attrs: {
+                                      value: "0",
+                                      options: _vm.arrApproveType
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "9" } },
                             [
                               _c(
                                 "b-form-group",
@@ -74947,6 +75323,66 @@ var render = function() {
                                       type: "text",
                                       placeholder: "กรณี",
                                       name: "time_edit_detail"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-row",
+                        [
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "obstacle_end_date" } },
+                                    [_vm._v("อุปสรรคสิ้นสุดวันที่ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "วันที่",
+                                      name: "obstacle_end_date"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "obstacle_book_date" } },
+                                    [_vm._v("หนังสือแจ้งเหตุวันที่ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "วันที่",
+                                      name: "obstacle_book_date"
                                     }
                                   })
                                 ],
@@ -75268,6 +75704,60 @@ var render = function() {
                                       type: "text",
                                       placeholder: "รายละเอียดส่งมอบงาน",
                                       name: "detail"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "time_edit_date" } },
+                                    [_vm._v("งวดที่ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "งวดที่ส่งมอบงาน",
+                                      name: "time_edit_date"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { sm: "3" } },
+                            [
+                              _c(
+                                "b-form-group",
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "overdue_days" } },
+                                    [_vm._v("ครั้งที่ :")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "ครั้งที่ส่งมอบงาน",
+                                      name: "overdue_days"
                                     }
                                   })
                                 ],
@@ -75972,219 +76462,246 @@ var render = function() {
     "div",
     { staticClass: "animated fadeIn" },
     [
-      _vm._l(_vm.form_rule_list, function(rule, x_index) {
-        return _c(
-          "b-card",
-          { key: x_index, staticClass: "sub_rule", attrs: { "no-body": "" } },
-          [
-            _c(
-              "b-card-body",
-              { staticClass: "pb-0 sub_rule" },
-              [
-                _c(
-                  "b-row",
-                  { attrs: { "align-v": "center" } },
-                  [
-                    _c("b-col", [
-                      _c("span", { staticClass: "sub_rule_name" }, [
-                        _vm._v(
-                          _vm._s(rule.order + ".(" + rule.id + ")" + rule.name)
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("b-col", [
-                      rule.sub_rules.length == 0
-                        ? _c(
-                            "div",
-                            [
-                              rule.condition_type == 1
-                                ? _c("toggle-button", {
-                                    staticStyle: {
-                                      "padding-top": "4px",
-                                      "line-height": "0px"
-                                    },
-                                    attrs: {
-                                      value: false,
-                                      sync: true,
-                                      width: 60,
-                                      height: 25,
-                                      labels: {
-                                        checked: "ใช่",
-                                        unchecked: "ไม่ใช่"
-                                      },
-                                      color: {
-                                        checked: "#41831b",
-                                        unchecked: "#7c7c7c"
-                                      }
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.changeResult(
-                                          rule.id,
-                                          x_index
-                                        )
-                                      }
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.result_list[
-                                          _vm.find_rule_index(rule.id)
-                                        ]["result"],
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.result_list[
-                                            _vm.find_rule_index(rule.id)
-                                          ],
-                                          "result",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "result_list[find_rule_index(rule.id)]['result']"
-                                    }
-                                  })
-                                : _c("b-form-input", {
-                                    attrs: {
-                                      type: "text",
-                                      value: rule.condition,
-                                      width: "120px"
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.changeResult(
-                                          rule.id,
-                                          x_index
-                                        )
-                                      }
-                                    },
-                                    model: {
-                                      value:
-                                        _vm.result_list[
-                                          _vm.find_rule_index(rule.id)
-                                        ]["result"],
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.result_list[
-                                            _vm.find_rule_index(rule.id)
-                                          ],
-                                          "result",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "result_list[find_rule_index(rule.id)]['result']"
-                                    }
-                                  })
-                            ],
-                            1
-                          )
-                        : _vm._e()
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm._l(rule.sub_rules, function(sub_rule, index) {
-                  return _c(
-                    "b-row",
-                    { key: index, attrs: { "align-v": "center" } },
+      _c(
+        "b-row",
+        [
+          _c(
+            "b-col",
+            { attrs: { sm: "12" } },
+            _vm._l(_vm.form_rule_list, function(rule, x_index) {
+              return _c(
+                "b-card",
+                {
+                  key: x_index,
+                  staticClass: "sub_rule",
+                  attrs: { "no-body": "" }
+                },
+                [
+                  _c(
+                    "b-card-body",
+                    { staticClass: "pb-0 sub_rule" },
                     [
-                      _c("b-col", [
-                        _c("span", { staticClass: "sub_rule_name" }, [
-                          _vm._v(
-                            _vm._s(
-                              sub_rule.order +
-                                ". (" +
-                                sub_rule.id +
-                                ")" +
-                                sub_rule.name
-                            )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
                       _c(
-                        "b-col",
+                        "b-row",
+                        { attrs: { "align-v": "center" } },
                         [
-                          sub_rule.condition_type == 1
-                            ? _c("toggle-button", {
-                                staticStyle: {
-                                  "padding-top": "4px",
-                                  "line-height": "0px"
-                                },
-                                attrs: {
-                                  value: false,
-                                  sync: true,
-                                  width: 60,
-                                  height: 25,
-                                  labels: {
-                                    checked: "ใช่",
-                                    unchecked: "ไม่ใช่"
-                                  },
-                                  color: {
-                                    checked: "#41831b",
-                                    unchecked: "#7c7c7c"
-                                  }
-                                },
-                                on: {
-                                  change: function($event) {
-                                    return _vm.changeResult(
-                                      sub_rule.id,
-                                      x_index,
-                                      index
-                                    )
-                                  }
-                                },
-                                model: {
-                                  value:
-                                    _vm.result_list[
-                                      _vm.find_rule_index(sub_rule.id)
-                                    ]["result"],
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.result_list[
-                                        _vm.find_rule_index(sub_rule.id)
-                                      ],
-                                      "result",
-                                      $$v
-                                    )
-                                  },
-                                  expression:
-                                    "result_list[find_rule_index(sub_rule.id)]['result']"
-                                }
-                              })
-                            : _c("b-form-input", { attrs: { type: "text" } })
+                          _c("b-col", [
+                            _c("span", { staticClass: "sub_rule_name" }, [
+                              _vm._v(
+                                _vm._s(
+                                  rule.order + ".(" + rule.id + ")" + rule.name
+                                )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("b-col", [
+                            rule.sub_rules.length == 0
+                              ? _c(
+                                  "div",
+                                  [
+                                    rule.condition_type == 1
+                                      ? _c("toggle-button", {
+                                          staticStyle: {
+                                            "padding-top": "4px",
+                                            "line-height": "0px"
+                                          },
+                                          attrs: {
+                                            value: false,
+                                            sync: true,
+                                            width: 60,
+                                            height: 25,
+                                            labels: {
+                                              checked: "ใช่",
+                                              unchecked: "ไม่ใช่"
+                                            },
+                                            color: {
+                                              checked: "#41831b",
+                                              unchecked: "#7c7c7c"
+                                            }
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              return _vm.changeResult(
+                                                rule.id,
+                                                x_index
+                                              )
+                                            }
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.result_list[
+                                                _vm.find_rule_index(rule.id)
+                                              ]["result"],
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.result_list[
+                                                  _vm.find_rule_index(rule.id)
+                                                ],
+                                                "result",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "result_list[find_rule_index(rule.id)]['result']"
+                                          }
+                                        })
+                                      : _c("b-form-input", {
+                                          attrs: {
+                                            type: "text",
+                                            value: rule.condition,
+                                            width: "120px"
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              return _vm.changeResult(
+                                                rule.id,
+                                                x_index
+                                              )
+                                            }
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.result_list[
+                                                _vm.find_rule_index(rule.id)
+                                              ]["result"],
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.result_list[
+                                                  _vm.find_rule_index(rule.id)
+                                                ],
+                                                "result",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "result_list[find_rule_index(rule.id)]['result']"
+                                          }
+                                        })
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ])
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm._l(rule.sub_rules, function(sub_rule, index) {
+                        return _c(
+                          "b-row",
+                          { key: index, attrs: { "align-v": "center" } },
+                          [
+                            _c("b-col", [
+                              _c("span", { staticClass: "sub_rule_name" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    sub_rule.order +
+                                      ". (" +
+                                      sub_rule.id +
+                                      ")" +
+                                      sub_rule.name
+                                  )
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "b-col",
+                              [
+                                sub_rule.condition_type == 1
+                                  ? _c("toggle-button", {
+                                      staticStyle: {
+                                        "padding-top": "4px",
+                                        "line-height": "0px"
+                                      },
+                                      attrs: {
+                                        value: false,
+                                        sync: true,
+                                        width: 60,
+                                        height: 25,
+                                        labels: {
+                                          checked: "ใช่",
+                                          unchecked: "ไม่ใช่"
+                                        },
+                                        color: {
+                                          checked: "#41831b",
+                                          unchecked: "#7c7c7c"
+                                        }
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.changeResult(
+                                            sub_rule.id,
+                                            x_index,
+                                            index
+                                          )
+                                        }
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.result_list[
+                                            _vm.find_rule_index(sub_rule.id)
+                                          ]["result"],
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.result_list[
+                                              _vm.find_rule_index(sub_rule.id)
+                                            ],
+                                            "result",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "result_list[find_rule_index(sub_rule.id)]['result']"
+                                      }
+                                    })
+                                  : _c("b-form-input", {
+                                      attrs: { type: "text" }
+                                    })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
                     ],
-                    1
+                    2
                   )
-                })
+                ],
+                1
+              )
+            }),
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-row",
+        [
+          _c("b-col", [
+            _c(
+              "div",
+              {
+                staticClass: "text-center",
+                staticStyle: { "margin-bottom": "5px" }
+              },
+              [
+                _c("b-button", { attrs: { variant: "primary" } }, [
+                  _vm._v("บันทึกข้อมูล")
+                ])
               ],
-              2
+              1
             )
-          ],
-          1
-        )
-      }),
-      _vm._v(" "),
-      _c("h5", [_vm._v("Form Rule :")]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.form_rule))]),
-      _vm._v(" "),
-      _c("h5", [_vm._v("Form Rule List:")]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.form_rule_list))]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.result_list))]),
-      _vm._v(" "),
-      _c("h5", [_vm._v("Array Result:")]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.arrResult))])
+          ])
+        ],
+        1
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -76871,7 +77388,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Upgrade NPM & Bower\r\n                            "),
+                _vm._v("Upgrade NPM & Bower\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("0%")])
                 ])
@@ -76893,7 +77410,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("ReactJS Version\r\n                            "),
+                _vm._v("ReactJS Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("25%")])
                 ])
@@ -76915,7 +77432,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("VueJS Version\r\n                            "),
+                _vm._v("VueJS Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("50%")])
                 ])
@@ -76937,7 +77454,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Add new layouts\r\n                            "),
+                _vm._v("Add new layouts\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("75%")])
                 ])
@@ -76959,7 +77476,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
               _c("div", { staticClass: "small mb-1" }, [
-                _vm._v("Angular 2 Cli Version\r\n                            "),
+                _vm._v("Angular 2 Cli Version\n                            "),
                 _c("span", { staticClass: "float-right" }, [
                   _c("strong", [_vm._v("100%")])
                 ])
@@ -77217,25 +77734,25 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-bell-o" }),
-            _vm._v(" Updates\r\n                "),
+            _vm._v(" Updates\n                "),
             _c("span", { staticClass: "badge badge-info" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-envelope-o" }),
-            _vm._v(" Messages\r\n                "),
+            _vm._v(" Messages\n                "),
             _c("span", { staticClass: "badge badge-success" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-tasks" }),
-            _vm._v(" Tasks\r\n                "),
+            _vm._v(" Tasks\n                "),
             _c("span", { staticClass: "badge badge-danger" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-comments" }),
-            _vm._v(" Comments\r\n                "),
+            _vm._v(" Comments\n                "),
             _c("span", { staticClass: "badge badge-warning" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
@@ -77255,13 +77772,13 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-usd" }),
-            _vm._v(" Payments\r\n                    "),
+            _vm._v(" Payments\n                    "),
             _c("span", { staticClass: "badge badge-dark" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
           _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-file" }),
-            _vm._v(" Projects\r\n                    "),
+            _vm._v(" Projects\n                    "),
             _c("span", { staticClass: "badge badge-primary" }, [_vm._v("42")])
           ]),
           _vm._v(" "),
@@ -78172,9 +78689,16 @@ var render = function() {
                           }
                         },
                         [
-                          _c("b-form-input", {
-                            attrs: { id: "approve_refund_days" }
-                          })
+                          _c(
+                            "b-input-group",
+                            { attrs: { append: "วัน" } },
+                            [
+                              _c("b-form-input", {
+                                attrs: { id: "approve_refund_days" }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -78203,9 +78727,16 @@ var render = function() {
                           }
                         },
                         [
-                          _c("b-form-input", {
-                            attrs: { id: "approve_refund_amount" }
-                          })
+                          _c(
+                            "b-input-group",
+                            { attrs: { append: "บาท" } },
+                            [
+                              _c("b-form-input", {
+                                attrs: { id: "approve_refund_amount" }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -78234,9 +78765,16 @@ var render = function() {
                           }
                         },
                         [
-                          _c("b-form-input", {
-                            attrs: { id: "approve_refund_mount" }
-                          })
+                          _c(
+                            "b-input-group",
+                            { attrs: { append: "บาท" } },
+                            [
+                              _c("b-form-input", {
+                                attrs: { id: "approve_refund_mount" }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -78909,15 +79447,9 @@ var render = function() {
                   _c("span", [_vm._v(_vm._s(tab.title))])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "b-row",
-                  [
-                    _c("refund-check", {
-                      attrs: { form_id: _vm.refund_forms[index].form_id }
-                    })
-                  ],
-                  1
-                )
+                _c("refund-check", {
+                  attrs: { form_id: _vm.refund_forms[index].form_id }
+                })
               ],
               2
             )
@@ -79027,7 +79559,9 @@ var render = function() {
       _vm._v(" "),
       _c("p", [_vm._v("refund form" + _vm._s(_vm.refund_forms))]),
       _vm._v(" "),
-      _c("p", [_vm._v("tabs" + _vm._s(_vm.tab_forms))])
+      _c("p", [_vm._v("tabs" + _vm._s(_vm.tab_forms))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("tabs" + _vm._s(_vm.tabIndex))])
     ],
     1
   )
@@ -98961,17 +99495,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ContractTimeEdit_vue_vue_type_template_id_21cd0236_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContractTimeEdit.vue?vue&type=template&id=21cd0236&scoped=true& */ "./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=template&id=21cd0236&scoped=true&");
-/* harmony import */ var _ContractTimeEdit_vue_vue_type_style_index_0_id_21cd0236_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContractTimeEdit.vue?vue&type=style&index=0&id=21cd0236&scoped=true&lang=css& */ "./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=style&index=0&id=21cd0236&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ContractTimeEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContractTimeEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ContractTimeEdit_vue_vue_type_style_index_0_id_21cd0236_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContractTimeEdit.vue?vue&type=style&index=0&id=21cd0236&scoped=true&lang=css& */ "./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=style&index=0&id=21cd0236&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ContractTimeEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ContractTimeEdit_vue_vue_type_template_id_21cd0236_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ContractTimeEdit_vue_vue_type_template_id_21cd0236_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -98985,6 +99521,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/Refund/ContractTimeEdit.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContractTimeEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ContractTimeEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Refund/ContractTimeEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContractTimeEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -100596,8 +101146,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\dev\laravel\refund\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\dev\laravel\refund\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\code\laravel\refund\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\code\laravel\refund\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -47,9 +47,9 @@
                 <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
-              <b-row>
+
                   <refund-check :form_id="refund_forms[index].form_id"></refund-check>
-              </b-row>
+
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
             <b-tab>
@@ -89,6 +89,7 @@
             <p>select{{arrFormSelected}}</p>
             <p>refund form{{refund_forms}}</p>
             <p>tabs{{tab_forms}}</p>
+            <p>tabs{{tabIndex}}</p>
     </div>
 </template>
 <script>
@@ -101,6 +102,7 @@ export default {
                 {title: 'ข้อมูลสัญญา', status: 0},
                 {title: 'ข้อมูลการอนุมัติ งด/ลด/ขยายเวลา', status: 0},
                 {title: 'ข้อมูลการส่งมอบงาน', status: 0},
+                {title: 'จำนวนเงินที่ขออนุมัติ', status: 0},
 
             ],
             tab_forms: [],
@@ -240,6 +242,7 @@ export default {
                                             status : 0
                                         }
                                     );
+
                                     this.$forceUpdate();
                                 })
                                 .catch(error=>{
@@ -248,16 +251,20 @@ export default {
 
                             }
                             if (this.arrFormSelected.length > 0){
-
-                                console.log('array ' + this.arrFormSelected.length);
+                                //console.log('array ' + this.arrFormSelected.length);
                                 this.alert = 'success';
                                 this.tabs[0].status = 1;
 
-                                this.$forceUpdate();
-                                this.tabIndex++;
+
                                 this.$forceUpdate();
 
                             }
+                            setInterval(function(){
+                                this.tabIndex = 1;
+
+                                console.log("tab Index   :" + this.tabIndex);
+                            },3000);
+
                         })
                         .catch(error=>{
                             this.alert = 'error';

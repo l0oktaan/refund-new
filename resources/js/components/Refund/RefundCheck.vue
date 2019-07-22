@@ -1,63 +1,68 @@
 <template>
 <div class="animated fadeIn">
-        <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
-            <b-card-body class="pb-0 sub_rule">
-                <b-row align-v="center">
-                    <b-col>
-                        <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name}}</span>
+        <b-row>
+            <b-col sm="12">
+                <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
+                    <b-card-body class="pb-0 sub_rule">
+                        <b-row align-v="center">
+                            <b-col>
+                                <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name}}</span>
 
-                    </b-col>
-                    <b-col>
-                        <div v-if="rule.sub_rules.length == 0">
+                            </b-col>
+                            <b-col>
+                                <div v-if="rule.sub_rules.length == 0">
 
-                            <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                                :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
-                                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                style="padding-top:4px; line-height:0px;"
-                                v-model="result_list[find_rule_index(rule.id)]['result']"
-                                @change="changeResult(rule.id,x_index)"
-                                v-if="rule.condition_type == 1"
-                            />
-                            <b-form-input type="text"
-                                :value="rule.condition"
-                                width="120px"
-                                v-else
-                                v-model="result_list[find_rule_index(rule.id)]['result']"
-                                @change="changeResult(rule.id,x_index)"
-                            >
-                            </b-form-input>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row v-for="(sub_rule,index) in rule.sub_rules" :key="index" align-v="center">
-                    <b-col>
-                        <span class="sub_rule_name">{{sub_rule.order + '. (' + sub_rule.id + ')' + sub_rule.name}}</span>
+                                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
+                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                        style="padding-top:4px; line-height:0px;"
+                                        v-model="result_list[find_rule_index(rule.id)]['result']"
+                                        @change="changeResult(rule.id,x_index)"
+                                        v-if="rule.condition_type == 1"
+                                    />
+                                    <b-form-input type="text"
+                                        :value="rule.condition"
+                                        width="120px"
+                                        v-else
+                                        v-model="result_list[find_rule_index(rule.id)]['result']"
+                                        @change="changeResult(rule.id,x_index)"
+                                    >
+                                    </b-form-input>
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <b-row v-for="(sub_rule,index) in rule.sub_rules" :key="index" align-v="center">
+                            <b-col>
+                                <span class="sub_rule_name">{{sub_rule.order + '. (' + sub_rule.id + ')' + sub_rule.name}}</span>
 
-                    </b-col>
-                    <b-col>
+                            </b-col>
+                            <b-col>
 
-                            <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                                :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
-                                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                style="padding-top:4px; line-height:0px;"
-                                v-model="result_list[find_rule_index(sub_rule.id)]['result']"
-                                @change="changeResult(sub_rule.id,x_index,index)"
-                                v-if="sub_rule.condition_type == 1"
-                            />
-                            <b-form-input type="text" v-else></b-form-input>
+                                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
+                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                        style="padding-top:4px; line-height:0px;"
+                                        v-model="result_list[find_rule_index(sub_rule.id)]['result']"
+                                        @change="changeResult(sub_rule.id,x_index,index)"
+                                        v-if="sub_rule.condition_type == 1"
+                                    />
+                                    <b-form-input type="text" v-else></b-form-input>
 
-                    </b-col>
-                </b-row>
-            </b-card-body>
-        </b-card>
-        <h5>Form Rule :</h5>
-        <p>{{form_rule}}</p>
-        <h5>Form Rule List:</h5>
-        <p>{{form_rule_list}}</p>
-        <p>{{result_list}}</p>
+                            </b-col>
+                        </b-row>
+                    </b-card-body>
 
-        <h5>Array Result:</h5>
-        <p>{{arrResult}}</p>
+                </b-card>
+            </b-col>
+        </b-row>
+       <b-row>
+            <b-col>
+                <div class="text-center" style="margin-bottom:5px;">
+                    <b-button variant="primary">บันทึกข้อมูล</b-button>
+                </div>
+            </b-col>
+        </b-row>
+
     </div>
     <!-- <div>
         <b-list-group>
