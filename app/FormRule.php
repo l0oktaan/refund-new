@@ -28,4 +28,8 @@ class FormRule extends Model
     public function form_conditions(){
         return $this->hasMany('App\FormCondition','form_rule_id','id');
     }
+
+    public function considers(){
+        return $this->hasMany('App\Consider','form_rule_id','id');
+    }
 }
