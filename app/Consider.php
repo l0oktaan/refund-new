@@ -17,4 +17,14 @@ class Consider extends Model
         'var1',
         'var2'
     ];
+
+    public function form_rule()
+    {
+        return $this->belongsTo('App\FormRule');
+    }
+
+    public function form()
+    {
+        return $this->belongsTo('App\Form');
+    }
 }

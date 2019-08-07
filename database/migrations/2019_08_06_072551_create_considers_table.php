@@ -20,9 +20,9 @@ class CreateConsidersTable extends Migration
             $table->integer('order');
             $table->string('name');
             $table->integer('type');
-            $table->string('oper');
-            $table->string('var1');
-            $table->string('var2');
+            $table->string('oper')->nullable();
+            $table->string('var1')->nullable();
+            $table->string('var2')->nullable();
             $table->timestamps();
         });
     }

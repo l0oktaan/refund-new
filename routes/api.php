@@ -36,4 +36,5 @@ Route::Resource('/forms','FormController');
 Route::group(['prefix'=>'forms'],function(){
     Route::apiResource('/{form}/form_rules','FormRuleController');
     Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
+    Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
 });

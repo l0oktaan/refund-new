@@ -193,6 +193,9 @@ Vue.component('SubRule', SubRule).defaults;
 import RuleCondition from './components/Admin/Form/RuleCondition.vue';
 Vue.component('RuleCondition', RuleCondition).defaults;
 
+import RuleConsider from './components/Admin/Form/Consider.vue';
+Vue.component('RuleConsider', RuleConsider).defaults;
+
 import MyAlert from './components/MyAlert.vue';
 Vue.component('MyAlert', MyAlert).default;
 

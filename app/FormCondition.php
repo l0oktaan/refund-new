@@ -26,7 +26,8 @@ class FormCondition extends Model
     {
         return $this->hasMany('App\FormDetail');
     }
-    public function form(){
+    public function form()
+    {
         return $this->belongsTo('App\Form');
     }
 
