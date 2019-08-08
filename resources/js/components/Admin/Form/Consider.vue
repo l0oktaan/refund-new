@@ -56,8 +56,19 @@ export default {
             consider_name: '',
             consider_type: 0,
             consider_oper: 0,
-            consider_var1: 0
-
+            consider_var1: 0,
+            consider_var2: 0,
+            order_list: ['ลำดับ'],
+            type_list: [
+                {value: 0, text: 'ประเภทเงื่อนไข'},
+                {value: 1, text: 'ใช่หรือไม่'},
+                {value: 2, text: 'ใส่ข้อความ/ตัวเลข'},
+                {value: 3, text: 'ระบุวันที่'},
+                {value: 4, text: 'ก่อนวันที่'},
+                {value: 5, text: 'หลังวันที่'},
+                {value: 6, text: 'ในช่วงระยะเวลา'},
+                {value: 7, text: 'ไม่อยู่ในช่วงระยะเวลา'},
+            ]
         }
     }
 }
