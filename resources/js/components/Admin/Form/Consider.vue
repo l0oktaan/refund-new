@@ -3,39 +3,33 @@
         <div>
         <my-alert :AlertType="alert"></my-alert>
         <b-form @submit="onSubmit">
-
-            <b-form-group>
-                <label for="name">รายละเอียดเงื่อนไข</label>
-                <b-form-input type="text"
-                    placeholder="รายละเอียดเงื่อนไข"
-                    name="name"
-                    v-model = "c_name"
-
-                    >
-                </b-form-input>
-                <div class="error" v-if="!$v.c_name.required">กรุณากรอกข้อมูล</div>
-                <div class="error" v-if="!$v.c_name.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.c_name.$params.minLength.min}} ตัวอักษร.</div>
-            </b-form-group>
-            <b-form-group>
-                <label for="description">คำอธิบาย</label>
-                <b-form-input type="text"
-                    placeholder="คำอธิบาย"
-                    name="description"
-                    v-model = "c_description"
-                    >
-                </b-form-input>
-            </b-form-group>
             <b-row>
-                <b-col sm="6">
-                    <b-form-group label="ประเภทเงื่อนไข">
-                        <b-form-radio-group
-                            v-model="c_type"
-                            :options="arr_type"
-                            name="c_type"
-                        ></b-form-radio-group>
+                <b-col>
+                    <b-form-group>
+                        <label for="name">รายละเอียดเงื่อนไข</label>
+                        <b-form-input type="text"
+                            placeholder="รายละเอียดเงื่อนไข"
+                            name="name"
+                            v-model = "consider_name"
+
+                            >
+                        </b-form-input>
                     </b-form-group>
                 </b-col>
             </b-row>
+            <b-row>
+                <b-col cols="3">
+                    <b-form-group label="การตรวจสอบเงื่อนไข">
+                        <b-form-select
+                            v-model="consider_oper"
+                            :options="oper_list"
+                            name="consider_oper"
+                        ></b-form-select>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+
+
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseCondition">ปิด</b-button>
@@ -59,16 +53,20 @@ export default {
             consider_var1: 0,
             consider_var2: 0,
             order_list: ['ลำดับ'],
+            oper_list:[
+                {value: 0, text: 'ตัวเลือก'},
+                {value: 1, text: 'ให้กรอกข้อมูล'},
+                {value: 2, text: 'ไม่เกินจำนวนวัน'},
+                {value: 3, text: 'ไม่เกินวันที่'},
+            ],
             type_list: [
                 {value: 0, text: 'ประเภทเงื่อนไข'},
                 {value: 1, text: 'ใช่หรือไม่'},
-                {value: 2, text: 'ใส่ข้อความ/ตัวเลข'},
-                {value: 3, text: 'ระบุวันที่'},
-                {value: 4, text: 'ก่อนวันที่'},
-                {value: 5, text: 'หลังวันที่'},
-                {value: 6, text: 'ในช่วงระยะเวลา'},
-                {value: 7, text: 'ไม่อยู่ในช่วงระยะเวลา'},
-            ]
+                {value: 2, text: 'ใส่ข้อความ'},
+                {value: 3, text: 'ตัวเลข'},
+                {value: 4, text: 'วันที่'},
+            ],
+
         }
     }
 }

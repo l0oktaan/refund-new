@@ -90,7 +90,7 @@
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>
             </div>
-
+            <rule-consider></rule-consider>
         </b-form>
     </div>
 </template>

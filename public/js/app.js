@@ -4473,12 +4473,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id', 'rule_id'],
   data: function data() {
@@ -4493,6 +4487,19 @@ __webpack_require__.r(__webpack_exports__);
       consider_var1: 0,
       consider_var2: 0,
       order_list: ['ลำดับ'],
+      oper_list: [{
+        value: 0,
+        text: 'ตัวเลือก'
+      }, {
+        value: 1,
+        text: 'ให้กรอกข้อมูล'
+      }, {
+        value: 2,
+        text: 'ไม่เกินจำนวนวัน'
+      }, {
+        value: 3,
+        text: 'ไม่เกินวันที่'
+      }],
       type_list: [{
         value: 0,
         text: 'ประเภทเงื่อนไข'
@@ -4501,22 +4508,13 @@ __webpack_require__.r(__webpack_exports__);
         text: 'ใช่หรือไม่'
       }, {
         value: 2,
-        text: 'ใส่ข้อความ/ตัวเลข'
+        text: 'ใส่ข้อความ'
       }, {
         value: 3,
-        text: 'ระบุวันที่'
+        text: 'ตัวเลข'
       }, {
         value: 4,
-        text: 'ก่อนวันที่'
-      }, {
-        value: 5,
-        text: 'หลังวันที่'
-      }, {
-        value: 6,
-        text: 'ในช่วงระยะเวลา'
-      }, {
-        value: 7,
-        text: 'ไม่อยู่ในช่วงระยะเวลา'
+        text: 'วันที่'
       }]
     };
   }
@@ -72895,67 +72893,38 @@ var render = function() {
           { on: { submit: _vm.onSubmit } },
           [
             _c(
-              "b-form-group",
+              "b-row",
               [
-                _c("label", { attrs: { for: "name" } }, [
-                  _vm._v("รายละเอียดเงื่อนไข")
-                ]),
-                _vm._v(" "),
-                _c("b-form-input", {
-                  attrs: {
-                    type: "text",
-                    placeholder: "รายละเอียดเงื่อนไข",
-                    name: "name"
-                  },
-                  model: {
-                    value: _vm.c_name,
-                    callback: function($$v) {
-                      _vm.c_name = $$v
-                    },
-                    expression: "c_name"
-                  }
-                }),
-                _vm._v(" "),
-                !_vm.$v.c_name.required
-                  ? _c("div", { staticClass: "error" }, [
-                      _vm._v("กรุณากรอกข้อมูล")
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.$v.c_name.minLength
-                  ? _c("div", { staticClass: "error" }, [
-                      _vm._v(
-                        "กรุณากรอกข้อมูลความยาวไม่น้อยกว่า " +
-                          _vm._s(_vm.$v.c_name.$params.minLength.min) +
-                          " ตัวอักษร."
-                      )
-                    ])
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "b-form-group",
-              [
-                _c("label", { attrs: { for: "description" } }, [
-                  _vm._v("คำอธิบาย")
-                ]),
-                _vm._v(" "),
-                _c("b-form-input", {
-                  attrs: {
-                    type: "text",
-                    placeholder: "คำอธิบาย",
-                    name: "description"
-                  },
-                  model: {
-                    value: _vm.c_description,
-                    callback: function($$v) {
-                      _vm.c_description = $$v
-                    },
-                    expression: "c_description"
-                  }
-                })
+                _c(
+                  "b-col",
+                  [
+                    _c(
+                      "b-form-group",
+                      [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("รายละเอียดเงื่อนไข")
+                        ]),
+                        _vm._v(" "),
+                        _c("b-form-input", {
+                          attrs: {
+                            type: "text",
+                            placeholder: "รายละเอียดเงื่อนไข",
+                            name: "name"
+                          },
+                          model: {
+                            value: _vm.consider_name,
+                            callback: function($$v) {
+                              _vm.consider_name = $$v
+                            },
+                            expression: "consider_name"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
               ],
               1
             ),
@@ -72965,20 +72934,23 @@ var render = function() {
               [
                 _c(
                   "b-col",
-                  { attrs: { sm: "6" } },
+                  { attrs: { cols: "3" } },
                   [
                     _c(
                       "b-form-group",
-                      { attrs: { label: "ประเภทเงื่อนไข" } },
+                      { attrs: { label: "การตรวจสอบเงื่อนไข" } },
                       [
-                        _c("b-form-radio-group", {
-                          attrs: { options: _vm.arr_type, name: "c_type" },
+                        _c("b-form-select", {
+                          attrs: {
+                            options: _vm.oper_list,
+                            name: "consider_oper"
+                          },
                           model: {
-                            value: _vm.c_type,
+                            value: _vm.consider_oper,
                             callback: function($$v) {
-                              _vm.c_type = $$v
+                              _vm.consider_oper = $$v
                             },
-                            expression: "c_type"
+                            expression: "consider_oper"
                           }
                         })
                       ],
@@ -73693,7 +73665,9 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("rule-consider")
         ],
         1
       )
