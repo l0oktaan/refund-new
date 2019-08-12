@@ -43,6 +43,8 @@ Vue.use(Vuelidate)
 import ToggleButton from 'vue-js-toggle-button'
 Vue.use(ToggleButton)
 
+import DatePicker from 'vue2-datepicker'
+Vue.use(DatePicker)
 
 import App from './views/App.vue'
 import Home from './views/Home.vue'

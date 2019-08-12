@@ -54,6 +54,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            <!--
             <b-form-group>
                 <label for="name">รายละเอียดเงื่อนไข</label>
                 <b-form-input type="text"
@@ -85,7 +86,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
-
+            -->
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>

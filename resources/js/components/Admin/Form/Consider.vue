@@ -19,6 +19,15 @@
             </b-row>
             <b-row>
                 <b-col cols="3">
+                    <b-form-group label="ปรเภทเงื่อนไข">
+                        <b-form-select
+                            v-model="consider_type"
+                            :options="type_list"
+                            name="consider_type"
+                        ></b-form-select>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="3" v-if="consider_type==3">
                     <b-form-group label="การตรวจสอบเงื่อนไข">
                         <b-form-select
                             v-model="consider_oper"
@@ -27,13 +36,22 @@
                         ></b-form-select>
                     </b-form-group>
                 </b-col>
+                <b-col cols="3" v-if="(consider_type==3) && (consider_oper==1)">
+                        <b-form-group>
+                        <label for="var1">ข้อมูลตรวจสอบ</label>
+                        <b-form-input type="text"
+                            placeholder="ข้อมูลตรวจสอบ"
+                            name="var1"
+                            v-model = "consider_var1"
+                            >
+                        </b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="3">
+                    <date-picker :first-day-of-week="1"></date-picker>
+                </b-col>
             </b-row>
 
-
-            <div class="text-center">
-                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                <b-button type="reset" variant="danger" @click="toCloseCondition">ปิด</b-button>
-            </div>
         </b-form>
         </div>
     </div>
@@ -50,22 +68,25 @@ export default {
             consider_name: '',
             consider_type: 0,
             consider_oper: 0,
-            consider_var1: 0,
-            consider_var2: 0,
+            consider_var1: '',
+            consider_var2: '',
             order_list: ['ลำดับ'],
-            oper_list:[
-                {value: 0, text: 'ตัวเลือก'},
-                {value: 1, text: 'ให้กรอกข้อมูล'},
-                {value: 2, text: 'ไม่เกินจำนวนวัน'},
-                {value: 3, text: 'ไม่เกินวันที่'},
-            ],
             type_list: [
                 {value: 0, text: 'ประเภทเงื่อนไข'},
                 {value: 1, text: 'ใช่หรือไม่'},
                 {value: 2, text: 'ใส่ข้อความ'},
-                {value: 3, text: 'ตัวเลข'},
-                {value: 4, text: 'วันที่'},
+                {value: 3, text: 'ตรวจสอบข้อมูล'},
             ],
+            oper_list:[
+                {value: 0, text: 'ตัวเลือกการตรวจสอบ'},
+                {value: 1, text: 'ไม่เกินจำนวนวัน'},
+                {value: 2, text: 'ไม่เกินวันที่'},
+            ],
+            alert: ''
+        }
+    },
+    methods: {
+        onSubmit(){
 
         }
     }
