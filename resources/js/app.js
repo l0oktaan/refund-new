@@ -46,6 +46,10 @@ Vue.use(ToggleButton)
 import DatePicker from 'vue2-datepicker'
 Vue.use(DatePicker)
 
+import moment from 'moment'
+
+Vue.use(moment)
+
 import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
@@ -240,6 +244,10 @@ Vue.component('RefundSummary', RefundSummary).defaults;
 
 import RefundCheck from './components/Refund/RefundCheck.vue';
 Vue.component('RefundCheck', RefundCheck).defaults;
+
+import MyDatePicker from './components/DatePicker.vue';
+Vue.component('MyDatePicker', MyDatePicker).defaults;
+
 const app = new Vue({
     el: '#app',
     components: { App },

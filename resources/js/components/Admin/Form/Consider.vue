@@ -40,15 +40,21 @@
                         <b-form-group>
                         <label for="var1">ข้อมูลตรวจสอบ</label>
                         <b-form-input type="text"
-                            placeholder="ข้อมูลตรวจสอบ"
+                            placeholder="จำนวนวัน"
                             name="var1"
                             v-model = "consider_var1"
                             >
                         </b-form-input>
                     </b-form-group>
                 </b-col>
-                <b-col cols="3">
-                    <date-picker :first-day-of-week="1"></date-picker>
+                <b-col cols="3" v-if="(consider_type==3) && (consider_oper==2)">
+                    <b-form-group>
+                        <label for="date1">ข้อมูลตรวจสอบ</label>
+                        <my-date-picker 
+                            name="date1"
+                            @dateSelected="dateSelected"
+                        ></my-date-picker>
+                    </b-form-group>
                 </b-col>
             </b-row>
 
@@ -82,12 +88,16 @@ export default {
                 {value: 1, text: 'ไม่เกินจำนวนวัน'},
                 {value: 2, text: 'ไม่เกินวันที่'},
             ],
-            alert: ''
+            alert: '',
+            lang: 'th'
         }
     },
     methods: {
         onSubmit(){
 
+        },
+        dateSelected(value){
+            console.log('date :' + value);
         }
     }
 }
