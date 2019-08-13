@@ -32,7 +32,7 @@ class Form extends Model
             'form_rule_id'
         );
     }
-    public function considers(){
+    public function form_considers(){
         return $this->hasManyThrough(
             'App\Consider',
             'App\FormRule',

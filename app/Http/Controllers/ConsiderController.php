@@ -19,8 +19,8 @@ class ConsiderController extends Controller
                             //->where('form_rule_id','=',$formRule->id)
                             //->orderBy('order','asc')
                             ->get();
-        return $formConsider;
-        //return FormConditionResource::collection($formCondition);
+
+        return ConsiderResource::collection($formConsider);
 
     }
 

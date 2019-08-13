@@ -46,9 +46,8 @@ Vue.use(ToggleButton)
 import DatePicker from 'vue2-datepicker'
 Vue.use(DatePicker)
 
-import moment from 'moment'
-
-Vue.use(moment)
+import VueDatepicker from 'vuejs-datepicker'
+Vue.use(VueDatepicker)
 
 import App from './views/App.vue'
 import Home from './views/Home.vue'
@@ -201,6 +200,9 @@ Vue.component('RuleCondition', RuleCondition).defaults;
 
 import RuleConsider from './components/Admin/Form/Consider.vue';
 Vue.component('RuleConsider', RuleConsider).defaults;
+
+import ConsiderCover from './components/Admin/Form/ConsiderCover.vue';
+Vue.component('ConsiderCover', ConsiderCover).defaults;
 
 import MyAlert from './components/MyAlert.vue';
 Vue.component('MyAlert', MyAlert).default;

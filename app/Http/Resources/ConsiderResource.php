@@ -14,6 +14,15 @@ class ConsiderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'form_rule_id' => $this->form_rule_id,
+            'order' => $this->order,
+            'name' => $this->name,
+            'type' => $this->type,
+            'oper' => $this->oper,
+            'var1' => $this->var1,
+            'var2' => $this->var2
+        ];
     }
 }

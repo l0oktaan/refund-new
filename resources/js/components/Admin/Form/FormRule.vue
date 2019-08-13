@@ -91,7 +91,7 @@
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>
             </div>
-            <rule-consider></rule-consider>
+            <rule-consider v-if="state=='update'" :form_id="form_id" :rule_id="rule_id"></rule-consider>
         </b-form>
     </div>
 </template>
