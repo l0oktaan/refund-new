@@ -4503,13 +4503,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['form_id', 'rule_id'],
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       f_id: 0,
       r_id: 0,
       consider_list: [],
+      consider_id: 0,
       consider_order: 0,
       consider_name: '',
       consider_type: 0,
@@ -4543,7 +4552,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       alert: '',
       lang: 'th',
       state: 'new'
-    }, "alert", '');
+    }, _defineProperty(_ref, "alert", ''), _defineProperty(_ref, "myDate1", ''), _ref;
   },
   mounted: function mounted() {
     this.clearData();
@@ -4556,7 +4565,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       e.preventDefault();
       var consider = {};
       var path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_considers");
-      console.log('order: ' + this.consider_order + ' name :' + this.consider_name + ' path: ' + path);
 
       if (this.state == 'new') {
         axios.post(path, {
@@ -4567,22 +4575,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var1: this.consider_var1,
           var2: this.consider_var2
         }).then(function (response) {
-          consider = response.data.data;
-          _this.state = "update";
-          _this.consider_order = consider.order;
-          _this.consider_name = consider.name;
-          _this.consider_type = consider.type;
-          _this.consider_oper = consider.oper;
-          _this.consider_var1 = consider.var1;
-          _this.consider_var2 = consider.var2;
+          consider = response.data.data; // this.consider_id = consider.id;
+          // this.consider_order = consider.order;
+          // this.consider_name = consider.name;
+          // this.consider_type = consider.type;
+          // this.consider_oper = consider.oper;
+          // this.consider_var1 = consider.var1;
+          // this.consider_var2 = consider.var2;
+
           _this.alert = "success";
 
           _this.fetchData();
-        })["catch"](function (error) {});
+
+          _this.clearData();
+        })["catch"](function (error) {
+          _this.alert = "error";
+        });
+      } else if (this.state == "update") {
+        path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_considers/").concat(this.consider_id);
+        axios.put("".concat(path), {
+          order: this.consider_order,
+          name: this.consider_name,
+          type: this.consider_type,
+          oper: this.consider_oper,
+          var1: this.consider_var1,
+          var2: this.consider_var2
+        }).then(function (resposne) {
+          _this.alert = "success";
+
+          _this.fetchData();
+
+          _this.clearData();
+        })["catch"](function (error) {
+          _this.alert = "error";
+        });
       }
     },
     dateSelected: function dateSelected(value) {
-      console.log('date :' + value);
+      this.consider_var1 = value;
+      console.log('Date Selected :' + this.consider_var1);
     },
     fetchData: function fetchData() {
       var _this2 = this;
@@ -4590,17 +4621,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var path = "/api/forms/".concat(this.form_id, "/form_rules/").concat(this.rule_id, "/form_considers");
       axios.get("".concat(path)).then(function (response) {
         _this2.consider_list = response.data.data;
+
+        _this2.$forceUpdate();
       })["catch"](function (error) {});
     },
-    clearData: function clearData() {
-      this.state = "new";
-      this.consider_list = [], this.consider_order = consider.order;
+    toEdit: function toEdit(consider) {
+      console.log('to edit', consider.name);
+      this.state = "update";
+      this.consider_id = consider.id;
+      this.consider_order = consider.order;
       this.consider_name = consider.name;
       this.consider_type = consider.type;
       this.consider_oper = consider.oper;
       this.consider_var1 = consider.var1;
       this.consider_var2 = consider.var2;
-      this.alert = "";
+      this.myDate1 = consider.var1;
+      this.$forceUpdate();
+    },
+    clearData: function clearData() {
+      this.state = "new"; //this.consider_list = [],
+
+      this.consider_order = 0;
+      this.consider_name = '';
+      this.consider_type = 0;
+      this.consider_oper = 0;
+      this.consider_var1 = '';
+      this.consider_var2 = '';
+      this.myDate1 = '';
     }
   }
 });
@@ -4638,15 +4685,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['considers'],
+  props: ['form_id', 'considers'],
   data: function data() {
     return {
       arr_considers: []
     };
   },
+  methods: {
+    delConsider: function delConsider(id, form_rule_id) {
+      var _this = this;
+
+      this.$swal({
+        title: "กรุณายืนยันการลบเงื่อนไข",
+        text: "คุณต้องการลบเงื่อนไขนี้ใช่หรือไม่",
+        icon: "error",
+        closeOnClickOutside: false,
+        buttons: ['ยกเลิก', 'ยืนยัน']
+      }).then(function (isConfirm) {
+        if (isConfirm) {
+          var path = "/api/forms/".concat(_this.form_id, "/form_rules/").concat(form_rule_id, "/form_considers/").concat(id);
+          axios["delete"](path).then(function (response) {
+            _this.$emit('fetchConsider');
+
+            _this.$parent.alert = 'success';
+          });
+        }
+      });
+    },
+    toEdit: function toEdit(consider) {
+      this.$emit('toEdit', consider);
+    }
+  },
   watch: {
     considers: function considers() {
       this.arr_considers = this.considers;
+      this.$forceUpdate();
     }
   }
 });
@@ -6229,6 +6302,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['myDate'],
   data: function data() {
     return {
       lang: {
@@ -6240,8 +6314,19 @@ __webpack_require__.r(__webpack_exports__);
           dateRange: 'Select Date Range'
         }
       },
+      format: 'DD-MM-YYYY',
       date1: ''
     };
+  },
+  watch: {
+    myDate: function myDate() {
+      console.log('Show Date :' + this.myDate);
+
+      if (this.myDate != '') {
+        this.date1 = this.myDate;
+        this.$forceUpdate();
+      }
+    }
   },
   methods: {
     dateSelected: function dateSelected() {
@@ -73274,12 +73359,13 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("my-date-picker", {
-                              attrs: { name: "date1" },
+                              attrs: { name: "date1", myDate: _vm.myDate1 },
                               on: { dateSelected: _vm.dateSelected }
                             })
                           ],
                           1
-                        )
+                        ),
+                        _vm._v(_vm._s(_vm.myDate1) + "\n            ")
                       ],
                       1
                     )
@@ -73301,7 +73387,10 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("consider-cover", { attrs: { considers: _vm.consider_list } })
+            _c("consider-cover", {
+              attrs: { considers: _vm.consider_list, form_id: _vm.form_id },
+              on: { fetchConsider: _vm.fetchData, toEdit: _vm.toEdit }
+            })
           ],
           1
         )
@@ -73356,15 +73445,32 @@ var render = function() {
                     _c("i", { staticClass: "icon-settings sub_rule" })
                   ]),
                   _vm._v(" "),
-                  _c("b-dropdown-item", [
-                    _c("i", { staticClass: "fas fa-link" }),
-                    _vm._v(" แก้ไข")
-                  ]),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.toEdit(consider)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fas fa-link" }), _vm._v(" แก้ไข")]
+                  ),
                   _vm._v(" "),
-                  _c("b-dropdown-item", [
-                    _c("i", { staticClass: "fas fa-trash" }),
-                    _vm._v(" ลบ")
-                  ])
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.delConsider(
+                            consider.id,
+                            consider.form_rule_id
+                          )
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fas fa-trash" }), _vm._v(" ลบ")]
+                  )
                 ],
                 2
               ),
@@ -74679,7 +74785,7 @@ var render = function() {
     attrs: {
       "first-day-of-week": 1,
       lang: _vm.lang,
-      format: "DD/MM/YYYY",
+      valueType: "format",
       confirm: ""
     },
     on: { confirm: _vm.dateSelected },
@@ -101742,15 +101848,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************************************!*\
   !*** ./resources/js/components/Admin/Form/ConsiderCover.vue ***!
   \**************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ConsiderCover_vue_vue_type_template_id_04d727c4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConsiderCover.vue?vue&type=template&id=04d727c4&scoped=true& */ "./resources/js/components/Admin/Form/ConsiderCover.vue?vue&type=template&id=04d727c4&scoped=true&");
 /* harmony import */ var _ConsiderCover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConsiderCover.vue?vue&type=script&lang=js& */ "./resources/js/components/Admin/Form/ConsiderCover.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ConsiderCover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ConsiderCover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _ConsiderCover_vue_vue_type_style_index_0_id_04d727c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConsiderCover.vue?vue&type=style&index=0&id=04d727c4&scoped=true&lang=css& */ "./resources/js/components/Admin/Form/ConsiderCover.vue?vue&type=style&index=0&id=04d727c4&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ConsiderCover_vue_vue_type_style_index_0_id_04d727c4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConsiderCover.vue?vue&type=style&index=0&id=04d727c4&scoped=true&lang=css& */ "./resources/js/components/Admin/Form/ConsiderCover.vue?vue&type=style&index=0&id=04d727c4&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -101782,7 +101887,7 @@ component.options.__file = "resources/js/components/Admin/Form/ConsiderCover.vue
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/Admin/Form/ConsiderCover.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

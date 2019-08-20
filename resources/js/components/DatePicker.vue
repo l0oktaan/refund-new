@@ -6,7 +6,7 @@
             v-model="date1"
             :first-day-of-week="1"
             :lang="lang"
-            format="DD/MM/YYYY"
+            valueType="format"
             confirm>
         </date-picker>
 
@@ -18,6 +18,7 @@
 <script>
 
 export default {
+    props: ['myDate'],
     data(){
         return {
             lang: {
@@ -29,7 +30,18 @@ export default {
                     dateRange: 'Select Date Range'
                 }
             },
+            format: 'DD-MM-YYYY',
             date1: '',
+        }
+    },
+    watch: {
+        myDate(){
+            console.log('Show Date :' + this.myDate);
+            if (this.myDate != ''){
+                this.date1 = this.myDate;
+                this.$forceUpdate();
+            }
+
         }
     },
     methods: {

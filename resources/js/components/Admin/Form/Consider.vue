@@ -53,15 +53,21 @@
                         <my-date-picker
                             name="date1"
                             @dateSelected="dateSelected"
+                            :myDate = "myDate1"
                         ></my-date-picker>
-                    </b-form-group>
+                    </b-form-group>{{myDate1}}
                 </b-col>
             </b-row>
 
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
             </div>
-            <consider-cover :considers="consider_list"></consider-cover>
+            <consider-cover
+                :considers="consider_list"
+                @fetchConsider = "fetchData"
+                @toEdit = 'toEdit'
+                :form_id="form_id"
+            ></consider-cover>
         </b-form>
         </div>
     </div>
@@ -74,6 +80,7 @@ export default {
             f_id: 0,
             r_id: 0,
             consider_list : [],
+            consider_id: 0,
             consider_order: 0,
             consider_name: '',
             consider_type: 0,
@@ -95,7 +102,8 @@ export default {
             alert: '',
             lang: 'th',
             state: 'new',
-            alert: ''
+            alert: '',
+            myDate1: ''
         }
     },
     mounted(){
@@ -107,7 +115,7 @@ export default {
             e.preventDefault();
             var consider = {};
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers`;
-            console.log('order: '+ this.consider_order + ' name :' + this.consider_name + ' path: ' + path);
+
             if(this.state == 'new'){
                 axios.post(path,{
                     order: this.consider_order,
@@ -119,46 +127,83 @@ export default {
                 })
                 .then(response=>{
                     consider = response.data.data;
-
-                    this.state = "update";
-                    this.consider_order = consider.order;
-                    this.consider_name = consider.name;
-                    this.consider_type = consider.type;
-                    this.consider_oper = consider.oper;
-                    this.consider_var1 = consider.var1;
-                    this.consider_var2 = consider.var2;
+                    // this.consider_id = consider.id;
+                    // this.consider_order = consider.order;
+                    // this.consider_name = consider.name;
+                    // this.consider_type = consider.type;
+                    // this.consider_oper = consider.oper;
+                    // this.consider_var1 = consider.var1;
+                    // this.consider_var2 = consider.var2;
                     this.alert = "success"
                     this.fetchData();
+                    this.clearData();
+
+
                 })
                 .catch(error=>{
-
+                    this.alert = "error";
+                })
+            }else if(this.state == "update"){
+                path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers/${this.consider_id}`;
+                axios.put(`${path}`,{
+                    order: this.consider_order,
+                    name: this.consider_name,
+                    type: this.consider_type,
+                    oper: this.consider_oper,
+                    var1: this.consider_var1,
+                    var2: this.consider_var2
+                })
+                .then(resposne=>{
+                    this.alert = "success"
+                    this.fetchData();
+                    this.clearData();
+                })
+                .catch(error=>{
+                    this.alert = "error";
                 })
             }
         },
         dateSelected(value){
-            console.log('date :' + value);
+            this.consider_var1 = value;
+            console.log('Date Selected :' + this.consider_var1);
         },
         fetchData(){
 
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers`;
+
             axios.get(`${path}`)
             .then(response=>{
                 this.consider_list = response.data.data;
+                this.$forceUpdate();
+
             })
             .catch(error=>{
 
             })
         },
-        clearData(){
-            this.state = "new";
-            this.consider_list = [],
+        toEdit(consider){
+            console.log('to edit', consider.name);
+            this.state = "update";
+            this.consider_id = consider.id;
             this.consider_order = consider.order;
             this.consider_name = consider.name;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.alert = "";
+            this.myDate1 = consider.var1;
+            this.$forceUpdate();
+        },
+        clearData(){
+            this.state = "new";
+            //this.consider_list = [],
+            this.consider_order = 0;
+            this.consider_name ='';
+            this.consider_type = 0;
+            this.consider_oper = 0;
+            this.consider_var1 = '';
+            this.consider_var2 = '';
+            this.myDate1 = '';
         }
     }
 }

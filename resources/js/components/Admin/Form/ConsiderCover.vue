@@ -7,8 +7,8 @@
                 <template slot="button-content">
                     <i class="icon-settings sub_rule"></i>
                 </template>
-                    <b-dropdown-item><i class="fas fa-link"></i>&nbsp;แก้ไข</b-dropdown-item>
-                    <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบ</b-dropdown-item>
+                    <b-dropdown-item @click="toEdit(consider)"><i class="fas fa-link"></i>&nbsp;แก้ไข</b-dropdown-item>
+                    <b-dropdown-item @click="delConsider(consider.id,consider.form_rule_id)"><i class="fas fa-trash"></i>&nbsp;ลบ</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
                     <b-col sm="6">
@@ -21,16 +21,44 @@
 </template>
 <script>
 export default{
-    props: ['considers'],
+    props: ['form_id','considers'],
     data(){
         return {
             arr_considers: [],
         }
 
     },
+    methods: {
+        delConsider(id,form_rule_id){
+            this.$swal({
+                    title: "กรุณายืนยันการลบเงื่อนไข",
+                    text: "คุณต้องการลบเงื่อนไขนี้ใช่หรือไม่",
+                    icon: "error",
+                    closeOnClickOutside: false,
+                    buttons: [
+                        'ยกเลิก',
+                        'ยืนยัน'
+                    ],
+
+                }).then(isConfirm =>{
+                    if (isConfirm){
+                        let path = `/api/forms/${this.form_id}/form_rules/${form_rule_id}/form_considers/${id}`;
+                        axios.delete(path)
+                        .then(response=>{
+                            this.$emit('fetchConsider');
+                            this.$parent.alert = 'success';
+                        })
+                    }
+                });
+        },
+        toEdit(consider){
+            this.$emit('toEdit',consider);
+        }
+    },
     watch: {
         considers(){
             this.arr_considers = this.considers;
+            this.$forceUpdate();
         }
     },
 }

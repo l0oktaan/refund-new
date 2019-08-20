@@ -16,7 +16,7 @@ class ConsiderController extends Controller
         //return FormConditionResource::collection($formRule->form_conditions()->get());
         $formConsider = new Consider;
         $formConsider = $form->form_considers()
-                            //->where('form_rule_id','=',$formRule->id)
+                            ->where('form_rule_id','=',$formRule->id)
                             //->orderBy('order','asc')
                             ->get();
 
@@ -47,7 +47,7 @@ class ConsiderController extends Controller
         //         ['form_rule_id','=',$formRule->id]
         //     ])
         //     ->get();
-        $consider = $form->considers()
+        $consider = $form->form_considers()
                         ->where([
                             ['form_rule_id','=',$formRule->id]
                         ])
@@ -66,7 +66,7 @@ class ConsiderController extends Controller
     {
 
         $consider = new Consider;
-        $consider = $form->considers()
+        $consider = $form->form_considers()
                         ->where([
                             ['form_rule_id','=',$formRule->id]
                         ])
@@ -84,7 +84,7 @@ class ConsiderController extends Controller
     public function destroy(Form $form, FormRule $formRule,Consider $formConsider)
     {
         $consider = new Consider;
-        $consider = $form->Considers()
+        $consider = $form->form_considers()
                         ->where([
                             ['form_rule_id','=',$formRule->id]
                         ])
