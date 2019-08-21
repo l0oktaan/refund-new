@@ -49,6 +49,12 @@ Vue.use(DatePicker)
 import VueDatepicker from 'vuejs-datepicker'
 Vue.use(VueDatepicker)
 
+import DatetimePicker from 'vuetify-datetime-picker'
+
+
+Vue.use(DatetimePicker)
+
+
 import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'

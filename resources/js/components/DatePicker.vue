@@ -29,7 +29,7 @@ export default {
                     date: 'เลือกวันที่',
                     dateRange: 'Select Date Range'
                 },
-                yearOffset: 543,
+
             },
             format: 'DD-MM-YYYY',
             date1: '',

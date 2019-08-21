@@ -62,6 +62,7 @@
             <div class="text-center">
                 <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
             </div>
+            <span>{{ new Date() | moment("YYYY") }}</span>
             <consider-cover
                 :considers="consider_list"
                 @fetchConsider = "fetchData"
@@ -191,7 +192,7 @@ export default {
             this.consider_oper = consider.oper;
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.myDate1 = consider.var1;
+            this.myDate1 = new Date(consider.var1);
             this.$forceUpdate();
         },
         clearData(){
