@@ -57,7 +57,6 @@ export default {
         const months = this.$refs.datePicker.translation.months
         return `${d.getDate().toString().padStart(2, 0)} ${months[d.getMonth()]} ${d.getFullYear()}`
         }
-
     }
 }
 </script>
