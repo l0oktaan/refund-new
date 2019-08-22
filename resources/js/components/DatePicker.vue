@@ -1,5 +1,6 @@
 
 <template>
+    <div class="animated fadeIn">
         <date-picker
             @confirm="dateSelected"
             v-model="date1"
@@ -7,9 +8,24 @@
             :lang="lang"
             :format="format"
             ref="datePicker"
-
-            confirm>
+            confirm
+            v-if="showCalendar">
         </date-picker>
+        <b-form-group>
+            <b-input-group>
+              <!-- Attach Left button -->
+              <b-input-group-prepend>
+                <b-button variant="primary"><i class="fa fa-facebook"></i></b-button>
+              </b-input-group-prepend>
+              <b-form-input type="email" placeholder="Email" autocomplete="email"></b-form-input>
+              <!-- Attach Left button -->
+              <b-input-group-append>
+                <b-button variant="primary"><i class="fa fa-twitter"></i></b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+    </div>
+
 
 
 
@@ -34,6 +50,7 @@ export default {
 
             format: 'DD-MM-YYYY',
             date1: null,
+            showCalendar: true
         }
     },
     watch: {
