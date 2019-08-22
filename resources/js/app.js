@@ -49,10 +49,9 @@ Vue.use(DatePicker)
 import VueDatepicker from 'vuejs-datepicker'
 Vue.use(VueDatepicker)
 
-import DatetimePicker from 'vuetify-datetime-picker'
+Vue.use(require('vue-moment'));
 
 
-Vue.use(DatetimePicker)
 
 
 import App from './views/App.vue'
@@ -127,6 +126,14 @@ const router = new VueRouter({
                 },
                 {
                     path: 'form/:id',
+                    component: RefundFormTest,
+                    meta: {
+                        breadCrumb: `แบบถอนคืนเงินรายได้ เลขที่` //crumb
+                    }
+
+                },
+                {
+                    path: 'test/',
                     component: RefundFormTest,
                     meta: {
                         breadCrumb: `แบบถอนคืนเงินรายได้ เลขที่` //crumb

@@ -1,12 +1,13 @@
 
 <template>
-
         <date-picker
             @confirm="dateSelected"
             v-model="date1"
             :first-day-of-week="1"
             :lang="lang"
-            valueType="format"
+            :format="format"
+            ref="datePicker"
+
             confirm>
         </date-picker>
 
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 export default {
     props: ['myDate'],
     data(){
@@ -29,10 +30,10 @@ export default {
                     date: 'เลือกวันที่',
                     dateRange: 'Select Date Range'
                 },
-
             },
+
             format: 'DD-MM-YYYY',
-            date1: '',
+            date1: null,
         }
     },
     watch: {
@@ -43,13 +44,20 @@ export default {
                 this.$forceUpdate();
             }
 
-        }
+        },
+
     },
     methods: {
         dateSelected(){
             //console.log('date :' + this.date1);
             this.$emit('dateSelected',this.date1);
+        },
+        formatDate (d) {
+        // you could also provide your own month names array
+        const months = this.$refs.datePicker.translation.months
+        return `${d.getDate().toString().padStart(2, 0)} ${months[d.getMonth()]} ${d.getFullYear()}`
         }
+
     }
 }
 </script>
