@@ -13,6 +13,7 @@
                 </b-dropdown>
                 <h4 class="mb-0">ฟอร์มหมายเลข {{order}}</h4>
                 <p>{{name1}}</p>
+                <p>{{name2}}</p>
 
             </b-card-body>
 

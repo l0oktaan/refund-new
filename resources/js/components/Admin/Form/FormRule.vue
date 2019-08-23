@@ -91,7 +91,7 @@
                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                 <b-button type="reset" variant="danger" @click="toCloseRule">ปิด</b-button>
             </div>
-            <rule-consider v-if="state=='update'" :form_id="form_id" :rule_id="rule_id"></rule-consider>
+            <rule-consider v-if="state=='update'" :form_id="form_id" :rule_id="r_id"></rule-consider>
         </b-form>
     </div>
 </template>
@@ -199,6 +199,7 @@ export default {
                 .then(response=>{
                     rule = response.data.data;
                     this.r_id = rule.id;
+
                     this.r_name = rule.name;
                     if (rule.rule_type == 0){
                         this.getOrderRule(0);
@@ -213,9 +214,10 @@ export default {
                     this.c_type = rule.condition_type;
                     this.c_description = rule.description;
                     this.r_status = rule.status;
-                    this.state == 'update'
-                    this.$forceUpdate();
                     this.alert = "success"
+                    this.state = 'update'
+                    this.$forceUpdate();
+
                 })
                 .catch(error=>{
                     this.alert = "error";
@@ -252,7 +254,7 @@ export default {
                     this.c_type = rule.condition_type;
                     this.c_description = rule.description;
                     this.r_status = rule.status;
-                    this.state == 'update'
+                    this.state = 'update'
                     this.$forceUpdate();
                     this.alert = "success"
                 })

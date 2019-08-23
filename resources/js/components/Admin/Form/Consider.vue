@@ -1,79 +1,100 @@
 <template>
     <div class="animated fadeIn">
-        <div>
+
         <my-alert :AlertType="alert"></my-alert>
-        <b-form @submit="onSubmit">
-            <b-row>
-                <b-col>
-                    <b-form-group>
-                        <label for="name">รายละเอียดเงื่อนไข</label>
-                        <b-form-input type="text"
-                            placeholder="รายละเอียดเงื่อนไข"
-                            name="name"
-                            v-model = "consider_name"
+        <b-card class="bg-secondary">
 
-                            >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col cols="3">
-                    <b-form-group label="ปรเภทเงื่อนไข">
-                        <b-form-select
-                            v-model="consider_type"
-                            :options="type_list"
-                            name="consider_type"
-                        ></b-form-select>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="3" v-if="consider_type==3">
-                    <b-form-group label="การตรวจสอบเงื่อนไข">
-                        <b-form-select
-                            v-model="consider_oper"
-                            :options="oper_list"
-                            name="consider_oper"
-                        ></b-form-select>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="3" v-if="(consider_type==3) && (consider_oper==1)">
+            <b-form @submit="onSubmit">
+                <b-row>
+                    <b-col>
                         <b-form-group>
-                        <label for="var1">ข้อมูลตรวจสอบ</label>
-                        <b-form-input type="text"
-                            placeholder="จำนวนวัน"
-                            name="var1"
-                            v-model = "consider_var1"
-                            >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="3" v-if="(consider_type==3) && (consider_oper==2)">
-                    <b-form-group>
-                        <label for="date1">ข้อมูลตรวจสอบ</label>
-                        <my-date-picker
-                            name="date1"
-                            @dateSelected="dateSelected"
-                            :myDate = "myDate1"
-                        ></my-date-picker>
-                    </b-form-group>{{myDate1}}
-                </b-col>
-            </b-row>
+                            <label for="name">รายละเอียดเงื่อนไข</label>
+                            <b-form-input type="text"
+                                placeholder="รายละเอียดเงื่อนไข"
+                                name="name"
+                                v-model = "consider_name"
 
-            <div class="text-center">
-                <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
-            </div>
-            <span>{{ new Date() | moment("YYYY") }}</span>
-            <consider-cover
-                :considers="consider_list"
-                @fetchConsider = "fetchData"
-                @toEdit = 'toEdit'
-                :form_id="form_id"
-            ></consider-cover>
-        </b-form>
-        </div>
+                                >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="3">
+                        <b-form-group label="ปรเภทเงื่อนไข">
+                            <b-form-select
+                                v-model="consider_type"
+                                :options="type_list"
+                                name="consider_type"
+                            ></b-form-select>
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" v-if="consider_type==3">
+                        <b-form-group label="การตรวจสอบเงื่อนไข">
+                            <b-form-select
+                                v-model="consider_oper"
+                                :options="oper_list"
+                                name="consider_oper"
+                            ></b-form-select>
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" v-if="(consider_type==3) && (consider_oper==1)">
+                            <b-form-group>
+                            <label for="var1">ข้อมูลตรวจสอบ</label>
+                            <b-form-input type="text"
+                                placeholder="จำนวนวัน"
+                                name="var1"
+                                v-model = "consider_var1"
+                                >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" v-if="(consider_type==3) && (consider_oper==2)">
+                        <b-form-group>
+                            <label for="date1">ข้อมูลตรวจสอบ</label>
+                            <!-- <my-date-picker
+                                name="date1"
+                                @dateSelected="dateSelected"
+                                :myDate = "myDate1"
+                            ></my-date-picker> -->
+                            <!-- <date-picker
+                                v-model="myDate1"
+                                :first-day-of-week="1"
+                                :lang="lang"
+                                :format="format"
+                                confirm
+                                type="date"
+                                >
+                            </date-picker> -->
+                            <a-date-picker
+
+                                :format="dateFormat"
+                                @change="dateSelected"
+                            />
+
+
+
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <div class="text-center">
+                    <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
+                    <b-button type="reset" variant="danger" @click="toClearConsider">ยกเลิก</b-button>
+                </div>
+                <span>{{ new Date() | moment }}</span>
+                <consider-cover
+                    :considers="consider_list"
+                    @fetchConsider = "fetchData"
+                    @toEdit = 'toEdit'
+                    :form_id="form_id"
+                ></consider-cover>
+            </b-form>
+        </b-card>
     </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
     props: ['form_id','rule_id'],
     data(){
@@ -104,14 +125,37 @@ export default {
             lang: 'th',
             state: 'new',
             alert: '',
-            myDate1: ''
+            myDate1: null,
+
+            lang: {
+                days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
+                months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+                pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+                placeholder: {
+                    date: 'เลือกวันที่',
+                    dateRange: 'Select Date Range'
+                },
+
+            },
+
+            dateFormat: "LL",
+
+
         }
     },
     mounted(){
+        moment.locale('th');
+
+
         this.clearData();
         this.fetchData();
     },
+
     methods: {
+
+        getDate(myDate){
+            return moment(myDate,this.dateFormat);
+        },
         onSubmit(e){
             e.preventDefault();
             var consider = {};
@@ -164,9 +208,9 @@ export default {
                 })
             }
         },
-        dateSelected(value){
-            this.consider_var1 = value;
-            console.log('Date Selected :' + this.consider_var1);
+        dateSelected(value,mydate){
+            this.myDate1 = value.format('L');
+            this.consider_var1 = value.format('L');
         },
         fetchData(){
 
@@ -192,8 +236,11 @@ export default {
             this.consider_oper = consider.oper;
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.myDate1 = new Date(consider.var1);
+            this.myDate1 = moment(consider.var1);
             this.$forceUpdate();
+        },
+        toClearConsider(){
+            this.clearData();
         },
         clearData(){
             this.state = "new";
