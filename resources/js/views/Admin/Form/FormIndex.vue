@@ -17,7 +17,7 @@
                 :key = "form.id"
                 :form_id = "form.id"
                 :name1 = "form.name1"
-                :name2 = "form.name2"
+                :name3 = "form.name3"
                 :order = "form.order"
                 @fetchForm = "fetchData"
 

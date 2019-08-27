@@ -20,6 +20,20 @@
                     </b-col>
                 </b-row>
                 <b-row>
+                    <b-col>
+                        <b-form-group>
+                            <label for="description">คำอธิบายเพิ่มเติม</label>
+                            <b-form-input type="text"
+                                placeholder="คำอธิบายเพิ่มเติม"
+                                name="description"
+                                v-model = "consider_description"
+
+                                >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col cols="3">
                         <b-form-group label="ปรเภทเงื่อนไข">
                             <b-form-select
@@ -49,7 +63,7 @@
                             </b-form-input>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="3" v-if="(consider_type==3) && (consider_oper==2)">
+                    <b-col cols="4" v-if="(consider_type==3) && (consider_oper==2)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
                             <!-- <my-date-picker
@@ -66,10 +80,25 @@
                                 type="date"
                                 >
                             </date-picker> -->
-                            <a-date-picker
 
+                            <a-date-picker
+                                :defaultValue="myDate1"
                                 :format="dateFormat"
                                 @change="dateSelected"
+                            />
+
+
+
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper==3)">
+                        <b-form-group>
+                            <label for="date1">ข้อมูลตรวจสอบ</label>
+
+                            <a-range-picker
+
+                                :format="dateFormat"
+                                @change="dateRangeSelected"
                             />
 
 
@@ -105,6 +134,7 @@ export default {
             consider_id: 0,
             consider_order: 0,
             consider_name: '',
+            consider_description: '',
             consider_type: 0,
             consider_oper: 0,
             consider_var1: '',
@@ -120,13 +150,14 @@ export default {
                 {value: 0, text: 'ตัวเลือกการตรวจสอบ'},
                 {value: 1, text: 'ไม่เกินจำนวนวัน'},
                 {value: 2, text: 'ไม่เกินวันที่'},
+                {value: 3, text: 'อยู่ในช่วงเวลา'},
             ],
             alert: '',
             lang: 'th',
             state: 'new',
             alert: '',
             myDate1: null,
-
+            toOpen: false,
             lang: {
                 days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
                 months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
@@ -145,16 +176,17 @@ export default {
     },
     mounted(){
         moment.locale('th');
-
+        this.myDate1 = moment(Date(),this.dateFormat);
 
         this.clearData();
         this.fetchData();
     },
 
     methods: {
-
+        moment,
         getDate(myDate){
-            return moment(myDate,this.dateFormat);
+            console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
+            return moment(myDate,"DD/MM/YYYY");
         },
         onSubmit(e){
             e.preventDefault();
@@ -165,6 +197,7 @@ export default {
                 axios.post(path,{
                     order: this.consider_order,
                     name: this.consider_name,
+                    description: this.consider_description,
                     type: this.consider_type,
                     oper: this.consider_oper,
                     var1: this.consider_var1,
@@ -193,6 +226,7 @@ export default {
                 axios.put(`${path}`,{
                     order: this.consider_order,
                     name: this.consider_name,
+                    description: this.consider_description,
                     type: this.consider_type,
                     oper: this.consider_oper,
                     var1: this.consider_var1,
@@ -209,8 +243,14 @@ export default {
             }
         },
         dateSelected(value,mydate){
-            this.myDate1 = value.format('L');
-            this.consider_var1 = value.format('L');
+
+            this.myDate1 = value.format('ํํํํYYYY/DD/MM');
+            this.consider_var1 = value.format('YYYY/DD/MM');
+
+        },
+        dateRangeSelected(value,mydate){
+            this.consider_var1 = value[0].format('YYYY/DD/MM');
+            this.consider_var2 = value[1].format('YYYY/DD/MM');
         },
         fetchData(){
 
@@ -232,14 +272,16 @@ export default {
             this.consider_id = consider.id;
             this.consider_order = consider.order;
             this.consider_name = consider.name;
+            this.consider_description = consider.description;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.myDate1 = moment(consider.var1);
+            //this.myDate1 = moment(consider.var1);
             this.$forceUpdate();
         },
         toClearConsider(){
+
             this.clearData();
         },
         clearData(){
@@ -247,6 +289,7 @@ export default {
             //this.consider_list = [],
             this.consider_order = 0;
             this.consider_name ='';
+            this.consider_description ='';
             this.consider_type = 0;
             this.consider_oper = 0;
             this.consider_var1 = '';

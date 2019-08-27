@@ -43,19 +43,14 @@ Vue.use(Vuelidate)
 import ToggleButton from 'vue-js-toggle-button'
 Vue.use(ToggleButton)
 
-/* import DatePicker from 'vue2-datepicker'
-Vue.use(DatePicker) */
+Vue.use(require('vue-moment'))
+
+import vueJquery from 'vue-jquery'
+import 'ant-design-vue/dist/antd.css'
+Vue.use(vueJquery)
+
 import Antd from 'ant-design-vue'
 Vue.use(Antd)
-import 'ant-design-vue/dist/antd.css'
-
-import VueDatepicker from 'vuejs-datepicker'
-Vue.use(VueDatepicker)
-
-
-Vue.use(require('vue-moment'));
-
-
 
 
 import App from './views/App.vue'

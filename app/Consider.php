@@ -12,6 +12,7 @@ class Consider extends Model
         'form_rule_id',
         'order',
         'name',
+        'description',
         'type',
         'oper',
         'var1',

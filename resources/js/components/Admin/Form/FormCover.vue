@@ -12,8 +12,8 @@
                 <b-dropdown-item @click="delForm"><i class="fas fa-trash"></i>&nbsp;ลบแบบฟอร์ม</b-dropdown-item>
                 </b-dropdown>
                 <h4 class="mb-0">ฟอร์มหมายเลข {{order}}</h4>
-                <p>{{name1}}</p>
-                <p>{{name2}}</p>
+                <p>{{name3}}</p>
+
 
             </b-card-body>
 
@@ -57,7 +57,7 @@
 </template>
 <script>
 export default {
-    props : ['form_id','name1','name2','order'],
+    props : ['form_id','name1','name3','order'],
     data(){
         return {
             select_id: 0,

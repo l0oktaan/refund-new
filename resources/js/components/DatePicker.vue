@@ -1,6 +1,7 @@
 
 <template>
     <div class="animated fadeIn">
+        
         <date-picker
             @confirm="dateSelected"
             v-model="date1"

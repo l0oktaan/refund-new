@@ -19,6 +19,7 @@ class ConsiderResource extends JsonResource
             'form_rule_id' => $this->form_rule_id,
             'order' => $this->order,
             'name' => $this->name,
+            'description' => $this->description,
             'type' => $this->type,
             'oper' => $this->oper,
             'var1' => $this->var1,
