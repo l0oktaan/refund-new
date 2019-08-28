@@ -82,7 +82,7 @@
                             </date-picker> -->
 
                             <a-date-picker
-                                :defaultValue="myDate1"
+                                :defaultValue="getDate1()"
                                 :format="dateFormat"
                                 @change="dateSelected"
                             />
@@ -174,6 +174,9 @@ export default {
 
         }
     },
+    computed: {
+
+    },
     mounted(){
         moment.locale('th');
         this.myDate1 = moment(Date(),this.dateFormat);
@@ -184,6 +187,15 @@ export default {
 
     methods: {
         moment,
+        getDate1(){
+            var iDate = null;
+            try {
+                iDate = moment(this.myDate1,this.dateFormat);
+            } catch (error) {
+                iDate = null;
+            }
+            return iDate
+        },
         getDate(myDate){
             console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
             return moment(myDate,"DD/MM/YYYY");
@@ -244,13 +256,13 @@ export default {
         },
         dateSelected(value,mydate){
 
-            this.myDate1 = value.format('ํํํํYYYY/DD/MM');
-            this.consider_var1 = value.format('YYYY/DD/MM');
+            this.myDate1 = value.format('ํํํํDD/MM/YYYY');
+            this.consider_var1 = value.format('DD/MM/YYYY');
 
         },
         dateRangeSelected(value,mydate){
-            this.consider_var1 = value[0].format('YYYY/DD/MM');
-            this.consider_var2 = value[1].format('YYYY/DD/MM');
+            this.consider_var1 = value[0].format('DD/MM/YYYY');
+            this.consider_var2 = value[1].format('DD/MM/YYYY');
         },
         fetchData(){
 
@@ -267,6 +279,7 @@ export default {
             })
         },
         toEdit(consider){
+            var arrDate = [];
             console.log('to edit', consider.name);
             this.state = "update";
             this.consider_id = consider.id;
@@ -275,9 +288,15 @@ export default {
             this.consider_description = consider.description;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
+            if (consider.oper >= 2){
+                if (consider.var1 != ''){
+                    arrDate = consider.var1.split('/');
+                }
+            }
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            //this.myDate1 = moment(consider.var1);
+            this.myDate1 = new Date(arrDate[2],arrDate[1],arrDate[0]);
+            console.log('show date' + this.myDate1 + ' from : '+ consider.var1);
             this.$forceUpdate();
         },
         toClearConsider(){
