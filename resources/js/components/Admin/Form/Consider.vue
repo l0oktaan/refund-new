@@ -52,6 +52,7 @@
                             ></b-form-select>
                         </b-form-group>
                     </b-col>
+
                     <b-col cols="3" v-if="(consider_type==3) && (consider_oper==1)">
                             <b-form-group>
                             <label for="var1">ข้อมูลตรวจสอบ</label>
@@ -63,6 +64,7 @@
                             </b-form-input>
                         </b-form-group>
                     </b-col>
+
                     <b-col cols="4" v-if="(consider_type==3) && (consider_oper==2)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
@@ -82,7 +84,7 @@
                             </date-picker> -->
 
                             <a-date-picker
-                                :defaultValue="getDate1()"
+                                :defaultValue="moment(myDate1,dateFormat)"
                                 :format="dateFormat"
                                 @change="dateSelected"
                             />
@@ -94,19 +96,13 @@
                     <b-col cols="6" v-if="(consider_type==3) && (consider_oper==3)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
-
                             <a-range-picker
-
                                 :format="dateFormat"
                                 @change="dateRangeSelected"
                             />
-
-
-
                         </b-form-group>
                     </b-col>
                 </b-row>
-
                 <div class="text-center">
                     <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                     <b-button type="reset" variant="danger" @click="toClearConsider">ยกเลิก</b-button>
@@ -124,6 +120,7 @@
 </template>
 <script>
 import moment from 'moment'
+moment.locale('th-TH');
 export default {
     props: ['form_id','rule_id'],
     data(){
@@ -170,12 +167,39 @@ export default {
             },
 
             dateFormat: "LL",
-
-
+            showDate1: null,
+            dateEdit: 0
+        }
+    },
+    watch: {
+        myDate1(){
+            var iDate = null;
+            this.showDate1 = null;
+            if (this.myDate1 != null){
+                try {
+                    iDate = moment(this.myDate1,this.dateFormat);
+                } catch (error) {
+                    iDate = null;
+                }
+                this.showDate1 = iDate;
+                this.$forceUpdate();
+            }else{
+                this.showDate1 = null;
+                this.$forceUpdate();
+            }
+            console.log('show date : '+ this.showDate1);
         }
     },
     computed: {
-
+        getDate1(){
+            var iDate = null;
+            try {
+                iDate = moment(this.myDate1,this.dateFormat);
+            } catch (error) {
+                iDate = null;
+            }
+            return iDate
+        },
     },
     mounted(){
         moment.locale('th');
@@ -187,15 +211,7 @@ export default {
 
     methods: {
         moment,
-        getDate1(){
-            var iDate = null;
-            try {
-                iDate = moment(this.myDate1,this.dateFormat);
-            } catch (error) {
-                iDate = null;
-            }
-            return iDate
-        },
+
         getDate(myDate){
             console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
             return moment(myDate,"DD/MM/YYYY");
@@ -272,7 +288,6 @@ export default {
             .then(response=>{
                 this.consider_list = response.data.data;
                 this.$forceUpdate();
-
             })
             .catch(error=>{
 
@@ -280,6 +295,7 @@ export default {
         },
         toEdit(consider){
             var arrDate = [];
+            this.clearData();
             console.log('to edit', consider.name);
             this.state = "update";
             this.consider_id = consider.id;
@@ -295,8 +311,8 @@ export default {
             }
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.myDate1 = new Date(arrDate[2],arrDate[1],arrDate[0]);
-            console.log('show date' + this.myDate1 + ' from : '+ consider.var1);
+            this.myDate1 = new Date(parseInt(arrDate[2]),parseInt(arrDate[1]),parseInt(arrDate[0]));
+            console.log('show date' + this.myDate1 + ' from : '+ arrDate[2] + '+' + parseInt(arrDate[1]) + '+' + arrDate[0]);
             this.$forceUpdate();
         },
         toClearConsider(){
@@ -314,6 +330,7 @@ export default {
             this.consider_var1 = '';
             this.consider_var2 = '';
             this.myDate1 = '';
+            this.showDate1 = null;
         }
     }
 }
