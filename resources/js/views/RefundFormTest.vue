@@ -21,7 +21,11 @@ export default {
         }
     },
     mounted(){
-
+        $('#mydate1').datetimepicker({
+            timepicker: false,
+            lang: 'th',yearOffser: 543,
+            inline: true
+        })
     },
 
 
