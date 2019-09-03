@@ -6,7 +6,7 @@
                     <b-card-body class="pb-0 sub_rule">
                         <b-row align-v="center">
                             <b-col>
-                                <span class="sub_rule_name">{{rule.order + '.(' + rule.id + ')' + rule.name}}</span>
+                                <span class="sub_rule_name">{{rule.order + '. ' + rule.name}}</span>
 
                             </b-col>
                             <b-col>
@@ -33,7 +33,7 @@
                         </b-row>
                         <b-row v-for="(sub_rule,index) in rule.sub_rules" :key="index" align-v="center">
                             <b-col>
-                                <span class="sub_rule_name">{{sub_rule.order + '. (' + sub_rule.id + ')' + sub_rule.name}}</span>
+                                <span class="sub_rule_name">{{sub_rule.order + '. ' + sub_rule.name}}</span>
 
                             </b-col>
                             <b-col>
@@ -47,7 +47,6 @@
                                         v-if="sub_rule.condition_type == 1"
                                     />
                                     <b-form-input type="text" v-else></b-form-input>
-
                             </b-col>
                         </b-row>
                     </b-card-body>

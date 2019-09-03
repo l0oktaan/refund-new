@@ -43,11 +43,16 @@ Vue.use(Vuelidate)
 import ToggleButton from 'vue-js-toggle-button'
 Vue.use(ToggleButton)
 
-Vue.use(require('vue-moment'))
+Vue.use(require('vue-moment'));
 
 import vueJquery from 'vue-jquery'
-import 'ant-design-vue/dist/antd.css'
 Vue.use(vueJquery)
+
+import { DatePicker } from 'ant-design-vue';
+Vue.use(DatePicker)
+import 'ant-design-vue/dist/antd.css'
+
+
 
 import Antd from 'ant-design-vue'
 Vue.use(Antd)
@@ -259,8 +264,7 @@ Vue.component('RefundSummary', RefundSummary).defaults;
 import RefundCheck from './components/Refund/RefundCheck.vue';
 Vue.component('RefundCheck', RefundCheck).defaults;
 
-import MyDatePicker from './components/DatePicker.vue';
-Vue.component('MyDatePicker', MyDatePicker).defaults;
+
 
 const app = new Vue({
     el: '#app',

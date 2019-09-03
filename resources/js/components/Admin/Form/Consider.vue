@@ -84,7 +84,7 @@
                             </date-picker> -->
 
                             <a-date-picker
-                                :defaultValue="moment(myDate1,dateFormat)"
+
                                 :format="dateFormat"
                                 @change="dateSelected"
                             />
