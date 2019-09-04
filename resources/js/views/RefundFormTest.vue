@@ -1,7 +1,7 @@
 <template>
 <div>
     <b-row>
-        <b-col cols="3">
+        <b-col cols="6">
             <b-form-input
                 id="mydate1"
                 type="date"
@@ -11,6 +11,7 @@
             <b-form-input id="mydate2" type="date" ></b-form-input>
             <a-date-picker @change="onChange" :defaultValue="iDate" :format="dateFormat" lang="th" />
             <span>{{ new Date() | moment("DD MMMM YYYY") }}</span>
+            <input id="datepicker" type="text"/>
         </b-col>
 
     </b-row>
@@ -25,23 +26,22 @@ export default {
     data(){
         return {
             dateFormat: 'LL',
-            showDate: null,
-            iDate: null
+            showDate: Date(),
+
         }
     },
     mounted(){
         moment.locale('th-TH');
-        this.showDate = new Date(2522,10,2);
-        this.iDate = moment(this.showDate);
     },
+    created(){
 
+    },
     ready(){
 
     },
     methods: {
-        format(value, event) {
-            return "yyyy"
-        },
+        moment,
+
         onChange(){
 
         },
@@ -50,7 +50,9 @@ export default {
         }
     },
     computed: {
-
+        iDate(){
+           return moment(this.showDate,"DD MM YYYY");
+        }
     }
 }
 </script>

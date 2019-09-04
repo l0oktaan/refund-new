@@ -8,6 +8,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.$ = window.jQuery = require('jquery');
+window.$ = $.extend(require('jquery-ui'));
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -45,8 +47,7 @@ Vue.use(ToggleButton)
 
 Vue.use(require('vue-moment'));
 
-import vueJquery from 'vue-jquery'
-Vue.use(vueJquery)
+
 
 import { DatePicker } from 'ant-design-vue';
 Vue.use(DatePicker)
