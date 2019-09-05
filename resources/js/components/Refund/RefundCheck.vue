@@ -2,8 +2,14 @@
 <div class="animated fadeIn">
         <b-row>
             <b-col sm="12">
+
+                                <p>{{refund_id}}</p>
+
                 <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
                     <b-card-body class="pb-0 sub_rule">
+                        <b-row>
+
+                        </b-row>
                         <b-row align-v="center">
                             <b-col>
                                 <span class="sub_rule_name">{{rule.order + '. ' + rule.name}}</span>
@@ -47,6 +53,7 @@
                                         v-if="sub_rule.condition_type == 1"
                                     />
                                     <b-form-input type="text" v-else></b-form-input>
+
                             </b-col>
                         </b-row>
                     </b-card-body>
@@ -78,14 +85,22 @@
 </template>
 <script>
 export default {
-    props: ['form_id'],
+    props: ['form_id','refund_id'],
     data(){
         return {
             form_rule: [],
             form_rule_list: [],
             condition_list: [],
             result_list:[],
-            arrResult: []
+            arrResult: [],
+            state: 'new',
+        }
+    },
+    watch :{
+        refund_id(){
+            if (this.refund_id == 0){
+
+            }
         }
     },
     mounted() {
@@ -128,7 +143,6 @@ export default {
                         });
                         console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);
                     }
-
                 }
                 this.result_list = arr;
                 this.getResult();

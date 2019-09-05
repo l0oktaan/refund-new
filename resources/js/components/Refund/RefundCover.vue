@@ -7,7 +7,7 @@
                 <template slot="button-content">
                     <i class="icon-settings sub_rule"></i>
                 </template>
-                    <b-dropdown-item><i class="fas fa-edit"></i>&nbsp;แก้ไขหลักเกณฑ์ย่อย</b-dropdown-item>
+                    <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>
                     <b-dropdown-item><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
                     <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
                 </b-dropdown>
@@ -66,6 +66,10 @@ export default {
                 this.$forceUpdate();
                 //Object.assign(refunds[i],{contract: contracts[0]});
             })
+        },
+        showRefund(){
+            console.log('show refund :' + this.refund.id);
+            this.$router.push(`refunds/${this.refund.id}`);
         }
     }
 }

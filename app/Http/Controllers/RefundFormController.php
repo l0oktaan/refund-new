@@ -8,6 +8,7 @@ use App\Refund;
 use App\RefundForm;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\RefundFormResource;
 
 class RefundFormController extends Controller
 {
@@ -18,7 +19,11 @@ class RefundFormController extends Controller
      */
     public function index(Office $office, Refund $refund)
     {
-        return $refund->refund_forms()->get();
+        $refundForm = new RefundForm();
+
+        $refundForm = $refund->refund_forms()->get();
+        //return $refundForm;
+        return RefundFormResource::collection($refundForm);
     }
 
     /**
