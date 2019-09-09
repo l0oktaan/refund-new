@@ -265,6 +265,9 @@ Vue.component('RefundSummary', RefundSummary).defaults;
 import RefundCheck from './components/Refund/RefundCheck.vue';
 Vue.component('RefundCheck', RefundCheck).defaults;
 
+import ConsiderCheck from './components/Refund/ConsiderCheck.vue';
+Vue.component('ConsiderCheck', ConsiderCheck).defaults;
+
 
 
 const app = new Vue({

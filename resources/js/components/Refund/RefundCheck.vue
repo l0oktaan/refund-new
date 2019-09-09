@@ -6,7 +6,8 @@
                                 <p>{{refund_id}}</p>
 
                 <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
-                    <b-card-body class="pb-0 sub_rule">
+                    <consider-check :rule="rule"></consider-check>
+                    <!-- <b-card-body class="pb-0 sub_rule">
                         <b-row>
 
                         </b-row>
@@ -56,8 +57,7 @@
 
                             </b-col>
                         </b-row>
-                    </b-card-body>
-
+                    </b-card-body> -->
                 </b-card>
             </b-col>
         </b-row>
@@ -65,6 +65,13 @@
             <b-col>
                 <div class="text-center" style="margin-bottom:5px;">
                     <b-button variant="primary">บันทึกข้อมูล</b-button>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <div class="text-center" style="margin-bottom:5px;">
+                    {{result_list}}
                 </div>
             </b-col>
         </b-row>
@@ -128,6 +135,7 @@ export default {
                             arr.push({
                                 rule: this.form_rule_list[i]['sub_rules'][j]['id'],
                                 main_rule: this.form_rule_list[i]['id'],
+                                considers: this.form_rule_list[i]['sub_rules'][j]['considers'],
                                 condition: this.form_rule_list[i]['sub_rules'][j]['condition'],
                                 condition_type:this.form_rule_list[i]['sub_rules'][j]['condition_type'],
                                 result:this.form_rule_list[i]['sub_rules'][j]['result'],
@@ -137,6 +145,7 @@ export default {
                         arr.push({
                             rule: this.form_rule_list[i]['id'],
                             main_rule: 0,
+                            considers: this.form_rule_list[i]['considers'],
                             condition: this.form_rule_list[i]['condition'],
                             condition_type:this.form_rule_list[i]['condition_type'],
                             result:this.form_rule_list[i]['result'],
@@ -148,6 +157,7 @@ export default {
                 this.getResult();
             })
         },
+
         createConditionList(){
             var arr = [];
             this.form_rule_list.forEach(function(element, index, arr){

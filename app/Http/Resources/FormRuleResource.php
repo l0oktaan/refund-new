@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Resources\ConsiderResource;
 
 class FormRuleResource extends Resource
 {
@@ -25,6 +25,7 @@ class FormRuleResource extends Resource
             'sub_of' => $this->sub_of,
             'rule_type' => $this->rule_type,
             'result_type' => $this->result_type,
+            'considers' => ConsiderResource::collection($this->considers),
             'condition' => $this->condition,
             'condition_type' => $this->condition_type,
             'description' => $this->description,
