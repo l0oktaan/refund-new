@@ -161,10 +161,14 @@ export default {
                     }
                 }
                 //this.considers = consider;
+                this.createRefundDetail();
             }else if (this.state == 'update'){
 
             }
             console.log('consider : ' + consider.length);
+        },
+        createRefundDetail(){
+
         },
         getValue(){
             return this.considers;
