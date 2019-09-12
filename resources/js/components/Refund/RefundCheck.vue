@@ -3,10 +3,18 @@
         <b-row>
             <b-col sm="12">
 
-                                <p>{{refund_id}}</p>
-
                 <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
-                    <consider-check :rule="rule"></consider-check>
+                    <div class="rule_name" slot="header">
+                        <div class="card-header-actions">
+                            <!-- <b-badge variant="success">Success</b-badge> -->
+                        </div>
+                         <i class="fas fa-angle-double-right fa-lg"></i><span> หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
+                    </div>
+                    <consider-check
+                        :rule="rule"
+                        :ref="`rule${x_index}`"
+                        @ready="getConsider"
+                    ></consider-check>
                     <!-- <b-card-body class="pb-0 sub_rule">
                         <b-row>
 
@@ -64,15 +72,16 @@
        <b-row>
             <b-col>
                 <div class="text-center" style="margin-bottom:5px;">
-                    <b-button variant="primary">บันทึกข้อมูล</b-button>
+                    {{showRule}}
+                    <b-button variant="primary" @click="checkConsider()">บันทึกข้อมูล</b-button>
                 </div>
             </b-col>
         </b-row>
         <b-row>
             <b-col>
-                <div class="text-center" style="margin-bottom:5px;">
-                    {{result_list}}
-                </div>
+
+
+
             </b-col>
         </b-row>
 
@@ -101,6 +110,8 @@ export default {
             result_list:[],
             arrResult: [],
             state: 'new',
+            showRule: null
+
         }
     },
     watch :{
@@ -111,7 +122,7 @@ export default {
         }
     },
     mounted() {
-
+            this.showRule = [];
             console.log('get form rule');
             this.fetchData();
 
@@ -176,7 +187,6 @@ export default {
                 }else{
                     Object.assign(arr[index],{result: arr[index]['condition']});
                 }
-
             });
             this.form_rule = arr;
         },
@@ -259,6 +269,17 @@ export default {
                 }
             });
             this.arrResult = arrResult;
+        },
+        isSuccess(value){
+            if (value){
+                return "fas fa-check-square fa-lg"
+            }else{
+                return "fas fa-square fa-lg"
+            }
+        },
+        getConsider(value){
+            this.showRule.push(value.considers);
+            console.log('get consider :' + value.considers);
         }
     },
     computed: {
@@ -281,11 +302,19 @@ export default {
 .nav-link{
     padding-top: 10px!important;
 }
-.sub_rule{
-    padding-bottom: 10px!important;
-}
+
 .sub_rule_name{
     padding-top: 5px!important;
 }
-
+.rule_name{
+    margin: 5px!important;
+}
+.card-header{
+    padding: 5px!important;
+    background-color: #20a8d8;
+    color: #ffffff;
+}
+.card{
+    margin-bottom: 5px!important;
+}
 </style>

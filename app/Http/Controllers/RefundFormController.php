@@ -6,6 +6,7 @@ use App\Office;
 use App\Form;
 use App\Refund;
 use App\RefundForm;
+use App\RefundDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\RefundFormResource;
@@ -42,6 +43,7 @@ class RefundFormController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request,Office $office,Refund $refund)
     {
         // $refundForm = new RefundForm;
@@ -54,6 +56,8 @@ class RefundFormController extends Controller
         $refundForm = new RefundForm($request->all());
         $refund->refund_forms()->save($refundForm);
 
+        //$this->createRefundDetail($refundForm);
+
         return response([
             'data' => $refundForm
         ],Response::HTTP_CREATED);
@@ -65,7 +69,12 @@ class RefundFormController extends Controller
         //     'data' => new RefundResource($refund)
         // ],Response::HTTP_CREATED);
     }
+    private function createRefundDetail(RefundForm $refundForm)
+    {
+        $form = Form::find($refundForm->form_id);
+        $considers = $form->considers();
 
+    }
     /**
      * Display the specified resource.
      *

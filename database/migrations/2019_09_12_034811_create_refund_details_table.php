@@ -17,8 +17,8 @@ class CreateRefundDetailsTable extends Migration
             $table->increments('id');
             $table->integer('refund_form_id')->unsigned()->index();
             $table->foreign('refund_form_id')->references('id')->on('12_refund_forms')->onDelete('cascade');
-            $table->integer('condition_id')->unsigned()->index();
-            $table->foreign('condition_id')->references('id')->on('11_form_conditions')->onDelete('cascade');
+            $table->integer('consider_id')->unsigned()->index();
+            $table->foreign('consider_id')->references('id')->on('112_considers')->onDelete('cascade');
             $table->string('value')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();

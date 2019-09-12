@@ -28,4 +28,8 @@ class Consider extends Model
     {
         return $this->belongsTo('App\Form');
     }
+    public function form_details()
+    {
+        return $this->hasMany('App\FormDetail');
+    }
 }

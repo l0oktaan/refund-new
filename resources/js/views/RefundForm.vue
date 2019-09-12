@@ -229,6 +229,15 @@ export default {
                                 })
                                 .then(response=>{
                                     this.refund_forms.push(response.data.data);
+                                    path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${response.data.data.id}/refund_details`;
+                                    console.log('Path refund form :' + path);
+                                    /* axios.post(path)
+                                    .then(response=>{
+
+                                    })
+                                    .catch(error=>{
+
+                                    }); */
                                     var arr = this.refund_forms;
                                     this.refund_forms.forEach(function(element,index,arr){
                                         Object.assign(arr[index],{result: false});

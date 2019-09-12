@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Office;
+use App\Form;
 use App\Refund;
 use App\RefundForm;
 use App\RefundDetail;
 use RefundFormController;
 use App\Http\Requests\RefundDetailRequest;
 use App\Http\Resources\RefundDetailResource;
+use App\Http\Resources\FormResource;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -44,7 +46,7 @@ class RefundDetailController extends Controller
      */
     public function store(Request $request, Office $office, Refund $refund, RefundForm $refund_form)
     {
-        if ($request->has('data'))
+        /* if ($request->has('data'))
         {
             $details = $request->data;
             foreach($details as $item)
@@ -57,7 +59,31 @@ class RefundDetailController extends Controller
                 }
             }
             return $details;
+        } */
+
+        $iform = new FormResource(Form::find($refund_form->form_id));
+        $forms = array($iform);
+        return $forms[0]['rules'];
+        return array($forms->rules);
+        foreach($forms as $form)
+        {
+            $rules = array($form->rules);
+            return $rules;
+            foreach($rule->considers as $consider)
+            {
+                $refundDetail = new RefundDetail();
+                $refundDetail->rule_id = $rule->id;
+                $refundDetail->consider_id = $consider->id;
+                $refundDetail->value = '';
+                $refundDetail->status = 0;
+                $refund_form->refund_details()->save($refundDetail);
+            }
+
         }
+
+
+
+        return $forms;
     }
 
     /**

@@ -10,7 +10,7 @@ class RefundDetail extends Model
     protected $fillable = [
         'id',
         'refund_form_id',
-        'condition_id',
+        'consider_id',
         'value',
         'status'
     ];
@@ -19,8 +19,8 @@ class RefundDetail extends Model
         return $this->belongsTo('App\RefundForm');
     }
 
-    public function form_condition(){
-        return $this->belongsTo('App\FormCondition');
+    public function consider(){
+        return $this->belongsTo('App\Consider');
     }
 
 }
