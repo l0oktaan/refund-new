@@ -46,7 +46,7 @@ class RefundDetailController extends Controller
      */
     public function store(Request $request, Office $office, Refund $refund, RefundForm $refund_form)
     {
-        /* if ($request->has('data'))
+        if ($request->has('data'))
         {
             $details = $request->data;
             foreach($details as $item)
@@ -59,9 +59,9 @@ class RefundDetailController extends Controller
                 }
             }
             return $details;
-        } */
+        }
 
-        $iform = new FormResource(Form::find($refund_form->form_id));
+        /* $iform = new FormResource(Form::find($refund_form->form_id));
         $forms = array($iform);
         return $forms[0]['rules'];
         return array($forms->rules);
@@ -80,10 +80,11 @@ class RefundDetailController extends Controller
             }
 
         }
+        return $forms; */
 
 
 
-        return $forms;
+
     }
 
     /**

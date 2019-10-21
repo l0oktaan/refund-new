@@ -8,12 +8,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-window.$ = window.jQuery = require('jquery');
-window.$ = $.extend(require('jquery-ui'));
+
+
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+
 
 
 
@@ -268,7 +269,8 @@ Vue.component('RefundCheck', RefundCheck).defaults;
 import ConsiderCheck from './components/Refund/ConsiderCheck.vue';
 Vue.component('ConsiderCheck', ConsiderCheck).defaults;
 
-
+import MyDatePicker from './components/MyDatePicker.vue';
+Vue.component('MyDatePicker', MyDatePicker).defaults;
 
 const app = new Vue({
     el: '#app',
