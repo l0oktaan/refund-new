@@ -7,16 +7,25 @@
 
 require('./bootstrap');
 
+
+
 window.Vue = require('vue');
-
-
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 
+import 'jquery-ui/ui/widgets/datepicker.js';
+/* import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
 
+Vue.use(Buefy,{
+    defaultDayNames: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
+    defaultMonthNames: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+}) */
 
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
@@ -50,14 +59,7 @@ Vue.use(require('vue-moment'));
 
 
 
-import { DatePicker } from 'ant-design-vue';
-Vue.use(DatePicker)
-import 'ant-design-vue/dist/antd.css'
 
-
-
-import Antd from 'ant-design-vue'
-Vue.use(Antd)
 
 
 import App from './views/App.vue'
