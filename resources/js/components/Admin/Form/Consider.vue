@@ -68,26 +68,7 @@
                     <b-col cols="4" v-if="(consider_type==3) && (consider_oper==2)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
-                            <!-- <my-date-picker
-                                name="date1"
-                                @dateSelected="dateSelected"
-                                :myDate = "myDate1"
-                            ></my-date-picker> -->
-                            <!-- <date-picker
-                                v-model="myDate1"
-                                :first-day-of-week="1"
-                                :lang="lang"
-                                :format="format"
-                                confirm
-                                type="date"
-                                >
-                            </date-picker> -->
-
-                            <a-date-picker
-
-                                :format="dateFormat"
-                                @change="dateSelected"
-                            />
+                            <my-date-picker :id="1" :showDate="consider_var1" @update="getDate"></my-date-picker>
 
 
 
@@ -96,10 +77,9 @@
                     <b-col cols="6" v-if="(consider_type==3) && (consider_oper==3)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
-                            <a-range-picker
-                                :format="dateFormat"
-                                @change="dateRangeSelected"
-                            />
+                            <p>{{consider_var1}}||{{consider_var2}}</p>
+                            <my-date-picker :id="2" :showDate="consider_var1" ></my-date-picker>
+                            <my-date-picker :id="3" :showDate="consider_var2"></my-date-picker>
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -136,6 +116,8 @@ export default {
             consider_oper: 0,
             consider_var1: '',
             consider_var2: '',
+            showDate1: '',
+            showDate2: '',
             order_list: ['ลำดับ'],
             type_list: [
                 {value: 0, text: 'ประเภทเงื่อนไข'},
@@ -167,7 +149,7 @@ export default {
             },
 
             dateFormat: "LL",
-            showDate1: null,
+
             dateEdit: 0
         }
     },
@@ -212,9 +194,12 @@ export default {
     methods: {
         moment,
 
-        getDate(myDate){
-            console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
-            return moment(myDate,"DD/MM/YYYY");
+        // getDate(myDate){
+        //     console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
+        //     return moment(myDate,"DD/MM/YYYY");
+        // },
+        getDate(value){
+            console.log(' value :' + value);
         },
         onSubmit(e){
             e.preventDefault();
@@ -305,8 +290,8 @@ export default {
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
             if (consider.oper >= 2){
-                if (consider.var1 != ''){
-                    arrDate = consider.var1.split('/');
+                if (consider.var1 != '' || !consider.var1){
+                    //arrDate = consider.var1.split('/');
                 }
             }
             this.consider_var1 = consider.var1;
