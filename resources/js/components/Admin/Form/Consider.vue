@@ -67,8 +67,8 @@
 
                     <b-col cols="4" v-if="(consider_type==3) && (consider_oper==2)">
                         <b-form-group>
-                            <label for="date1">ข้อมูลตรวจสอบ</label>
-                            <my-date-picker :id="1" :showDate="consider_var1" @update="getDate"></my-date-picker>
+                            <label for="date1">ข้อมูลตรวจสอบ{{date1}}</label>
+                            <my-date-picker :showDate="date1" @update="value => consider_var1 = value"></my-date-picker>
 
 
 
@@ -77,9 +77,9 @@
                     <b-col cols="6" v-if="(consider_type==3) && (consider_oper==3)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ</label>
-                            <p>{{consider_var1}}||{{consider_var2}}</p>
-                            <my-date-picker :id="2" :showDate="consider_var1" ></my-date-picker>
-                            <my-date-picker :id="3" :showDate="consider_var2"></my-date-picker>
+                            <p>{{showDate1}}||{{showDate2}}</p>
+                            <my-date-picker :showDate="showDate1" @update="value => consider_var1 = value"></my-date-picker>
+                            <my-date-picker :showDate="showDate2" @update="value => consider_var2 = value"></my-date-picker>
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -87,7 +87,7 @@
                     <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                     <b-button type="reset" variant="danger" @click="toClearConsider">ยกเลิก</b-button>
                 </div>
-                <span>{{ new Date() | moment }}</span>
+                <span>{{consider_var1}}</span>
                 <consider-cover
                     :considers="consider_list"
                     @fetchConsider = "fetchData"
@@ -116,6 +116,7 @@ export default {
             consider_oper: 0,
             consider_var1: '',
             consider_var2: '',
+            date1: null,
             showDate1: '',
             showDate2: '',
             order_list: ['ลำดับ'],
@@ -135,7 +136,8 @@ export default {
             lang: 'th',
             state: 'new',
             alert: '',
-            myDate1: null,
+            myDate1: '2019-10-29',
+            myDate2: '2019-10-29',
             toOpen: false,
             lang: {
                 days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
@@ -199,7 +201,9 @@ export default {
         //     return moment(myDate,"DD/MM/YYYY");
         // },
         getDate(value){
-            console.log(' value :' + value);
+            console.log(' value : ' + value);
+            this.consider_var1 = value;
+            this.$forceUpdate();
         },
         onSubmit(e){
             e.preventDefault();
@@ -281,23 +285,31 @@ export default {
         toEdit(consider){
             var arrDate = [];
             this.clearData();
-            console.log('to edit', consider.name);
+            console.log('to edit', consider);
             this.state = "update";
             this.consider_id = consider.id;
             this.consider_order = consider.order;
-            this.consider_name = consider.name;
+            this.consider_name = consider.name + consider.var1;
             this.consider_description = consider.description;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
             if (consider.oper >= 2){
                 if (consider.var1 != '' || !consider.var1){
-                    //arrDate = consider.var1.split('/');
+                    this.date1 = consider.var1;
+                    this.$forceUpdate();
+                    console.log('date 1 :' + this.date1);
+
+                }
+                if (consider.var2 != '' || !consider.var2){
+                    this.myDate1 = consider.var2;
                 }
             }
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
-            this.myDate1 = new Date(parseInt(arrDate[2]),parseInt(arrDate[1]),parseInt(arrDate[0]));
-            console.log('show date' + this.myDate1 + ' from : '+ arrDate[2] + '+' + parseInt(arrDate[1]) + '+' + arrDate[0]);
+
+            //this.myDate2 = consider.var2;
+            //this.myDate1 = new Date(parseInt(arrDate[2]),parseInt(arrDate[1]),parseInt(arrDate[0]));
+            //console.log('show date' + this.myDate1 + ' from : '+ arrDate[2] + '+' + parseInt(arrDate[1]) + '+' + arrDate[0]);
             this.$forceUpdate();
         },
         toClearConsider(){

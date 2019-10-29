@@ -39,10 +39,16 @@ export default {
     watch: {
         showDate(){
             this.date = this.showDate;
+            console.log('----change Date 1 :' + this.date);
+            this.$forceUpdate();
         },
         date(){
+            console.log('----Date 2:' + this.date);
+            var str = this.date.slice(0, 10);
 
-            this.$emit('update',this.date);
+           this.$emit('update',str);
+            this.$forceUpdate();
+
         }
     }
 }
