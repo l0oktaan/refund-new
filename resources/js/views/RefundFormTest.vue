@@ -15,7 +15,7 @@
             <button @click="myclick">click</button>
         </b-col>
         <b-col>
-            <my-date-picker :id="1" :showDate="date11" @update = "value => date1 = value"></my-date-picker>
+            <my-date-picker ref="d1" :id="1" :showDate="date11" @update = "value => date1 = value"></my-date-picker>
             <my-date-picker :id="2" :showDate="date" @update = "value => date2 = value"></my-date-picker>
         </b-col>
     </b-row>
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         myclick(){
-            this.date11='2019-10-25'
+            this.$refs.d1.date = '2019-10-25';
             this.$forceUpdate();
         },
         getDate1(value){

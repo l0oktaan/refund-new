@@ -77,6 +77,7 @@ import Office from './views/Office.vue'
 import RefundList from './views/RefundList.vue'
 import RefundForm from './views/RefundForm.vue'
 import RefundDetail from './views/RefundDetail.vue'
+import RefundFormCheck from './views/RefundFormCheck.vue'
 import RefundFormTest from './views/RefundFormTest.vue'
 
 import Admin from './views/Admin/Admin'
@@ -126,9 +127,18 @@ const router = new VueRouter({
                 {
                     path: 'refunds/:id',
                     component: RefundDetail,
+                    //component: RefundFormCheck,
                     meta: {
                         breadCrumb: `แบบถอนคืนเงินราย` //crumb
-                    }
+                    },children: [
+                        {
+                            path: 'detail',
+                            component: RefundDetail,
+                            meta: {
+                                breadCrumb: 'ตรวจสอบแบบถอนคืนเงินรายได้ฯ' //crumb
+                            }
+                        },
+                    ]
                 },
                 {
                     path: 'form',

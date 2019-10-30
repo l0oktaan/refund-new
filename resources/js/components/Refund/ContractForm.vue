@@ -1,6 +1,7 @@
 <template>
     <div class="animated fadeIn">
-        <b-form>
+        <my-alert :AlertType="alert"></my-alert>
+        <b-form @submit="onContractSubmit">
             <b-row>
                 <b-col sm="12">
                     <b-form-group>
@@ -8,7 +9,7 @@
                         <b-form-input type="text"
                             placeholder="ชื่อคู่สัญญา"
                             name="contract_party"
-
+                            v-model="contract_party"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -21,6 +22,7 @@
                         <b-form-input type="text"
                             placeholder="สัญญาเลขที่"
                             name="contract_no"
+                            v-model="contract_no"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -28,11 +30,7 @@
                 <b-col sm="6">
                     <b-form-group>
                         <label for="contract_date">สัญญาลงวันที่ :</label>
-                        <b-form-input type="text"
-                            placeholder="สัญญาลงวันที่"
-                            name="contract_date"
-                        >
-                        </b-form-input>
+                        <my-date-picker ref="contract_date" :id="11" :showDate="date_sign" @update="value => contract_date = value"></my-date-picker>
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -43,6 +41,7 @@
                         <b-form-input type="text"
                             placeholder="วงเงินในสัญญา"
                             name="budget"
+                            v-model="budget"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -53,6 +52,7 @@
                         <b-form-input type="text"
                             placeholder="ค่าปรับวันละ"
                             name="penalty_per_day"
+                            v-model="penalty_per_day"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -61,29 +61,22 @@
             <b-row>
                 <b-col sm="6">
                     <b-form-group>
-                        <label for="contract_start">สัญญาเริ่มต้น :</label>
-                        <b-form-input type="text"
-                            placeholder="สัญญาเริ่มต้น"
-                            name="contract_start"
-                        >
-                        </b-form-input>
+                        <label for="contract_start">วันที่สัญญาเริ่มต้น :</label>
+                        <my-date-picker ref="start" :id="11" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
                     </b-form-group>
                 </b-col>
                 <b-col sm="6">
                     <b-form-group>
-                        <label for="contract_end">สัญญาสิ้นสุด :</label>
-                        <b-form-input type="text"
-                            placeholder="สัญญาสิ้นสุด"
-                            name="contract_end"
-                        >
-                        </b-form-input>
+                        <label for="contract_end">วันที่สัญญาสิ้นสุด :</label>
+                        <my-date-picker ref="end" :id="11" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
                     </b-form-group>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
                     <div class="text-center" style="margin-bottom:5px;">
-                        <b-button variant="primary">บันทึกข้อมูล</b-button>
+                        <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
+                        <b-button type="reset" variant="danger" @click="clearContract">ยกเลิก</b-button>
                     </div>
                 </b-col>
             </b-row>
@@ -143,7 +136,8 @@
                                     <b-row>
                                         <b-col>
                                             <div class="text-center" style="margin-bottom:5px;">
-                                                <b-button variant="primary">บันทึกข้อมูล</b-button>
+
+
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -203,7 +197,91 @@
 </template>
 <script>
 export default {
+    props: ['refund_id'],
+    data(){
+        return {
+            office_id: 2,
+            r_id: this.$route.params.id,
+            contract_id: 0,
+            contract_party: '',
+            contract_no: '',
+            contract_date: '',
+            budget: 0,
+            penalty_per_day: 0,
+            contract_start: '',
+            contract_end: '',
+            date_sign: '',
+            date_start: '',
+            date_end: '',
+            alert: '',
+            contract_status: 'new'
+        }
+    },
+    methods: {
+        onContractSubmit(e){
+            e.preventDefault();
+            var contract = {};
+            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract`;
+            console.log('contract path : ' + path);
+            console.log('contract status : ' + this.contract_status);
+            if (this.contract_status == 'new'){
 
+                axios.post(`${path}`,{
+                    contract_party: this.contract_party,
+                    contract_no:    this.contract_no,
+                    contract_date:  this.contract_date,
+                    budget:         this.budget,
+                    penalty_per_day:this.penalty_per_day,
+                    contract_start: this.contract_start,
+                    contract_end:   this.contract_end,
+                })
+                .then(response=>{
+                    contract = response.data.data
+                    this.contract_id = contract.id;
+                    this.contract_party = contract.contract_party;
+                    this.contract_no = contract.contract_no;
+                    this.contract_date = contract.contract_date;
+                    this.budget = contract.budget;
+                    this.penalty_per_day = contract.penalty_per_day;
+                    this.contract_start = contract.contract_start;
+                    this.contract_end = contract.contract_end;
+                    this.contract_status = 'update';
+                    this.alert = 'success';
+                })
+                .catch(error=>{
+                    this.alert = 'error';
+                })
+            }
+
+        },
+        fetchContract(){
+            var contract = {};
+            var path = `/api/offices/${office_id}refunds/${refund_id}/contract`;
+            axios.get(`${path}`)
+            .then(resposne=>{
+                contract = response.data.data
+                this.contract_id = contract.id;
+                this.contract_party = contract.contract_party;
+                this.contract_no = contract.contract_no;
+                this.contract_date = contract.contract_date;
+                this.budget = contract.budget;
+                this.penalty_per_day = contract.penalty_per_day;
+                this.contract_start = contract.contract_start;
+                this.contract_end = contract.contract_end;
+
+            })
+        },
+        clearContract(){
+            this.contract_id = 0;
+            this.contract_party = '';
+            this.contract_no = '';
+            this.contract_date = '';
+            this.budget = 0;
+            this.penalty_per_day = '';
+            this.contract_start = '';
+            this.contract_end = '';
+        }
+    }
 }
 </script>
 <style scoped>

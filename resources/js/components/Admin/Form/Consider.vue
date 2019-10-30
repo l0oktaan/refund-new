@@ -53,7 +53,7 @@
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="3" v-if="(consider_type==3) && (consider_oper==1)">
+                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper==1)">
                             <b-form-group>
                             <label for="var1">ข้อมูลตรวจสอบ</label>
                             <b-form-input type="text"
@@ -65,35 +65,48 @@
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="4" v-if="(consider_type==3) && (consider_oper==2)">
+                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper > 1)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ{{date1}}</label>
-                            <my-date-picker :showDate="date1" @update="value => consider_var1 = value"></my-date-picker>
+                            <my-date-picker ref="d11" :id="11" :showDate="date1" @update="value => consider_var1 = value"></my-date-picker>
+                            <div v-if="consider_oper == 3">ถึง</div>
+                            <my-date-picker ref="d22" :showDate="showDate2" @update="value => consider_var2 = value" v-if="consider_oper == 3"></my-date-picker>
+
 
 
 
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper==3)">
-                        <b-form-group>
-                            <label for="date1">ข้อมูลตรวจสอบ</label>
-                            <p>{{showDate1}}||{{showDate2}}</p>
-                            <my-date-picker :showDate="showDate1" @update="value => consider_var1 = value"></my-date-picker>
-                            <my-date-picker :showDate="showDate2" @update="value => consider_var2 = value"></my-date-picker>
-                        </b-form-group>
-                    </b-col>
+
                 </b-row>
                 <div class="text-center">
                     <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                     <b-button type="reset" variant="danger" @click="toClearConsider">ยกเลิก</b-button>
                 </div>
-                <span>{{consider_var1}}</span>
-                <consider-cover
+
+                <!-- <consider-cover
                     :considers="consider_list"
                     @fetchConsider = "fetchData"
                     @toEdit = 'toEdit'
                     :form_id="form_id"
-                ></consider-cover>
+                ></consider-cover> -->
+                <b-card class="bg-primary" v-for="(consider,index) in consider_list" :key="index">
+                    <b-card-body class="pb-0 cover">
+                        <b-dropdown class="float-right" style="color: #000!important;" variant="transparent p-0" right>
+                        <template slot="button-content">
+                            <i class="icon-settings sub_rule"></i>
+                        </template>
+                            <b-dropdown-item @click="toEdit(consider)"><i class="fas fa-link"></i>&nbsp;แก้ไข</b-dropdown-item>
+
+                            <b-dropdown-item @click="delConsider(consider.id,consider.form_rule_id)"><i class="fas fa-trash"></i>&nbsp;ลบ</b-dropdown-item>
+                        </b-dropdown>
+                        <b-row>
+                            <b-col sm="6">
+                                <div class="textFiled">เงื่อนไข :{{consider.name}}</div>
+                            </b-col>
+                        </b-row>
+                    </b-card-body>
+                </b-card>
             </b-form>
         </b-card>
     </div>
@@ -136,8 +149,8 @@ export default {
             lang: 'th',
             state: 'new',
             alert: '',
-            myDate1: '2019-10-29',
-            myDate2: '2019-10-29',
+            myDate1: '',
+            myDate2: '',
             toOpen: false,
             lang: {
                 days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
@@ -156,23 +169,52 @@ export default {
         }
     },
     watch: {
-        myDate1(){
-            var iDate = null;
-            this.showDate1 = null;
-            if (this.myDate1 != null){
-                try {
-                    iDate = moment(this.myDate1,this.dateFormat);
-                } catch (error) {
-                    iDate = null;
+        myDate1(newDate, oldDate){
+
+            if (this.consider_oper == 3){
+                if (this.myDate2 != '' || this.myDate2){
+
+                    if (!this.checkDate(newDate,this.myDate2)){
+                        this.consider_var1 = oldDate;
+
+
+
+                    }
                 }
-                this.showDate1 = iDate;
-                this.$forceUpdate();
-            }else{
-                this.showDate1 = null;
-                this.$forceUpdate();
             }
-            console.log('show date : '+ this.showDate1);
-        }
+        },
+        myDate2(newDate, oldDate){
+
+            if (this.consider_oper == 3){
+                if (this.myDate2 != '' || this.myDate2){
+
+                    if (!this.checkDate(this.myDate1,newDate)){
+                        this.consider_var2 = oldDate;
+
+
+
+                    }
+                }
+            }
+        },
+        consider_var1(newDate, oldDate){
+            console.log('change date1' + this.consider_var1);
+             if (this.consider_oper > 1 && newDate != '' && !newDate){
+                this.myDate1 = this.consider_var1;
+                this.$nextTick(() => {
+                    this.$refs.d11.date = this.myDate1;
+                })
+            }
+        },
+        consider_var2(newDate, oldDate){
+            console.log('change date 2' + this.consider_var2);
+             if (this.consider_oper == 3 && newDate != '' && !newDate){
+                this.myDate2 = this.consider_var2;
+                this.$nextTick(() => {
+                    this.$refs.d22.date = this.myDate2;
+                })
+            }
+        },
     },
     computed: {
         getDate1(){
@@ -184,6 +226,8 @@ export default {
             }
             return iDate
         },
+
+
     },
     mounted(){
         moment.locale('th');
@@ -200,6 +244,18 @@ export default {
         //     console.log('Show Date : ' + moment(myDate,"DD/MM/YYYY"));
         //     return moment(myDate,"DD/MM/YYYY");
         // },
+        checkDate(date1,date2){
+            console.log('check date : '+ date1 + ' and ' + date2);
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            if (d2 > d1){
+                return true;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+
+        },
         getDate(value){
             console.log(' value : ' + value);
             this.consider_var1 = value;
@@ -282,26 +338,42 @@ export default {
 
             })
         },
+        showDate(){
+
+        },
         toEdit(consider){
+
             var arrDate = [];
             this.clearData();
             console.log('to edit', consider);
             this.state = "update";
             this.consider_id = consider.id;
             this.consider_order = consider.order;
-            this.consider_name = consider.name + consider.var1;
+            this.consider_name = consider.name;
             this.consider_description = consider.description;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
             if (consider.oper >= 2){
                 if (consider.var1 != '' || !consider.var1){
-                    this.date1 = consider.var1;
+                    this.myDate1 = consider.var1;
+                    this.$nextTick(() => {
+                        this.$refs.d11.date = this.myDate1;
+                    })
+
+
                     this.$forceUpdate();
-                    console.log('date 1 :' + this.date1);
+
 
                 }
-                if (consider.var2 != '' || !consider.var2){
-                    this.myDate1 = consider.var2;
+                if (consider)
+                if (consider.oper == 3){
+                    console.log('var 2 :' + consider.var2)
+                    this.myDate2 = consider.var2;
+                     this.$nextTick(() => {
+
+                        this.$refs.d22.date = this.myDate2;
+                    })
+                    this.$forceUpdate();
                 }
             }
             this.consider_var1 = consider.var1;
@@ -311,6 +383,7 @@ export default {
             //this.myDate1 = new Date(parseInt(arrDate[2]),parseInt(arrDate[1]),parseInt(arrDate[0]));
             //console.log('show date' + this.myDate1 + ' from : '+ arrDate[2] + '+' + parseInt(arrDate[1]) + '+' + arrDate[0]);
             this.$forceUpdate();
+
         },
         toClearConsider(){
 
@@ -327,8 +400,70 @@ export default {
             this.consider_var1 = '';
             this.consider_var2 = '';
             this.myDate1 = '';
+            this.myDate2 = '';
             this.showDate1 = null;
-        }
+        },
+        delConsider(id,form_rule_id){
+            this.$swal({
+                    title: "กรุณายืนยันการลบเงื่อนไข",
+                    text: "คุณต้องการลบเงื่อนไขนี้ใช่หรือไม่",
+                    icon: "warning",
+                    closeOnClickOutside: false,
+                    buttons: [
+                        'ยกเลิก',
+                        'ยืนยัน'
+                    ],
+
+                }).then(isConfirm =>{
+                    if (isConfirm){
+                        let path = `/api/forms/${this.form_id}/form_rules/${form_rule_id}/form_considers/${id}`;
+                        axios.delete(path)
+                        .then(response=>{
+                            //this.$emit('fetchConsider');
+                            this.clearData();
+                            this.fetchData();
+                            //this.$parent.alert = 'success';
+                            this.alert = 'success';
+                        })
+                    }
+                });
+        },
+
     }
 }
 </script>
+<style scoped>
+.btn{
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+
+}
+.bg-primary{
+    background-color: #20a8d8 !important;
+}
+.bg-default{
+    color: #000!important;
+}
+.cover{
+    color: #fff!important;
+}
+.sub_rule{
+    color: #000!important;
+}
+.card{
+    margin: 10px!important;
+}
+.dropdown-item>i{
+    color: #000!important;
+}
+.showSub{
+    cursor: pointer;
+}
+.noSub{
+    color: rgb(97, 97, 97)!important;
+    cursor: default;
+}
+.float-right{
+    margin-right: 5px;
+}
+</style>

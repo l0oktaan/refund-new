@@ -3,7 +3,7 @@
     <b-col>
         <datetime
             v-model="date"
-            placeholder="Select date"
+            placeholder="เลือกวันที่"
             :format="{ year: 'numeric', month: 'long', day: 'numeric'}"
             value-zone = 'UTC+07:00'
             :week-start = "7"
@@ -43,8 +43,13 @@ export default {
             this.$forceUpdate();
         },
         date(){
-            console.log('----Date 2:' + this.date);
-            var str = this.date.slice(0, 10);
+             var str = ''
+            try{
+                str = this.date.slice(0, 10);
+            }catch{
+
+            }
+
 
            this.$emit('update',str);
             this.$forceUpdate();

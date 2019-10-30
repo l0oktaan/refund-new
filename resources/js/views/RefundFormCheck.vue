@@ -5,7 +5,7 @@
         <b-tabs v-model="tabIndex">
 
             <!--================================= Tab Form ==================================-->
-            <!-- <b-tab v-for="(tab,index) in tab_forms" :key="index" >
+            <b-tab v-for="(tab,index) in tab_forms" :key="index" >
                 <template slot="title">
                 <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
@@ -13,7 +13,7 @@
 
                   <refund-check :form_id="refund_forms[index].form_id" :refund_id="refund_id"></refund-check>
 
-            </b-tab> -->
+            </b-tab>
             <!--==================================== Tab Form End =====================================-->
             <b-tab v-if="isPass">
                 <template slot="title">
@@ -84,7 +84,7 @@ export default {
             alert: '',
             icon_check: 'far fa-check-square fa-lg',
             icon_uncheck: 'far fa-square fa-lg',
-            isPass: true
+            isPass: false
         }
     },
     watch: {

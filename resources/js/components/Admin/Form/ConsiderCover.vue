@@ -52,12 +52,14 @@ export default{
                 });
         },
         toEdit(consider){
+
             this.$emit('toEdit',consider);
         }
     },
     watch: {
         considers(){
             this.arr_considers = this.considers;
+
             this.$forceUpdate();
         }
     },
