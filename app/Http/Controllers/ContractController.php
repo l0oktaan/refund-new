@@ -87,7 +87,7 @@ class ContractController extends Controller
      * @param  \App\Contract  $contract
      * @return \Illuminate\Http\Response
      */
-    public function update(ContractRequest $request, Contract $contract)
+    public function update(Office $office,Refund $refund,Contract $contract,ContractRequest $request)
     {
         $contract->update($request->all());
         return response([

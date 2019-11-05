@@ -15,14 +15,14 @@
 
             </b-tab> -->
             <!--==================================== Tab Form End =====================================-->
-            <b-tab v-if="isPass">
+            <b-tab>
                 <template slot="title">
                     <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
                 </template>
                 <contract-form></contract-form>
             </b-tab>
-            <b-tab  v-if="isPass">
+            <!-- <b-tab  v-if="isPass">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 3 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[2].title}}</span>
@@ -45,7 +45,7 @@
                     <span>{{tabs[3].title}}</span>
                 </template>
                 <refund-summary></refund-summary>
-            </b-tab>
+            </b-tab> -->
           </b-tabs>
           <p>{{tabIndex}}</p>
             <p>is select{{isSelect}}</p>

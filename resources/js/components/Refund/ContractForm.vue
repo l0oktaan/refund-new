@@ -8,7 +8,7 @@
                         <label for="contract_party">ชื่อคู่สัญญา :</label>
                         <b-form-input type="text"
                             placeholder="ชื่อคู่สัญญา"
-                            name="contract_party"
+
                             v-model="contract_party"
                         >
                         </b-form-input>
@@ -62,18 +62,21 @@
                 <b-col sm="6">
                     <b-form-group>
                         <label for="contract_start">วันที่สัญญาเริ่มต้น :</label>
-                        <my-date-picker ref="start" :id="11" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
+                        <my-date-picker ref="start" :id="1" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
                     </b-form-group>
                 </b-col>
                 <b-col sm="6">
                     <b-form-group>
                         <label for="contract_end">วันที่สัญญาสิ้นสุด :</label>
-                        <my-date-picker ref="end" :id="11" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
+                        <my-date-picker ref="end" :id="2" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
                     </b-form-group>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
+                    <p>ID: {{contract_id}}</p>
+                    <p>{{contract}}</p>
+                    <p>{{contract_status}}</p>
                     <div class="text-center" style="margin-bottom:5px;">
                         <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                         <b-button type="reset" variant="danger" @click="clearContract">ยกเลิก</b-button>
@@ -206,22 +209,27 @@ export default {
             contract_party: '',
             contract_no: '',
             contract_date: '',
-            budget: 0,
-            penalty_per_day: 0,
+            budget: '',
+            penalty_per_day: '',
             contract_start: '',
             contract_end: '',
             date_sign: '',
             date_start: '',
             date_end: '',
             alert: '',
-            contract_status: 'new'
+            contract_status: 'new',
+            contract: {}
         }
+    },
+    mounted(){
+        this.fetchContract();
+        this.$forceUpdate();
     },
     methods: {
         onContractSubmit(e){
             e.preventDefault();
             var contract = {};
-            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract`;
+            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
             console.log('contract path : ' + path);
             console.log('contract status : ' + this.contract_status);
             if (this.contract_status == 'new'){
@@ -236,19 +244,63 @@ export default {
                     contract_end:   this.contract_end,
                 })
                 .then(response=>{
-                    contract = response.data.data
+                    contract = response.data.data;
+
                     this.contract_id = contract.id;
                     this.contract_party = contract.contract_party;
                     this.contract_no = contract.contract_no;
                     this.contract_date = contract.contract_date;
+                    this.showDatePick('contract_date', contract.contract_date);
                     this.budget = contract.budget;
                     this.penalty_per_day = contract.penalty_per_day;
+                    this.showDatePick('start',contract.contract_start);
+                    this.showDatePick('end',contract.contract_end);
+
                     this.contract_start = contract.contract_start;
                     this.contract_end = contract.contract_end;
+
                     this.contract_status = 'update';
                     this.alert = 'success';
+                    this.contract = contract;
+                    this.$forceUpdate();
                 })
                 .catch(error=>{
+                    console.log('error :' + error);
+                    this.alert = 'error';
+                })
+            }else{
+                path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts/${this.contract_id}`;
+                axios.put(`${path}`,{
+                    contract_party: this.contract_party,
+                    contract_no:    this.contract_no,
+                    contract_date:  this.contract_date,
+                    budget:         this.budget,
+                    penalty_per_day:this.penalty_per_day,
+                    contract_start: this.contract_start,
+                    contract_end:   this.contract_end,
+                })
+                .then(response=>{
+                    contract = response.data.data;
+                    this.contract_id = contract.id;
+                    this.contract_party = contract.contract_party;
+                    this.contract_no = contract.contract_no;
+                    this.contract_date = contract.contract_date;
+                    this.showDatePick('contract_date', contract.contract_date);
+                    this.budget = contract.budget;
+                    this.penalty_per_day = contract.penalty_per_day;
+                    this.showDatePick('start',contract.contract_start);
+                    this.showDatePick('end',contract.contract_end);
+
+                    this.contract_start = contract.contract_start;
+                    this.contract_end = contract.contract_end;
+
+                    this.contract_status = 'update';
+                    this.alert = 'success';
+                    this.contract = contract;
+                    this.$forceUpdate();
+                })
+                .catch(error=>{
+                    console.log('error :' + error);
                     this.alert = 'error';
                 })
             }
@@ -256,30 +308,67 @@ export default {
         },
         fetchContract(){
             var contract = {};
-            var path = `/api/offices/${office_id}refunds/${refund_id}/contract`;
+            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
+            console.log('contract path: ' + path);
             axios.get(`${path}`)
-            .then(resposne=>{
-                contract = response.data.data
-                this.contract_id = contract.id;
-                this.contract_party = contract.contract_party;
-                this.contract_no = contract.contract_no;
-                this.contract_date = contract.contract_date;
-                this.budget = contract.budget;
-                this.penalty_per_day = contract.penalty_per_day;
-                this.contract_start = contract.contract_start;
-                this.contract_end = contract.contract_end;
+            .then(response=>{
+
+
+                console.log('get contract: ' + response.data.data.length);
+                if (response.data.data.length > 0){
+                    this.contract = response.data.data[0];
+                    // this.contract_id = this.contract.id;
+                    // this.contract_party = this.contract.contract_party;
+                    // this.contract_no = this.contract.contract_no;
+                    // this.contract_date = this.contract.contract_date;
+                    // this.showDatePick('contract_date',this.contract.contract_date);
+                    // this.budget = this.contract.budget;
+                    // this.penalty_per_day = this.contract.penalty_per_day;
+
+                    // this.showDatePick('start',this.contract.contract_start);
+                    // this.showDatePick('end',this.contract.contract_end);
+                    // this.contract_start = this.contract.contract_start;
+                    // this.contract_end = this.contract.contract_end;
+                    this.showContract();
+                    this.contract_status = 'update';
+                    this.$forceUpdate();
+                }
+
 
             })
+        },
+        showDatePick(refName,value){
+            this.$nextTick(() => {
+                this.$refs[refName].date = value;
+            })
+            this.$forceUpdate();
         },
         clearContract(){
             this.contract_id = 0;
             this.contract_party = '';
             this.contract_no = '';
             this.contract_date = '';
-            this.budget = 0;
+            this.budget = '';
             this.penalty_per_day = '';
             this.contract_start = '';
             this.contract_end = '';
+        },
+        showContract(){
+
+            this.contract_id = this.contract.id;
+            this.contract_party = this.contract.contract_party;
+            this.contract_no = this.contract.contract_no;
+            this.contract_date = this.contract.contract_date;
+            this.showDatePick('contract_date',this.contract.contract_date);
+            this.budget = this.contract.budget;
+            this.penalty_per_day = this.contract.penalty_per_day;
+
+            this.showDatePick('start',this.contract.contract_start);
+            this.showDatePick('end',this.contract.contract_end);
+            this.contract_start = this.contract.contract_start;
+            this.contract_end = this.contract.contract_end;
+            this.contract_status = 'update';
+            this.$forceUpdate();
         }
     }
 }
