@@ -225,6 +225,23 @@ export default {
         this.fetchContract();
         this.$forceUpdate();
     },
+    watch: {
+        date_start(newDate, oldDate){
+            if (this.myDate2 != '' || this.myDate2){
+
+                if (!this.checkDate(newDate,this.myDate2)){
+                    this.consider_var1 = oldDate;
+                }
+            }
+        },
+        date_end(newDate, oldDate){
+            if (this.myDate2 != '' || this.myDate2){
+                if (!this.checkDate(this.myDate1,newDate)){
+                    this.consider_var2 = oldDate;
+                }
+            }
+        },
+    },
     methods: {
         onContractSubmit(e){
             e.preventDefault();
