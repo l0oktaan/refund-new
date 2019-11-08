@@ -74,9 +74,6 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <p>ID: {{contract_id}}</p>
-                    <p>{{contract}}</p>
-                    <p>{{contract_status}}</p>
                     <div class="text-center" style="margin-bottom:5px;">
                         <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                         <b-button type="reset" variant="danger" @click="clearContract">ยกเลิก</b-button>
