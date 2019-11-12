@@ -269,6 +269,9 @@ Vue.component('RefundFormCover', RefundFormCover).defaults;
 import ContractForm from './components/Refund/ContractForm.vue';
 Vue.component('ContractForm', ContractForm).defaults;
 
+import ContractEdit from './components/Refund/ContractEdit.vue';
+Vue.component('ContractEdit', ContractEdit).defaults;
+
 import ContractTimeEdit from './components/Refund/ContractTimeEdit.vue';
 Vue.component('ContractTimeEdit', ContractTimeEdit).defaults;
 
