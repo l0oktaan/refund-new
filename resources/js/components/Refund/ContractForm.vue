@@ -81,7 +81,7 @@
                 </b-col>
             </b-row>
         </b-form>
-        <contract-edit></contract-edit>
+        <contract-edit :refund_id="refund_id"></contract-edit>
     </div>
 </template>
 <script>

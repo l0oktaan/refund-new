@@ -20,7 +20,7 @@ class ContractBudgetEditController extends Controller
      */
     public function index(Office $office, Refund $refund)
     {
-        $budgetEdits = new ContractBudgetEdit;
+        $budgetEdit = new ContractBudgetEdit;
         $budgetEdit =  $office->contract_budget_edits()
                     ->where('refund_id','=',$refund->id)
                     ->orderBy('order','asc')
@@ -54,11 +54,19 @@ class ContractBudgetEditController extends Controller
     public function store(Office $office, Refund $refund, Request $request)
     {
 
-        $budget_edit = new ContractBudgetEdit($request->all());
-        $refund->contract_budget_edits()->save($budget_edit);
-        return response([
-            'data' => new ContractBudgetEditResource($budget_edit)
-        ],Response::HTTP_CREATED);
+
+
+        if ($refund->office_id == $office->id){
+
+            $budget_edit = new ContractBudgetEdit($request->all());
+            $refund->contract_budget_edits()->save($budget_edit);
+            return response([
+                'data' => new ContractBudgetEditResource($budget_edit)
+            ],Response::HTTP_CREATED);
+
+        }else{
+            return '';
+        }
     }
 
     /**
@@ -111,10 +119,14 @@ class ContractBudgetEditController extends Controller
      */
     public function update(Office $office, Refund $refund, ContractBudgetEditRequest $request, ContractBudgetEdit $contractBudgetEdit)
     {
-        $contractBudgetEdit->update($request->all());
-        return response([
-            'data' => new ContractBudgetEditResource($contractBudgetEdit)
-        ],Response::HTTP_CREATED);
+        if ($refund->office_id == $office->id){
+            $contractBudgetEdit->update($request->all());
+            return response([
+                'data' => new ContractBudgetEditResource($contractBudgetEdit)
+            ],Response::HTTP_CREATED);
+        }else{
+            return '';
+        }
     }
 
     /**

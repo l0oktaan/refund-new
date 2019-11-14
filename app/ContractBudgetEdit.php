@@ -10,13 +10,16 @@ class ContractBudgetEdit extends Model
     protected $fillable = [
         'id',
         'refund_id',
-        'order',
+        //'order',
         'budget_new',
         'penalty_new',
         'contract_edit_date',
     ];
 
     public function refund(){
-        return $this->belongsTo(Refund::class);
+        return $this->belongsTo('App\Refund');
+    }
+    public function office(){
+        return $this->belongsTo('App\Office');
     }
 }

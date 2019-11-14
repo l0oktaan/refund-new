@@ -17,7 +17,7 @@ class ContractBudgetEditResource extends JsonResource
         return [
             'id' => $this->id,
             'refund_id' => $this->refund_id,
-            'order' => $this->order,
+            //'order' => $this->order,
             'budget_new' => $this->budget_new,
             'penalty_new' => $this->penalty_new,
             'contract_edit_date' => $this->contract_edit_date,
