@@ -193,7 +193,7 @@
                         <div class="message">
                             <div class="py-3 mr-3 float-left">
                                 <div class="avatar">
-                                    <img class="img-avatar" src="https://coreui.io/demo/img/avatars/5.jpg" alt="admin@bootstrapmaster.com">
+                                    <img class="img-avatar" src="" alt="admin@bootstrapmaster.com">
                                     <span class="avatar-status badge-danger"></span>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img class="img-avatar" src="https://coreui.io/demo/img/avatars/1.jpg" alt="admin@bootstrapmaster.com">
+                <img class="img-avatar" src="" alt="admin@bootstrapmaster.com">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">

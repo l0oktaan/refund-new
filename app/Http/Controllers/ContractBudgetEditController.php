@@ -23,7 +23,7 @@ class ContractBudgetEditController extends Controller
         $budgetEdit = new ContractBudgetEdit;
         $budgetEdit =  $office->contract_budget_edits()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('order','asc')
+                    ->orderBy('contract_edit_date','asc')
                     ->get();
         return ContractBudgetEditResource::collection($budgetEdit);
         //return COntractBudgetEditResource::collection($office->contract_budget_edits()->get());
@@ -137,7 +137,15 @@ class ContractBudgetEditController extends Controller
      */
     public function destroy(Office $office, Refund $refund, ContractBudgetEdit $contractBudgetEdit)
     {
-        $contractBudgetEdit->delete();
-        return response(null,Response::HTTP_NO_CONTENT);
+
+        if ($refund->office_id == $office->id){
+
+            $contractBudgetEdit->delete();
+            return response(null,Response::HTTP_NO_CONTENT);
+
+        }else{
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+
     }
 }

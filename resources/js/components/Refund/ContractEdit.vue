@@ -65,7 +65,7 @@
                         <i class="icon-settings" style="color: #000;"></i>
                     </template>
                     <b-dropdown-item @click="toEdit(contract_edit)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                    <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
+                    <b-dropdown-item @click="toDel(contract_edit)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
                     <b-col sm="4">
@@ -154,6 +154,32 @@ export default{
             .catch(error=>{
                 console.log('edit contract error :' + error);
             })
+        },
+        toDel(contract_edit){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_budget_edits/${contract_edit.id}`;
+            this.$swal({
+                    title: "กรุณายืนยัน",
+                    text: `คุณต้องการลบข้อมูล การแก้ไขสัญญาหรือไม่`,
+                    icon: "warning",
+                    closeOnClickOutside: false,
+                    buttons: [
+                        'ยกเลิก',
+                        'ยืนยัน'
+                    ],
+                })
+                .then(isConfirm =>{
+                    console.log('delete : ' + path);
+                    axios.delete(`${path}`)
+                    .then(response=>{
+                        console.log(response.data);
+                        this.clearData();
+                        this.fetchContractEdit();
+                        this.alert = "success";
+                    })
+                    .catch(error=>{
+                        this.alert = "error";
+                    })
+                })
         },
         toEdit(contract_edit){
             console.log('edit edit');
