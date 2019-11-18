@@ -81,7 +81,7 @@
                 </b-col>
             </b-row>
         </b-form>
-        <contract-edit :refund_id="refund_id"></contract-edit>
+        <contract-edit :refund_id="refund_id" v-if="contract_status == 'update'"></contract-edit>
     </div>
 </template>
 <script>
@@ -104,6 +104,7 @@ export default {
             date_end: '',
             alert: '',
             contract_status: 'new',
+
             contract: {}
         }
     },
