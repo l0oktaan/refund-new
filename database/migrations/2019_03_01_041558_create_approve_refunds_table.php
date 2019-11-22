@@ -15,12 +15,12 @@ class CreateApproveRefundsTable extends Migration
     {
         Schema::create('8_approve_refunds', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('refund_id')->unsigned()->index();
+            $table->integer('refund_id')->unsigned()->index()->unique();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
-            $table->date('receive_refund_date');
-            $table->integer('approve_refund_days');
-            $table->float('approve_refund_amount');
-            $table->float('amount');
+            $table->date('receive_date');
+            $table->integer('refund_days',15,2);
+            $table->double('refund_amount',15,2);
+            $table->double('approve_amount');
             $table->timestamps();
         });
     }

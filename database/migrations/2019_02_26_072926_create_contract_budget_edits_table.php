@@ -18,8 +18,8 @@ class CreateContractBudgetEditsTable extends Migration
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
             //$table->integer('order');
-            $table->bigInteger('budget_new');
-            $table->float('penalty_new',10,2);
+            $table->deciaml('budget_new',15,2);
+            $table->deciaml('penalty_new',10,2);
             $table->date('contract_edit_date');
             $table->timestamps();
         });

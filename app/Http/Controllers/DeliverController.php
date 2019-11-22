@@ -22,7 +22,7 @@ class DeliverController extends Controller
         $delivers = new Deliver;
         $delivers =  $office->delivers()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('order','asc')
+                    ->orderBy('deliver_date','desc')
                     ->get();
         return DeliverResource::collection($delivers);
     }
@@ -48,7 +48,7 @@ class DeliverController extends Controller
         if ($refund->office_id == $office->id){
 
             $deliver = new Deliver($request->all());
-            $refund->delivers()->saveMany($deliver);
+            $refund->delivers()->save($deliver);
             return response([
                 'data' => new DeliverResource($deliver)
             ],Response::HTTP_CREATED);

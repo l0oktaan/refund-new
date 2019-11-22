@@ -15,44 +15,46 @@
 
             </b-tab> -->
             <!--==================================== Tab Form End =====================================-->
-            <b-tab>
+            <b-tab >
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 2 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 1 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
                 </template>
                 <contract-form></contract-form>
             </b-tab>
-            <!-- <b-tab  v-if="isPass">
+            <b-tab >
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 3 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 2 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[2].title}}</span>
                 </template>
                 <contract-time-edit></contract-time-edit>
 
             </b-tab>
-            <b-tab v-if="isPass">
+
+            <b-tab>
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 4 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 3 : <i :class="tabs[3].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>
                 </template>
-                <delivery></delivery>
-                <deposit-penalty></deposit-penalty>
-            </b-tab>
+                <delivery :refund_id="refund_id"></delivery>
 
-            <b-tab  v-if="isPass">
+            </b-tab>
+            <b-tab>
+                <template slot="title">
+                    <h5>ขั้นตอนที่ 4 : <i :class="tabs[4].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[4].title}}</span>
+                </template>
+
+                <deposit-penalty :refund_id="refund_id"></deposit-penalty>
+            </b-tab>
+            <b-tab>
                 <template slot="title">
                     <h5>สรุปข้อมูล : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>
                 </template>
-                <refund-summary></refund-summary>
-            </b-tab> -->
+                <refund-summary  :refund_id="refund_id"></refund-summary>
+            </b-tab>
           </b-tabs>
-          <p>{{tabIndex}}</p>
-            <p>is select{{isSelect}}</p>
-            <p>select{{arrFormSelected}}</p>
-            <p>refund form{{refund_forms}}</p>
-            <p>tabs{{tab_forms}}</p>
-            <p>tabs{{tabIndex}}</p>
     </div>
 </template>
 <script>
@@ -66,6 +68,7 @@ export default {
                 {title: 'ข้อมูลสัญญา', status: 0},
                 {title: 'ข้อมูลการอนุมัติ งด/ลด/ขยายเวลา', status: 0},
                 {title: 'ข้อมูลการส่งมอบงาน', status: 0},
+                {title: 'การนำส่งเงินค่าปรับ', status: 0},
                 {title: 'จำนวนเงินที่ขออนุมัติ', status: 0},
 
             ],

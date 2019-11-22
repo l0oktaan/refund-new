@@ -17,10 +17,9 @@ class CreateDepositPenaltiesTable extends Migration
             $table->increments('id');
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
-            $table->tinyInteger('order');
             $table->string('deposit_no');
             $table->date('deposit_date');
-            $table->float('amount');
+            $table->double('amount');
             $table->timestamps();
         });
     }

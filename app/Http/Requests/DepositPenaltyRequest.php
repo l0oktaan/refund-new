@@ -24,7 +24,7 @@ class DepositPenaltyRequest extends FormRequest
     public function rules()
     {
         return [
-            'order' => 'required',
+
             'deposit_no' => 'required|max:50',
             'deposit_date' => 'required',
             'amount' => 'required'

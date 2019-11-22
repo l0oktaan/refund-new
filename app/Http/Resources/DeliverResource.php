@@ -19,7 +19,7 @@ class DeliverResource extends Resource
         return [
             'id' => $this->id,
             'refund_id' => $this->refund_id,
-            'order' => $this->order,
+            'delivery' => $this->delivery,
             'detail' => $this->detail,
             'deliver_date' => $this->deliver_date,
             'overdue_days' => $this->overdue_days,

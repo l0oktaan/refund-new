@@ -24,11 +24,11 @@ class DeliverRequest extends FormRequest
     public function rules()
     {
         return [
-            'order' => 'required',
+            'delivery' => 'required',
             'detail' => 'required|max:255',
             'deliver_date' => 'required',
             'overdue_days' => 'required',
-            'penalty' => 'required',
+            'penalty' => 'required'
         ];
     }
 }

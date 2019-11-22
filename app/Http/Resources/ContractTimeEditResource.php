@@ -17,11 +17,16 @@ class ContractTimeEditResource extends JsonResource
         return [
             'id' => $this->id,
             'refund_id' => $this->refund_id,
-            'order' => $this->order,
             'approve_date' => $this->approve_date,
             'edit_type' => $this->edit_type,
             'edit_detail' => $this->edit_detail,
-            'edit_days' => $this->edit_days
+            'edit_days' => $this->edit_days,
+            'edit_budget' => $this->edit_budget,
+            'contract_end_date' => $this->contract_end_date,
+            'approve_type' => $this->approve_type,
+            'approve_case' => $this->approve_case,
+            'problem_end_date' => $this->problem_end_date,
+            'book_date' => $this->book_date,
         ];
     }
 }

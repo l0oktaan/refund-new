@@ -10,7 +10,7 @@ class Deliver extends Model
     protected $fillable = [
         'id',
         'refund_id',
-        'order',
+        'delivery',
         'detail',
         'deliver_date',
         'overdue_days',

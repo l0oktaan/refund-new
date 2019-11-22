@@ -20,12 +20,16 @@ class ContractTimeEditController extends Controller
     public function index(Office $office, Refund $refund)
     {
 
-        $timeEdits = new ContractTimeEdit;
-        $timeEdits =  $office->contract_time_edits()
-                    ->where('refund_id','=',$refund->id)
-                    ->orderBy('order','asc')
-                    ->get();
-        return ContractTimeEditResource::collection($timeEdits);
+        if ($refund->office_id == $office->id)
+        {
+            $timeEdits = new ContractTimeEdit;
+            $timeEdits =  $office->contract_time_edits()
+                        ->where('refund_id','=',$refund->id)
+                        ->orderBy('approve_date','desc')
+                        ->get();
+            return ContractTimeEditResource::collection($timeEdits);
+        }
+
     }
 
     /**
@@ -44,14 +48,21 @@ class ContractTimeEditController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Office $office, Refund $refund,ContractTimeEditRequest $request)
+    public function store(Office $office, Refund $refund, ContractTimeEditRequest $request)
     {
 
-        $time_edit = new ContractTimeEdit($request->all());
-        $refund->contract_time_edits()->save($time_edit);
-        return response([
-            'data' => new ContractTimeEditResource($time_edit)
-        ],Response::HTTP_CREATED);
+        if ($refund->office_id == $office->id){
+
+            $time_edit = new ContractTimeEdit($request->all());
+            $refund->contract_time_edits()->save($time_edit);
+            return response([
+                'data' => new ContractTimeEditResource($time_edit)
+            ],Response::HTTP_CREATED);
+
+        }else{
+            return '';
+        }
+
     }
 
     /**
@@ -132,27 +143,30 @@ class ContractTimeEditController extends Controller
      */
     public function destroy(Office $office, Refund $refund, ContractTimeEdit $contractTimeEdit)
     {
-        $timeEdit = new ContractTimeEdit;
-        $timeEdit = $office->contract_time_edits()
-                            ->where([
-                                ['refund_id',"=",$refund->id],
+        if ($refund->office_id == $office->id){
+            $timeEdit = new ContractTimeEdit;
+            $timeEdit = $office->contract_time_edits()
+                                ->where([
+                                    ['refund_id',"=",$refund->id],
 
-                            ])->findOrFail($contractTimeEdit->id);
+                                ])->findOrFail($contractTimeEdit->id);
 
-        /* $timeEdit = new ContractTimeEdit;
-        $timeEdit = $office->contract_time_edits()
-                            ->where([
-                                ['refund_id','=',$refund->id]
-                                //['id','=',$contractBudgetEdit->id]
+            /* $timeEdit = new ContractTimeEdit;
+            $timeEdit = $office->contract_time_edits()
+                                ->where([
+                                    ['refund_id','=',$refund->id]
+                                    //['id','=',$contractBudgetEdit->id]
 
-                            ])
-                            ->findOrFail($contractTimeEdit->id);
-*/
-        if ($timeEdit == null){
-            return response(null,Response::HTTP_NOT_FOUND);
-        }else{
-            $timeEdit->delete();
-            return response(null,Response::HTTP_CREATED);
+                                ])
+                                ->findOrFail($contractTimeEdit->id);
+    */
+            if ($timeEdit == null){
+                return response(null,Response::HTTP_NOT_FOUND);
+            }else{
+                $timeEdit->delete();
+                return response(null,Response::HTTP_CREATED);
+            }
         }
+
     }
 }

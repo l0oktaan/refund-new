@@ -22,7 +22,7 @@ class DepositPenaltyController extends Controller
         $deposit = new DepositPenalty;
         $deposit =  $office->deposit_penalties()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('order','asc')
+                    ->orderBy('deposit_date','desc')
                     ->get();
         return DepositPenaltyResource::collection($deposit);
     }
@@ -103,6 +103,8 @@ class DepositPenaltyController extends Controller
      */
     public function update(Office $office, Refund $refund, DepositPenaltyRequest $request, DepositPenalty $depositPenalty)
     {
+
+
         $deposit = new DepositPenalty;
 
         $deposit = $office->deposit_penalties()
@@ -127,7 +129,7 @@ class DepositPenaltyController extends Controller
      * @param  \App\DepositPenalty  $depositPenalty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DepositPenalty $depositPenalty)
+    public function destroy(Office $office, Refund $refund, DepositPenalty $depositPenalty)
     {
         $deposit = new DepositPenalty;
 

@@ -63,7 +63,23 @@ Vue.use(ToggleButton)
 
 Vue.use(require('vue-moment'));
 
+import vueNumeralFilterInstaller from 'vue-numeral-filter';
+Vue.use(vueNumeralFilterInstaller);
 
+import Cleave from 'vue-cleave-component';
+Vue.use(Cleave,{
+    options: {
+        number: {
+            prefix: '',
+            numeral: true,
+            numeralPositiveOnly: true,
+            noImmediatePrefix: true,
+            rawValueTrimPrefix: true,
+            numeralIntegerScale: 9,
+            numeralDecimalScale: 2
+          },
+    }
+});
 
 
 

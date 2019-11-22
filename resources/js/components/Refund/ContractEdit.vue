@@ -23,25 +23,30 @@
                             </b-form-group>
                         </b-col>
                         <b-col sm="4">
+
                             <b-form-group>
                                 <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น :</label>
-                                <b-form-input type="text"
+                                <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number"></cleave>
+                                <!-- <b-form-input type="text"
                                     placeholder="วงเงินใหม่"
                                     name="budget_new"
                                      v-model="contract_edit.budget_new"
                                 >
-                                </b-form-input>
+
+
+                                </b-form-input>-->
                             </b-form-group>
                         </b-col>
                         <b-col sm="4">
                             <b-form-group>
                                 <label for="penalty_new">ค่าปรับเป็น :</label>
-                                <b-form-input type="text"
+                                <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number"></cleave>
+                                <!-- <b-form-input type="text"
                                     placeholder="ค่าปรับใหม่"
                                     name="penalty_new"
                                     v-model="contract_edit.penalty_new"
                                 >
-                                </b-form-input>
+                                </b-form-input> -->
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -49,7 +54,7 @@
                         <b-col>
                             <div class="text-center" style="margin-bottom:5px;">
                                 <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
-                                <b-button type="reset" variant="danger" >ยกเลิก</b-button>
+                                <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                             </div>
                         </b-col>
                     </b-row>
@@ -58,24 +63,24 @@
         </b-form>
         <!-- ======================= Contract Edit List ========================================-->
 
-        <b-card no-body class="bg-default edit_list" v-for="(contract_edit,index) in contract_edit_list" :key="index">
+        <b-card no-body :class="(item.id === contract_edit.id) && (contract_edit) ? 'item_select' : 'edit_list'" v-for="(item,index) in contract_edit_list" :key="index">
             <b-card-body class="pb-0 list ">
                 <b-dropdown class="float-right" variant="transparent p-0" right>
                     <template slot="button-content">
                         <i class="icon-settings" style="color: #000;"></i>
                     </template>
-                    <b-dropdown-item @click="toEdit(contract_edit)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                    <b-dropdown-item @click="toDel(contract_edit)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
+                    <b-dropdown-item @click="toEdit(item)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
+                    <b-dropdown-item @click="toDel(item)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
                     <b-col sm="4">
-                        หนังสือลงวันที่ : {{contract_edit.contract_edit_date}}
+                        <span class="fieldName">หนังสือลงวันที่ : </span>{{getThaiDate(item.contract_edit_date)}}
                     </b-col>
                     <b-col sm="4">
-                        วงเงินใหม่ : {{contract_edit.budget_new}} บาท
+                        <span class="fieldName">วงเงินใหม่ : </span><span class="float-right"> {{item.budget_new | numeral('0,0.00') }} <span class="unit"> บาท</span>  </span>
                     </b-col>
                     <b-col sm="4">
-                        ค่าปรับใหม่ : {{contract_edit.penalty_new}} บาท
+                        <span class="fieldName">ค่าปรับใหม่ : </span><span class="float-right">{{item.penalty_new | numeral('0,0.00') }} <span class="unit"> บาท</span> </span>
                     </b-col>
                 </b-row>
             </b-card-body>
@@ -83,6 +88,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 export default{
 
     data(){
@@ -94,7 +100,20 @@ export default{
             contract_edit_list: [],
             alert: '',
             contract_edit: {},
-            state : 'new'
+            state : 'new',
+            cleave_options:{
+                number: {
+                    prefix: '',
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    noImmediatePrefix: true,
+                    rawValueTrimPrefix: true,
+                    numeralIntegerScale: 15,
+                    numeralDecimalScale: 2,
+
+                },
+            }
+
         }
     },
     mounted(){
@@ -105,7 +124,12 @@ export default{
 
         }
     },
+    filters: {
+
+    },
+
     methods: {
+
         SubmitContractEdit(e){
             e.preventDefault();
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_budget_edits`;
@@ -117,7 +141,8 @@ export default{
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
-
+                    this.clearData();
+                    this.state = 'update';
                     this.contract_edit = response.data.data;
                     this.toEdit(this.contract_edit);
                     this.alert = "success";
@@ -134,6 +159,8 @@ export default{
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
+                    this.clearData();
+                    this.state = 'update';
                     this.contract_edit = response.data.data;
                     this.toEdit(this.contract_edit);
                     this.alert = "success";
@@ -182,7 +209,7 @@ export default{
                 })
         },
         toEdit(contract_edit){
-            console.log('edit edit');
+            //console.log('edit edit');
             this.contract_edit = contract_edit;
             this.date_show = contract_edit.contract_edit_date;
             this.state = 'update';
@@ -192,6 +219,12 @@ export default{
             this.contract_edit = {};
             this.date_show = '';
             this.state = 'new';
+            this.$forceUpdate();
+        },
+        getThaiDate(value){
+            var d = new Date(value);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            //return moment(String(value)).format('LL')
         }
     }
 }
@@ -226,7 +259,20 @@ export default{
     background-color: rgb(176, 243, 248);
     margin-bottom: 5px!important;
 }
+.item_select{
+    background-color: rgb(247, 230, 158);
+    margin-bottom: 5px!important;
+}
 .dropdown-item{
     color: black!important;
+}
+.fieldName{
+    color: rgb(4, 30, 53);
+    font-weight: bold;
+}
+.unit{
+    color: rgb(154, 156, 158);
+    font-weight: bold;
+    padding-left: 5px;
 }
 </style>

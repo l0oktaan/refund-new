@@ -10,7 +10,6 @@ class DepositPenalty extends Model
     protected $fillable = [
         'id',
         'refund_id',
-        'order',
         'deposit_no',
         'deposit_date',
         'amount'

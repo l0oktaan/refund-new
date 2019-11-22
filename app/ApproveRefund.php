@@ -10,13 +10,13 @@ class ApproveRefund extends Model
     protected $fillable = [
         'id',
         'refund_id',
-        'receive_refund_date',
-        'approve_refund_days',
-        'approve_refund_amount',
-        'amount'
+        'receive_date',
+        'refund_days',
+        'refund_amount',
+        'approve_amount'
     ];
 
     public function refund(){
-        return $this->belongsTo(Refund::class);
+        return $this->belongsTo('App\Refund');
     }
 }

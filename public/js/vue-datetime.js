@@ -577,7 +577,7 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
     year: function year () {
         var thaiYear = this.newDatetime.year;
         if (thaiYear < 2500){
-            thaiYear = thaiYear +543
+            thaiYear = thaiYear + 543
         }else if(thaiYear > 2700){
             thaiYear = thaiYear - 543
         }
@@ -651,7 +651,7 @@ var DatetimePopup = {render: function(){var _vm=this;var _h=_vm.$createElement;v
       this.$emit('cancel');
     },
     onChangeYear: function onChangeYear (year) {
-      this.newDatetime = this.newDatetime.set({ year: year });
+      this.newDatetime = this.newDatetime.set({ year: year-543 });
 
       if (this.auto) {
         this.nextStep();

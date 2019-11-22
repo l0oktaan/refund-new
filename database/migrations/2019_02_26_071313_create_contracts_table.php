@@ -14,14 +14,14 @@ class CreateContractsTable extends Migration
     public function up()
     {
         Schema::create('3_contracts', function (Blueprint $table) {
-            $table->increments('id');            
+            $table->increments('id');
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
             $table->string('contract_party');
             $table->string('contract_no');
             $table->date('contract_date');
-            $table->bigInteger('budget');
-            $table->float('penalty_per_day', 8, 2);
+            $table->decimal('budget',15,2);
+            $table->decimal('penalty_per_day', 10, 2);
             $table->date('contract_start');
             $table->date('contract_end');
             $table->timestamps();

@@ -17,9 +17,8 @@ class DepositPenaltyResource extends JsonResource
         return [
             'id' => $this->id,
             'refund_id' => $this->refund_id,
-            'order' => $this->order,
-            'deposit_order' => $this->order,
-            'deposit_no' => $this->no,
+            'deposit_no' => $this->deposit_no,
+            'deposit_date' => $this->deposit_date,
             'amount' => $this->amount
         ];
     }

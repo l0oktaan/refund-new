@@ -38,23 +38,37 @@
                 <b-col sm="6">
                     <b-form-group>
                         <label for="budget">วงเงินในสัญญา :</label>
-                        <b-form-input type="text"
+                        <cleave
+                            placeholder="วงเงินในสัญญา"
+                            name="budget_new"
+                            v-model="budget"
+                            class="form-control"
+                            :options="cleave_options.number">
+                        </cleave>
+                        <!-- <b-form-input type="text"
                             placeholder="วงเงินในสัญญา"
                             name="budget"
                             v-model="budget"
                         >
-                        </b-form-input>
+                        </b-form-input> -->
                     </b-form-group>
                 </b-col>
                 <b-col sm="6">
                     <b-form-group>
                         <label for="penalty_per_day">ค่าปรับวันละ :</label>
-                        <b-form-input type="text"
+                        <cleave
+                            placeholder="ค่าปรับวันละ"
+                            name="penalty_per_day"
+                            v-model="penalty_per_day"
+                            class="form-control"
+                            :options="cleave_options.number">
+                        </cleave>
+                        <!-- <b-form-input type="text"
                             placeholder="ค่าปรับวันละ"
                             name="penalty_per_day"
                             v-model="penalty_per_day"
                         >
-                        </b-form-input>
+                        </b-form-input> -->
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -104,8 +118,18 @@ export default {
             date_end: '',
             alert: '',
             contract_status: 'new',
-
-            contract: {}
+            contract: {},
+            cleave_options:{
+                number: {
+                    prefix: '',
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    noImmediatePrefix: true,
+                    rawValueTrimPrefix: true,
+                    numeralIntegerScale: 15,
+                    numeralDecimalScale: 2
+                },
+            }
         }
     },
     mounted(){
