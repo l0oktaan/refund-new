@@ -14,9 +14,9 @@ class AddConditionToRulesTable extends Migration
     public function up()
     {
         Schema::table('10_form_rules', function (Blueprint $table) {
-            $table->string('condition')->after('result_type')->nullable();
-            $table->integer('condition_type')->after('condition')->nullable();
-            $table->string('description')->after('condition_type')->nullable();
+            // $table->string('condition')->after('result_type')->nullable();
+            // $table->integer('condition_type')->after('condition')->nullable();
+            // $table->string('description')->after('condition_type')->nullable();
         });
     }
 

@@ -14,7 +14,7 @@ class AddDescriptionOnConsidersTable extends Migration
     public function up()
     {
         Schema::table('112_considers', function (Blueprint $table) {
-            $table->string('description')->after('name')->nullable();
+            //$table->string('description')->after('name')->nullable();
         });
     }
 

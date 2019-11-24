@@ -12,7 +12,7 @@ class Deliver extends Model
         'refund_id',
         'delivery',
         'detail',
-        'deliver_date',
+        'delivery_date',
         'overdue_days',
         'penalty'
     ];

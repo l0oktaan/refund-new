@@ -19,9 +19,9 @@ class CreateRefundsTable extends Migration
             $table->foreign('office_id')->references('id')->on('1_offices')->onDelete('cascade');
             $table->string('approve_code');
             $table->date('create_date');
-            $table->date('sent_date');
-            $table->date('complete_date');
-            $table->tinyInteger('status');
+            $table->date('sent_date')->nullable();
+            $table->date('complete_date')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }

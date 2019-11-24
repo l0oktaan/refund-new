@@ -26,7 +26,7 @@ class DeliverRequest extends FormRequest
         return [
             'delivery' => 'required',
             'detail' => 'required|max:255',
-            'deliver_date' => 'required',
+            'delivery_date' => 'required',
             'overdue_days' => 'required',
             'penalty' => 'required'
         ];

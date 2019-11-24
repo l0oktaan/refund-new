@@ -16,7 +16,7 @@ class ModifyDelivers extends Migration
         Schema::table('6_delivers', function (Blueprint $table) {
             //$table->dropColumn('order');
             //$table->string('delivery')->after('refund_id');
-            $table->text('detail')->change();
+            //$table->text('detail')->change();
         });
     }
 

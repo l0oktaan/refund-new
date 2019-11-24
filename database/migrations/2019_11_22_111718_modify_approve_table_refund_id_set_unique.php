@@ -14,7 +14,7 @@ class ModifyApproveTableRefundIdSetUnique extends Migration
     public function up()
     {
         Schema::table('8_approve_refunds', function (Blueprint $table) {
-            $table->unique('refund_id')->change();
+            //$table->unique('refund_id')->change();
         });
     }
 

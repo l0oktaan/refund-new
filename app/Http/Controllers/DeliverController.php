@@ -22,7 +22,7 @@ class DeliverController extends Controller
         $delivers = new Deliver;
         $delivers =  $office->delivers()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('deliver_date','desc')
+                    ->orderBy('delivery_date','desc')
                     ->get();
         return DeliverResource::collection($delivers);
     }

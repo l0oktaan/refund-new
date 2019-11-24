@@ -50,7 +50,7 @@
                             <b-col>
                                 <b-form-group>
                                     <label for="delivery_date">วันที่ส่งมอบงาน :</label>
-                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery.deliver_date = value"></my-date-picker>
+                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery.delivery_date = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
                             <b-col>
@@ -119,7 +119,7 @@
                             {{item.delivery}}
                         </b-col>
                         <b-col cols="2" align="left">
-                            {{getThaiDate(item.deliver_date)}}
+                            {{getThaiDate(item.delivery_date)}}
                         </b-col>
 
                         <b-col cols="3" align="left">
@@ -200,7 +200,7 @@ export default {
             this.delivery = _.cloneDeep(item);
             if (item){
                 this.state = 'update';
-                this.date_delivery = item.deliver_date;
+                this.date_delivery = item.delivery_date;
             }
         },
         clearData(){
@@ -243,7 +243,7 @@ export default {
                 .post(`${path}`,{
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    deliver_date: this.delivery.deliver_date,
+                    delivery_date: this.delivery.delivery_date,
                     overdue_days: this.delivery.overdue_days,
                     penalty: this.delivery.penalty
                 })
@@ -264,7 +264,7 @@ export default {
                 .put(`${path}`,{
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    deliver_date: this.delivery.deliver_date,
+                    delivery_date: this.delivery.delivery_date,
                     overdue_days: this.delivery.overdue_days,
                     penalty: this.delivery.penalty
                 })
