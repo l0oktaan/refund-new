@@ -52,15 +52,16 @@
 
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
-            
+
           </b-tabs>
-          
+
     </div>
 </template>
 <script>
 export default {
     data(){
         return {
+
             tabIndex: 0,
             tabs: [
                 {title: 'เลือกแบบฟอร์มขอถอนคืน', status: 0},

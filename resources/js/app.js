@@ -148,7 +148,7 @@ const router = new VueRouter({
                         breadCrumb: `แบบถอนคืนเงินราย` //crumb
                     },children: [
                         {
-                            path: 'detail',
+                            path: '_id/detail',
                             component: RefundDetail,
                             meta: {
                                 breadCrumb: 'ตรวจสอบแบบถอนคืนเงินรายได้ฯ' //crumb

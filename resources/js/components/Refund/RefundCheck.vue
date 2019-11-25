@@ -2,79 +2,35 @@
 <div class="animated fadeIn">
         <b-row>
             <b-col sm="12">
-
-                <b-card no-body class="sub_rule" v-for="(rule,x_index) in form_rule_list" :key="x_index">
-                    <div class="rule_name" slot="header">
+                <b-card  class="bg-info" v-for="(rule,x_index) in rules" :key="x_index">
+                    <div slot="header">
                         <div class="card-header-actions">
-                            <!-- <b-badge variant="success">Success</b-badge> -->
+                            <b-badge variant="success">Success</b-badge>
                         </div>
-                         <i class="fas fa-angle-double-right fa-lg"></i><span> หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
+                        <i class="fas fa-angle-double-right fa-lg"></i><span> หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
+
                     </div>
-                    <consider-check
-                        :rule="rule"
-                        :ref="`rule${x_index}`"
-                        @ready="getConsider"
-                    ></consider-check>
-                    <!-- <b-card-body class="pb-0 sub_rule">
-                        <b-row>
 
-                        </b-row>
-                        <b-row align-v="center">
-                            <b-col>
-                                <span class="sub_rule_name">{{rule.order + '. ' + rule.name}}</span>
-
-                            </b-col>
-                            <b-col>
-                                <div v-if="rule.sub_rules.length == 0">
-
-                                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
-                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                        style="padding-top:4px; line-height:0px;"
-                                        v-model="result_list[find_rule_index(rule.id)]['result']"
-                                        @change="changeResult(rule.id,x_index)"
-                                        v-if="rule.condition_type == 1"
-                                    />
-                                    <b-form-input type="text"
-                                        :value="rule.condition"
-                                        width="120px"
-                                        v-else
-                                        v-model="result_list[find_rule_index(rule.id)]['result']"
-                                        @change="changeResult(rule.id,x_index)"
-                                    >
-                                    </b-form-input>
-                                </div>
-                            </b-col>
-                        </b-row>
-                        <b-row v-for="(sub_rule,index) in rule.sub_rules" :key="index" align-v="center">
-                            <b-col>
-                                <span class="sub_rule_name">{{sub_rule.order + '. ' + sub_rule.name}}</span>
-
-                            </b-col>
-                            <b-col>
-
-                                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
-                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                        style="padding-top:4px; line-height:0px;"
-                                        v-model="result_list[find_rule_index(sub_rule.id)]['result']"
-                                        @change="changeResult(sub_rule.id,x_index,index)"
-                                        v-if="sub_rule.condition_type == 1"
-                                    />
-                                    <b-form-input type="text" v-else></b-form-input>
-
-                            </b-col>
-                        </b-row>
-                    </b-card-body> -->
+                        <consider-check
+                            v-if = "rule.considers.length > 0"
+                            :considers = "rule.considers"
+                        ></consider-check>
+                        <b-card :header="'หลักเกณฑ์ ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name"
+                            class="bg-primary sub_rule" v-for="(sub_rule,y_index) in rule.sub_rules" :key="y_index">
+                                <consider-check
+                                    v-if = "sub_rule.considers.length > 0"
+                                    :considers = "sub_rule.considers"
+                                ></consider-check>
+                        </b-card>
                 </b-card>
             </b-col>
         </b-row>
        <b-row>
             <b-col>
-                <div class="text-center" style="margin-bottom:5px;">
+                <!-- <div class="text-center" style="margin-bottom:5px;">
                     {{showRule}}
                     <b-button variant="primary" @click="checkConsider()">บันทึกข้อมูล</b-button>
-                </div>
+                </div> -->
             </b-col>
         </b-row>
         <b-row>
@@ -104,194 +60,58 @@ export default {
     props: ['form_id','refund_id'],
     data(){
         return {
-            form_rule: [],
-            form_rule_list: [],
-            condition_list: [],
-            result_list:[],
-            arrResult: [],
-            state: 'new',
-            showRule: null
-
+            rules: [],
         }
     },
     watch :{
-        refund_id(){
-            if (this.refund_id == 0){
 
-            }
-        }
     },
     mounted() {
-            this.showRule = [];
-            console.log('get form rule');
-            this.fetchData();
-
+        this.fetchData()
     },
     methods: {
         fetchData(){
-            var path = `/api/forms/${this.form_id}/form_rules`;
-            var arr = [];
-            var result = [];
-            axios.get(path)
+            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${0}`;
+            axios.get(`${path}`)
             .then(response=>{
-                this.form_rule = response.data.data;
-                this.addDefaultResult();
-                this.form_rule_list = this.getMainRule();
-
-                for (let i = 0 ; i < this.form_rule_list.length ; i++){
-                    Object.assign(this.form_rule_list[i],{sub_rules: this.getSubRule(this.form_rule_list[i]['id'])});
-
-                    if (this.form_rule_list[i]['sub_rules'].length > 0){
-                        for (let j=0 ; j < this.form_rule_list[i]['sub_rules'].length ; j++){
-                            arr.push({
-                                rule: this.form_rule_list[i]['sub_rules'][j]['id'],
-                                main_rule: this.form_rule_list[i]['id'],
-                                considers: this.form_rule_list[i]['sub_rules'][j]['considers'],
-                                condition: this.form_rule_list[i]['sub_rules'][j]['condition'],
-                                condition_type:this.form_rule_list[i]['sub_rules'][j]['condition_type'],
-                                result:this.form_rule_list[i]['sub_rules'][j]['result'],
-                            })
-                        }
-                    }else{
-                        arr.push({
-                            rule: this.form_rule_list[i]['id'],
-                            main_rule: 0,
-                            considers: this.form_rule_list[i]['considers'],
-                            condition: this.form_rule_list[i]['condition'],
-                            condition_type:this.form_rule_list[i]['condition_type'],
-                            result:this.form_rule_list[i]['result'],
-                        });
-                        console.log('Sub Rule ID :' + this.form_rule_list[i]['name']);
-                    }
-                }
-                this.result_list = arr;
-                this.getResult();
+                this.rules = response.data.data;
+                this.getSubRule();
             })
         },
+        getSubRule(){
+            var path = '';
+            var id = 0;
+            var sub_rule = [];
 
-        createConditionList(){
-            var arr = [];
-            this.form_rule_list.forEach(function(element, index, arr){
-                if (element.sub_rules.length > 0){
-                    element.sub_rules.forEach(function(e, i, arr){
-                        arr.push({rule_id: element.id, })
-                    });
-                }
-            });
-        },
-        addDefaultResult(){
-            var arr = this.form_rule;
-            this.form_rule.forEach(function(element,index,arr){
-                if (arr[index]['condition_type'] == 1){
-                    Object.assign(arr[index],{result: false});
-                }else{
-                    Object.assign(arr[index],{result: arr[index]['condition']});
-                }
-            });
-            this.form_rule = arr;
-        },
-        getMainRule(){
-            var main_rule = this.form_rule.filter(function(rule){
-                return rule.sub_of == 0;
-            })
-            return main_rule;
-        },
-        getRule(){
-            var main_rule = this.form_rule.filter(function(rule){
-                return rule.sub_of == 0;
-            })
-            return main_rule;
-        },
-        getSubRule(id){
-            var sub_rule = this.form_rule.filter(function(rule){
-                return rule.sub_of == id;
-            })
-            return sub_rule;
-        },
-        changeResult(rule_id,i_index=-1,j_index=-1){
-            //console.log('i_index :' + i_index + ' index :' + index);
-            let rule_index = this.result_list.findIndex(i => i.rule === rule_id);
-            if (j_index >= 0){
-                if (this.form_rule_list[i_index]['sub_rules'][j_index].result_type == 1){
-                    this.form_rule_list[i_index]['sub_rules'][j_index].result = !this.form_rule_list[i_index]['sub_rules'][j_index].result;
-                }else{
-                    this.form_rule_list[i_index]['sub_rules'][j_index].result = this.result_list[rule_index].result;
-                }
+            this.showRule =[];
 
-            }else{
-                if (this.form_rule_list[i_index].result_type == 1){
-                    this.form_rule_list[i_index].result = !this.form_rule_list[i_index].result;
-                }else{
-                    this.form_rule_list[i_index].result = this.result_list[rule_index].result;
-                }
+            console.log('get sub rule' + this.rules.length);
+            for (let i = 0 ; i < this.rules.length ; i++){
+                id = this.rules[i].id;
+                path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
+                console.log('get sub rule path :' + path);
+                Object.assign(this.rules[i],{sub_rules: sub_rule});
+                axios.get(path)
+                .then(response=>{
+                    sub_rule = response.data.data;
+                    console.log('sub rule ' + id + ': ' + sub_rule.length);
 
-            }
-
-            this.$forceUpdate();
-            this.getResult();
-        },
-        find_rule_index(rule_id){
-            return this.result_list.findIndex(i => i.rule === rule_id);
-        },
-
-        getResult(){
-            var result = false;
-            var arrResult = [];
-            this.form_rule_list.forEach(function(element,index){
-                let arr = [];
-                if (element.sub_rules.length > 0){
-                    for (let i = 0 ; i < element.sub_rules.length ; i++){
-                        if (element.sub_rules[i]['condition_type'] == 1){
-                            arr.push(element.sub_rules[i]['result']);
-                        }else{
-                            if (element.sub_rules[i]['condition'] == element.sub_rules[i]['result']){
-                                arr.push(false);
-                            }else{
-                                arr.push(true);
-                            }
-                        }
+                    if (sub_rule.length > 0){
+                        //Object.assign(this.rules[i],{_showDetails: true});
+                        Object.assign(this.rules[i],{sub_rules: sub_rule});
+                        //return sub_rule;
                     }
-                    if (element.result_type == 1){
-                        arrResult.push(arr.some(x=> x == true));
-                    }else{
-                        arrResult.push(arr.every(x=> x == true));
-                    }
-                }else{
-                    if (element.condition_type == 1){
-                        arrResult.push(element.result);
-                    }else{
-                        if (element.condition == element.result){
-                            arrResult.push(false);
-                        }else{
-                            arrResult.push(true);
-                        }
-                    }
-                }
-            });
-            this.arrResult = arrResult;
-        },
-        isSuccess(value){
-            if (value){
-                return "fas fa-check-square fa-lg"
-            }else{
-                return "fas fa-square fa-lg"
+                    this.showRule = this.rules;
+                    this.$forceUpdate();
+                })
+                .catch(error=>{
+
+                })
             }
         },
-        getConsider(value){
-            this.showRule.push(value.considers);
-            console.log('get consider :' + value.considers);
-        }
-    },
-    computed: {
-        rulename(order , name){
-            return `${order} ${name}`;
-        }
-    },
-    watch : {
-        result_list(){
-            //this.getResult();
-        }
     }
+
+
 }
 </script>
 <style scoped>
@@ -308,13 +128,24 @@ export default {
 }
 .rule_name{
     margin: 5px!important;
+    background-color: #ffffff!important;
 }
 .card-header{
     padding: 5px!important;
     background-color: #20a8d8;
     color: #ffffff;
+    font-size: 1rem!important;
 }
 .card{
     margin-bottom: 5px!important;
+}
+.card-body{
+    background-color: #ffffff!important;
+    padding: 2px!important;
+    color: #000!important;
+    font-size: 1rem!important;
+}
+.sub_rule{
+    margin: 5px;
 }
 </style>
