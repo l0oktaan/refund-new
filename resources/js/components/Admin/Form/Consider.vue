@@ -169,6 +169,7 @@ export default {
         }
     },
     watch: {
+
         myDate1(newDate, oldDate){
 
             if (this.consider_oper == 3){
@@ -261,11 +262,22 @@ export default {
             this.consider_var1 = value;
             this.$forceUpdate();
         },
+        checkConsiderType(){
+            if (this.consider_type < 3){
+                this.consider_oper = 0;
+                this.consider_var1 = '';
+                this.consider_var2 = '';
+            }else if (this.consider_type == 3){
+                if (this.consider_oper < 3){
+                    this.consider_var2 = '';
+                }
+            }
+        },
         onSubmit(e){
             e.preventDefault();
             var consider = {};
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers`;
-
+            this.checkConsiderType();
             if(this.state == 'new'){
                 axios.post(path,{
                     order: this.consider_order,

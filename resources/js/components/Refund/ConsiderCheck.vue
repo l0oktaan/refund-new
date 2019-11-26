@@ -26,25 +26,17 @@
                         :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                         style="padding-top:4px; line-height:0px;"
                         v-if="consider.type == 1"
-
+                        v-model="considers[find_consider_index(consider.id)]['result']"
                     />
                     <b-form-input type="text" v-else-if="consider.type == 2" ></b-form-input>
                     <my-date-picker
                         v-else-if="consider.type == 3 && consider.oper > 1"
                         ref="r_date" :id="'d11'"
-                        :showDate="date_show" @update="value => date_show = value"
+                        :showDate="date_show" @update="value => considers[find_consider_index(consider.id)]['result'] = value"
                     ></my-date-picker>
                 </div>
-
-
-
             </b-list-group-item>
-
         </b-list-group>
-
-
-
-
 </div>
 </template>
 

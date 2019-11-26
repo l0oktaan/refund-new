@@ -48,7 +48,7 @@
                 <span>{{tab.title}}</span>
               </template>
 
-                  <refund-check :form_id="refund_forms[index].form_id"></refund-check>
+                  <refund-check :form_id="refund_forms[index].form_id" v-if="false"></refund-check>
 
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
@@ -81,6 +81,7 @@ export default {
             refund_id: 0,
             refund_status: 'new',
             refund_forms: [],
+            refund_detail: [],
             alert: '',
             icon_check: 'far fa-check-square fa-lg',
             icon_uncheck: 'far fa-square fa-lg'
@@ -159,6 +160,28 @@ export default {
             this.form_id = 0;
             this.refund_status = 'new';
         },
+        createRefundDetail(refund_form){
+            //console.log('refund_form :' + refund_form.id);
+            var arr_detail = [];
+            var rule = {};
+            var arr_consider = [];
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form.id}/refund_details`;
+            var form = refund_form.form;
+
+            for (let i=0; i<form.rules.length; i++){
+                rule = form.rules[i]
+                arr_consider = rule.considers;
+                for (let j=0; j < arr_consider.length; j++){
+
+                    arr_detail.push({
+                        consider_id: arr_consider[j].id,
+                        value: '',
+                        status: 0
+                    });
+                }
+            }
+            return arr_detail;
+        },
         saveRefundForm(){
 
             if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
@@ -177,12 +200,14 @@ export default {
 
                         var refund = {};
                         var path = '';
+                        var refund_form = {};
                         // Create Refund
                         path = `/api/offices/${this.office_id}/refunds`;
                         axios.post(`${path}`,{
                             approve_code: '123456'
                         })
                         .then(response=>{
+
                             refund = response.data.data;
                             this.refund_id = refund.id;
                             this.refund_status = 'update';
@@ -194,6 +219,7 @@ export default {
                                     status: 0
                                 })
                                 .then(response=>{
+                                    refund_form = response.data.data;
                                     this.refund_forms.push(response.data.data);
                                     path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${response.data.data.id}/refund_details`;
                                     console.log('Path refund form :' + path);
@@ -204,6 +230,7 @@ export default {
                                     .catch(error=>{
 
                                     }); */
+                                    this.refund_detail = this.createRefundDetail(refund_form);
                                     var arr = this.refund_forms;
                                     this.refund_forms.forEach(function(element,index,arr){
                                         Object.assign(arr[index],{result: false});
@@ -221,6 +248,7 @@ export default {
                                     this.$forceUpdate();
                                 })
                                 .catch(error=>{
+                                    console.log("Refund Form Error :" + error);
                                     this.alert = 'error';
                                 })
 
@@ -235,13 +263,14 @@ export default {
 
                             }
                             setInterval(function(){
-                                this.tabIndex = 1;
+                                //this.tabIndex = 1;
 
-                                console.log("tab Index   :" + this.tabIndex);
+                                //console.log("tab Index   :" + this.tabIndex);
                             },3000);
 
                         })
                         .catch(error=>{
+                            console.log("Refund Error :" + error);
                             this.alert = 'error';
                         })
                     }

@@ -59,7 +59,7 @@ class RefundFormController extends Controller
         //$this->createRefundDetail($refundForm);
 
         return response([
-            'data' => $refundForm
+            'data' => new RefundFormResource($refundForm)
         ],Response::HTTP_CREATED);
         // $refund->approve_code = $request->approve_code;
         // $refund->create_date = date('Y-m-d');
@@ -81,9 +81,9 @@ class RefundFormController extends Controller
      * @param  \App\RefundForm  $refundForm
      * @return \Illuminate\Http\Response
      */
-    public function show(RefundForm $refundForm)
+    public function show(Office $office, Refund $refund, RefundForm $refundForm)
     {
-        //
+        return new RefundFormResource($refundForm);
     }
 
     /**

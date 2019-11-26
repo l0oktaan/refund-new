@@ -24,7 +24,7 @@ class RefundFormResource extends Resource
             'id' => $this->id,
             'form_id' => $this->form_id,
             'refund_id' => $this->refund_id,
-            'form' => $this->form,
+            'form' => new FormResource($this->form),
             'result' => $this->result,
             'status' => $this->status
         ];
