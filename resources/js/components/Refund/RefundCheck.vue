@@ -8,9 +8,7 @@
                             <b-badge variant="success">Success</b-badge>
                         </div>
                         <i class="fas fa-angle-double-right fa-lg"></i><span> หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
-
                     </div>
-
                         <consider-check
                             v-if = "rule.considers.length > 0"
                             :considers = "rule.considers"
@@ -25,35 +23,8 @@
                 </b-card>
             </b-col>
         </b-row>
-       <b-row>
-            <b-col>
-                <!-- <div class="text-center" style="margin-bottom:5px;">
-                    {{showRule}}
-                    <b-button variant="primary" @click="checkConsider()">บันทึกข้อมูล</b-button>
-                </div> -->
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-
-
-
-            </b-col>
-        </b-row>
-
     </div>
-    <!-- <div>
-        <b-list-group>
-            <b-list-group-item v-for="(rule,index) in getRule()" :key="index">
-                <div>
-                    <h4>{{rule.name}}</h4>
-                    <ul>
-                        <li v-for="(sub_rule,index) in getSubRule(rule.id)" :key="index" >{{sub_rule.name}}</li>
-                    </ul>
-                </div>
-            </b-list-group-item>
-        </b-list-group>
-    </div> -->
+
 </template>
 <script>
 export default {
@@ -70,6 +41,7 @@ export default {
     mounted() {
         this.fetchData();
         this.getRefundDetail();
+        this.addResult();
     },
     methods: {
         fetchData(){
@@ -121,6 +93,13 @@ export default {
             .catch(error=>{
 
             })
+
+        },
+        fine_detail(consider){
+
+        },
+        addResult(){
+            var arr = [];
 
         }
     }
