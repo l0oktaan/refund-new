@@ -57,17 +57,19 @@
 </template>
 <script>
 export default {
-    props: ['form_id','refund_id'],
+    props: ['form_id','refund_id','refund_form_id'],
     data(){
         return {
             rules: [],
+            refund_detail_list: []
         }
     },
     watch :{
 
     },
     mounted() {
-        this.fetchData()
+        this.fetchData();
+        this.getRefundDetail();
     },
     methods: {
         fetchData(){
@@ -109,6 +111,18 @@ export default {
                 })
             }
         },
+        getRefundDetail(){
+            this.refund_detail_list = [];
+            var path = `/api/offices/${this.office_id}refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+            axios.get(`${path}`)
+            .then(response=>{
+                this.refund_detail_list = response.data.data;
+            })
+            .catch(error=>{
+
+            })
+
+        }
     }
 
 

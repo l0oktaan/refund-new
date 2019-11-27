@@ -54,6 +54,7 @@
             <!--==================================== Tab Form End =====================================-->
 
           </b-tabs>
+            {{refund_detail}}
 
     </div>
 </template>
@@ -84,7 +85,8 @@ export default {
             refund_detail: [],
             alert: '',
             icon_check: 'far fa-check-square fa-lg',
-            icon_uncheck: 'far fa-square fa-lg'
+            icon_uncheck: 'far fa-square fa-lg',
+            mylog : ''
         }
     },
     watch: {
@@ -160,6 +162,21 @@ export default {
             this.form_id = 0;
             this.refund_status = 'new';
         },
+        checkConsidetType(iType,oper){
+            if (iType == 1){
+                //0 or 1
+                return "0"
+            }else if (iType == 2){
+                //text
+                return "-"
+            }else if (iType == 3){
+                if (oper == 1){
+                    return "0"
+                }else{
+                    return ""
+                }
+            }
+        },
         createRefundDetail(refund_form){
             //console.log('refund_form :' + refund_form.id);
             var arr_detail = [];
@@ -172,13 +189,26 @@ export default {
                 rule = form.rules[i]
                 arr_consider = rule.considers;
                 for (let j=0; j < arr_consider.length; j++){
-
                     arr_detail.push({
-                        consider_id: arr_consider[j].id,
-                        value: '',
-                        status: 0
+                        'consider_id': arr_consider[j].id,
+                        'value': this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
+                        'status': 0
                     });
                 }
+            }
+            if (arr_detail.length > 0){
+
+                axios.post(`${path}`,{
+                    state : 'new',
+                    detail : arr_detail
+                })
+                .then(response=>{
+                    this.mylog = response;
+
+                })
+                .catch(error=>{
+
+                })
             }
             return arr_detail;
         },

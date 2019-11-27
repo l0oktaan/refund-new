@@ -2,12 +2,13 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\FormResource;
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Resources\FormResource;
+use App\Http\Resources\RefundDetailResource;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RefundFormResource extends Resource
@@ -25,6 +26,7 @@ class RefundFormResource extends Resource
             'form_id' => $this->form_id,
             'refund_id' => $this->refund_id,
             'form' => new FormResource($this->form),
+            'detail' => RefundDetailResource::collection($this->refund_details),
             'result' => $this->result,
             'status' => $this->status
         ];

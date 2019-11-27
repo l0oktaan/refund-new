@@ -24,6 +24,6 @@ class RefundForm extends Model
     }
 
     public function refund_details(){
-        return $this->hasMany('App\RefundDetail','refund_form_id','id');
+        return $this->hasMany('App\RefundDetail');
     }
 }

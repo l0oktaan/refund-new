@@ -17,7 +17,6 @@ class RefundDetailResource extends Resource
         return [
             'id' => $this->id,
             'refund_form_id' => $this->refund_form_id,
-            'rule_id' => $this->rule_id,
             'consider_id' => $this->consider_id,
             'value' => $this->value,
             'status' => $this->status
