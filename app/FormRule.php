@@ -32,4 +32,8 @@ class FormRule extends Model
     public function considers(){
         return $this->hasMany('App\Consider','form_rule_id','id');
     }
+
+    public function sub_rules(){
+        return $this->hasMany('App\FormRule','sub_of','id');
+    }
 }

@@ -21,20 +21,24 @@ class FormRuleController extends Controller
 
     public function index(Form $form)
     {
-
-        $form_rules = new FormRule;
-        if (Input::has('sub_of'))
-        {
-            $sub_of = Input::get('sub_of');
-            $form_rules = $form->form_rules()
-                        ->where('sub_of','=',$sub_of)
+        $form_rules = $form->form_rules()
+                        ->where('sub_of','=','0')
                         ->orderBy('order')
                         ->get();
-        } else {
-            $form_rules = $form->form_rules()
-                        ->orderBy('id')
-                        ->get();
-        }
+
+
+        // if (Input::has('sub_of'))
+        // {
+        //     $sub_of = Input::get('sub_of');
+        //     $form_rules = $form->form_rules()
+        //                 ->where('sub_of','=',$sub_of)
+        //                 ->orderBy('order')
+        //                 ->get();
+        // } else {
+        //     $form_rules = $form->form_rules()
+        //                 ->orderBy('order')
+        //                 ->get();
+        // }
 
         return FormRuleResource::collection($form_rules);
     }

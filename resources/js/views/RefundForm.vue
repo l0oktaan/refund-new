@@ -177,6 +177,21 @@ export default {
                 }
             }
         },
+        checkResultType(iType,oper){
+            if (iType == 1){
+                //0 or 1
+                return "boolean"
+            }else if (iType == 2){
+                //text
+                return "value"
+            }else if (iType == 3){
+                if (oper == 1){
+                    return "number"
+                }else{
+                    return "date"
+                }
+            }
+        },
         createRefundDetail(refund_form){
             //console.log('refund_form :' + refund_form.id);
             var arr_detail = [];
@@ -191,6 +206,7 @@ export default {
                 for (let j=0; j < arr_consider.length; j++){
                     arr_detail.push({
                         'consider_id': arr_consider[j].id,
+                        'result' : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
                         'value': this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
                         'status': 0
                     });

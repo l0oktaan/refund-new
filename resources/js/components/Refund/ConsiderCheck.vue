@@ -1,7 +1,7 @@
 <template>
 <div class="animated fadeIn">
-        <b-list-group flush>
-            <b-list-group-item v-for="consider in considers" :key="consider.id" class="d-flex justify-content-between align-items-center">
+        <b-list-group flush v-if="consider">
+            <b-list-group-item class="d-flex justify-content-between align-items-center">
                <div>
                     <b>เงื่อนไข : </b>{{consider.name}}
                     <span class="helpIcon">
@@ -21,20 +21,7 @@
 
 
                 <div variant="default" pill>
-                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
-                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                        style="padding-top:4px; line-height:0px;"
-
-                        v-if="consider.type == 1"
-
-                    />
-                    <b-form-input type="text" v-else-if="consider.type == 2" ></b-form-input>
-                    <my-date-picker
-                        v-else-if="consider.type == 3 && consider.oper > 1"
-                        ref="r_date" :id="'d11'"
-                        :showDate="date_show" @update="value => date_show = value"
-                    ></my-date-picker>
+                    <slot></slot>
                 </div>
             </b-list-group-item>
         </b-list-group>
@@ -43,7 +30,7 @@
 
 <script>
 export default {
-    props: ['rule','considers'],
+    props: ['rule','consider'],
     data(){
         return {
             iRule: {},
