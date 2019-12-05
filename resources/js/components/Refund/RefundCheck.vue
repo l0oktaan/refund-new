@@ -1,7 +1,7 @@
 <template>
 <div class="animated fadeIn">
-        <b-row>
-            <b-col sm="12">
+        <b-row class="justify-content-md-center">
+            <b-col cols="8">
                 <b-card  class="bg-info" v-for="(rule,x_index) in rules" :key="x_index">
                     <div slot="header">
                         <div class="card-header-actions">
@@ -13,22 +13,23 @@
                             v-for="(consider,index) in rule.considers" :key="index"
                             :consider = "consider"
                         >
-
+                            
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
                                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                                 style="padding-top:4px; line-height:0px;"
                                 v-if="consider.type == 1"
-                                v-model="results[find_detail_index(consider.id)]['result']"
+                                v-model="results[find_detail_index(consider.id)]['value']"
                             />
                             <b-form-input type="text"
-                                v-else-if="consider.type == 2"
-                                v-model="results[find_detail_index(consider.id)]['result']"
+                                v-if="fine_result_type(consider.id) == 'number' || fine_result_type(consider.id) == 'value'"
+                                v-model="results[find_detail_index(consider.id)]['value']"
                             ></b-form-input>
                             <my-date-picker
-                                v-else-if="(consider.type == 3 && consider.oper > 1) || consider.type == 4"
-                                ref="r_date1" :id="'d11'"
-                                :showDate="date_show" @update="value => results[find_detail_index(consider.id)]['result'] = value"
+                                v-else-if="fine_result_type(consider.id) == 'date'"
+                                ref="r_date12" :id="'d121'"
+                                :showDate="d1" 
+                                @update="value => results[find_detail_index(consider.id)]['value'] = value"
                             ></my-date-picker>
 
                         </consider-check>
@@ -73,31 +74,32 @@
                                         :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                                         style="padding-top:4px; line-height:0px;"
                                         v-if="consider.type == 1"
-                                        v-model="results[find_detail_index(consider.id)]['result']"
-
+                                        v-model="results[find_detail_index(consider.id)]['value']"
                                     />
                                     <b-form-input type="text"
-                                        v-else-if="consider.type == 2"
-                                        v-model="results[find_detail_index(consider.id)]['result']"
+                                        v-if="fine_result_type(consider.id) == 'number' || fine_result_type(consider.id) == 'value'"
+                                        v-model="results[find_detail_index(consider.id)]['value']"
                                     ></b-form-input>
                                     <my-date-picker
-                                        v-else-if="(consider.type == 3 && consider.oper > 1) || consider.type == 4"
-                                        ref="r_date2" :id="'d12'"
-                                        :showDate="date_show" @update="value => results[find_detail_index(consider.id)]['result'] = value"
+                                        v-else-if="fine_result_type(consider.id) == 'date'"
+                                        ref="r_date1" :id="'d11'"
+                                        :showDate="getDateShow(consider.id)" 
+                                        @update="value => results[find_detail_index(consider.id)]['value'] = value"
                                     ></my-date-picker>
                                 </consider-check>
                         </b-card>
                 </b-card>
 
-                {{refund_details}}
                 <p>{{results}}</p>
-                <p>{{rules}}</p>
+                <p>{{date_show}}</p>
+                
             </b-col>
         </b-row>
+
         <b-row>
             <b-col>
                 <div class="text-center" style="margin-bottom:5px;">
-                    <b-button  variant="primary" @click="checkConsider">ตรวจสอบเงื่อนไข</b-button>
+                    <b-button variant="primary" @click="checkConsider">ตรวจสอบเงื่อนไข</b-button>
                 </div>
             </b-col>
         </b-row>
@@ -113,7 +115,8 @@ export default {
             rules: [],
             results: [],
             refund_details: [],
-            date_show: ''
+            d1 : '2019-12-12',
+            date_show: []
         }
     },
     watch :{
@@ -130,33 +133,7 @@ export default {
                 this.rules = response.data.data;
             })
         },
-        getSubRule(){
-            var path = '';
-            var id = 0;
-            var sub_rule = [];
-            this.showRule =[];
-            console.log('get sub rule' + this.rules.length);
-            for (let i = 0 ; i < this.rules.length ; i++){
-                id = this.rules[i].id;
-                path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
-                console.log('get sub rule path :' + path);
-                Object.assign(this.rules[i],{sub_rules: sub_rule});
-                axios.get(path)
-                .then(response=>{
-                    sub_rule = response.data.data;
-                    console.log('sub rule ' + id + ': ' + sub_rule.length);
-                    if (sub_rule.length > 0){
-                        //Object.assign(this.rules[i],{_showDetails: true});
-                        Object.assign(this.rules[i],{sub_rules: sub_rule});
-                        //return sub_rule;
-                    }
-                    this.showRule = this.rules;
-                    this.$forceUpdate();
-                })
-                .catch(error=>{
-                })
-            }
-        },
+        
         getResult(type,result){
             console.log(type + " : " + result);
             if (type == 'boolean'){
@@ -167,9 +144,23 @@ export default {
                 }else{
                     return false
                 }
+            }else if (type == 'date'){
+                console.log("is date : " + result);
+                return 'xxx';
+                var d = new Date(result);
+                
+                //d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             }else{
                 return result;
             }
+        },
+        getDateShow(consider_id){
+            var index = this.date_show.findIndex(i=>i.consider_id == consider_id);
+            if (index > -1){
+                console.log('date index :' + index);
+                return this.date_show[index]['show'];
+            }
+            console.log('date index :' + index);
         },
         getRefundDetail(){
             var result = {};
@@ -180,25 +171,36 @@ export default {
             .then(response=>{
                 this.refund_details = response.data.data;
                 this.results = [];
+                this.date_show = [];
                 for (let i=0; i < this.refund_details.length; i++){
                     result = {
                         id : this.refund_details[i]['id'],
                         consider_id : this.refund_details[i]['consider_id'],
-                        result : this.getResult(this.refund_details[i]['result_type'],this.refund_details[i]['value'])
+                        value: this.getResult(this.refund_details[i]['result_type'],this.refund_details[i]['value'])
                     }
                     this.results.push(result);
+                    if (this.refund_details[i]['result_type'] == 'date'){
+                        this.date_show.push(
+                            {
+                                id: this.refund_details[i]['id'],
+                                consider_id : this.refund_details[i]['consider_id'],
+                                show: this.refund_details[i]['value']
+                            }
+                        );                        
+                    }
                 }
                 this.$forceUpdate();
             })
             .catch(error=>{
             })
         },
-        fine_detail(consider){
+        fine_result_type(consider_id){
+            return this.refund_details[this.refund_details.findIndex(i => i.consider_id == consider_id)]['result_type'];
         },
         find_detail_index(id){
             //console.log('Find Consider : ' + id);
             //if (this.refund_details.length > 0){
-                return this.results.findIndex(i => i.consider_id === id);
+                return this.results.findIndex(i => i.consider_id == id);
             //}
         },
         getDetailValue(consider_id){
@@ -208,7 +210,17 @@ export default {
             //}
         },
         checkConsider(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+            axios.post(`${path}`,{
+                state: 'update',
+                detail: this.results
+            })
+            .then(response=>{
 
+            })
+            .catch(error=>{
+                console.log('error :' + error + ' save path :' + path);
+            })
         }
     }
 }

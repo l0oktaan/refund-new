@@ -67,9 +67,8 @@ class RefundDetailController extends Controller
 
 
 
-
             if ($request->has('detail')){
-
+                
 
                 //$data = json_encode($request->data);
                 $data = $request->detail;
@@ -85,9 +84,9 @@ class RefundDetailController extends Controller
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
                     }else if ($request->state == "update"){
+                        
                         $detail = RefundDetail::find($data[$i]['id']);
-                        $detail->value = $data[$i]['value'];
-                        $detail->status = $data[$i]['status'];
+                        $detail->value = $data[$i]['value'];                        
                         $detail->save();
                     }
                     $detail = null;
