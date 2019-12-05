@@ -26,18 +26,18 @@
                                 v-model="results[find_detail_index(consider.id)]['result']"
                             ></b-form-input>
                             <my-date-picker
-                                v-else-if="consider.type == 3 && consider.oper > 1"
-                                ref="r_date" :id="'d11'"
+                                v-else-if="(consider.type == 3 && consider.oper > 1) || consider.type == 4"
+                                ref="r_date1" :id="'d11'"
                                 :showDate="date_show" @update="value => results[find_detail_index(consider.id)]['result'] = value"
                             ></my-date-picker>
 
                         </consider-check>
 
-                        <b-card v-for="(sub_rule,y_index) in rule.sub_rules" :key="y_index"
+                        <!-- <b-card v-for="(sub_rule,y_index) in rule.sub_rules" :key="y_index"
                             :header="'หลักเกณฑ์ย่อย ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name"
                             bg-variant="light">
                                 <consider-check
-                                    v-for="(consider,y_index) in sub_rule.considers" :key="y_index"
+                                    v-for="(consider,index) in sub_rule.considers" :key="index"
                                     :consider = "consider"
                                 >
 
@@ -55,8 +55,35 @@
                                     ></b-form-input>
                                     <my-date-picker
                                         v-else-if="consider.type == 3 && consider.oper > 1"
-                                        ref="r_date" :id="'d11'"
+                                        ref="r_date2" :id="'d12'"
                                         :showDate="date_show" @update="value => date_show = value"
+                                    ></my-date-picker>
+                                </consider-check>
+                        </b-card> -->
+                        <b-card v-for="(sub_rule) in rule.sub_rules" :key="sub_rule.id"
+                            :header="'หลักเกณฑ์ย่อย ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name"
+                            bg-variant="light">
+                            <consider-check
+                                    v-for="(consider,index) in sub_rule.considers" :key="index"
+                                    :consider = "consider"
+                                >
+
+                                    <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                        :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
+                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                        style="padding-top:4px; line-height:0px;"
+                                        v-if="consider.type == 1"
+                                        v-model="results[find_detail_index(consider.id)]['result']"
+
+                                    />
+                                    <b-form-input type="text"
+                                        v-else-if="consider.type == 2"
+                                        v-model="results[find_detail_index(consider.id)]['result']"
+                                    ></b-form-input>
+                                    <my-date-picker
+                                        v-else-if="(consider.type == 3 && consider.oper > 1) || consider.type == 4"
+                                        ref="r_date2" :id="'d12'"
+                                        :showDate="date_show" @update="value => results[find_detail_index(consider.id)]['result'] = value"
                                     ></my-date-picker>
                                 </consider-check>
                         </b-card>
@@ -64,6 +91,14 @@
 
                 {{refund_details}}
                 <p>{{results}}</p>
+                <p>{{rules}}</p>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <div class="text-center" style="margin-bottom:5px;">
+                    <b-button  variant="primary" @click="checkConsider">ตรวจสอบเงื่อนไข</b-button>
+                </div>
             </b-col>
         </b-row>
     </div>
@@ -82,7 +117,6 @@ export default {
         }
     },
     watch :{
-
     },
     mounted() {
         this.getRefundDetail();
@@ -94,7 +128,6 @@ export default {
             axios.get(`${path}`)
             .then(response=>{
                 this.rules = response.data.data;
-
             })
         },
         getSubRule(){
@@ -102,7 +135,6 @@ export default {
             var id = 0;
             var sub_rule = [];
             this.showRule =[];
-
             console.log('get sub rule' + this.rules.length);
             for (let i = 0 ; i < this.rules.length ; i++){
                 id = this.rules[i].id;
@@ -113,7 +145,6 @@ export default {
                 .then(response=>{
                     sub_rule = response.data.data;
                     console.log('sub rule ' + id + ': ' + sub_rule.length);
-
                     if (sub_rule.length > 0){
                         //Object.assign(this.rules[i],{_showDetails: true});
                         Object.assign(this.rules[i],{sub_rules: sub_rule});
@@ -123,10 +154,8 @@ export default {
                     this.$forceUpdate();
                 })
                 .catch(error=>{
-
                 })
             }
-
         },
         getResult(type,result){
             console.log(type + " : " + result);
@@ -145,7 +174,6 @@ export default {
         getRefundDetail(){
             var result = {};
             this.refund_details = [];
-
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             console.log('Get Detail : ' + path);
             axios.get(`${path}`)
@@ -160,18 +188,13 @@ export default {
                     }
                     this.results.push(result);
                 }
-
                 this.$forceUpdate();
             })
             .catch(error=>{
-
             })
-
         },
         fine_detail(consider){
-
         },
-
         find_detail_index(id){
             //console.log('Find Consider : ' + id);
             //if (this.refund_details.length > 0){
@@ -183,15 +206,14 @@ export default {
            // if (this.refund_details.length > 0){
                 return this.refund_details[this.refund_details.findIndex(i => i.consider_id === consider_id)]['id'];
             //}
+        },
+        checkConsider(){
 
         }
     }
-
-
 }
 </script>
 <style scoped>
-
 .card{
     margin-bottom: 5px!important;
 }
@@ -199,7 +221,6 @@ export default {
     background-color: #ffffff!important;
     padding: 0px!important;
     color: #000!important;
-
 }
 .sub_rule{
     margin: 5px;

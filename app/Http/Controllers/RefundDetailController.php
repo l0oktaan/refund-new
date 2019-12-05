@@ -7,7 +7,7 @@ use App\Office;
 use App\Refund;
 use App\RefundForm;
 use App\RefundDetail;
-use RefundFormController;
+
 use App\Http\Resources\FormResource;
 use App\Http\Requests\RefundDetailRequest;
 use App\Http\Resources\RefundDetailResource;
@@ -74,14 +74,13 @@ class RefundDetailController extends Controller
                 //$data = json_encode($request->data);
                 $data = $request->detail;
 
-                // return response([
-                //     'data' => $data[0]['consider_id']
-                // ],Response::HTTP_CREATED);
+
                 for ($i = 0; $i < count($data); $i++){
 
                     if ($request->state == "new"){
                         $detail = new RefundDetail;
                         $detail->consider_id = $data[$i]['consider_id'];
+                        $detail->result_type = $data[$i]['result_type'];
                         $detail->value = $data[$i]['value'];
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);

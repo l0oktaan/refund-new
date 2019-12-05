@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use Refund;
+
 use Illuminate\Database\Eloquent\Model;
 
 class RefundForm extends Model

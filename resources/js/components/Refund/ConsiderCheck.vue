@@ -49,10 +49,8 @@ export default {
         // }
     },
     mounted(){
-
         //  this.iRule = this.rule;
         //  this.$emit('ready', {considers: this.considers});
-
     },
     methods : {
         find_consider_index(id){
@@ -86,7 +84,6 @@ export default {
                 if (sub_rules.length > 0){
                     for (let i = 0 ; i < sub_rules.length ; i++){
                         //console.log('subrules ' + sub_rules[i].name);
-
                         if (sub_rules[i].considers.length > 0){
                             for (let j = 0 ; j < sub_rules[i].considers.length ; j++){
                                 this.initConsider(sub_rules[i].id,sub_rules[i].considers[j].id)
@@ -107,12 +104,10 @@ export default {
                 //this.considers = consider;
                 this.createRefundDetail();
             }else if (this.state == 'update'){
-
             }
             console.log('consider : ' + consider.length);
         },
         createRefundDetail(){
-
         },
         getValue(){
             return this.considers;

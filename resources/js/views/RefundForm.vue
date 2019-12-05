@@ -62,7 +62,6 @@
 export default {
     data(){
         return {
-
             tabIndex: 0,
             tabs: [
                 {title: 'เลือกแบบฟอร์มขอถอนคืน', status: 0},
@@ -70,7 +69,6 @@ export default {
                 {title: 'ข้อมูลการอนุมัติ งด/ลด/ขยายเวลา', status: 0},
                 {title: 'ข้อมูลการส่งมอบงาน', status: 0},
                 {title: 'จำนวนเงินที่ขออนุมัติ', status: 0},
-
             ],
             tab_forms: [],
             forms: [],
@@ -101,7 +99,6 @@ export default {
             }else{
                 return [];
             }
-
         }
     },
     mounted(){
@@ -112,7 +109,6 @@ export default {
         getForm(){
             var path = '/api/forms';
             var forms = [];
-
             axios.get(path)
             .then(response=>{
                 forms = response.data.data;
@@ -122,22 +118,15 @@ export default {
             })
         },
         confirmChange(form,index){
-
-
             let formIndex = this.arrFormSelected.findIndex(i => i.id === form.id);
-
             if (formIndex >= 0){
-
                 this.arrFormSelected.splice(formIndex,1);
-
             }else{
                 this.arrFormSelected.push(
                     {id: form.id, name: form.name1, order: form.order, selectIndex: index}
                 );
-
             }
             this.arrFormSelected = this.sortArrays(this.arrFormSelected);
-
         },
         sortArrays(arr){
             return _.orderBy(arr,'order','asc');
@@ -175,6 +164,8 @@ export default {
                 }else{
                     return ""
                 }
+            }else if (iType == 4){
+                return ""
             }
         },
         checkResultType(iType,oper){
@@ -190,6 +181,8 @@ export default {
                 }else{
                     return "date"
                 }
+            }else if (iType == 4){
+                return "date"
             }
         },
         createRefundDetail(refund_form){
@@ -198,38 +191,36 @@ export default {
             var rule = {};
             var arr_consider = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form.id}/refund_details`;
+            axios
             var form = refund_form.form;
-
             for (let i=0; i<form.rules.length; i++){
                 rule = form.rules[i]
                 arr_consider = rule.considers;
                 for (let j=0; j < arr_consider.length; j++){
                     arr_detail.push({
-                        'consider_id': arr_consider[j].id,
-                        'result' : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
-                        'value': this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
-                        'status': 0
+                        consider_id: arr_consider[j].id,
+                        result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
+                        value: this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
+                        status: 0
                     });
                 }
             }
             if (arr_detail.length > 0){
-
+                console.log('refund_detail :' + arr_detail);
                 axios.post(`${path}`,{
                     state : 'new',
                     detail : arr_detail
                 })
                 .then(response=>{
                     this.mylog = response;
-
                 })
                 .catch(error=>{
-
+                    console.log('Error : ' + error);
                 })
             }
             return arr_detail;
         },
         saveRefundForm(){
-
             if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
                 this.$swal({
                     title: "กรุณาตรวจสอบข้อมูล",
@@ -240,10 +231,8 @@ export default {
                         'ยกเลิก',
                         'ยืนยัน'
                     ],
-
                 }).then(isConfirm =>{
                     if (isConfirm){
-
                         var refund = {};
                         var path = '';
                         var refund_form = {};
@@ -253,7 +242,6 @@ export default {
                             approve_code: '123456'
                         })
                         .then(response=>{
-
                             refund = response.data.data;
                             this.refund_id = refund.id;
                             this.refund_status = 'update';
@@ -271,60 +259,46 @@ export default {
                                     console.log('Path refund form :' + path);
                                     /* axios.post(path)
                                     .then(response=>{
-
                                     })
                                     .catch(error=>{
-
                                     }); */
                                     this.refund_detail = this.createRefundDetail(refund_form);
                                     var arr = this.refund_forms;
                                     this.refund_forms.forEach(function(element,index,arr){
                                         Object.assign(arr[index],{result: false});
-
                                     });
                                     this.refund_forms = arr;
-
                                     this.tab_forms.push(
                                         {
                                             title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order,
                                             status : 0
                                         }
                                     );
-
                                     this.$forceUpdate();
                                 })
                                 .catch(error=>{
                                     console.log("Refund Form Error :" + error);
                                     this.alert = 'error';
                                 })
-
                             }
                             if (this.arrFormSelected.length > 0){
                                 //console.log('array ' + this.arrFormSelected.length);
                                 this.alert = 'success';
                                 this.tabs[0].status = 1;
-
-
                                 this.$forceUpdate();
-
                             }
                             setInterval(function(){
                                 //this.tabIndex = 1;
-
                                 //console.log("tab Index   :" + this.tabIndex);
                             },3000);
-
                         })
                         .catch(error=>{
                             console.log("Refund Error :" + error);
                             this.alert = 'error';
                         })
                     }
-
                 });
-
             }else{
-
             }
         },
         onTabChange(value){
@@ -341,5 +315,4 @@ export default {
 .nav-link{
     padding-top: 10px!important;
 }
-
 </style>

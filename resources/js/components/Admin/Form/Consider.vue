@@ -137,6 +137,7 @@ export default {
                 {value: 0, text: 'ประเภทเงื่อนไข'},
                 {value: 1, text: 'ใช่หรือไม่'},
                 {value: 2, text: 'ใส่ข้อความ'},
+                {value: 4, text: 'ใส่วันที่'},
                 {value: 3, text: 'ตรวจสอบข้อมูล'},
             ],
             oper_list:[
@@ -327,16 +328,7 @@ export default {
                 })
             }
         },
-        dateSelected(value,mydate){
 
-            this.myDate1 = value.format('ํํํํDD/MM/YYYY');
-            this.consider_var1 = value.format('DD/MM/YYYY');
-
-        },
-        dateRangeSelected(value,mydate){
-            this.consider_var1 = value[0].format('DD/MM/YYYY');
-            this.consider_var2 = value[1].format('DD/MM/YYYY');
-        },
         fetchData(){
 
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers`;
