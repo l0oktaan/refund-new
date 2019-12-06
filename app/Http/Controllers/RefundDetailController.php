@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Form;
 use App\Office;
 use App\Refund;
+use App\Consider;
 use App\RefundForm;
-use App\RefundDetail;
 
+use App\RefundDetail;
 use App\Http\Resources\FormResource;
 use App\Http\Requests\RefundDetailRequest;
 use App\Http\Resources\RefundDetailResource;
@@ -38,13 +39,17 @@ class RefundDetailController extends Controller
     {
         //
     }
+    public function CheckConsider(RefundForm $refund_form,RefundDetail $detail)
+    {
 
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request, Office $office, Refund $refund, RefundForm $refund_form)
      {
         // return response([
@@ -68,7 +73,7 @@ class RefundDetailController extends Controller
 
 
             if ($request->has('detail')){
-                
+
 
                 //$data = json_encode($request->data);
                 $data = $request->detail;
@@ -83,12 +88,15 @@ class RefundDetailController extends Controller
                         $detail->value = $data[$i]['value'];
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
+                        $this->CheckConsider($refund_form, $detail);
                     }else if ($request->state == "update"){
-                        
+
                         $detail = RefundDetail::find($data[$i]['id']);
-                        $detail->value = $data[$i]['value'];                        
+                        $detail->value = $data[$i]['value'];
                         $detail->save();
+                        $this->CheckConsider($refund_form, $detail);
                     }
+
                     $detail = null;
                 }
 
