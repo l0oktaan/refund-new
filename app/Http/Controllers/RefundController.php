@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Office;
 use App\Refund;
-use OfficeController;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\RefundRequest;
 use Illuminate\Support\Facades\Input;
@@ -41,9 +41,11 @@ class RefundController extends Controller
 
             $refund = Refund::with(explode("|",$fields))
             ->where('office_id',$office_id)
+            ->where('status','>',0)
             ->get();
         }else{
-            $refund = $office->refunds()->get();
+            $refund = $office->refunds()
+                    ->get();
         }
 
         return $refund;
@@ -112,7 +114,7 @@ class RefundController extends Controller
     {
         $refund->update($request->all());
         return response([
-            'data' => new RefunsResource($refund)
+            'data' => new RefundResource($refund)
         ],Response::HTTP_CREATED);
     }
 

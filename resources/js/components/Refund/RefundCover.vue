@@ -9,12 +9,12 @@
                 </template>
                     <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>
                     <b-dropdown-item><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
-                    <b-dropdown-item><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์ย่อย</b-dropdown-item>
+                    <b-dropdown-item @click="delRefund(refund.id)"> <i class="fas fa-trash" ></i>&nbsp;ลบข้อมูลการถอนคืน</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
                     <b-col sm="2">
                         <div class="textFiled">สร้างรายการเมื่อ :</div>
-                        <div>{{refund.create_date}}</div>
+                        <div>{{getThaiDate(refund.create_date)}}</div>
                     </b-col>
                     <b-col sm="2">
                         <div class="textFiled">สัญญาเลขที่ :</div>
@@ -40,7 +40,7 @@ export default {
         return {
             iRefund: [],
             contracts: {},
-            office_id: 1,
+            office_id: 2,
         }
     },
     watch: {
@@ -67,9 +67,43 @@ export default {
                 //Object.assign(refunds[i],{contract: contracts[0]});
             })
         },
+        getThaiDate(item){
+            var d = new Date(item);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            //return moment(String(value)).format('LL')
+        },
         showRefund(){
             console.log('show refund :' + this.refund.id);
             this.$router.push(`refunds/${this.refund.id}`);
+        },
+        delRefund(id){
+            this.$swal({
+                title: "กรุณายืนยันการลบรายการถอนคืน",
+                text: "หากยืนยันการลบ หลักเกณฑ์และเงื่อนไขจะถูกลบไปด้วย",
+                icon: "warning",
+                closeOnClickOutside: false,
+                buttons: [
+                    'ยกเลิก',
+                    'ยืนยัน'
+                ],
+
+            }).then(isConfirm =>{
+                if (isConfirm){
+                    let path = `/api/offices/${this.office_id}/refunds/${id}`;
+                    console.log('path : ' + path);
+                    axios.put(`${path}`,{
+                        status : '0'
+                    })
+                    .then(response=>{
+                        console.log('OK : ');
+                        this.$emit('fetchRefund');
+                    })
+                    .catch(error=>{
+                        console.log('error : ' + error);
+                    })
+                }
+
+            });
         }
     }
 }

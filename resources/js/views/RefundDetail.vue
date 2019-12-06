@@ -10,7 +10,7 @@
                 <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
-                  <refund-check :form_id="refund_forms[index].form_id" :refund_id="refund_id" :refund_form_id="refund_forms[index].id"></refund-check>
+                  <refund-check :form_id="refund_forms[index].form_id" :refund_id="refund_id" :refund_form_id="refund_forms[index].id" @showTabs="showTabs"></refund-check>
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
             <b-tab v-if="isPass" >
@@ -47,8 +47,8 @@
             </b-tab>
             <b-tab v-if="isPass">
                 <template slot="title">
-                    <h5>สรุปข้อมูล : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
-                    <span>{{tabs[3].title}}</span>
+                    <h5>สรุปข้อมูล : <i :class="tabs[5].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <span>{{tabs[5].title}}</span>
                 </template>
                 <refund-summary  :refund_id="refund_id"></refund-summary>
             </b-tab>
@@ -66,7 +66,7 @@ export default {
                 {title: 'ข้อมูลการอนุมัติ งด/ลด/ขยายเวลา', status: 0},
                 {title: 'ข้อมูลการส่งมอบงาน', status: 0},
                 {title: 'การนำส่งเงินค่าปรับ', status: 0},
-                {title: 'จำนวนเงินที่ขออนุมัติ', status: 0},
+                {title: 'การขออนุมัติ', status: 0},
             ],
             tab_forms: [],
             forms: [],
@@ -82,7 +82,8 @@ export default {
             alert: '',
             icon_check: 'far fa-check-square fa-lg',
             icon_uncheck: 'far fa-square fa-lg',
-            isPass: false
+            isPass: false,
+
         }
     },
     watch: {
@@ -110,7 +111,11 @@ export default {
         this.tabIndex = 3;
         this.$forceUpdate();
     },
+
     methods: {
+        showTabs(){
+            this.isPass = !this.isPass
+        },
         getForm(){
             var path = '/api/forms';
             var forms = [];

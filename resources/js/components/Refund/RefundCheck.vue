@@ -1,8 +1,18 @@
 <template>
 <div class="animated fadeIn">
         <b-row class="justify-content-md-center">
-            <b-col cols="8">
-                <b-card  class="bg-info" v-for="(rule,x_index) in rules" :key="x_index">
+            <b-col cols="10">
+                <b-card>
+                     <div slot="header" class="navbar">
+                         <ul class="nav navbar-nav d-md-down-none">
+                            <li class="nav-item px-3">
+                                <i class='fa fa-align-justify'></i>
+                                    ตรวจสอบหลักเกณฑ์เงื่อนไข
+                            </li>
+                        </ul>
+
+                    </div>
+                    <b-card  class="bg-info rule" v-for="(rule,x_index) in rules" :key="x_index">
                     <div slot="header">
                         <div class="card-header-actions">
                             <b-badge variant="success">Success</b-badge>
@@ -13,7 +23,7 @@
                             v-for="(consider,index) in rule.considers" :key="index"
                             :consider = "consider"
                         >
-                            
+
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
                                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
@@ -26,9 +36,9 @@
                                 v-model="results[find_detail_index(consider.id)]['value']"
                             ></b-form-input>
                             <my-date-picker
-                                v-else-if="fine_result_type(consider.id) == 'date'"
-                                ref="r_date12" :id="'d121'"
-                                :showDate="d1" 
+                                v-if="fine_result_type(consider.id) == 'date'"
+                                :ref="'c_date_' + consider.id" :id="'d121'"
+                                :showDate="date_show[date_show.findIndex(i=>i.consider_id==consider.id)]['show']"
                                 @update="value => results[find_detail_index(consider.id)]['value'] = value"
                             ></my-date-picker>
 
@@ -83,16 +93,22 @@
                                     <my-date-picker
                                         v-else-if="fine_result_type(consider.id) == 'date'"
                                         ref="r_date1" :id="'d11'"
-                                        :showDate="getDateShow(consider.id)" 
+                                        :showDate="date_show[date_show.findIndex(i=>i.consider_id==consider.id)]['show']"
                                         @update="value => results[find_detail_index(consider.id)]['value'] = value"
                                     ></my-date-picker>
                                 </consider-check>
                         </b-card>
                 </b-card>
 
-                <p>{{results}}</p>
-                <p>{{date_show}}</p>
-                
+                 </b-card>
+
+
+                <!-- <p>result: {{results}}</p>
+                <p>date shoe: {{date_show_temp}}</p>
+                <p>date shoe: {{date_show}}</p> -->
+                <!-- <p>rule :{{rules}}</p>
+                <p>result :{{results}}</p> -->
+
             </b-col>
         </b-row>
 
@@ -101,6 +117,10 @@
                 <div class="text-center" style="margin-bottom:5px;">
                     <b-button variant="primary" @click="checkConsider">ตรวจสอบเงื่อนไข</b-button>
                 </div>
+                 <div class="text-center" style="margin-bottom:5px;">
+                    <b-button variant="warning" @click="$emit('showTabs')">Show Tabs</b-button>
+                </div>
+
             </b-col>
         </b-row>
     </div>
@@ -115,25 +135,36 @@ export default {
             rules: [],
             results: [],
             refund_details: [],
-            d1 : '2019-12-12',
-            date_show: []
+            dd1 : '2019-12-03',
+            d1 : '',
+            date_show: [],
+            date_show_temp: []
+
         }
     },
+
     watch :{
     },
     mounted() {
         this.getRefundDetail();
+
         this.fetchData();
+
     },
     methods: {
         fetchData(){
+
             var path = `/api/forms/${this.form_id}/form_rules`;
             axios.get(`${path}`)
             .then(response=>{
                 this.rules = response.data.data;
             })
+
+            this.$forceUpdate();
+            setTimeout( () => this.showDate(), 1000)
+
         },
-        
+
         getResult(type,result){
             console.log(type + " : " + result);
             if (type == 'boolean'){
@@ -146,22 +177,23 @@ export default {
                 }
             }else if (type == 'date'){
                 console.log("is date : " + result);
-                return 'xxx';
+                return result;
                 var d = new Date(result);
-                
+
                 //d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             }else{
                 return result;
             }
         },
-        getDateShow(consider_id){
-            var index = this.date_show.findIndex(i=>i.consider_id == consider_id);
-            if (index > -1){
-                console.log('date index :' + index);
-                return this.date_show[index]['show'];
+        showDate(){
+
+            for (let i=0; i < this.date_show_temp.length; i++){
+                console.log('dateeeeeee');
+                this.date_show[i]['show'] = this.date_show_temp[i]['show'];
+                this.$forceUpdate();
             }
-            console.log('date index :' + index);
         },
+
         getRefundDetail(){
             var result = {};
             this.refund_details = [];
@@ -171,7 +203,7 @@ export default {
             .then(response=>{
                 this.refund_details = response.data.data;
                 this.results = [];
-                this.date_show = [];
+                this.date_show_temp = [];
                 for (let i=0; i < this.refund_details.length; i++){
                     result = {
                         id : this.refund_details[i]['id'],
@@ -180,15 +212,23 @@ export default {
                     }
                     this.results.push(result);
                     if (this.refund_details[i]['result_type'] == 'date'){
-                        this.date_show.push(
+                        this.date_show_temp.push(
                             {
                                 id: this.refund_details[i]['id'],
                                 consider_id : this.refund_details[i]['consider_id'],
                                 show: this.refund_details[i]['value']
                             }
-                        );                        
+                        );
+                        this.date_show.push(
+                            {
+                                id: this.refund_details[i]['id'],
+                                consider_id : this.refund_details[i]['consider_id'],
+                                show: ''
+                            }
+                        );
                     }
                 }
+
                 this.$forceUpdate();
             })
             .catch(error=>{
@@ -240,5 +280,8 @@ export default {
 }
 .sub_rule.card-header{
     background-color: rgb(90, 135, 141)!important;
+}
+.rule{
+    margin: 10px!important;
 }
 </style>

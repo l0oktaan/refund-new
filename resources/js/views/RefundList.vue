@@ -13,7 +13,11 @@
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
             </b-col>
         </b-row>
-        <refund-cover :state="state" :refund="refund" v-for="(refund,index) in refunds" :key="index"  ></refund-cover>
+        <refund-cover
+            :state="state" :refund="refund"
+             v-for="(refund,index) in refunds" :key="index"
+            @fetchRefund="fetchData"
+        ></refund-cover>
     </div>
 </template>
 <script>
