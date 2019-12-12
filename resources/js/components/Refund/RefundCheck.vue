@@ -106,8 +106,8 @@
                 <!-- <p>result: {{results}}</p>
                 <p>date shoe: {{date_show_temp}}</p>
                 <p>date shoe: {{date_show}}</p> -->
-                <!-- <p>rule :{{rules}}</p>
-                <p>result :{{results}}</p> -->
+                <p>rule :{{rules}}</p>
+                <!-- <p>result :{{results}}</p> -->
 
             </b-col>
         </b-row>

@@ -14,7 +14,7 @@ use App\Http\Requests\RefundDetailRequest;
 use App\Http\Resources\RefundDetailResource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Carbon\Carbon;
 
 class RefundDetailController extends Controller
 {
@@ -38,6 +38,102 @@ class RefundDetailController extends Controller
     public function create()
     {
         //
+    }
+    private function checkResult(Object $arrDetail)
+    {
+
+        for ($i=0; $i < count($arrDetail); $i++)
+        {
+            $detail = $arrDetail[$i];
+            $consider = Consider::find($detail->consider_id);
+
+
+
+            switch ($consider->type)
+            {
+                case 1 :
+                    if (intval($detail->value) == 1){
+                        $this->UpdateDetail(intval($detail->id),1);
+                    }else{
+                        $this->UpdateDetail(intval($detail->id),0);
+                    }
+                break;
+                case 2 :
+                    if ($detail->value <> ''){
+                        $this->UpdateDetail(intval($detail->id),1);
+                    }else{
+                        $this->UpdateDetail(intval($detail->id),0);
+                    }
+                break;
+                case 3 :  //ตรวจสอบข้อมูล
+                    switch ($consider->oper)
+                    {
+                        case 1:
+                            if (intval($detail->value) <= intval($consider->var1)){
+                                $this->UpdateDetail(intval($detail->id),1);
+                            }else{
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
+                        break;
+                        case 2: //ไม่เกินวันที่
+                            //$date_var1 = Carbon::now();
+                            $var1 = explode("-",$consider->var1);
+
+                            //$date_var1->setDate($var1[0],$var1[1],$var1[2]);
+                            $date_var1 = Carbon::create($var1[0],$var1[2],$var1[1]);
+
+                            //$date_detail = Carbon::now();
+                            $value = explode("-",$detail->value);
+                            $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+                            //$date_detail->setDate($value[0],$value[1],$value[2]);
+                            if ($date_detail->lessThanOrEqualTo($date_var1)){
+                                $this->UpdateDetail(intval($detail->id),1);
+                            }else{
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
+                        break;
+                        case 3:
+                            $var1 = explode("-",$consider->var1);
+                            $date_var1 = Carbon::create($var1[0],$var1[2],$var1[1]);
+
+                            $var2 = explode("-",$consider->var2);
+                            $date_var2 = Carbon::create($var2[0],$var2[2],$var2[1]);
+
+                            $value = explode("-",$detail->value);
+                            $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+
+                            if ($date_detail->greaterThanOrEqualTo($date_var1) and $date_detail->lessThanOrEqualTo($date_var2)){
+                                $this->UpdateDetail(intval($detail->id),1);
+                            }else{
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
+                        default :
+                            $this->UpdateDetail(intval($detail->id),0);
+                    }
+                break;
+                case 4:  //ใส่วันที่
+                    try {
+                        $value = explode("-",$detail->value);
+                        $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+                        $this->UpdateDetail(intval($detail->id),1);
+                    } catch (\Throwable $th) {
+                        $this->UpdateDetail(intval($detail->id),0);
+                    }
+                break;
+                default:
+                    $this->UpdateDetail(intval($detail->id),0);
+            }
+        }
+    }
+    private function isNotBeforeDate(Object $date_detail,Object $date_var1)
+    {
+
+    }
+    private function UpdateDetail(Int $detail_id,Int $status)
+    {
+        $detail = RefundDetail::find($detail_id);
+        $detail->status = $status;
+        $detail->save();
     }
     public function CheckConsider(RefundForm $refund_form,RefundDetail $detail)
     {
@@ -99,7 +195,10 @@ class RefundDetailController extends Controller
 
                     $detail = null;
                 }
-
+                $arrDetail = RefundDetail::orderBy('id')
+                            ->where('refund_form_id','=',$refund_form->id)
+                            ->get();
+                $this->checkResult($arrDetail);
                 return response([
                     'data' => $data
                 ],Response::HTTP_CREATED);
