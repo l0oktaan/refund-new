@@ -8,6 +8,7 @@ use App\Refund;
 use App\RefundForm;
 use App\RefundDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\RefundFormResource;
 
@@ -83,7 +84,13 @@ class RefundFormController extends Controller
      */
     public function show(Office $office, Refund $refund, RefundForm $refundForm)
     {
-        return new RefundFormResource($refundForm);
+        if (Input::has('result'))
+        {
+            return $refundForm->result;
+        }else{
+            return new RefundFormResource($refundForm);
+        }
+
     }
 
     /**
@@ -104,9 +111,12 @@ class RefundFormController extends Controller
      * @param  \App\RefundForm  $refundForm
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RefundForm $refundForm)
+    public function update(Request $request,Office $office,Refund $refund, RefundForm $refundForm)
     {
-        //
+        $refundForm->update($request->all());
+        return response([
+            'data' => $refundForm
+        ],Response::HTTP_CREATED);
     }
 
     /**

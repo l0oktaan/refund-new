@@ -6,15 +6,16 @@ use App\Form;
 use App\Office;
 use App\Refund;
 use App\Consider;
-use App\RefundForm;
+use Carbon\Carbon;
 
+use App\RefundForm;
 use App\RefundDetail;
 use App\Http\Resources\FormResource;
 use App\Http\Requests\RefundDetailRequest;
+use App\Http\Resources\RefundFormResource;
 use App\Http\Resources\RefundDetailResource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Carbon\Carbon;
 
 class RefundDetailController extends Controller
 {
@@ -25,6 +26,7 @@ class RefundDetailController extends Controller
      */
     public function index(Office $office, Refund $refund, RefundForm $refund_form)
     {
+        //return new RefundFormResource($refund_form);
         $detail = new RefundDetail();
         $detail = $refund_form->refund_details()->get();
         return RefundDetailResource::collection($detail);
@@ -46,8 +48,6 @@ class RefundDetailController extends Controller
         {
             $detail = $arrDetail[$i];
             $consider = Consider::find($detail->consider_id);
-
-
 
             switch ($consider->type)
             {
@@ -184,13 +184,13 @@ class RefundDetailController extends Controller
                         $detail->value = $data[$i]['value'];
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
-                        $this->CheckConsider($refund_form, $detail);
+                        //$this->CheckConsider($refund_form, $detail);
                     }else if ($request->state == "update"){
 
                         $detail = RefundDetail::find($data[$i]['id']);
                         $detail->value = $data[$i]['value'];
                         $detail->save();
-                        $this->CheckConsider($refund_form, $detail);
+                        //$this->CheckConsider($refund_form, $detail);
                     }
 
                     $detail = null;
@@ -199,8 +199,9 @@ class RefundDetailController extends Controller
                             ->where('refund_form_id','=',$refund_form->id)
                             ->get();
                 $this->checkResult($arrDetail);
+
                 return response([
-                    'data' => $data
+                    'data' => new RefundFormResource($refund_form)
                 ],Response::HTTP_CREATED);
 
             }
