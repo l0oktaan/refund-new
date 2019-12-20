@@ -10,7 +10,13 @@
                 <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
-                  <refund-check :form_id="refund_forms[index].form_id" :refund_id="refund_id" :refund_form_id="refund_forms[index].id" @showTabs="showTabs"></refund-check>
+                  <refund-check :form_id="refund_forms[index].form_id"
+                    :refund_id="refund_id"
+                    :refund_form_id="refund_forms[index].id"
+                    @showTabs="showTabs"
+                    @checkPass="checkPass"
+                >
+                </refund-check>
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
             <b-tab v-if="isPass" >
@@ -257,6 +263,12 @@ export default {
         },
         onTabChange(value){
             console.log('tab :' + value);
+        },
+        checkPass(val){
+            if (val == 1){
+                this.isPass = true;
+                this.$forceUpdate();
+            }
         }
     }
 }

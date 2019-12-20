@@ -79,10 +79,10 @@
                 <!-- <p>result: {{results}}</p>
                 <p>date shoe: {{date_show_temp}}</p>
                 <p>date shoe: {{date_show}}</p> -->
-                <p>refund form status :{{refund_form_result}}</p>
+                <!-- <p>refund form status :{{refund_form_result}}</p> -->
                 <!-- <p>rules :{{rules}}</p> -->
-                <p>result :{{results}}</p>
-                <p>rule_result :{{rule_result}}</p>
+                <!-- <p>result :{{results}}</p>
+                <p>rule_result :{{rule_result}}</p> -->
 
             </b-col>
         </b-row>
@@ -92,10 +92,6 @@
                 <div class="text-center" style="margin-bottom:5px;">
                     <b-button variant="primary" @click="onSubmit">ตรวจสอบเงื่อนไข</b-button>
                 </div>
-                 <div class="text-center" style="margin-bottom:5px;">
-                    <b-button variant="warning" @click="$emit('showTabs')">Show Tabs</b-button>
-                </div>
-
             </b-col>
         </b-row>
     </div>
@@ -123,6 +119,11 @@ export default {
     },
 
     watch :{
+        refund_form_result(newVal,oldVal){
+            if (newVal == 1){
+                this.$emit('checkPass',1);
+            }
+        }
     },
     mounted() {
 
