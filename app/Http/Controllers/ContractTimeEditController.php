@@ -55,6 +55,7 @@ class ContractTimeEditController extends Controller
 
             $time_edit = new ContractTimeEdit($request->all());
             $refund->contract_time_edits()->save($time_edit);
+            $refund->update(['status' => 3]);
             return response([
                 'data' => new ContractTimeEditResource($time_edit)
             ],Response::HTTP_CREATED);

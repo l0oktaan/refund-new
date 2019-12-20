@@ -49,13 +49,16 @@ class ContractController extends Controller
      */
     public function store(Office $office, Refund $refund, ContractRequest $request)
     {
+        if ($refund->office_id == $office->id){
+            $contract = new Contract($request->all());
+            $refund->contracts()->save($contract) ;
 
-        $contract = new Contract($request->all());
-        $refund->contracts()->save($contract) ;
+            $refund->update(['status' => 2]);
+            return response([
+                'data' => new ContractResource($contract)
+            ],Response::HTTP_CREATED);
+        }
 
-        return response([
-            'data' => new ContractResource($contract)
-        ],Response::HTTP_CREATED);
     }
 
     /**

@@ -49,6 +49,7 @@ class DepositPenaltyController extends Controller
 
             $deposit = new DepositPenalty($request->all());
             $refund->deposit_penalties()->save($deposit);
+            $refund->update(['status' => 5]);
             return response([
                 'data' => new DepositPenaltyResource($deposit)
             ],Response::HTTP_CREATED);

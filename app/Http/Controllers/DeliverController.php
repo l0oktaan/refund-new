@@ -49,6 +49,7 @@ class DeliverController extends Controller
 
             $deliver = new Deliver($request->all());
             $refund->delivers()->save($deliver);
+            $refund->update(['status' => 4]);
             return response([
                 'data' => new DeliverResource($deliver)
             ],Response::HTTP_CREATED);
