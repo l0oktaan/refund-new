@@ -48,7 +48,10 @@ class ApproveRefundController extends Controller
 
             $approve = new ApproveRefund($request->all());
             $refund->approve_refunds()->save($approve);
-            $refund->update(['status' => 6]);
+            if ($refund->status < 7){
+                $refund->update(['status' => 7]);
+            }
+            
             return response([
                 'data' => new ApproveRefundResource($approve)
             ],Response::HTTP_CREATED);

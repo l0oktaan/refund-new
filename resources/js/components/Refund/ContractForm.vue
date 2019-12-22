@@ -189,6 +189,7 @@ export default {
                     this.contract_status = 'update';
                     this.alert = 'success';
                     this.contract = contract;
+                    
                     this.$forceUpdate();
                 })
                 .catch(error=>{
@@ -231,7 +232,7 @@ export default {
                     this.alert = 'error';
                 })
             }
-
+            this.$emit("refund_update");
         },
         fetchContract(){
             var contract = {};

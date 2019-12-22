@@ -189,6 +189,7 @@ export default {
             .catch(error=>{
                 this.alert = "error";
             })
+            this.$emit('refund_update');
         },
         getThaiDate(item){
             var d = new Date(item);

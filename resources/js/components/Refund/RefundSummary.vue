@@ -82,6 +82,7 @@
             </b-form>
 
         </b-card>
+        <refund-report></refund-report>
     </div>
 </template>
 <script>
@@ -122,6 +123,7 @@ export default {
                 }
 
             })
+            this.$emit('refund_update');
         },
         toEdit(item){
             this.approve = _.cloneDeep(item);

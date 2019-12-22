@@ -52,6 +52,9 @@ window.axios.defaults.headers.common = {
 };
 Vue.use(VueAxios, axios)
 
+import jsPDF from 'jspdf'
+Vue.use(jsPDF)
+
 import VueSwal from 'vue-swal'
 Vue.use(VueSwal)
 
@@ -142,6 +145,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds/:id',
+                    name: 'refund',
                     component: RefundDetail,
                     //component: RefundFormCheck,
                     meta: {
@@ -308,6 +312,9 @@ Vue.component('ConsiderCheck', ConsiderCheck).defaults;
 
 import MyDatePicker from './components/MyDatePicker.vue';
 Vue.component('MyDatePicker', MyDatePicker).defaults;
+
+import RefundReport from './components/Refund/RefundReport.vue';
+Vue.component('RefundReport', RefundReport).defaults;
 
 const app = new Vue({
     el: '#app',

@@ -114,6 +114,13 @@ class RefundFormController extends Controller
     public function update(Request $request,Office $office,Refund $refund, RefundForm $refundForm)
     {
         $refundForm->update($request->all());
+        if ($request->input('result') == 1)
+        {
+            if ($refund->status < 2){
+                $refund->update(['status' => 2]);
+            }
+            
+        }
         return response([
             'data' => $refundForm
         ],Response::HTTP_CREATED);

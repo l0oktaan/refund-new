@@ -243,6 +243,7 @@ export default {
     },
     methods: {
         fetchEditTimeList(){
+            this.$emit('refund_update');
             this.time_edit_list = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
 

@@ -152,6 +152,7 @@ export default {
             .catch(error=>{
                 this.alert = 'error';
             })
+            this.$emit('refund_update');
         },
         onSubmit(e){
             e.preventDefault();

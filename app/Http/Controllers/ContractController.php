@@ -52,8 +52,10 @@ class ContractController extends Controller
         if ($refund->office_id == $office->id){
             $contract = new Contract($request->all());
             $refund->contracts()->save($contract) ;
-
-            $refund->update(['status' => 2]);
+            if ($refund->status < 3){
+                $refund->update(['status' => 3]);
+            }
+            
             return response([
                 'data' => new ContractResource($contract)
             ],Response::HTTP_CREATED);

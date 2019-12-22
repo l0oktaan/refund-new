@@ -2,59 +2,38 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
-        <b-tabs v-model="tabIndex">
-            <b-tab>
-              <template slot="title">
-                <h5>ขั้นตอนที่ 1 : <i :class="tabs[0].status == 1 ? icon_check : icon_uncheck"></i></h5>
-                <span>{{tabs[0].title}}</span>
-              </template>
-              <b-row>
-                  <b-col cols="6" v-for="(form,index) in forms" :key="index">
-                    <div class="animated fadeIn">
-                        <b-card no-body :class="isSelect[index] ? 'bg-info' : 'bg-default'">
-                            <b-card-body class="pb-0 ">
-                                <div class="float-right">
-                                    <toggle-button :value="false" :sync="true" :width="70" :height="25"
-                                        :labels="{checked: 'เลือก', unchecked: 'ไม่เลือก'}"
-                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                        style="padding-top:5px; line-height:35px;"
-                                        v-model="isSelect[index]"
-                                        @change="confirmChange(form,index)"
-                                        :disabled="refund_status === 'update'"
-                                    />
-                                </div>
+        <b-row>
+            <b-col cols="6" v-for="(form,index) in forms" :key="index">
+            <div class="animated fadeIn">
+                <b-card no-body :class="isSelect[index] ? 'bg-info' : 'bg-default'">
+                    <b-card-body>
+                        <div class="float-right">
+                            <toggle-button :value="false" :sync="true" :width="70" :height="25"
+                                :labels="{checked: 'เลือก', unchecked: 'ไม่เลือก'}"
+                                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                style="padding-top:5px; line-height:35px;"
+                                v-model="isSelect[index]"
+                                @change="confirmChange(form,index)"
+                                :disabled="refund_status === 'update'"
+                            />
+                        </div>
 
-                                <div class="textFiled">ฟอร์มลำดับที่ : {{form.order}}</div>
-                                <div class="textFiled">ชื่อแบบฟอร์ม : {{form.name1}}</div>
-                                <div></div>
-                            </b-card-body>
-                        </b-card>
-                    </div>
-                </b-col>
-              </b-row>
-              <b-row>
-                  <b-col>
-                    <div class="animated fadeIn text-center">
-                        <b-button variant="primary" @click="saveRefundForm" :disabled="refund_status === 'update'">บันทึกข้อมูล</b-button>
-                        <b-button variant="danger">ยกเลิก</b-button>
-                    </div>
-                  </b-col>
-              </b-row>
-            </b-tab>
-            <!--================================= Tab Form ==================================-->
-            <b-tab v-for="(tab,index) in tab_forms" :key="index" >
-                <template slot="title">
-                <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
-                <span>{{tab.title}}</span>
-              </template>
-
-                  <refund-check :form_id="refund_forms[index].form_id" v-if="false"></refund-check>
-
-            </b-tab>
-            <!--==================================== Tab Form End =====================================-->
-
-          </b-tabs>
-            {{refund_detail}}
+                        <div class="textFiled">ฟอร์มลำดับที่ : {{form.order}}</div>
+                        <div class="textFiled">ชื่อแบบฟอร์ม : {{form.name1}}</div>
+                        <div></div>
+                    </b-card-body>
+                </b-card>
+            </div>
+        </b-col>
+    </b-row>
+    <b-row>
+        <b-col>
+        <div class="animated fadeIn text-center">
+            <b-button variant="primary" @click="saveRefundForm" :disabled="refund_status === 'update'">บันทึกข้อมูล</b-button>
+            <b-button variant="danger">ยกเลิก</b-button>
+        </div>
+        </b-col>
+    </b-row>
 
     </div>
 </template>
@@ -268,12 +247,12 @@ export default {
                                         Object.assign(arr[index],{result: false});
                                     });
                                     this.refund_forms = arr;
-                                    this.tab_forms.push(
-                                        {
-                                            title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order,
-                                            status : 0
-                                        }
-                                    );
+                                    // this.tab_forms.push(
+                                    //     {
+                                    //         title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order,
+                                    //         status : 0
+                                    //     }
+                                    // );
                                     this.$forceUpdate();
                                 })
                                 .catch(error=>{
@@ -284,7 +263,9 @@ export default {
                             if (this.arrFormSelected.length > 0){
                                 //console.log('array ' + this.arrFormSelected.length);
                                 this.alert = 'success';
-                                this.tabs[0].status = 1;
+                                setTimeout(() => {
+                                    this.$router.push(`refunds/${this.refund_id}`);
+                                }, 2000);
                                 this.$forceUpdate();
                             }
                             setInterval(function(){
@@ -314,5 +295,12 @@ export default {
 }
 .nav-link{
     padding-top: 10px!important;
+}
+.textFiled{
+    font-size: 0.8rem!important;
+    
+}
+.card-body{
+    padding: 10px!important;
 }
 </style>

@@ -121,7 +121,7 @@ export default {
     watch :{
         refund_form_result(newVal,oldVal){
             if (newVal == 1){
-                this.$emit('checkPass',1);
+                this.$emit('refund_update');
             }
         }
     },
@@ -343,6 +343,7 @@ export default {
                 .then(response=>{
                     var tmp = response.data.data;
                     console.log('for result :' + tmp.result);
+                    this.$emit('refund_update');
                     this.$forceUpdate();
                 })
                 .catch(error=>{

@@ -52,7 +52,11 @@ export default {
     },
     methods: {
         getClass(status){
-            return `status${status}`;
+            if (status < 7){
+                return 'status1'
+            }else{
+                return 'status2'
+            }
         },
         getContract(){
             var contract = [];

@@ -7,56 +7,56 @@
             <!--================================= Tab Form ==================================-->
             <b-tab v-for="(tab,index) in tab_forms" :key="index" >
                 <template slot="title">
-                <h5>แบบฟอร์ม :<i :class="tab.status == 1 ? icon_check : icon_uncheck"></i></h5>
+                <h5>แบบฟอร์ม :<i :class="refund_s > 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
               </template>
                   <refund-check :form_id="refund_forms[index].form_id"
                     :refund_id="refund_id"
                     :refund_form_id="refund_forms[index].id"
                     @showTabs="showTabs"
-                    @checkPass="checkPass"
+                    @refund_update="checkRefundStatus"
                 >
                 </refund-check>
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
-            <b-tab v-if="isPass" >
+            <b-tab v-if="refund_s >= 2" >
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 1 : <i :class="tabs[1].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 1 : <i :class="refund_s > 2 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
                 </template>
-                <contract-form></contract-form>
+                <contract-form @refund_update="checkRefundStatus"></contract-form>
             </b-tab>
-            <b-tab v-if="isPass" >
+            <b-tab v-if="refund_s >= 3" >
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 2 : <i :class="tabs[2].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[2].title}}</span>
                 </template>
-                <contract-time-edit></contract-time-edit>
+                <contract-time-edit @refund_update="checkRefundStatus"></contract-time-edit>
 
             </b-tab>
 
-            <b-tab v-if="isPass">
+            <b-tab v-if="refund_s >= 4">
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 3 : <i :class="tabs[3].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>
                 </template>
-                <delivery :refund_id="refund_id"></delivery>
+                <delivery :refund_id="refund_id" @refund_update="checkRefundStatus"></delivery>
 
             </b-tab>
-            <b-tab v-if="isPass">
+            <b-tab v-if="refund_s >= 5">
                 <template slot="title">
-                    <h5>ขั้นตอนที่ 4 : <i :class="tabs[4].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[4].title}}</span>
                 </template>
 
-                <deposit-penalty :refund_id="refund_id"></deposit-penalty>
+                <deposit-penalty :refund_id="refund_id" @refund_update="checkRefundStatus"></deposit-penalty>
             </b-tab>
-            <b-tab v-if="isPass">
+            <b-tab v-if="refund_s >= 6">
                 <template slot="title">
-                    <h5>สรุปข้อมูล : <i :class="tabs[5].status == 1 ? icon_check : icon_uncheck"></i></h5>
+                    <h5>สรุปข้อมูล : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[5].title}}</span>
                 </template>
-                <refund-summary  :refund_id="refund_id"></refund-summary>
+                <refund-summary  :refund_id="refund_id" @refund_update="checkRefundStatus"></refund-summary>
             </b-tab>
           </b-tabs>
     </div>
@@ -89,6 +89,7 @@ export default {
             icon_check: 'far fa-check-square fa-lg',
             icon_uncheck: 'far fa-square fa-lg',
             isPass: false,
+            refund_s: 0
 
         }
     },
@@ -96,7 +97,8 @@ export default {
         refund_id(){
             if (this.refund_id != 0){
                 this.r_id = this.refund_id;
-                this.refund_status = "edit"
+                this.refund_status = "edit";
+                
             }
         },
         tabIndex(){
@@ -114,7 +116,7 @@ export default {
     },
     mounted(){
         this.getRefundForm();
-        this.tabIndex = 3;
+        //this.tabIndex = 3;
         this.$forceUpdate();
     },
 
@@ -155,6 +157,7 @@ export default {
                 this.tab_forms = tabs;
                 this.refund_forms = arr;
                 this.tabIndex = 0;
+                this.checkRefundStatus();
                 this.$forceUpdate();
             })
         },
@@ -192,75 +195,18 @@ export default {
             this.form_id = 0;
             this.refund_status = 'new';
         },
-        saveRefundForm(){
-            if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
-                this.$swal({
-                    title: "กรุณาตรวจสอบข้อมูล",
-                    text: "หากบันทึกแล้วจะไม่สามารถเพิ่มฟอร์มใหม่ได้",
-                    icon: "warning",
-                    closeOnClickOutside: false,
-                    buttons: [
-                        'ยกเลิก',
-                        'ยืนยัน'
-                    ],
-                }).then(isConfirm =>{
-                    if (isConfirm){
-                        var refund = {};
-                        var path = '';
-                        // Create Refund
-                        path = `/api/offices/${this.office_id}/refunds`;
-                        axios.post(`${path}`,{
-                            approve_code: '123456'
-                        })
-                        .then(response=>{
-                            refund = response.data.data;
-                            this.refund_id = refund.id;
-                            this.refund_status = 'update';
-                            for (let i = 0 ; i < this.arrFormSelected.length ; i++){
-                                path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
-                                axios.post(path,{
-                                    form_id: this.arrFormSelected[i].id,
-                                    result: 0,
-                                    status: 0
-                                })
-                                .then(response=>{
-                                    this.refund_forms.push(response.data.data);
-                                    var arr = this.refund_forms;
-                                    this.refund_forms.forEach(function(element,index,arr){
-                                        Object.assign(arr[index],{result: false});
-                                    });
-                                    this.refund_forms = arr;
-                                    this.tab_forms.push(
-                                        {
-                                            title : 'ฟอร์มหมายเลข :' + this.arrFormSelected[i].order,
-                                            status : 0
-                                        }
-                                    );
-                                    this.$forceUpdate();
-                                })
-                                .catch(error=>{
-                                    this.alert = 'error';
-                                })
-                            }
-                            if (this.arrFormSelected.length > 0){
-                                //console.log('array ' + this.arrFormSelected.length);
-                                this.alert = 'success';
-                                this.tabs[0].status = 1;
-                                this.$forceUpdate();
-                            }
-                            setInterval(function(){
-                                this.tabIndex = 1;
-                                console.log("tab Index   :" + this.tabIndex);
-                            },3000);
-                        })
-                        .catch(error=>{
-                            this.alert = 'error';
-                        })
-                    }
-                });
-            }else{
-            }
+        
+        checkRefundStatus(){
+            var refund = {};
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
+            axios.get(`${path}`)
+            .then(response=>{
+                refund = response.data.data[0];
+                this.refund_s = refund.status;
+                console.log('refund status : ' + this.refund_s);
+            })
         },
+       
         onTabChange(value){
             console.log('tab :' + value);
         },
