@@ -14,7 +14,7 @@ class EditRefundDetailAddColResultType extends Migration
     public function up()
     {
         Schema::table('13_refund_details', function (Blueprint $table) {
-            $table->string('result_type')->after('consider_id')->nullable;
+            //$table->string('result_type')->after('consider_id')->nullable;
         });
     }
 
