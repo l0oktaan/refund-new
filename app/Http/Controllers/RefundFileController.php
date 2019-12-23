@@ -1,20 +1,52 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Office;
+use App\Refund;
+use Carbon\Carbon;
 use App\RefundFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\RefundFileResource;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class RefundFileController extends Controller
 {
+
+    public function uploadFile(Office $office, Refund $refund, Request $request) {
+        $file = Input::file('file');
+        $filename = $file->getClientOriginalName();
+
+        $path = hash( 'sha256', time());
+
+        if(Storage::disk('uploads')->put($path.'/'.$filename,  File::get($file))) {
+            $input['filename'] = $filename;
+            $input['mime'] = $file->getClientMimeType();
+            $input['path'] = $path;
+            $input['size'] = $file->getClientSize();
+            $file = FileEntry::create($input);
+
+            return response()->json([
+                'success' => true,
+                'id' => $file->id
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Office $office, Refund $refund)
     {
-        //
+        $file = $refund->refund_files()->get();
+        return RefundFileResource::collection($file);
     }
 
     /**
@@ -33,9 +65,39 @@ class RefundFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Office $office, Refund $refund, Request $request)
     {
-        //
+        $file = Input::file('file');
+        
+        
+        $description = Input::input('description');
+        $upload_by = Input::input('upload_by');
+        
+        //$filename = $file->getClientOriginalName();
+        $filename = $office->id . "_" . $refund->id;
+
+        $path = hash( 'sha256', time());
+
+        if(Storage::disk('uploads')->put($path.'/'.$filename,  File::get($file))) {
+            $refund_file = new RefundFile;
+            $refund_file->file_name = $filename . '.pdf';
+            $refund_file->file_path = $path;
+            $refund_file->description = $description;
+            $refund_file->upload_by = $upload_by;
+            $refund_file->status = 1;
+            $refund->refund_files()->save($refund_file);
+            if ($refund->status < 8){
+                $refund->status = 8;
+                $refund->send_date = \Carbon::now();
+                $refund->save();
+
+            }
+
+            return response([
+                'data' => new RefundFileResource($refund_file)
+            ],Response::HTTP_CREATED);
+        }
+        return response(null,Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -44,9 +106,28 @@ class RefundFileController extends Controller
      * @param  \App\RefundFile  $refundFile
      * @return \Illuminate\Http\Response
      */
-    public function show(RefundFile $refundFile)
+    public function show(Office $office, Refund $refund, RefundFile $refundFile)
     {
-        //
+        $iRefundFile = new RefundFile;
+
+        $iRefundFile = $office->refund_files()
+                            ->where([
+                                ['refund_id',"=",$refund->id],
+
+                            ])->findOrFail($refundFile->id);
+        // return $iRefundFile;
+        if ($iRefundFile == null){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }else{
+            $exists = Storage::disk('uploads')->exists($iRefundFile->file_path . '/' . $iRefundFile->file_name);
+            
+            if($exists) {
+                $path = storage_path() . '/files/uploads/' . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                return Storage::download($path);
+            }else{
+                return "NO";
+            }
+        }
     }
 
     /**

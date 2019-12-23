@@ -81,9 +81,8 @@
 
             </b-form>
 
-        </b-card>
-        <refund-report></refund-report>
-        <send-refund></send-refund>
+        </b-card>        
+        
     </div>
 </template>
 <script>

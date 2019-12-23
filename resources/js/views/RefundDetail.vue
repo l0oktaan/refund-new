@@ -15,18 +15,19 @@
                     :refund_form_id="refund_forms[index].id"
                     @showTabs="showTabs"
                     @refund_update="checkRefundStatus"
+                    v-if="refund_s >= 10"
                 >
                 </refund-check>
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
-            <b-tab v-if="refund_s >= 2" >
+            <b-tab v-if="refund_s >= 10" >
                 <template slot="title">
                     <h5>ขั้นตอนที่ 1 : <i :class="refund_s > 2 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
                 </template>
                 <contract-form @refund_update="checkRefundStatus"></contract-form>
             </b-tab>
-            <b-tab v-if="refund_s >= 3" >
+            <b-tab v-if="refund_s >= 10" >
                 <template slot="title">
                     <h5>ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[2].title}}</span>
@@ -35,7 +36,7 @@
 
             </b-tab>
 
-            <b-tab v-if="refund_s >= 4">
+            <b-tab v-if="refund_s >= 10">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>
@@ -43,7 +44,7 @@
                 <delivery :refund_id="refund_id" @refund_update="checkRefundStatus"></delivery>
 
             </b-tab>
-            <b-tab v-if="refund_s >= 5">
+            <b-tab v-if="refund_s >= 10">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[4].title}}</span>
@@ -57,6 +58,13 @@
                     <span>{{tabs[5].title}}</span>
                 </template>
                 <refund-summary  :refund_id="refund_id" @refund_update="checkRefundStatus"></refund-summary>
+            </b-tab>
+            <b-tab v-if="refund_s >= 7">
+                <template slot="title">
+                    <h5>การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h5>
+                    <span>ส่งข้อมูลให้กรมบัญชีกลาง</span>
+                </template>
+                <send-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></send-refund>
             </b-tab>
           </b-tabs>
     </div>

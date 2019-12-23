@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::Resource('/offices', 'OfficeController');
 Route::group(['prefix'=>'offices'],function(){
     Route::apiResource('/{office}/refunds','RefundController');
+    Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController');
     Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController');
     Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
     Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');

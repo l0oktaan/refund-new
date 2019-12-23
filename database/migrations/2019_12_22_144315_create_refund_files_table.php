@@ -18,7 +18,8 @@ class CreateRefundFilesTable extends Migration
             $table->integer('refund_id')->unsigned()->index();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
             $table->string('file_name');
-            $table->string('description')->nullable();
+            $table->string('file_path');
+            $table->text('description')->nullable();
             $table->string('upload_by')->nullable();
             $table->tinyInteger("status")->nullable();
             $table->timestamps();

@@ -32,6 +32,10 @@ class Refund extends Model
         return $this->hasMany('App\Contract','refund_id','id');
     }
 
+    public function refund_files(){
+        return $this->hasMany('App\RefundFile');
+    }
+
     public function contract_budget_edits(){
         return $this->hasMany('App\ContractBudgetEdit','refund_id','id');
     }

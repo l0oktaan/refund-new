@@ -57,6 +57,15 @@ class Office extends Model
         );
     }
 
+    public function refund_files(){
+        return $this->hasManyThrough(
+            'App\RefundFile',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
+
     public function deposit_penalties(){
         return $this->hasManyThrough(
             'App\DepositPenalty',
