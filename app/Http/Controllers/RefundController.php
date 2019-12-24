@@ -73,6 +73,8 @@ class RefundController extends Controller
         //$refund->office_id = $office->id;
         $refund->approve_code = $request->approve_code;
         $refund->create_date = date('Y-m-d');
+        // $refund->send_date = date('Y-m-d');
+        // $refund->complete_date = date('Y-m-d');
         $refund->status = "1";
         $office->refunds()->save($refund);
         return response([

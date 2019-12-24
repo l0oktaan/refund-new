@@ -298,7 +298,7 @@ export default {
 }
 .textFiled{
     font-size: 0.8rem!important;
-    
+
 }
 .card-body{
     padding: 10px!important;

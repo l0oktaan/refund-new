@@ -86,14 +86,21 @@
 
             </b-col>
         </b-row>
-
+        <b-row align-h="center">
+            <b-col cols="10">
+                <b-alert show variant="danger" v-if="refund_form_result==0" class="text-center">ข้อมูลยังไม่ตรงตามหลักเกณฑ์เงื่อนไข กรุณาตรวจสอบข้อมูล !!!</b-alert>
+                <b-alert show variant="success" v-else class="text-center">ข้อมูลตรงตามหลักเกณฑ์เงื่อนไข</b-alert>
+            </b-col>
+        </b-row>
         <b-row>
             <b-col>
                 <div class="text-center" style="margin-bottom:5px;">
                     <b-button variant="primary" @click="onSubmit">ตรวจสอบเงื่อนไข</b-button>
                 </div>
+
             </b-col>
         </b-row>
+
     </div>
 
 </template>
@@ -117,7 +124,6 @@ export default {
             alert: ''
         }
     },
-
     watch :{
         refund_form_result(newVal,oldVal){
             if (newVal == 1){
@@ -126,7 +132,6 @@ export default {
         }
     },
     mounted() {
-
         this.getRefundDetail();
         this.fetchData();
         this.checkRefundFormResult();
@@ -136,15 +141,12 @@ export default {
     },
     methods: {
         checkRefundFormResult(){
-
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}?result`
             axios.get(`${path}`)
             .then(response=>{
                 this.refund_form_result = response.data;
-
             })
             .catch(error=>{
-
             })
         },
         fetchData(){
@@ -154,13 +156,9 @@ export default {
             .then(response=>{
                 this.rules = response.data.data;
             })
-
             this.$forceUpdate();
             setTimeout( () => this.showDate(), 1000);
-
         },
-
-
         getResult(type,result){
             console.log(type + " : " + result);
             if (type == 'boolean'){
@@ -175,20 +173,17 @@ export default {
                 console.log("is date : " + result);
                 return result;
                 var d = new Date(result);
-
                 //d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             }else{
                 return result;
             }
         },
         showDate(){
-
             for (let i=0; i < this.date_show_temp.length; i++){
                 this.date_show[i]['show'] = this.date_show_temp[i]['show'];
                 this.$forceUpdate();
             }
         },
-
         getRefundDetail(){
             var result = {};
             this.refund_details = [];
@@ -230,9 +225,7 @@ export default {
                     } catch (error) {
                         console.log('error :' + error);
                     }
-
                 }
-
                 this.$forceUpdate();
             })
             .catch(error=>{
@@ -263,40 +256,25 @@ export default {
                 this.alert = 'success';
                 //this.getRefundDetail();
                 //this.fetchData();
-
                 setTimeout(()=>{
                     this.check();
                 },2000);
-
-
-
-
-
             })
             .catch(error=>{
                 console.log('error :' + error + ' save path :' + path);
             })
         },
-
         check(){
             var detail = [];
             var result = [];
             var rule = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
-
             axios.get(`${path}`)
             .then(response=>{
-
                detail = response.data.data;
-
                this.rule_result = [];
-
-
-
                 for (let index = 0; index < this.rules.length; index++){
-
                     rule = this.rules[index];
-
                     if (rule.sub_rules.length > 0){
                         let arr = [];
                         let sub_rules = rule.sub_rules;
@@ -305,16 +283,13 @@ export default {
                             let considers = sub_rules[i]['considers'];
                             for (let j=0; j<considers.length; j++){
                                 //console.log('detail  : ' + detail[0]['id']);
-
                                 //arr_sub.push(detail[z]['status']);
                                 arr_sub.push(detail[detail.findIndex(x=>x.consider_id==considers[j]['id'])].status);
                             }
-
                             arr.push((arr_sub.every(r=>r==1)) ? 1 : 0);
                         }
                         if (rule.result_type == 1){
                             result.push((arr.some(r=>r==1)) ? 1 : 0);
-
                             this.$forceUpdate();
                         }else if (rule.result_type == 2){
                             result.push((arr.every(r=>r==1)) ? 1 : 0);
@@ -332,9 +307,6 @@ export default {
                     console.log('array lenght ' + result.length + ' result :' + result + ' OK :' + result.every(x=>x==1));
                 }
                  this.refund_form_result = result.every(x=>x==1) ? 1 : 0;
-
-
-
                 this.$forceUpdate();
                 var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}`;
                 axios.put(`${path}`,{
@@ -350,11 +322,7 @@ export default {
                     this.alert = "error";
                 })
             })
-
-
         }
-
-
     }
 }
 </script>

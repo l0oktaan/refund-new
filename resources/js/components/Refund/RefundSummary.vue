@@ -81,8 +81,8 @@
 
             </b-form>
 
-        </b-card>        
-        
+        </b-card>
+
     </div>
 </template>
 <script>
@@ -171,8 +171,8 @@ export default {
                 .catch(error=>{
                     this.alert = 'error';
                 })
-
             }
+            this.$emit('refund_update');
         },
     }
 }

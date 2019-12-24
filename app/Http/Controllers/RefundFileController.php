@@ -16,28 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RefundFileController extends Controller
 {
 
-    public function uploadFile(Office $office, Refund $refund, Request $request) {
-        $file = Input::file('file');
-        $filename = $file->getClientOriginalName();
 
-        $path = hash( 'sha256', time());
-
-        if(Storage::disk('uploads')->put($path.'/'.$filename,  File::get($file))) {
-            $input['filename'] = $filename;
-            $input['mime'] = $file->getClientMimeType();
-            $input['path'] = $path;
-            $input['size'] = $file->getClientSize();
-            $file = FileEntry::create($input);
-
-            return response()->json([
-                'success' => true,
-                'id' => $file->id
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -67,30 +46,32 @@ class RefundFileController extends Controller
      */
     public function store(Office $office, Refund $refund, Request $request)
     {
+        //return $refund;
         $file = Input::file('file');
-        
-        
+
+
         $description = Input::input('description');
         $upload_by = Input::input('upload_by');
-        
+
         //$filename = $file->getClientOriginalName();
-        $filename = $office->id . "_" . $refund->id;
+        $filename = $office->id . "_" . $refund->id . ".pdf";
 
         $path = hash( 'sha256', time());
 
         if(Storage::disk('uploads')->put($path.'/'.$filename,  File::get($file))) {
             $refund_file = new RefundFile;
-            $refund_file->file_name = $filename . '.pdf';
+            $refund_file->file_name = $filename;
             $refund_file->file_path = $path;
             $refund_file->description = $description;
             $refund_file->upload_by = $upload_by;
             $refund_file->status = 1;
             $refund->refund_files()->save($refund_file);
-            if ($refund->status < 8){
-                $refund->status = 8;
-                $refund->send_date = \Carbon::now();
-                $refund->save();
 
+            if ($refund->status < 8){
+                $refund->update([
+                    'status' => 8,
+                    'sent_date' => date('Y-m-d')
+                ]);
             }
 
             return response([
@@ -120,10 +101,16 @@ class RefundFileController extends Controller
             return response(null,Response::HTTP_NOT_FOUND);
         }else{
             $exists = Storage::disk('uploads')->exists($iRefundFile->file_path . '/' . $iRefundFile->file_name);
-            
+
             if($exists) {
-                $path = storage_path() . '/files/uploads/' . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
-                return Storage::download($path);
+
+                $path = storage_path() . "/files/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                $headers = array(
+                    'Content-Type: application/pdf',
+                  );
+                $filename = $iRefundFile->file_name;
+                return response()->download($path, $filename, $headers);
+                return Storage::download($path, $iRefundFile->file_name, $headers);
             }else{
                 return "NO";
             }

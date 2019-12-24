@@ -5,7 +5,7 @@
         <b-tabs v-model="tabIndex">
 
             <!--================================= Tab Form ==================================-->
-            <b-tab v-for="(tab,index) in tab_forms" :key="index" >
+            <b-tab v-for="(tab,index) in tab_forms" :key="index" :disable="'disabled'">
                 <template slot="title">
                 <h5>แบบฟอร์ม :<i :class="refund_s > 1 ? icon_check : icon_uncheck"></i></h5>
                 <span>{{tab.title}}</span>
@@ -15,19 +15,19 @@
                     :refund_form_id="refund_forms[index].id"
                     @showTabs="showTabs"
                     @refund_update="checkRefundStatus"
-                    v-if="refund_s >= 10"
+
                 >
                 </refund-check>
             </b-tab>
             <!--==================================== Tab Form End =====================================-->
-            <b-tab v-if="refund_s >= 10" >
+            <b-tab v-if="refund_s >= 2" >
                 <template slot="title">
                     <h5>ขั้นตอนที่ 1 : <i :class="refund_s > 2 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
                 </template>
                 <contract-form @refund_update="checkRefundStatus"></contract-form>
             </b-tab>
-            <b-tab v-if="refund_s >= 10" >
+            <b-tab v-if="refund_s >= 3" >
                 <template slot="title">
                     <h5>ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[2].title}}</span>
@@ -36,7 +36,7 @@
 
             </b-tab>
 
-            <b-tab v-if="refund_s >= 10">
+            <b-tab v-if="refund_s >= 4">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>
@@ -44,7 +44,7 @@
                 <delivery :refund_id="refund_id" @refund_update="checkRefundStatus"></delivery>
 
             </b-tab>
-            <b-tab v-if="refund_s >= 10">
+            <b-tab v-if="refund_s >= 5">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[4].title}}</span>
@@ -64,7 +64,7 @@
                     <h5>การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h5>
                     <span>ส่งข้อมูลให้กรมบัญชีกลาง</span>
                 </template>
-                <send-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></send-refund>
+                <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></sent-refund>
             </b-tab>
           </b-tabs>
     </div>
@@ -106,7 +106,7 @@ export default {
             if (this.refund_id != 0){
                 this.r_id = this.refund_id;
                 this.refund_status = "edit";
-                
+
             }
         },
         tabIndex(){
@@ -203,7 +203,7 @@ export default {
             this.form_id = 0;
             this.refund_status = 'new';
         },
-        
+
         checkRefundStatus(){
             var refund = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
@@ -214,7 +214,7 @@ export default {
                 console.log('refund status : ' + this.refund_s);
             })
         },
-       
+
         onTabChange(value){
             console.log('tab :' + value);
         },

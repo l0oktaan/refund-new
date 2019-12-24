@@ -316,8 +316,8 @@ Vue.component('MyDatePicker', MyDatePicker).defaults;
 import RefundReport from './components/Refund/RefundReport.vue';
 Vue.component('RefundReport', RefundReport).defaults;
 
-import SendRefund from './components/Refund/SendRefund.vue';
-Vue.component('SendRefund', SendRefund).defaults;
+import SentRefund from './components/Refund/SentRefund.vue';
+Vue.component('SentRefund', SentRefund).defaults;
 
 const app = new Vue({
     el: '#app',
