@@ -26,6 +26,9 @@ Vue.use(Buefy,{
     defaultDayNames: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
     defaultMonthNames: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
 }) */
+import Vue2Crumbs from 'vue-2-crumbs'
+
+Vue.use(Vue2Crumbs)
 
 import Datetime from 'vue-datetime'
 // You need a specific loader for CSS files
@@ -101,7 +104,7 @@ import RefundFormTest from './views/RefundFormTest.vue'
 
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
-
+import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
 
 const router = new VueRouter({
@@ -214,7 +217,23 @@ const router = new VueRouter({
                     meta: {
                         breadCrumb: 'จัดการแบบฟอร์ม' //crumb
                     }
-                }
+                },
+                {
+                    path: 'refunds',
+                    component: RefundList,
+                    meta: {
+                        breadCrumb: 'รายการขอถอนคืน' //crumb
+                    }
+                },
+                {
+                    path: 'refunds/:id',
+                    
+                    component: RefundDetail,
+                    //component: RefundFormCheck,
+                    meta: {
+                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                    },
+                },
             ]
         }
     ]
