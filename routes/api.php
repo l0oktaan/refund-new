@@ -13,29 +13,42 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::Resource('/offices', 'OfficeController');
-Route::group(['prefix'=>'offices'],function(){
-    Route::apiResource('/{office}/refunds','RefundController');
-    Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController');
-    Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController');
-    Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
-    Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');
-    Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
-    Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
-    Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
-    Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
-    Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController');
 
-    //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
-});
 
-Route::Resource('/forms','FormController');
-Route::group(['prefix'=>'forms'],function(){
-    Route::apiResource('/{form}/form_rules','FormRuleController');
-    Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
-    Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
+
+Route::middleware('auth:api')->group(function() {
 });
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    
+    Route::post('/logout','AuthController@logout');
+
+    Route::Resource('/offices', 'OfficeController');
+    Route::group(['prefix'=>'offices'],function(){
+
+        Route::apiResource('/{office}/refunds','RefundController');
+        Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController');
+        Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController');
+        Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
+        Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');
+        Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
+        Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
+        Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
+        Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
+        Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController');
+
+        //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
+    });
+
+    Route::Resource('/forms','FormController');
+    Route::group(['prefix'=>'forms'],function(){
+        Route::apiResource('/{form}/form_rules','FormRuleController');
+        Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
+        Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
+    });
+
+
+Route::post('/login','AuthController@login');
+Route::post('/register', 'AuthController@register');

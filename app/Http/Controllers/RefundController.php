@@ -7,6 +7,7 @@ use App\Refund;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RefundRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Refunds as RefundResource;
@@ -20,6 +21,7 @@ class RefundController extends Controller
      */
     public function index(Office $office)
     {
+        //return Auth::user()->office_id;
         //return $office->refunds();
 
         // $refund = new Refund;
