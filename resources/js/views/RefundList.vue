@@ -35,7 +35,14 @@ export default {
     },
     methods: {
         fetchData(){
-            var path = `/api/offices/${this.office_id}/refunds?fields=contracts`;
+            var user = this.$store.state.user;
+            console.log('user :' + user);
+            if (user == 'admin'){
+                var path = `/api/offices/${this.office_id}/refunds?status=8`;
+            }else{
+                var path = `/api/offices/${this.office_id}/refunds?fields=contracts`;
+            }
+            
             var refunds = [];
             var contracts = [];
             console.log('path :' + path);

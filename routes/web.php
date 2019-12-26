@@ -19,6 +19,10 @@ Route::any('/{any?}', function (){
     return view('admin');
 })->where('any', '[\/\w\.-]*')->name('app'); */
 
+//Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

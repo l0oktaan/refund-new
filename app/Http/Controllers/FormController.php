@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\iFormRequest;
 use App\Http\Resources\FormResource;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +21,7 @@ class FormController extends Controller
      */
     public function index()
     {
+        //return Auth::user()->name;
         //return FormResource::collection(Form::all());
 
         $form = new Form;

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Office;
 use App\Refund;
-
+use OfficeController;
 use Illuminate\Http\Request;
 use App\Http\Requests\RefundRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Refunds as RefundResource;
@@ -21,7 +20,6 @@ class RefundController extends Controller
      */
     public function index(Office $office)
     {
-        //return Auth::user()->office_id;
         //return $office->refunds();
 
         // $refund = new Refund;
@@ -37,7 +35,12 @@ class RefundController extends Controller
 
         //     }
         // ])->get();
-        if (Input::has('fields'))
+        if (Input::has('status')){
+            $refund = Refund::with('contracts')
+            ->orderBy('sent_date','DESC')
+            ->where('status','=',8)
+            ->get();
+        }elseif (Input::has('fields'))
         {
             $fields = Input::get('fields');
 
@@ -46,11 +49,10 @@ class RefundController extends Controller
             ->where('status','>',0)
             ->get();
         }else{
-            $refund = $office->refunds()
-                    ->get();
+            $refund = $office->refunds()->get();
         }
-
         return $refund;
+        // return RefundResource::collection($refund);
     }
 
     /**
@@ -75,8 +77,6 @@ class RefundController extends Controller
         //$refund->office_id = $office->id;
         $refund->approve_code = $request->approve_code;
         $refund->create_date = date('Y-m-d');
-        // $refund->send_date = date('Y-m-d');
-        // $refund->complete_date = date('Y-m-d');
         $refund->status = "1";
         $office->refunds()->save($refund);
         return response([

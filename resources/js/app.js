@@ -42,7 +42,9 @@ Vue.use(BootstrapVue)
 //import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import Cookies from 'js-cookie';
 Vue.use(Vuex)
 
 import axios from 'axios'
@@ -51,6 +53,7 @@ import VueAxios from 'vue-axios'
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 Vue.use(VueAxios, axios)
 window.axios.defaults.headers.common = {
+    
     'X-Requested-With': 'XMLHttpRequest'
 };
 Vue.use(VueAxios, axios)
@@ -238,6 +241,20 @@ const router = new VueRouter({
         }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.fullPath !== "/login") {
+        axios.get('/api/profile')
+        .then(response => {
+            console.log('next page' + response.data);
+            next();
+        }).catch(error => {
+            router.push('/login');
+        })
+    } else {
+        next();
+    }
+})
 import AdminNav from './components/Admin/AdminNav.vue';
 Vue.component('AdminNav', AdminNav).defaults;
 
@@ -338,8 +355,68 @@ Vue.component('RefundReport', RefundReport).defaults;
 import SentRefund from './components/Refund/SentRefund.vue';
 Vue.component('SentRefund', SentRefund).defaults;
 
+
+const loadState = () => {
+    try {
+        const serializedState = localStorage.getItem('vue_state');
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    } catch (err) {
+        return undefined;
+    }
+};
+const saveState = (state) => {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem('vue_state', serializedState);
+    } catch (err) {
+        console.error(`Something went wrong: ${err}`);
+    }
+}
+const store = new Vuex.Store({
+    state: {
+        user: '',
+        form_count: 0
+    },
+    // plugins: [createPersistedState({
+    //     storage: {
+    //         getItem: key => Cookies.get(key),
+    //         setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
+    //         removeItem: key => Cookies.remove(key)
+    //     }
+    // })],
+    
+    mutations: {
+        
+        SET_USER:(state,value) => {
+            state.user = value
+            saveState(state.user);
+        },
+        SET_FORMS: (state, forms) => {
+            state.forms = forms
+        },
+        FETCH_FORM: (state) => {
+            var path = `/api/forms`;
+            axios.get(`${path}`)
+                .then(response => {
+                    state.forms = response.data.data;
+                })
+        },
+        
+    },
+    actions: {
+        fetch_form: ({ commit }) => {
+            commit('FETCH_FORM');
+        }
+    }
+
+})
 const app = new Vue({
     el: '#app',
     components: { App },
-    router
+    router,
+    store,
+    
 });

@@ -18,12 +18,12 @@ use Illuminate\Http\Request;
 
 
 Route::middleware('auth:api')->group(function() {
-});
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    });
     
-    Route::post('/logout','AuthController@logout');
 
     Route::Resource('/offices', 'OfficeController');
     Route::group(['prefix'=>'offices'],function(){
@@ -49,6 +49,5 @@ Route::middleware('auth:api')->group(function() {
         Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
     });
 
-
-Route::post('/login','AuthController@login');
-Route::post('/register', 'AuthController@register');
+Auth::routes();
+Route::get('/profile','AuthController@index');

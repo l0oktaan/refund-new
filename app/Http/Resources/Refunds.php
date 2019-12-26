@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Resources;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\ContractResource;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class Refunds extends Resource
 {
@@ -21,6 +22,7 @@ class Refunds extends Resource
             'create_date' => $this->create_date,
             'sent_date' => $this->sent_date,
             'complete_date' => $this->complete_date,
+            'contracts' => ContractResource::collection($this->contracts),
             'status' => $this->status,
         ];
     }

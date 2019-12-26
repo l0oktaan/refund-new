@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
             <b-col cols="6">
-                <div v-if="status == 'new'">
+                <div v-if="status == 'new' || isAdmin">
                     <b-row>
                         <b-col>
                             <b-form-group
@@ -112,10 +112,14 @@ export default {
             description: '',
             upload_by: 'xxx',
             list_files: [],
-            status: 'new'
+            status: 'new',
+            isAdmin: false
         }
     },
     mounted(){
+       this.isAdmin = this.$store.state.user == 'admin' ? true : false;
+
+        
         this.fetchData();
     },
     methods: {

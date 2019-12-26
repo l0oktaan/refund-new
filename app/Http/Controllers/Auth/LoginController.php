@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -35,5 +38,32 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $success = $user->createToken(config('app.name'))->accessToken;
+            return response([
+                'data' => $user,
+                'success' => $success
+            ],Response::HTTP_CREATED);
+        }else{
+            return "NO";
+        }
+    }
+    
+    protected function guard()
+    {
+        return Auth::guard('guard-name');
+    }
+
+    public function username()
+    {
+        return 'username';
     }
 }

@@ -26,7 +26,7 @@
                     </b-col>
                     <b-col sm="2">
                         <div class="textFiled">สถานะรายการ :</div>
-                        <div>{{refund.status}}</div>
+                        <div>{{getStatus(refund.status)}}</div>
                     </b-col>
                 </b-row>
             </b-card-body>
@@ -51,6 +51,13 @@ export default {
         }
     },
     methods: {
+        getStatus(status){
+            if (status < 7){
+                return 'ยังไม่ส่งข้อมล'
+            }else{
+                return 'ส่งข้อมูลแล้ว'
+            }
+        },
         getClass(status){
             if (status < 7){
                 return 'status1'
@@ -90,7 +97,6 @@ export default {
                     'ยกเลิก',
                     'ยืนยัน'
                 ],
-
             }).then(isConfirm =>{
                 if (isConfirm){
                     let path = `/api/offices/${this.office_id}/refunds/${id}`;
@@ -106,14 +112,12 @@ export default {
                         console.log('error : ' + error);
                     })
                 }
-
             });
         }
     }
 }
 </script>
 <style scoped>
-
 .card{
     margin-bottom: 5px!important;
 }
