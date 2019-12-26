@@ -3,12 +3,18 @@
 
         <b-card no-body class="sub_rule" :class="getClass(refund.status)">
             <b-card-body class="pb-0 sub_rule">
-                <b-dropdown class="float-right" style="color: #000!important;" variant="transparent p-0" right>
-                <template slot="button-content">
-                    <i class="icon-settings sub_rule"></i>
-                </template>
+                <b-dropdown v-if="isAdmin" class="float-right" style="color: #000!important;" variant="transparent p-0" right>
+                    <template slot="button-content">
+                        <i class="icon-settings sub_rule"></i>
+                    </template>
+                    <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>                    
+                </b-dropdown>
+                <b-dropdown v-else class="float-right" style="color: #000!important;" variant="transparent p-0" right>
+                    <template slot="button-content">
+                        <i class="icon-settings sub_rule"></i>
+                    </template>
                     <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>
-                    <b-dropdown-item><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item>
+                    
                     <b-dropdown-item @click="delRefund(refund.id)"> <i class="fas fa-trash" ></i>&nbsp;ลบข้อมูลการถอนคืน</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
@@ -48,6 +54,14 @@ export default {
             this.iRefund = this.refund;
             //this.getContract();
             this.$forceUpdate();
+        }
+    },
+    computed: {
+        isAdmin(){
+            var path = [];
+            path = this.$route.path.split("/");
+            return path.indexOf('admin') > -1 ? true : false;
+
         }
     },
     methods: {

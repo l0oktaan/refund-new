@@ -89,8 +89,13 @@
                         ข้อมูลของท่านได้ถูกส่งให้กรมบัญชีกลางเรียบร้อยแล้ว
                     </p>
                 </b-alert>
-                <div class="text-center">
-                    <b-button variant="primary" size="md" @click="downloadForm">ดูแบบฟอร์มของท่าน</b-button>
+                <div class="text-center" >
+                    <b-button variant="primary" class="download"
+                        v-for="file in list_files" :key="file.id"
+                        size="md" @click="downloadForm(file.id)"
+                        >{{ file.upload_by == 'admin' ? 'ฟอร์มโดย Admin' : 'ดูแบบฟอร์มของท่าน'}}
+                    </b-button>
+                    
                 </div>
             </b-col>
 
@@ -110,14 +115,22 @@ export default {
             alert: '',
             uploadPercentage: 0,
             description: '',
-            upload_by: 'xxx',
+            upload_by: 'user',
             list_files: [],
             status: 'new',
-            isAdmin: false
+            
+        }
+    },
+    computed: {
+        isAdmin(){
+            var path = [];
+            path = this.$route.path.split("/");
+            return path.indexOf('admin') > -1 ? true : false;
+
         }
     },
     mounted(){
-       this.isAdmin = this.$store.state.user == 'admin' ? true : false;
+       
 
         
         this.fetchData();
@@ -150,7 +163,7 @@ export default {
                     var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files`;
                     formData.append('file',this.file);
                     formData.append('description',this.description);
-                    formData.append('upload_by',this.upload_by);
+                    formData.append('upload_by', this.isAdmin ? 'admin' : this.upload_by);
                     axios.post(`${path}`,formData,
                     {
                         headers: {
@@ -186,7 +199,7 @@ export default {
                 console.log('error' + error);
             })
         },
-        downloadForm(){
+        downloadForm(id){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files/${this.list_files[0].id}`;
             console.log('download file :' + path);
             axios.get(`${path}`)
@@ -208,5 +221,7 @@ export default {
 </script>
 
 <style scoped>
-
+.download{
+    margin-left: 10px!important;
+}
 </style>

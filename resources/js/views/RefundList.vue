@@ -18,6 +18,7 @@
              v-for="(refund,index) in refunds" :key="index"
             @fetchRefund="fetchData"
         ></refund-cover>
+        
     </div>
 </template>
 <script>
@@ -33,11 +34,22 @@ export default {
         this.fetchData();
 
     },
+    computed: {
+        path(){
+            return this.$route.path;
+        },
+        isAdmin(){
+            var path = [];
+            path = this.$route.path.split("/");
+            return path.indexOf('admin') > -1 ? true : false;
+
+        }
+    },
     methods: {
         fetchData(){
             var user = this.$store.state.user;
             console.log('user :' + user);
-            if (user == 'admin'){
+            if (this.isAdmin){
                 var path = `/api/offices/${this.office_id}/refunds?status=8`;
             }else{
                 var path = `/api/offices/${this.office_id}/refunds?fields=contracts`;

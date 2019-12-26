@@ -355,6 +355,9 @@ Vue.component('RefundReport', RefundReport).defaults;
 import SentRefund from './components/Refund/SentRefund.vue';
 Vue.component('SentRefund', SentRefund).defaults;
 
+import AdminApprove from './components/Refund/AdminApprove.vue';
+Vue.component('AdminApprove', AdminApprove).defaults;
+
 
 const loadState = () => {
     try {

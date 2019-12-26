@@ -66,6 +66,13 @@
                 </template>
                 <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></sent-refund>
             </b-tab>
+            <b-tab v-if="isAdmin">
+                <template slot="title">
+                    <h5>ผลการตรวจสอบ : <i :class="refund_s > 8 ? icon_check : icon_uncheck"></i></h5>
+                    <span>บันทึกผลการตรวจสอบ</span>
+                </template>
+                <admin-approve :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></admin-approve>
+            </b-tab>
           </b-tabs>
     </div>
 </template>
@@ -120,6 +127,12 @@ export default {
             }else{
                 return [];
             }
+        },
+        isAdmin(){
+            var path = [];
+            path = this.$route.path.split("/");
+            return path.indexOf('admin') > -1 ? true : false;
+
         }
     },
     mounted(){

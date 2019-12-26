@@ -49,7 +49,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <h4>{{user}}</h4>
+                    <h4>User</h4>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
