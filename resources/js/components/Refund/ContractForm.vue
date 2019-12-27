@@ -1,100 +1,122 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-        <b-form @submit="onContractSubmit">
-            <b-row>
-                <b-col sm="12">
-                    <b-form-group>
-                        <label for="contract_party">ชื่อคู่สัญญา :</label>
-                        <b-form-input type="text"
-                            placeholder="ชื่อคู่สัญญา"
+        <b-row class="justify-content-md-center">
+            <b-col cols="10">
 
-                            v-model="contract_party"
-                        >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="contract_no">สัญญาเลขที่ :</label>
-                        <b-form-input type="text"
-                            placeholder="สัญญาเลขที่"
-                            name="contract_no"
-                            v-model="contract_no"
-                        >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="contract_date">สัญญาลงวันที่ :</label>
-                        <my-date-picker ref="contract_date" :id="11" :showDate="date_sign" @update="value => contract_date = value"></my-date-picker>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="budget">วงเงินในสัญญา :</label>
-                        <cleave
-                            placeholder="วงเงินในสัญญา"
-                            name="budget_new"
-                            v-model="budget"
-                            class="form-control"
-                            :options="cleave_options.number">
-                        </cleave>
-                        <!-- <b-form-input type="text"
-                            placeholder="วงเงินในสัญญา"
-                            name="budget"
-                            v-model="budget"
-                        >
-                        </b-form-input> -->
-                    </b-form-group>
-                </b-col>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="penalty_per_day">ค่าปรับวันละ :</label>
-                        <cleave
-                            placeholder="ค่าปรับวันละ"
-                            name="penalty_per_day"
-                            v-model="penalty_per_day"
-                            class="form-control"
-                            :options="cleave_options.number">
-                        </cleave>
-                        <!-- <b-form-input type="text"
-                            placeholder="ค่าปรับวันละ"
-                            name="penalty_per_day"
-                            v-model="penalty_per_day"
-                        >
-                        </b-form-input> -->
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="contract_start">วันที่สัญญาเริ่มต้น :</label>
-                        <my-date-picker ref="start" :id="1" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
-                    </b-form-group>
-                </b-col>
-                <b-col sm="6">
-                    <b-form-group>
-                        <label for="contract_end">วันที่สัญญาสิ้นสุด :</label>
-                        <my-date-picker ref="end" :id="2" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
-                    <div class="text-center" style="margin-bottom:5px;">
-                        <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
-                    </div>
-                </b-col>
-            </b-row>
-        </b-form>
-        <contract-edit :refund_id="refund_id" v-if="contract_status == 'update'"></contract-edit>
+            <b-card>
+                <div slot="header" class="navbar">
+                    <ul class="nav navbar-nav d-md-down-none">
+                        <li class="nav-item px-3">
+                            <i class='fa fa-align-justify'></i>
+                                บันทึกข้อมูลสัญญา
+                        </li>
+                    </ul>
+
+                </div>
+
+
+            <b-form @submit="onContractSubmit">
+                <b-row>
+                    <b-col sm="12">
+                        <b-form-group>
+                            <label for="contract_party">ชื่อคู่สัญญา :</label>
+                            <b-form-input type="text"
+                                placeholder="ชื่อคู่สัญญา"
+                                v-model="contract_party"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="contract_no">สัญญาเลขที่ :</label>
+                            <b-form-input type="text"
+                                placeholder="สัญญาเลขที่"
+                                name="contract_no"
+                                v-model="contract_no"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="contract_date">สัญญาลงวันที่ :</label>
+                            <my-date-picker ref="contract_date" :id="11" :showDate="date_sign" @update="value => contract_date = value"></my-date-picker>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="budget">วงเงินในสัญญา :</label>
+                            <cleave
+                                placeholder="วงเงินในสัญญา"
+                                name="budget_new"
+                                v-model="budget"
+                                class="form-control"
+                                :options="cleave_options.number">
+                            </cleave>
+                            <!-- <b-form-input type="text"
+                                placeholder="วงเงินในสัญญา"
+                                name="budget"
+                                v-model="budget"
+                            >
+                            </b-form-input> -->
+                        </b-form-group>
+                    </b-col>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="penalty_per_day">ค่าปรับวันละ :</label>
+                            <cleave
+                                placeholder="ค่าปรับวันละ"
+                                name="penalty_per_day"
+                                v-model="penalty_per_day"
+                                class="form-control"
+                                :options="cleave_options.number">
+                            </cleave>
+                            <!-- <b-form-input type="text"
+                                placeholder="ค่าปรับวันละ"
+                                name="penalty_per_day"
+                                v-model="penalty_per_day"
+                            >
+                            </b-form-input> -->
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="contract_start">วันที่สัญญาเริ่มต้น :</label>
+                            <my-date-picker ref="start" :id="1" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
+                        </b-form-group>
+                    </b-col>
+                    <b-col sm="6">
+                        <b-form-group>
+                            <label for="contract_end">วันที่สัญญาสิ้นสุด :</label>
+                            <my-date-picker ref="end" :id="2" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <div class="text-center" style="margin-bottom:5px;">
+                            <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-form>
+            </b-card>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center">
+            <b-col cols="10">
+                <contract-edit :refund_id="refund_id" v-if="contract_status == 'update'"></contract-edit>
+            </b-col>
+        </b-row>
+
     </div>
 </template>
 <script>
@@ -189,7 +211,7 @@ export default {
                     this.contract_status = 'update';
                     this.alert = 'success';
                     this.contract = contract;
-                    
+
                     this.$forceUpdate();
                 })
                 .catch(error=>{

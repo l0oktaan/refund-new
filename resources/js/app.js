@@ -53,7 +53,7 @@ import VueAxios from 'vue-axios'
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 Vue.use(VueAxios, axios)
 window.axios.defaults.headers.common = {
-    
+
     'X-Requested-With': 'XMLHttpRequest'
 };
 Vue.use(VueAxios, axios)
@@ -230,7 +230,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds/:id',
-                    
+
                     component: RefundDetail,
                     //component: RefundFormCheck,
                     meta: {
@@ -359,40 +359,22 @@ import AdminApprove from './components/Refund/AdminApprove.vue';
 Vue.component('AdminApprove', AdminApprove).defaults;
 
 
-const loadState = () => {
-    try {
-        const serializedState = localStorage.getItem('vue_state');
-        if (serializedState === null) {
-            return undefined;
-        }
-        return JSON.parse(serializedState);
-    } catch (err) {
-        return undefined;
-    }
-};
-const saveState = (state) => {
-    try {
-        const serializedState = JSON.stringify(state);
-        localStorage.setItem('vue_state', serializedState);
-    } catch (err) {
-        console.error(`Something went wrong: ${err}`);
-    }
-}
+
 const store = new Vuex.Store({
     state: {
         user: '',
         form_count: 0
     },
-    // plugins: [createPersistedState({
-    //     storage: {
-    //         getItem: key => Cookies.get(key),
-    //         setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
-    //         removeItem: key => Cookies.remove(key)
-    //     }
-    // })],
-    
+    plugins: [createPersistedState({
+        storage: {
+            getItem: key => Cookies.get(key),
+            setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
+            removeItem: key => Cookies.remove(key)
+        }
+    })],
+
     mutations: {
-        
+
         SET_USER:(state,value) => {
             state.user = value
             saveState(state.user);
@@ -407,7 +389,7 @@ const store = new Vuex.Store({
                     state.forms = response.data.data;
                 })
         },
-        
+
     },
     actions: {
         fetch_form: ({ commit }) => {
@@ -421,5 +403,5 @@ const app = new Vue({
     components: { App },
     router,
     store,
-    
+
 });

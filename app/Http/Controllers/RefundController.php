@@ -38,7 +38,7 @@ class RefundController extends Controller
         if (Input::has('status')){
             $refund = Refund::with('contracts')
             ->orderBy('sent_date','DESC')
-            ->where('status','=',8)
+            ->where('status','>=',8)
             ->get();
         }elseif (Input::has('fields'))
         {
@@ -47,6 +47,7 @@ class RefundController extends Controller
             $refund = Refund::with(explode("|",$fields))
             ->where('office_id',$office_id)
             ->where('status','>',0)
+            ->orderBy('create_date','DESC')
             ->get();
         }else{
             $refund = $office->refunds()->get();

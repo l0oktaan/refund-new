@@ -49,7 +49,7 @@ class RefundDetailController extends Controller
             $detail = $arrDetail[$i];
             $consider = Consider::find($detail->consider_id);
 
-            switch ($consider->type)
+            switch (intval($consider->type))
             {
                 case 1 :
                     if (intval($detail->value) == 1){
@@ -66,7 +66,7 @@ class RefundDetailController extends Controller
                     }
                 break;
                 case 3 :  //ตรวจสอบข้อมูล
-                    switch ($consider->oper)
+                    switch (intval($consider->oper))
                     {
                         case 1:
                             if (intval($detail->value) <= intval($consider->var1)){
@@ -81,11 +81,11 @@ class RefundDetailController extends Controller
                                 $var1 = explode("-",$consider->var1);
 
                                 //$date_var1->setDate($var1[0],$var1[1],$var1[2]);
-                                $date_var1 = Carbon::create($var1[0],$var1[2],$var1[1]);
+                                $date_var1 = Carbon::create($var1[0],$var1[1],$var1[2]);
 
                                 //$date_detail = Carbon::now();
                                 $value = explode("-",$detail->value);
-                                $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+                                $date_detail = Carbon::create($value[0],$value[1],$value[2]);
                                 //$date_detail->setDate($value[0],$value[1],$value[2]);
                                 if ($date_detail->lessThanOrEqualTo($date_var1)){
                                     $this->UpdateDetail(intval($detail->id),1);
@@ -102,15 +102,18 @@ class RefundDetailController extends Controller
                         case 3:
                             try {
                                 $var1 = explode("-",$consider->var1);
-                                $date_var1 = Carbon::create($var1[0],$var1[2],$var1[1]);
+                                array_walk( $var1, 'intval' );
+                                $date_var1 = Carbon::create($var1[0],$var1[1],$var1[2]);
 
                                 $var2 = explode("-",$consider->var2);
-                                $date_var2 = Carbon::create($var2[0],$var2[2],$var2[1]);
+                                array_walk( $var2, 'intval' );
+                                $date_var2 = Carbon::create($var2[0],$var2[1],$var2[2]);
 
                                 $value = explode("-",$detail->value);
-                                $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+                                array_walk( $value, 'intval' );
+                                $date_detail = Carbon::create($value[0],$value[1],$value[2]);
 
-                                if ($date_detail->greaterThanOrEqualTo($date_var1) and $date_detail->lessThanOrEqualTo($date_var2)){
+                                if ($date_detail->gte($date_var1) and $date_detail->lte($date_var2)){
                                     $this->UpdateDetail(intval($detail->id),1);
                                 }else{
                                     $this->UpdateDetail(intval($detail->id),0);
@@ -118,6 +121,7 @@ class RefundDetailController extends Controller
                             } catch (\Throwable $th) {
                                 $this->UpdateDetail(intval($detail->id),0);
                             }
+                        break;
 
                         default :
                             $this->UpdateDetail(intval($detail->id),0);
@@ -126,7 +130,7 @@ class RefundDetailController extends Controller
                 case 4:  //ใส่วันที่
                     try {
                         $value = explode("-",$detail->value);
-                        $date_detail = Carbon::create($value[0],$value[2],$value[1]);
+                        $date_detail = Carbon::create($value[0],$value[1],$value[2]);
                         $this->UpdateDetail(intval($detail->id),1);
                     } catch (\Throwable $th) {
                         $this->UpdateDetail(intval($detail->id),0);
