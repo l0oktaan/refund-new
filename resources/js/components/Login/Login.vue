@@ -9,7 +9,7 @@
               <b-card-body class="text-center">
                 <div>
                     <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img>
-                    <h4>ระบบถอนคืนเงินรายได้แผ่นดิน</h4>              
+                    <h4>ระบบถอนคืนเงินรายได้แผ่นดิน</h4>
                 </div>
               </b-card-body>
             </b-card>
@@ -23,35 +23,35 @@
                             <b-input-group class="mb-3">
                                 <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
                                 <b-form-input v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username email" />
-                            </b-input-group> 
+                            </b-input-group>
                         </b-col>
-                    </b-row>    
+                    </b-row>
                     <b-row>
                         <b-col>
                             <p class="text-muted">ใส่รหัสผ่าน</p>
                             <b-input-group class="mb-3">
                                 <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
                                 <b-form-input v-model="password" type="password" class="form-control" placeholder="รหัสผ่าน" />
-                            </b-input-group> 
+                            </b-input-group>
                         </b-col>
-                    </b-row>             
+                    </b-row>
                     <b-row>
                         <b-col class="text-center align-bottom">
                             <b-button variant="primary" @click="login">เข้าสู่ระบบ</b-button>
-                        </b-col>                        
+                        </b-col>
                     </b-row>
-                    
+
                 </b-form>
-                </div>                
-                
+                </div>
+
               </b-card-body>
-            </b-card>            
+            </b-card>
           </b-card-group>
         </b-col>
       </b-row>
     </div>
   </div>
-  
+
 </template>
 <script>
 export default {
@@ -69,14 +69,14 @@ export default {
     methods: {
         checkUser(){
             this.state = 'password';
-            
+
             this.dismissCountDown = this.dismissSecs
             this.alertMessage = 'ไม่พบชื่อผู้ใช้ระบบ!!!'
             this.$emit("authenticated", true);
         },
         checkPassword(){
             this.state = 'username';
-            
+
             this.dismissCountDown = this.dismissSecs
             this.alertMessage = 'รหัสผ่านไม่ถูกต้อง!!!'
             this.$emit("authenticated", true);
@@ -96,10 +96,10 @@ export default {
                 var success = response.data.success;
                 console.log(success);
                 if (user.type == "admin"){
-                    this.$store.commit('SET_USER','admin')
+                    //this.$store.commit('SET_USER','admin')
                     this.$router.push('/admin')
                 }else{
-                     this.$store.commit('SET_USER',user.username) ;
+                     //this.$store.commit('SET_USER',user.username) ;
                     this.$router.push('/refund')
                 }
                 console.log('state :' + this.$store.state.user)
@@ -114,7 +114,7 @@ export default {
                 // console.log('Success');
             })
             .catch(error=>{
-                console.log('Login Fail');
+                console.log(error);
             })
         }
 

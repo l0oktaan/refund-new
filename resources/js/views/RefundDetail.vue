@@ -36,7 +36,7 @@
 
             </b-tab>
 
-            <b-tab v-if="refund_s >= 4">
+            <b-tab v-if="refund_s >= 3">
                 <template slot="title">
                     <h5>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[3].title}}</span>

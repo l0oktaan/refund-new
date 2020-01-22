@@ -42,12 +42,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        
+
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $success = $user->createToken(config('app.name'))->accessToken;
+            $success = ""; //$user->createToken(config('app.name'))->accessToken;
             return response([
                 'data' => $user,
                 'success' => $success
@@ -56,7 +56,7 @@ class LoginController extends Controller
             return "NO";
         }
     }
-    
+
     protected function guard()
     {
         return Auth::guard('guard-name');
