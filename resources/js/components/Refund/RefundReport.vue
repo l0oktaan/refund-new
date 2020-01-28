@@ -4,7 +4,10 @@
         <div class="page">
             <div class="subpage">
                 <b-row>
-                    <b-col cols="12">{{name1}}</b-col>
+                    <b-col cols="12">{{form.name1}}</b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="12">{{form.name2}}</b-col>
                 </b-row>
             </div>
         </div>
@@ -35,9 +38,8 @@ export default {
         this.getRefund();
     },
     computed: {
-        name1(){
-            return this.obj.form.name;
-
+        form(){
+            return this.refund.form;
         }
     },
     methods: {
