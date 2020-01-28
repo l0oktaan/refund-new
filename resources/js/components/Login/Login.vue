@@ -96,7 +96,7 @@ export default {
                 var success = response.data.success;
                 console.log(success);
                 if (user.type == "admin"){
-                    //this.$store.commit('SET_USER','admin')
+                    this.$store.commit('SET_USER','admin')
                     this.$router.push('/admin')
                 }else{
                      //this.$store.commit('SET_USER',user.username) ;

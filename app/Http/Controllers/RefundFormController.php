@@ -88,7 +88,9 @@ class RefundFormController extends Controller
         {
             return $refundForm->result;
         }else{
-            return new RefundFormResource($refundForm);
+            return response([
+                'data' => new RefundFormResource($refundForm)
+            ],Response::HTTP_CREATED);
         }
 
     }
@@ -119,7 +121,7 @@ class RefundFormController extends Controller
             if ($refund->status < 2){
                 $refund->update(['status' => 2]);
             }
-            
+
         }
         return response([
             'data' => $refundForm

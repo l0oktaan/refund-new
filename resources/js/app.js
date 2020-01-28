@@ -43,7 +43,8 @@ Vue.use(BootstrapVue)
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+//import createPersistedState from 'vuex-persistedstate';
+import VuexPersistence from 'vuex-persist'
 import Cookies from 'js-cookie';
 Vue.use(Vuex)
 
@@ -365,29 +366,27 @@ const store = new Vuex.Store({
         user: '',
         form_count: 0
     },
-    plugins: [createPersistedState({
-        storage: {
-            getItem: key => Cookies.get(key),
-            setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
-            removeItem: key => Cookies.remove(key)
-        }
-    })],
+    // plugins: [
+    //     createPersistedState({
+    //         storage: {
+    //             getItem: key => Cookies.get(key),
+    //             setItem: (key, value) =>
+    //                 Cookies.set(key, value, { expires: 3, secure: true }),
+    //             removeItem: key => Cookies.remove(key)
+    //         }
+    //     })
+    // ],
+    plugins: [new VuexPersistence().plugin],
 
     mutations: {
-
-        SET_USER:(state,value) => {
+        SET_USER:(state, value) => {
             state.user = value
-            saveState(state.user);
         },
         SET_FORMS: (state, forms) => {
             state.forms = forms
         },
         FETCH_FORM: (state) => {
-            var path = `/api/forms`;
-            axios.get(`${path}`)
-                .then(response => {
-                    state.forms = response.data.data;
-                })
+
         },
 
     },

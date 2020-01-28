@@ -31,25 +31,25 @@
                     <i class="icon-bell"></i>
                     <span class="badge badge-pill badge-danger">5</span>
                 </a>
-               
+
             </li>
             <li class="nav-item dropdown d-md-down-none">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="icon-list"></i>
                     <span class="badge badge-pill badge-warning">15</span>
                 </a>
-                
+
             </li>
             <li class="nav-item dropdown d-md-down-none">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="icon-envelope-letter"></i>
                 <span class="badge badge-pill badge-info">7</span>
                 </a>
-                
+
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <h4>Admin</h4>
+                    <h4>Admin {{getUser}}</h4>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
@@ -57,13 +57,13 @@
                     </div>
                     <a class="dropdown-item" href="#">
                         <i class="fas fa-edit"></i> แก้ไขข้อมูล
-                        
+
                     </a>
                     <a class="dropdown-item" href="#" @click="logout">
                         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                        
+
                     </a>
-                    
+
                 </div>
             </li>
         </ul>
