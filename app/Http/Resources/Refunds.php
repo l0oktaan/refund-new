@@ -23,6 +23,7 @@ class Refunds extends Resource
             'sent_date' => $this->sent_date,
             'complete_date' => $this->complete_date,
             'contracts' => ContractResource::collection($this->contracts),
+            'contract_edit' => ContractBudgetEditResource::collection($this->contract_budget_edits),
             'status' => $this->status,
         ];
     }

@@ -2,12 +2,58 @@
     <!-- <b-button variant="outline-primary" @click="loadReport"><i class="fas fa-file-download fa-2x"></i></b-button> -->
     <div class="book">
         <div class="page">
-            <div class="subpage">
+            <div class="subpage" v-if="isReady">
                 <b-row>
-                    <b-col cols="12">{{form.name1}}</b-col>
+                    <b-col cols="12"><p class="topic">{{refund.form.name1}}</p></b-col>
                 </b-row>
                 <b-row>
-                    <b-col cols="12">{{form.name2}}</b-col>
+                    <b-col cols="12"><p class="topic">{{refund.form.name2}}</p></b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 45%"><p class="topic">ข้อเท็จจริง</p></th>
+                                    <th style="width: 30%"><p class="topic">หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี</p></th>
+                                    <th style="width: 25%"><p class="topic">การพิจารณา</p></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="main_order" v-for="contract in refund.refund.contracts" :key="contract.id">
+                                            <p class="head">1. รายละเอียดสัญญา ราย <span class="show"> {{contract.contract_party}}</span></p>
+                                            <div class="sub_order">
+                                                <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{contract.contract_date}}</span></p>
+                                                <p class="head sub">สัญญาเริ่มต้น <span class="show">{{contract.contract_start}}</span>  สิ้นสุด <span class="show">{{contract.contract_end}}</span></p>
+                                                <p class="head" v-if="refund.refund.contract_edit">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>
+                                                <div v-for="(contract_edit,index) in refund.refund.contract_edit" :key="contract_edit.id">
+                                                    <p class="head sub">{{index+1 + '.'}} หนังสือลงวันที่ <span class="show">{{contract_edit.contract_edit_date}}</span></p>
+                                                    <p class="head sub">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new}}</span> บาท</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-if="time_edits">
+                                            <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
+                                            <div v-for="(time_edit,index) in time_edits" :key="index">
+                                                <p class="head sub">{{index + 1 + '.'}} วันที่อนุมัติ <span class="show">{{time_edit.approve_date}}</span> ประเภทการอนุมัติ <span class="show">{{time_edit.edit_type}}</span></p>
+                                                <p class="head sub">จำนวนวัน <span class="show">{{time_edit.edit_days}}</span> วัน จำนวนเงิน <span class="show">{{time_edit.edit_budget}}</span></p>
+                                                <p class="head sub">ตั้งแต่วันที่ <span class="show">2019-09-01</span> ถึงวันที่ <span class="show">2019-09-30</span></p>
+                                                <p class="head sub">อนุมัติให้ตาม <span class="show">{{time_edit.approve_type}}</span></p>
+                                                <p class="head sub">กรณี <span class="show">{{time_edit.approve_case}}</span></p>
+                                                <p class="head sub">อุปสรรคสิ้นสุดวันที่ <span class="show">{{time_edit.problem_end_date}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{time_edit.book_date}}</span></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </b-col>
                 </b-row>
             </div>
         </div>
@@ -16,14 +62,14 @@
         </div>
     </div>
 </template>
-
 <script>
 import jsPDF from 'jspdf'
 export default {
     props: ['refund_id','refund_form_id'],
     data(){
         return{
-            refund : {},
+            refund : null,
+            isReady : false,
             office_id: 2,
             obj: {
                 'id' : 1111,
@@ -31,16 +77,16 @@ export default {
                     'id' : 'f_111',
                     'name' : 'form 1'
                 }
-            }
+            },
+            time_edits : []
         }
     },
     mounted(){
         this.getRefund();
+        this.getContractTimeEdit();
     },
     computed: {
-        form(){
-            return this.refund.form;
-        }
+
     },
     methods: {
         loadReport(){
@@ -55,6 +101,19 @@ export default {
             axios.get(`${path}`)
             .then(response=>{
                 this.refund = _.cloneDeep(response.data.data);
+                this.isReady = true;
+                this.$forceUpdate();
+            })
+            .catch(error=>{
+
+            })
+        },
+        getContractTimeEdit(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
+            axios.get(`${path}`)
+            .then(response=>{
+                this.time_edits = response.data.data;
+                this.$forceUpdate();
             })
             .catch(error=>{
 
@@ -65,6 +124,27 @@ export default {
 </script>
 
 <style scoped>
+table{
+    font-size: 10pt!important;
+}
+.topic{
+    margin-bottom: 0px;
+    text-align: center;
+}
+p.head{
+    font-weight: normal;
+    width: 100%;
+    margin-bottom: 3px!important;
+}
+p.head.sub{
+    margin-left: 20px;
+}
+.sub_order{
+    margin-left: 5px;
+}
+th{
+    padding: 5px;
+}
 .page {
         width: 297mm;
         height: 210mm;
@@ -76,12 +156,18 @@ export default {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .subpage {
-    padding: 5mm;
+    padding: 3mm;
     border: 5px red solid;
     height: 195mm;
     outline: 5mm #FFEAEA solid;
 }
-
+.show{
+    border-bottom: 1px solid #000;
+    width: 100%;
+    font-weight: normal!important;
+    padding: 0 10px 0 10px!important;
+    text-align: left;
+}
 @page {
     size: A4;
     margin: 0;

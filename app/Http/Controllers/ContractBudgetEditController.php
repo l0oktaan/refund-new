@@ -77,7 +77,7 @@ class ContractBudgetEditController extends Controller
      */
     public function show(Office $office, Refund $refund, ContractBudgetEdit $contractBudgetEdit)
     {
-        try {
+
         $budgetEdit = new ContractBudgetEdit;
         $budgetEdit = $office->contract_budget_edits()
                     ->where([
@@ -94,9 +94,7 @@ class ContractBudgetEditController extends Controller
 
             //return ContractBudgetEditResource::collection($refund->contract_budget_edits()->where("id","=",$contractBudgetEdit->id)->get());
             return new ContractBudgetEditResource($budgetEdit);
-        } catch (ModelNotFoundException $ex) {
-            //throw $th;
-        }
+
     }
 
     /**
