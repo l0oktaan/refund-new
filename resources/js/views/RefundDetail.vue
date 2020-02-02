@@ -22,7 +22,7 @@
 
             <!--==================================== Tab Form End =====================================-->
             <!--==================================== Tab  =====================================-->
-            <!-- <b-tab v-if="refund_s >= 2" >
+            <b-tab v-if="refund_s >= 2" >
                 <template slot="title">
                     <h5>ขั้นตอนที่ 1 : <i :class="refund_s > 2 ? icon_check : icon_uncheck"></i></h5>
                     <span>{{tabs[1].title}}</span>
@@ -74,7 +74,7 @@
                     <span>บันทึกผลการตรวจสอบ</span>
                 </template>
                 <admin-approve :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></admin-approve>
-            </b-tab> -->
+            </b-tab>
             <!--==================================== Tab End =====================================-->
             <b-tab>
                 <template slot="title">

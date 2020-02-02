@@ -25,24 +25,45 @@
                                         <div class="main_order" v-for="contract in refund.refund.contracts" :key="contract.id">
                                             <p class="head">1. รายละเอียดสัญญา ราย <span class="show"> {{contract.contract_party}}</span></p>
                                             <div class="sub_order">
-                                                <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{contract.contract_date}}</span></p>
-                                                <p class="head sub">สัญญาเริ่มต้น <span class="show">{{contract.contract_start}}</span>  สิ้นสุด <span class="show">{{contract.contract_end}}</span></p>
+                                                <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
+                                                <p class="head sub">สัญญาเริ่มต้น <span class="show">{{contract.contract_start}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
                                                 <p class="head" v-if="refund.refund.contract_edit">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>
                                                 <div v-for="(contract_edit,index) in refund.refund.contract_edit" :key="contract_edit.id">
-                                                    <p class="head sub">{{index+1 + '.'}} หนังสือลงวันที่ <span class="show">{{contract_edit.contract_edit_date}}</span></p>
-                                                    <p class="head sub">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new}}</span> บาท</p>
+                                                    <p class="head sub">{{index+1 + '.'}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                    <p class="head sub">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div v-if="time_edits">
+                                        <div class="main_order" v-if="time_edits">
                                             <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
                                             <div v-for="(time_edit,index) in time_edits" :key="index">
-                                                <p class="head sub">{{index + 1 + '.'}} วันที่อนุมัติ <span class="show">{{time_edit.approve_date}}</span> ประเภทการอนุมัติ <span class="show">{{time_edit.edit_type}}</span></p>
-                                                <p class="head sub">จำนวนวัน <span class="show">{{time_edit.edit_days}}</span> วัน จำนวนเงิน <span class="show">{{time_edit.edit_budget}}</span></p>
-                                                <p class="head sub">ตั้งแต่วันที่ <span class="show">2019-09-01</span> ถึงวันที่ <span class="show">2019-09-30</span></p>
-                                                <p class="head sub">อนุมัติให้ตาม <span class="show">{{time_edit.approve_type}}</span></p>
+                                                <p class="head sub">{{index + 1 + '.'}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> ประเภทการอนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span></p>
+                                                <p class="head sub">จำนวนวัน <span class="show">{{time_edit.edit_days}}</span> วัน จำนวนเงิน <span class="show">{{time_edit.edit_budget | numeral('0,0.00')}} บาท</span></p>
+                                                <p class="head sub">ตั้งแต่วันที่ <span class="show">{{getThaiDate('2019-09-01')}}</span> ถึงวันที่ <span class="show">{{getThaiDate('2019-09-30')}}</span></p>
+                                                <p class="head sub">อนุมัติให้ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span></p>
                                                 <p class="head sub">กรณี <span class="show">{{time_edit.approve_case}}</span></p>
-                                                <p class="head sub">อุปสรรคสิ้นสุดวันที่ <span class="show">{{time_edit.problem_end_date}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{time_edit.book_date}}</span></p>
+                                                <p class="head sub">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="main_order">
+                                            <p class="head">3. รายละเอียดการส่งมอบงาน (เฉพาะที่มีค่าปรับ)</p>
+                                            <div v-for="(deliver,index) in delivers" :key="index">
+                                                <p class="head sub">{{index + 1 + '.'}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
+                                                <p class="head sub">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty | numeral('0,0.00')}} บาท</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="main_order">
+                                            <p class="head">4. รายละเอียดการการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
+                                            <div v-for="(deposit,index) in deposits" :key="index">
+                                                <p class="head sub">{{index + 1 + '.'}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
+                                                <p class="head sub">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}} บาท</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="main_order">
+                                            <p class="head">5. การขอถอนคืนเงินค่าปรับแก้ผู้มีสิทธิ</p>
+                                            <div v-for="(approve,index) in approves" :key="index">
+                                                <p class="head sub">หน่วยงานอนุมัติให้ลงด ลดค่าปรับ คือเงินค่าปรับ จำนวน <span class="show">{{approve.refund_days}} วัน</span> เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span></p>
+                                                <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} บาท</span></p>
                                             </div>
                                         </div>
                                     </td>
@@ -78,12 +99,31 @@ export default {
                     'name' : 'form 1'
                 }
             },
-            time_edits : []
+            arrEditType : [
+                {text: 'ประเภทการอนุมัติ', value : null},
+                {text: 'ขยาย', value : 1},
+                {text: 'งดหรือลด', value : 2},
+                {text: 'อื่นๆ', value : 3}
+            ],
+            arrApproveType : [
+                {text: 'อนุมัติให้ตาม', value: null},
+                {text: 'มติ ครม. ว 63', value: 1},
+                {text: 'มติ ครม. ว 66', value: 2},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 3},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 4},
+            ],
+            time_edits : [],
+            delivers: [],
+            deposits: [],
+            approves: []
         }
     },
     mounted(){
         this.getRefund();
         this.getContractTimeEdit();
+        this.getDeliver();
+        this.getDeposit();
+        this.getApproveRefund();
     },
     computed: {
 
@@ -118,14 +158,60 @@ export default {
             .catch(error=>{
 
             })
+        },
+        getDeliver(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/delivers`;
+            axios.get(`${path}`)
+            .then(response=>{
+                this.delivers = response.data.data;
+                this.$forceUpdate();
+            })
+            .catch(error=>{
+
+            })
+        },
+        getDeposit(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/deposit_penalties`;
+            axios.get(`${path}`)
+            .then(response=>{
+                this.deposits = response.data.data;
+                this.$forceUpdate();
+            })
+            .catch(error=>{
+
+            })
+        },
+        getApproveRefund(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/approve_refunds`;
+            axios.get(`${path}`)
+            .then(response=>{
+                this.approves = response.data.data;
+                this.$forceUpdate();
+            })
+            .catch(error=>{
+
+            })
+        },
+        getThaiDate(item){
+            var d = new Date(item);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            //return moment(String(value)).format('LL')
+        },
+        getEditType(value){
+            var index = this.arrEditType.findIndex(x => x.value == value);
+            return this.arrEditType[index].text;
+        },
+        getApproveType(value){
+            var index = this.arrApproveType.findIndex(x => x.value == value);
+            return this.arrApproveType[index].text;
         }
     }
 }
 </script>
 
 <style scoped>
-table{
-    font-size: 10pt!important;
+.main_order{
+    padding-top: 5px;
 }
 .topic{
     margin-bottom: 0px;
@@ -135,9 +221,12 @@ p.head{
     font-weight: normal;
     width: 100%;
     margin-bottom: 3px!important;
+    font-size: 8pt!important;
+
 }
 p.head.sub{
     margin-left: 20px;
+    padding-bottom: 0px;
 }
 .sub_order{
     margin-left: 5px;
@@ -154,6 +243,7 @@ th{
         border-radius: 5px;
         background: white;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
 }
 .subpage {
     padding: 3mm;
@@ -167,6 +257,9 @@ th{
     font-weight: normal!important;
     padding: 0 10px 0 10px!important;
     text-align: left;
+    font-size: 8pt!important;
+    vertical-align: bottom;
+
 }
 @page {
     size: A4;
