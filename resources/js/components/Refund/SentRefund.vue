@@ -8,22 +8,34 @@
                         <b-col>
                             <b-form-group
                                 label-cols-sm="4"
-                                label="โหลดแบบฟอร์มเพื่อลงนาม :"
+                                label="พิมพ์แบบถอนคืนเพื่อลงนาม :"
                                 label-align-sm="right"
                                 label-for="load_form"
                             >
-                                <!-- <b-button ref="load_form" variant="primary" size="md" @click="downloadForm">แบบฟอร์ม</b-button> -->
-                                <refund-report></refund-report>
-
-
+                                <b-button ref="load_form" variant="primary" size="md" @click="showReport"><i class="fas fa-file-download fa-2x"></i></b-button>
                             </b-form-group>
+                            <b-modal id="modalReport"
+                                ref="modalReport"
+                                size="xl"
+                                hideFooter
+                                no-close-on-backdrop
+                                no-close-on-esc
+                                >
+
+                                    <refund-report
+                                        :refund_id="50"
+                                        :refund_form_id="65"
+
+                                    ></refund-report>
+
+                            </b-modal>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-form-group
                                 label-cols-sm="4"
-                                label="แบบฟอร์มที่มีการลงนาม :"
+                                label="แนบแบบถอนคืนที่ลงนามแล้ว :"
                                 label-align-sm="right"
                                 label-for="send_file"
                             >
@@ -32,12 +44,10 @@
                                     :file-name-formatter="formatNames"
                                     v-model="file"
                                     :state="Boolean(file)"
-                                    placeholder="เลือกแบบฟอร์มที่ต้องการส่ง"
-                                    drop-placeholder="Drop file here..."
+                                    placeholder="เลือกไฟล์"
+                                    drop-placeholder="ลากไฟล์มาวางที่นี่"
                                     browse-text="เลือกไฟล์"
                                 ></b-form-file>
-
-
                             </b-form-group>
                         </b-col>
                     </b-row>
@@ -95,13 +105,9 @@
                         size="md" @click="downloadForm(file.id)"
                         >{{ file.upload_by == 'admin' ? 'ฟอร์มโดย Admin' : 'ดูแบบฟอร์มของท่าน'}}
                     </b-button>
-                    
                 </div>
             </b-col>
-
         </b-row>
-
-
     </div>
 </template>
 
@@ -118,7 +124,7 @@ export default {
             upload_by: 'user',
             list_files: [],
             status: 'new',
-            
+
         }
     },
     computed: {
@@ -130,12 +136,12 @@ export default {
         }
     },
     mounted(){
-       
-
-        
         this.fetchData();
     },
     methods: {
+        showReport(){
+            this.$refs['modalReport'].show()
+        },
         formatNames(files) {
             if (files.length === 1) {
                 return files[0].name
@@ -215,7 +221,9 @@ export default {
             .catch(error=>{
 
             })
-        }
+        },
+
+
     }
 }
 </script>
@@ -224,4 +232,5 @@ export default {
 .download{
     margin-left: 10px!important;
 }
+
 </style>

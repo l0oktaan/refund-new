@@ -3,7 +3,7 @@
     <my-alert :AlertType="alert"></my-alert>
         <b-row class="justify-content-md-center">
             <b-col cols="10">
-                <b-card>
+                <b-card class="bg-info">
                      <div slot="header" class="navbar">
                          <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">
