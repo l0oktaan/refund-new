@@ -4,7 +4,15 @@
         <b-row class="justify-content-md-center">
             <b-col cols="10">
                 <b-card class="bg-dark">
+                     <div slot="header" class="navbar">
+                         <ul class="nav navbar-nav d-md-down-none">
+                            <li class="nav-item px-3">
+                                <i class='fa fa-align-justify'></i>
+                                    ตรวจสอบหลักเกณฑ์เงื่อนไข
+                            </li>
+                        </ul>
 
+                    </div>
                     <b-card  class="bg-info rule" v-for="(rule,x_index) in rules" :key="x_index">
                     <div slot="header">
                         <div class="card-header-actions">
@@ -37,14 +45,8 @@
                         </consider-check>
 
                         <b-card v-for="(sub_rule) in rule.sub_rules" :key="sub_rule.id"
-
-                            >
-                            <b-card-header>
-                                <b-form-checkbox>
-                                    <span class="sub_rule">{{'หลักเกณฑ์ย่อย ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name}}</span>
-                                </b-form-checkbox>
-
-                            </b-card-header>
+                            :header="'หลักเกณฑ์ย่อย ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name"
+                            bg-variant="dark">
                             <consider-check
                                 v-for="(consider,index) in sub_rule.considers" :key="index"
                                 :consider = "consider"
@@ -336,10 +338,9 @@ export default {
 .sub_rule{
     margin: 5px;
    border: 0px!important;
-   color: #fff;
 }
 .sub_rule.card-header{
-    color: #fff;
+    background-color: rgb(90, 135, 141)!important;
 }
 .rule{
     margin: 10px!important;

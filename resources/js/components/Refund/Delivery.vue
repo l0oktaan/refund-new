@@ -1,12 +1,12 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-            <b-card>
+            <b-card class="bg-dark">
             <div slot="header" class="navbar">
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
                         <i class='fa fa-align-justify'></i>
-                            ข้อมูลการส่งมอบงาน <span class="description">(เฉพาะงวด / ครั้ง ที่มีค่าปรับ)</span>
+                            ข้อมูลการส่งมอบงาน <span class="detail"> (ตั้งแต่งวดแรกที่มีค่าปรับ)</span>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
@@ -18,14 +18,12 @@
                 </ul>
             </div>
             <b-form @submit="onSubmit">
-                <b-card no-body class="bg-default">
-                    <b-card-body class="pb-0 list ">
                         <b-row>
                             <b-col >
                                 <b-form-group>
                                     <label for="time_edit_date">ส่งมอบงาน :</label>
                                     <b-form-input type="text"
-                                        placeholder="ส่งมอบงาน"
+                                        placeholder="งวดที่ / ครั้งที่"
                                         name="delivery"
                                         v-model="delivery.delivery"
                                     >
@@ -38,7 +36,7 @@
                             <b-form-group>
                                 <label for="detail">รายละเอียดส่งมอบงาน :</label>
                                 <b-form-input type="text"
-                                    placeholder="รายละเอียดส่งมอบงาน"
+                                    placeholder="เช่น ส่งมอบงานเกินกำหนด 45 วัน แต่ปรับไว้ 43 วัน เป็นต้น"
                                     name="detail"
                                     v-model="delivery.detail"
                                 >
@@ -49,7 +47,7 @@
                         <b-row>
                             <b-col>
                                 <b-form-group>
-                                    <label for="delivery_date">วันที่ส่งมอบงาน :</label>
+                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
                                     <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery.delivery_date = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
@@ -79,73 +77,45 @@
                                 </div>
                             </b-col>
                         </b-row>
-                    </b-card-body>
-                </b-card>
             </b-form>
+        </b-card>
             <!-- ======================= Delivery List ========================================-->
 
-            <b-card no-body class="header_list">
-                <b-card-body class="pb-0 list ">
-                    <div class="float-right" variant="transparent p-0" right>
 
-                    </div>
-                    <b-row>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">งวดที่/ครั้งที่</p>
-                        </b-col>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">วันที่ส่งมอบ</p>
-                        </b-col>
 
-                        <b-col cols="3">
-                            <p class="text-center fieldName">รายละเอียดส่งมอบ</p>
-                        </b-col>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">เกินกำหนด (วัน)</p>
-                        </b-col>
-                        <b-col  cols="2">
-                            <p class="text-center fieldName">ถูกปรับเป็นเงิน (บาท)</p>
-                        </b-col>
-                        <b-col>
-                            <p class="text-right fieldName">จัดการ </p>
-                        </b-col>
-                    </b-row>
-                </b-card-body>
-            </b-card>
-            <b-card no-body :class="(item.id === delivery.id) && (delivery) ? 'item_select' : 'edit_list'" v-for="(item,index) in delivery_list" :key="index" class="animated fadeIn">
-                <b-card-body class="pb-0 list ">
-                    <b-row>
-                        <b-col cols="2" align="center">
-                            {{item.delivery}}
-                        </b-col>
-                        <b-col cols="2" align="left">
-                            {{getThaiDate(item.delivery_date)}}
-                        </b-col>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="width: 15%">งวดที่ / ครั้งที่</th>
+                    <th scope="col" style="width: 15%">วันที่ส่งมอบ</th>
+                    <th scope="col" style="width: 30%">รายละเอียดส่งมอบ</th>
+                    <th scope="col" style="width: 15%">เกินกำหนด (วัน)</th>
+                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน (บาท)</th>
+                    <th scope="col" style="width: 10%">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in delivery_list" :key="index">
+                    <td>{{item.delivery}}</td>
+                    <td>{{getThaiDate(item.delivery_date)}}</td>
+                    <td>{{item.detail}}</td>
+                    <td>{{item.overdue_days}}</td>
+                    <td>{{item.penalty | numeral('0,0.00') }}</td>
+                    <td>
+                        <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                        <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
+                            แก้ไขข้อมูล
+                        </b-tooltip>
 
-                        <b-col cols="3" align="left">
-                            {{item.detail}}
-                        </b-col>
-                        <b-col cols="2" align="center">
-                            {{item.overdue_days}}
-                        </b-col>
-                        <b-col cols="2"  align="right">
-                            {{item.penalty | numeral('0,0.00') }}
-                        </b-col>
-                        <b-col align="right">
+                        <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item.id)"><i class="fas fa-trash"></i></b-button>
+                        <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                            ลบข้อมูล
+                        </b-tooltip>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-                                <b-dropdown variant="transparent p-0">
-                                    <template slot="button-content">
-                                        <i class="icon-settings" style="color: #000;"></i>
-                                    </template>
-                                    <b-dropdown-item @click="toEdit(item)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                                    <b-dropdown-item @click="toDel(item.id)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
-                                </b-dropdown>
-
-                        </b-col>
-                    </b-row>
-                </b-card-body>
-            </b-card>
-        </b-card>
     </div>
 </template>
 <script>
@@ -206,7 +176,7 @@ export default {
         },
         clearData(){
             this.delivery = {};
-            this.state = '';
+            this.state = 'new';
             this.date_delivery = '';
         },
         toDel(id){
@@ -238,7 +208,7 @@ export default {
         onSubmit(e){
             e.preventDefault();
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers`;
-
+            console.log('delivery status :' + this.state);
             if (this.state == 'new'){
                 axios
                 .post(`${path}`,{
@@ -254,6 +224,7 @@ export default {
                     this.toEdit(response.data.data);
 
                     this.fetchData();
+                    this.clearData();
                 })
                 .catch(error=>{
                     this.alert = 'error';
@@ -275,6 +246,7 @@ export default {
                     this.toEdit(response.data.data);
 
                     this.fetchData();
+                    this.clearData();
                 })
                 .catch(error=>{
                     this.alert = 'error';
@@ -345,5 +317,8 @@ export default {
     background-color: #f0f3f5;
     border: 1px solid #c8ced3;
 
+}
+.detail{
+    font-size: 0.9rem!important;
 }
 </style>

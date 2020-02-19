@@ -5,7 +5,9 @@
             <b-card no-body class="bg-secondary">
                 <b-card-body class="pb-0 list ">
                    <b-row>
-                       <b-col><h5>บันทึกการแก้ไขสัญญา</h5></b-col>
+                        <b-col>
+                            <h5><i class='fas fa-edit'></i> รายละเอียดการแก้ไขสัญญา <span class="detail"> (เฉพาะที่เปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ)</span></h5>
+                        </b-col>
                    </b-row>
                     <b-row>
                         <b-col sm="4">
@@ -62,8 +64,35 @@
             </b-card>
         </b-form>
         <!-- ======================= Contract Edit List ========================================-->
+        <table class="table table-hover" v-if="contract_edit_list">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="width: 20%">หนังสือลงวันที่</th>
+                    <th scope="col" style="width: 30%">วงเงินใหม่</th>
+                    <th scope="col" style="width: 30%">ค่าปรับใหม่</th>
+                    <th scope="col" style="width: 20%">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in contract_edit_list" :key="index">
+                    <td>{{getThaiDate(item.contract_edit_date)}}</td>
+                    <td>{{item.budget_new | numeral('0,0.00') }}</td>
+                    <td>{{item.penalty_new | numeral('0,0.00') }}</td>
+                    <td>
+                        <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                        <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
+                            แก้ไขข้อมูล
+                        </b-tooltip>
 
-        <b-card no-body :class="(item.id === contract_edit.id) && (contract_edit) ? 'item_select' : 'edit_list'" v-for="(item,index) in contract_edit_list" :key="index">
+                        <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item)"><i class="fas fa-trash"></i></b-button>
+                        <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                            ลบข้อมูล
+                        </b-tooltip>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <b-card no-body :class="(item.id === contract_edit.id) && (contract_edit) ? 'item_select' : 'edit_list'" v-for="(item,index) in contract_edit_list" :key="index">
             <b-card-body class="pb-0 list ">
                 <b-dropdown class="float-right" variant="transparent p-0" right>
                     <template slot="button-content">
@@ -84,7 +113,7 @@
                     </b-col>
                 </b-row>
             </b-card-body>
-        </b-card>
+        </b-card> -->
     </div>
 </template>
 <script>
@@ -274,5 +303,8 @@ export default{
     color: rgb(154, 156, 158);
     font-weight: bold;
     padding-left: 5px;
+}
+.detail{
+    font-size: 0.9rem!important;
 }
 </style>

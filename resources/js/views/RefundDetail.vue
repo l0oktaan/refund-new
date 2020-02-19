@@ -8,7 +8,7 @@
             <b-tab v-for="(tab,index) in tab_forms" :key="index" :disable="'disabled'">
                 <template slot="title">
                 <h6>แบบฟอร์ม :<i :class="refund_s > 1 ? icon_check : icon_uncheck"></i></h6>
-                <span>{{tab.title}}</span>
+                <span>หลักเกณฑ์และเงื่อนไข</span>
               </template>
                   <refund-check :form_id="refund_forms[index].form_id"
                     :refund_id="refund_id"

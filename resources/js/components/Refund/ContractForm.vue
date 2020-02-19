@@ -4,7 +4,7 @@
         <b-row class="justify-content-md-center">
             <b-col cols="10">
 
-            <b-card>
+            <b-card class="bg-dark">
                 <div slot="header" class="navbar">
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
@@ -103,7 +103,7 @@
                 <b-row>
                     <b-col>
                         <div class="text-center" style="margin-bottom:5px;">
-                            <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
+                            <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                         </div>
                     </b-col>
                 </b-row>

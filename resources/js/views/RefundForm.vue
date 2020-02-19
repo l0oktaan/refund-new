@@ -18,8 +18,8 @@
                             />
                         </div>
 
-                        <div class="textFiled">ฟอร์มลำดับที่ : {{form.order}}</div>
-                        <div class="textFiled">ชื่อแบบฟอร์ม : {{form.name1}}</div>
+                        <div class="textFiled"><h6>{{form.name3}}</h6></div>
+                        <div class="textFiled">{{form.name1}}</div>
                         <div></div>
                     </b-card-body>
                 </b-card>

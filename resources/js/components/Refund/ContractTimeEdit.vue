@@ -1,12 +1,12 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-            <b-card>
+            <b-card class="bg-dark">
                 <div slot="header" class="navbar">
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
                             <i class='fa fa-align-justify'></i>
-                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา
+                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวมการขออนุมัติในครั้งนี้)</span>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
@@ -18,8 +18,7 @@
                     </ul>
                 </div>
                 <b-form @submit="onSubmitTimeEdit">
-                    <b-card no-body class="bg-default">
-                        <b-card-body class="pb-0 list ">
+
                             <b-row>
                                 <b-col sm="3">
                                     <b-form-group>
@@ -110,7 +109,7 @@
                                 </b-col>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="book_date">หนังสือแจ้งเหตุวันที่ :</label>
+                                        <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => time_edit.book_date = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
@@ -123,73 +122,43 @@
                                     </div>
                                 </b-col>
                             </b-row>
-                        </b-card-body>
-                    </b-card>
+
                 </b-form>
             </b-card>
             <!-- ======================= Contract Edit List ========================================-->
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" style="width: 15%">วันที่อนุมัติ</th>
+                        <th scope="col" style="width: 20%">ประเภทการอนุมัติ</th>
+                        <th scope="col" style="width: 10%">จำนวนวัน</th>
+                        <th scope="col" style="width: 20%">อนุมัติให้ตาม</th>
+                        <th scope="col" style="width: 15%">วันที่แจ้ง</th>
+                        <th scope="col" style="width: 10%">การดำเนินการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in time_edit_list" :key="index">
+                        <td>{{getThaiDate(item.approve_date)}}</td>
+                        <td>{{arrEditType[item.edit_type].text}}</td>
+                        <td>{{item.edit_days}}</td>
+                        <td>{{item.approve_type}}</td>
+                        <td>{{getThaiDate(item.book_date)}}</td>
+                        <td>
+                            <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                            <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
+                                แก้ไขข้อมูล
+                            </b-tooltip>
 
-            <b-card no-body class="header_list">
-                <b-card-body class="pb-0 list ">
-                    <b-row>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">วันที่อนุมัติ</p>
-                        </b-col>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">ประเภท </p>
-                        </b-col>
-                        <b-col cols="2">
-                            <p class="text-center fieldName">จำนวนวัน</p>
-                        </b-col>
-                        <b-col cols="3">
-                            <p class="text-center fieldName">จำนวนเงิน </p>
-                        </b-col>
-                        <b-col>
-                            <p class="text-right fieldName">จัดการ </p>
-                        </b-col>
+                            <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item.id)"><i class="fas fa-trash"></i></b-button>
+                            <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                                ลบข้อมูล
+                            </b-tooltip>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                    </b-row>
-                </b-card-body>
-            </b-card>
-            <b-card no-body :class="(t_edit.id === time_edit.id) && (time_edit) ? 'item_select' : 'edit_list'" v-for="(t_edit,index) in time_edit_list" :key="index">
-                <b-card-body class="pb-0 list ">
-                    <b-dropdown class="float-right" variant="transparent p-0" right>
-                        <template slot="button-content">
-                            <i class="icon-settings" style="color: #000;"></i>
-                        </template>
-                        <b-dropdown-item @click="toEdit(t_edit)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                        <b-dropdown-item @click="toDel(t_edit.id)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
-                    </b-dropdown>
-                    <b-row>
-                        <b-col cols="2">
-                            <p class="text-left item_list">{{getThaiDate(t_edit.approve_date)}}</p>
-                        </b-col>
-                        <b-col cols="2">
-                            <p class="text-center item_list">{{arrEditType[t_edit.edit_type].text}}</p>
-                        </b-col>
-                        <b-col cols="2">
-                            <span class="float-right"> {{t_edit.edit_days}} <span class="unit"> วัน</span>  </span>
-                        </b-col>
-                        <b-col cols="3">
-                            <span class="float-right"> {{t_edit.edit_budget | numeral('0,0.00') }} <span class="unit"> บาท</span>  </span>
-                        </b-col>
-                        <b-col></b-col>
-                        <!-- <b-col sm="6" md="3" lg="2">
-                            วันที่ : {{getThaiDate(item.approve_date)}}
-                        </b-col>
-                        <b-col sm="6" md="3" lg="2">
-                            ประเภท :
-                        </b-col>
-                        <b-col sm="6" md="3" lg="2">
-                            จำนวนวัน :
-                        </b-col>
-                        <b-col sm="12" md="12" lg="4">
-                            กรณี :
-                        </b-col> -->
-
-                    </b-row>
-                </b-card-body>
-            </b-card>
     </div>
 </template>
 <script>
@@ -453,5 +422,8 @@ export default {
     background-color: #f0f3f5;
     border: 1px solid #c8ced3;
 
+}
+.detail{
+    font-size: 0.9rem!important;
 }
 </style>

@@ -7,16 +7,28 @@
                     <span class="helpIcon">
                         <i class="fas fa-question-circle fa-2x"
                             :id="`exPopover1-${consider.id}`"
-                            v-if="description(consider.description)">
+                            v-if="description(consider.description)"
+                            @click="showDesc = true"
+                            style="cursor: pointer">
                         </i>
                     </span>
                     <b-popover :target="`exPopover1-${consider.id}`"
                                 placement="topright"
-                                title="คำอธิบายเพิ่มเติม"
                                 triggers="hover focus"
-                                :content="`${consider.description}`"
-                                v-if="description(consider.description)">
+                                content="ดูคำอธิบาย"
+                                v-if="description(consider.description)"
+                                >
                     </b-popover>
+                    <b-alert v-if="description(consider.description)"
+                        variant="info"
+                        dismissible
+                        fade
+                        :show="showDesc"
+                        @dismissed="showDesc = false"
+                        >
+                        <h6>คำอธิบาย</h6>
+                        <span>{{consider.description}}</span>
+                    </b-alert>
                 </div>
 
 
@@ -39,7 +51,8 @@ export default {
             refund_form_id: this.$route.params.id,
             date_show: '',
             date_show_sub: '',
-            myCheck: {}
+            myCheck: {},
+            showDesc: true
         }
     },
     watch: {
@@ -119,5 +132,11 @@ export default {
 <style scoped>
 .list-group-item{
     padding: 5px!important;
+}
+.helpIcon{
+    color: rgb(46, 158, 158);
+}
+.alert{
+    margin-bottom: 2px;
 }
 </style>
