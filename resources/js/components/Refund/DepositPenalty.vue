@@ -1,7 +1,7 @@
 <template>
     <div class="animated fadeIn">
             <my-alert :AlertType="alert"></my-alert>
-            <b-card>
+            <b-card class="bg-dark">
             <div slot="header" class="navbar">
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
@@ -18,12 +18,11 @@
                 </ul>
             </div>
             <b-form @submit="onSubmit">
-                <b-card no-body class="bg-default">
-                    <b-card-body class="pb-0 list ">
+                
                         <b-row align-h="center">
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="deposit_no">เลขที่เอกสาร :</label>
+                                    <label for="deposit_no">เลขที่เอกสาร : (เบิกหักผลักส่ง/นำส่ง)</label>
                                     <b-form-input type="text"
                                         placeholder="เลขที่"
                                         name="deposit_no"
@@ -35,7 +34,7 @@
 
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="deposit_date">วันที่ :</label>
+                                    <label for="deposit_date">วันที่ผ่านรายการ :</label>
                                     <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => deposit.deposit_date = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
@@ -54,61 +53,41 @@
                                 </div>
                             </b-col>
                         </b-row>
-                    </b-card-body>
-                </b-card>
+                    
             </b-form>
+        </b-card>
             <!-- ======================= Deposit Penalty List ========================================-->
 
-            <b-card no-body class="header_list">
-                <b-card-body class="pb-0 list">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="width: 15%">เลขที่เอกสาร</th>
+                    <th scope="col" style="width: 20%">วันที่</th>
+                    <th scope="col" style="width: 10%">จำนวน (บาท)</th>                        
+                    <th scope="col" style="width: 10%">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in deposit_list" :key="index">
+                    <td>{{item.deposit_no}}</td>
+                    <td>{{getThaiDate(item.deposit_date)}}</td>
+                    <td>{{item.amount | numeral('0,0.00') }}</td>                        
+                    <td>
+                        <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                        <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
+                            แก้ไขข้อมูล
+                        </b-tooltip>
 
-                    <b-row align-h="center">
-                        <b-col cols="3">
-                            <p class="text-center fieldName">เลขที่เอกสาร</p>
-                        </b-col>
-                        <b-col cols="3">
-                            <p class="text-center fieldName">วันที่</p>
-                        </b-col>
-
-
-                        <b-col  cols="3">
-                            <p class="text-center fieldName">จำนวน (บาท)</p>
-                        </b-col>
-                        <b-col cols="1">
-                            <p class="text-right fieldName">จัดการ </p>
-                        </b-col>
-                    </b-row>
-
-                </b-card-body>
-            </b-card>
-            <b-card no-body :class="(item.id === deposit.id) && (deposit) ? 'item_select' : 'edit_list'" v-for="(item,index) in deposit_list" :key="index" class="animated fadeIn">
-                <b-card-body class="pb-0 list ">
-                    <b-row align-h="center">
-                        <b-col cols="3" align="center">
-                            {{item.deposit_no}}
-                        </b-col>
-                        <b-col cols="3" align="left">
-                            {{getThaiDate(item.deposit_date)}}
-                        </b-col>
-
-                        <b-col cols="3"  align="right">
-                            {{item.amount | numeral('0,0.00') }}
-                        </b-col>
-                        <b-col align="right"  cols="1">
-
-                                <b-dropdown variant="transparent p-0">
-                                    <template slot="button-content">
-                                        <i class="icon-settings" style="color: #000;"></i>
-                                    </template>
-                                    <b-dropdown-item @click="toEdit(item)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                                    <b-dropdown-item @click="toDel(item.id)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
-                                </b-dropdown>
-
-                        </b-col>
-                    </b-row>
-                </b-card-body>
-            </b-card>
-        </b-card>
+                        <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item.id)"><i class="fas fa-trash"></i></b-button>
+                        <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                            ลบข้อมูล
+                        </b-tooltip>
+                    </td>
+                </tr>
+            </tbody>
+        </table>  
+    
+    
     </div>
 </template>
 <script>
@@ -172,6 +151,7 @@ export default {
                     this.toEdit(response.data.data);
 
                     this.fetchData();
+                    this.clearData();
                 })
                 .catch(error=>{
                     this.alert = 'error';
@@ -190,6 +170,7 @@ export default {
                     this.toEdit(response.data.data);
 
                     this.fetchData();
+                    this.clearData();
                 })
                 .catch(error=>{
                     this.alert = 'error';

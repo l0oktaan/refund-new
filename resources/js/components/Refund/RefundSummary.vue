@@ -1,19 +1,21 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-        <b-card>
+        <b-card class="bg-dark">
             <div slot="header" class="navbar">
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
                         <i class='fa fa-align-justify'></i>
-                            สรุปข้อมูล
+                            การขออนุมัติถอนคืน
                     </li>
                 </ul>
 
             </div>
             <b-form @submit="onSubmit">
 
-
+                        <b-row>
+                            <b-col cols="12" style="text-align:center; margin-bottom:10px;"><h5>การขอถอนคืนเงินค่าปรับให้แก่ผู้มีสิทธิ</h5></b-col>
+                        </b-row>
                         <b-row>
                             <b-col sm="12">
                                 <b-form-group
@@ -29,7 +31,7 @@
                             <b-col sm="12">
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ หรือขยายเวลา หรือคืนเงินค่าปรับ :"
+                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ หรือคืนเงินค่าปรับ :"
                                     label-align-sm="right"
                                     label-for="approve_refund_days"
                                 >
@@ -59,7 +61,7 @@
                             <b-col sm="12">
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="หน่วยงานอนุมัติถอนคืน จำนวน :"
+                                    label="หน่วยงานขออนุมัติถอนคืน จำนวน :"
                                     label-align-sm="right"
                                     label-for="approve_amount"
                                 >

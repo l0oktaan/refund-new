@@ -3,92 +3,94 @@
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
             <b-col cols="6">
-                <div v-if="status == 'new' || isAdmin">
-                    <b-row>
-                        <b-col>
-                            <b-form-group
-                                label-cols-sm="4"
-                                label="พิมพ์แบบถอนคืนเพื่อลงนาม :"
-                                label-align-sm="right"
-                                label-for="load_form"
-                            >
-                                <b-button ref="load_form" variant="primary" size="md" @click="showReport"><i class="fas fa-file-download fa-2x"></i></b-button>
-                            </b-form-group>
-                            <b-modal id="modalReport"
-                                ref="modalReport"
-                                size="xl"
-                                hideFooter
-                                no-close-on-backdrop
-                                no-close-on-esc
+                <b-card class="bg-dark" v-if="status == 'new' || isAdmin">
+                    
+                        <b-row>
+                            <b-col>
+                                <b-form-group
+                                    label-cols-sm="4"
+                                    label="พิมพ์แบบถอนคืนเพื่อลงนาม :"
+                                    label-align-sm="right"
+                                    label-for="load_form"
                                 >
+                                    <b-button ref="load_form" variant="primary" size="md" @click="showReport"><i class="fas fa-file-download fa-2x"></i></b-button>
+                                </b-form-group>
+                                <b-modal id="modalReport"
+                                    ref="modalReport"
+                                    size="xl"
+                                    hideFooter
+                                    no-close-on-backdrop
+                                    no-close-on-esc
+                                    >
 
-                                    <refund-report
-                                        :refund_id="50"
-                                        :refund_form_id="65"
+                                        <refund-report
+                                            :refund_id="50"
+                                            :refund_form_id="65"
 
-                                    ></refund-report>
+                                        ></refund-report>
 
-                            </b-modal>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group
-                                label-cols-sm="4"
-                                label="แนบแบบถอนคืนที่ลงนามแล้ว :"
-                                label-align-sm="right"
-                                label-for="send_file"
-                            >
-                                <b-form-file
-                                    ref="send_file"
-                                    :file-name-formatter="formatNames"
-                                    v-model="file"
-                                    :state="Boolean(file)"
-                                    placeholder="เลือกไฟล์"
-                                    drop-placeholder="ลากไฟล์มาวางที่นี่"
-                                    browse-text="เลือกไฟล์"
-                                ></b-form-file>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group
-                                label-cols-sm="4"
-                                label="คำอธิบายเพิ่มเติม :"
-                                label-align-sm="right"
-                                label-for="description"
-                            >
-                                <b-form-textarea
-                                    ref="description"
-                                    id="desription"
-                                    v-model = "description"
-                                    placeholder="ใส่คำอธิบาย"
-                                    rows="3"
-                                    no-resize
-                                ></b-form-textarea>
+                                </b-modal>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group
+                                    label-cols-sm="4"
+                                    label="แนบแบบถอนคืนที่ลงนามแล้ว :"
+                                    label-align-sm="right"
+                                    label-for="send_file"
+                                >
+                                    <b-form-file
+                                        ref="send_file"
+                                        :file-name-formatter="formatNames"
+                                        v-model="file"
+                                        :state="Boolean(file)"
+                                        placeholder="เลือกไฟล์"
+                                        drop-placeholder="ลากไฟล์มาวางที่นี่"
+                                        browse-text="เลือกไฟล์"
+                                    ></b-form-file>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group
+                                    label-cols-sm="4"
+                                    label="คำอธิบายเพิ่มเติม :"
+                                    label-align-sm="right"
+                                    label-for="description"
+                                >
+                                    <b-form-textarea
+                                        ref="description"
+                                        id="desription"
+                                        v-model = "description"
+                                        placeholder="ใส่คำอธิบาย"
+                                        rows="3"
+                                        no-resize
+                                    ></b-form-textarea>
 
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group
-                                label-cols-sm="4"
-                                label=""
-                                label-align-sm="right"
-                                label-for="description"
-                            >
-                                <br>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group
+                                    label-cols-sm="4"
+                                    label=""
+                                    label-align-sm="right"
+                                    label-for="description"
+                                >
+                                    <br>
 
-                                <b-progress :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress>
-                                <br>
-                                <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>
-                                <b-button :variant=" file ? 'primary' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                </div>
+                                    <b-progress :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress>
+                                    <br>
+                                    <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>
+                                    <b-button :variant=" file ? 'primary' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                    
+                </b-card>
             </b-col>
         </b-row>
         <b-row align-h="center" v-if="status=='success'">
