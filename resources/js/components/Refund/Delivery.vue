@@ -191,18 +191,20 @@ export default {
                 ],
             })
             .then(isConfirm =>{
-                var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers/${id}`;
-                axios
-                .delete(`${path}`)
-                .then(response=>{
+                if (isConfirm){
+                    var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers/${id}`;
+                    axios
+                    .delete(`${path}`)
+                    .then(response=>{
 
-                    this.clearData();
-                    this.fetchData();
-                    this.alert = "success";
-                })
-                .catch(error=>{
-                    this.alert = "error";
-                })
+                        this.clearData();
+                        this.fetchData();
+                        this.alert = "success";
+                    })
+                    .catch(error=>{
+                        this.alert = "error";
+                    })
+                }
             })
         },
         onSubmit(e){

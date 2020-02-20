@@ -18,7 +18,7 @@
                 </ul>
             </div>
             <b-form @submit="onSubmit">
-                
+
                         <b-row align-h="center">
                             <b-col sm="3">
                                 <b-form-group>
@@ -53,7 +53,7 @@
                                 </div>
                             </b-col>
                         </b-row>
-                    
+
             </b-form>
         </b-card>
             <!-- ======================= Deposit Penalty List ========================================-->
@@ -63,7 +63,7 @@
                 <tr>
                     <th scope="col" style="width: 15%">เลขที่เอกสาร</th>
                     <th scope="col" style="width: 20%">วันที่</th>
-                    <th scope="col" style="width: 10%">จำนวน (บาท)</th>                        
+                    <th scope="col" style="width: 10%">จำนวน (บาท)</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
             </thead>
@@ -71,7 +71,7 @@
                 <tr v-for="(item,index) in deposit_list" :key="index">
                     <td>{{item.deposit_no}}</td>
                     <td>{{getThaiDate(item.deposit_date)}}</td>
-                    <td>{{item.amount | numeral('0,0.00') }}</td>                        
+                    <td>{{item.amount | numeral('0,0.00') }}</td>
                     <td>
                         <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                         <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
@@ -85,9 +85,9 @@
                     </td>
                 </tr>
             </tbody>
-        </table>  
-    
-    
+        </table>
+
+
     </div>
 </template>
 <script>
@@ -207,18 +207,20 @@ export default {
                 ],
             })
             .then(isConfirm =>{
-                var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/deposit_penalties/${id}`;
-                axios
-                .delete(`${path}`)
-                .then(response=>{
-                    this.alert = "success";
-                    this.clearData();
-                    this.fetchData();
+                if (isConfirm){
+                    var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/deposit_penalties/${id}`;
+                    axios
+                    .delete(`${path}`)
+                    .then(response=>{
+                        this.alert = "success";
+                        this.clearData();
+                        this.fetchData();
+                    })
+                    .catch(error=>{
+                        this.alert = "error";
+                    })
+                }
 
-                })
-                .catch(error=>{
-                    this.alert = "error";
-                })
             })
         },
     }

@@ -224,17 +224,20 @@ export default{
                     ],
                 })
                 .then(isConfirm =>{
-                    console.log('delete : ' + path);
-                    axios.delete(`${path}`)
-                    .then(response=>{
-                        console.log(response.data);
-                        this.clearData();
-                        this.fetchContractEdit();
-                        this.alert = "success";
-                    })
-                    .catch(error=>{
-                        this.alert = "error";
-                    })
+                    if (isConfirm){
+                        console.log('delete : ' + path);
+                        axios.delete(`${path}`)
+                        .then(response=>{
+                            console.log(response.data);
+                            this.clearData();
+                            this.fetchContractEdit();
+                            this.alert = "success";
+                        })
+                        .catch(error=>{
+                            this.alert = "error";
+                        })
+                    }
+
                 })
         },
         toEdit(contract_edit){

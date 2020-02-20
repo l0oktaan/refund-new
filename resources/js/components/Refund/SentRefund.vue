@@ -2,13 +2,13 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
-            <b-col cols="6">
+            <b-col cols="8">
                 <b-card class="bg-dark" v-if="status == 'new' || isAdmin">
-                    
+
                         <b-row>
                             <b-col>
                                 <b-form-group
-                                    label-cols-sm="4"
+                                    label-cols-sm="5"
                                     label="พิมพ์แบบถอนคืนเพื่อลงนาม :"
                                     label-align-sm="right"
                                     label-for="load_form"
@@ -35,7 +35,7 @@
                         <b-row>
                             <b-col>
                                 <b-form-group
-                                    label-cols-sm="4"
+                                    label-cols-sm="5"
                                     label="แนบแบบถอนคืนที่ลงนามแล้ว :"
                                     label-align-sm="right"
                                     label-for="send_file"
@@ -55,7 +55,7 @@
                         <b-row>
                             <b-col>
                                 <b-form-group
-                                    label-cols-sm="4"
+                                    label-cols-sm="5"
                                     label="คำอธิบายเพิ่มเติม :"
                                     label-align-sm="right"
                                     label-for="description"
@@ -75,7 +75,7 @@
                         <b-row>
                             <b-col>
                                 <b-form-group
-                                    label-cols-sm="4"
+                                    label-cols-sm="5"
                                     label=""
                                     label-align-sm="right"
                                     label-for="description"
@@ -89,7 +89,7 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                    
+
                 </b-card>
             </b-col>
         </b-row>

@@ -38,7 +38,7 @@
                                     </b-form-group>
                                 </b-col>
                                 <b-col sm="3">
-                                    <b-form-group v-if="time_edit && time_edit.edit_type == 3">
+                                    <b-form-group v-if="time_edit && time_edit.edit_type == 4">
                                         <label for="edit_detail">ระบุ :</label>
                                         <b-form-input type="text"
                                             placeholder="ระบุประเภทการอนุมัติ"
@@ -169,9 +169,10 @@ export default {
             r_id: this.$route.params.id,
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
-                {text: 'ขยาย', value : 1},
-                {text: 'งดหรือลด', value : 2},
-                {text: 'อื่นๆ', value : 3}
+                {text: 'ขยายเวลา', value : 1},
+                {text: 'งดหรือลดค่าปรับ', value : 2},
+                {text: 'คืนเงินค่าปรับ', value : 3},
+                {text: 'อื่น ๆ', value : 4}
             ],
             arrApproveType : [
                 {text: 'อนุมัติให้ตาม', value: null},
@@ -242,23 +243,25 @@ export default {
                     // approve_case: this.time_edit.approve_case,
                     // problem_end_date: this.time_edit.problem_end_date,
                     // book_date: this.time_edit.book_date
-                    	approve_date : this.time_edit.approve_date,
-                        edit_type : this.time_edit.edit_type,
-                        edit_detail : this.time_edit.edit_detail,
-                        edit_days : this.time_edit.edit_days,
+                    	approve_date: this.time_edit.approve_date,
+                        edit_type: this.time_edit.edit_type,
+                        edit_detail: this.time_edit.edit_detail,
+                        edit_days: this.time_edit.edit_days,
                         edit_budget: this.time_edit.edit_budget,
                         contract_end_date: this.time_edit.contract_end_date,
                         approve_type: this.time_edit.approve_type,
                         approve_case: this.time_edit.approve_case,
                         problem_end_date: this.time_edit.problem_end_date,
-                        book_date : this.time_edit.book_date
+                        book_date: this.time_edit.book_date
                 })
                 .then(response=>{
-                    console.log('response :' + response);
+
                     this.alert = 'success';
-                    this.time_edit = response.data.data;
-                    this.state = 'update';
-                    this.showCalendar(this.time_edit);
+
+                    this.fetchEditTimeList();
+
+                    this.clearData();
+                    this.$forceUpdate();
                 })
                 .catch(error=>{
                     console.log('error : ' + error);
@@ -267,7 +270,6 @@ export default {
             }else if (this.state == 'update'){
 
                 path = `${path}/${this.time_edit.id}`
-
                 axios.put(`${path}`,{
                     approve_date: this.time_edit.approve_date,
                     edit_type: this.time_edit.edit_type,
@@ -282,15 +284,19 @@ export default {
                 })
                 .then(response=>{
                     this.alert = 'success';
-                    this.time_edit = response.data.data;
-                    this.state = 'update';
-                    this.showCalendar(this.time_edit);
+                    this.clearData();
+                    this.fetchEditTimeList();
+                    this.$forceUpdate();
+
                 })
                 .catch(error=>{
+                    console.log('error : ' + error);
                     this.alert = 'error';
                 })
             }
-            this.fetchEditTimeList();
+
+
+
 
 
         },
@@ -330,17 +336,17 @@ export default {
                 ],
             })
             .then(isConfirm =>{
-
-                axios.delete(`${path}`)
-                .then(response=>{
-
-                    this.clearData();
-                    this.fetchEditTimeList();
-                    this.alert = "success";
-                })
-                .catch(error=>{
-                    this.alert = "error";
-                })
+                if (isConfirm){
+                    axios.delete(`${path}`)
+                    .then(response=>{
+                        this.clearData();
+                        this.fetchEditTimeList();
+                        this.alert = "success";
+                    })
+                    .catch(error=>{
+                        this.alert = "error";
+                    })
+                }
             })
         },
         getThaiDate(item){
@@ -349,6 +355,7 @@ export default {
             //return moment(String(value)).format('LL')
         },
         clearData(){
+            console.log('Clear Time Edit');
             this.time_edit = {
                 edit_type: null,
                 approve_type: null,
@@ -356,7 +363,12 @@ export default {
             };
 
             this.state = 'new';
-            this.showCalendar();
+            this.date_approve = '';
+            this.date_contract_end = '';
+            this.date_problem_end = '';
+            this.date_book = '';
+            this.$forceUpdate();
+            //this.showCalendar();
         }
     }
 }
