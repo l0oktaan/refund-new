@@ -84,6 +84,16 @@
                 <refund-report :refund_id="50" :refund_form_id="65"></refund-report>
             </b-tab> -->
           </b-tabs>
+          <div class="text-center" style="margin-top: 10px;">
+
+
+                    <b-button variant="success" @click="tabIndex--" :disabled="(tabIndex == 0) ? true : false"><i class="fas fa-step-backward"></i></b-button>
+                    <span>เปลี่ยนหน้า</span>
+                    <b-button variant="success" @click="tabIndex++" :disabled="(tabIndex == tabs.length-1) ? true : false"><i class="fas fa-step-forward"></i></b-button>
+
+
+
+        </div>
     </div>
 </template>
 <script>

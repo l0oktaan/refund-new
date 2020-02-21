@@ -54,6 +54,7 @@
                     </b-row>
                     <b-row>
                         <b-col>
+
                             <div class="text-center" style="margin-bottom:5px;">
                                 <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
                                 <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>

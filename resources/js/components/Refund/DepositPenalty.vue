@@ -35,7 +35,7 @@
                             <b-col sm="3">
                                 <b-form-group>
                                     <label for="deposit_date">วันที่ผ่านรายการ :</label>
-                                    <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => deposit.deposit_date = value"></my-date-picker>
+                                    <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => deposit_date = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
                             <b-col sm="3">
@@ -49,7 +49,7 @@
                             <b-col>
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
+                                    <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                                 </div>
                             </b-col>
                         </b-row>
@@ -101,6 +101,7 @@ export default {
             deposit: {},
             deposit_list: [],
             date_deposit: '',
+            deposit_date: '',
             alert: '',
             state: 'new',
             cleave_options:{
@@ -114,6 +115,11 @@ export default {
                     numeralDecimalScale: 2,
                 },
             },
+        }
+    },
+    watch : {
+        deposit_date(){
+            this.date_deposit = this.deposit_date;
         }
     },
     mounted(){
@@ -134,15 +140,16 @@ export default {
             this.$emit('refund_update');
         },
         onSubmit(e){
-            e.preventDefault();
+
             ///api/offices/2/refunds/14/deposit_penalties
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/deposit_penalties`;
 
             if (this.state == 'new'){
-                console.log('Path : ' + path + ' date : ' + this.deposit.deposit_date);
-                axios.post(`${path}`,{
+                console.log('Path : ' + path + ' date : ' + this.deposit_date);
+                axios
+                .post(`${path}`,{
                     deposit_no: this.deposit.deposit_no,
-                    deposit_date: this.deposit.deposit_date,
+                    deposit_date: this.deposit_date,
                     amount: this.deposit.amount
                 })
                 .then(response=>{
@@ -160,8 +167,9 @@ export default {
                 path = `${path}/${this.deposit.id}`;
                 axios
                 .put(`${path}`,{
+
                     deposit_no : this.deposit.deposit_no,
-                    deposit_date : this.deposit.deposit_date,
+                    deposit_date : this.deposit_date,
                     amount : this.deposit.amount
                 })
                 .then(response=>{
@@ -177,6 +185,7 @@ export default {
                 })
 
             }
+            e.preventDefault();
         },
          getThaiDate(item){
             var d = new Date(item);
@@ -194,6 +203,9 @@ export default {
             this.deposit = {};
             this.state = 'new';
             this.date_deposit = '';
+            this.deposit_date = '';
+            this.$forceUpdate();
+            //this.$refs.deposit_date.reset();
         },
         toDel(id){
             this.$swal({

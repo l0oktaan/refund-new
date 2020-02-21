@@ -48,7 +48,8 @@
                             <b-col>
                                 <b-form-group>
                                     <label for="delivery_date">วันที่ส่งมอบงาน : <span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
-                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery.delivery_date = value"></my-date-picker>
+                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery_date = value"></my-date-picker>
+
                                 </b-form-group>
                             </b-col>
                             <b-col>
@@ -71,6 +72,7 @@
                         </b-row>
                         <b-row>
                             <b-col>
+
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
@@ -138,6 +140,7 @@ export default {
             r_id: this.$route.params.id,
             delivery: {},
             delivery_list: [],
+            delivery_date: '',
             date_delivery: '',
             state: 'new',
             alert: ''
@@ -178,6 +181,8 @@ export default {
             this.delivery = {};
             this.state = 'new';
             this.date_delivery = '';
+            this.delivery_date = '';
+            this.$forceUpdate();
         },
         toDel(id){
             this.$swal({
@@ -214,21 +219,27 @@ export default {
             if (this.state == 'new'){
                 axios
                 .post(`${path}`,{
+                    // delivery: this.delivery.delivery,
+                    // detail: this.delivery.detail,
+                    // delivery_date: this.delivery.delivery_date,
+                    // overdue_days: this.delivery.overdue_days,
+                    // penalty: this.delivery.penalty
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    delivery_date: this.delivery.delivery_date,
+                    delivery_date: this.delivery_date,
                     overdue_days: this.delivery.overdue_days,
                     penalty: this.delivery.penalty
                 })
                 .then(response=>{
 
                     this.alert = 'success';
-                    this.toEdit(response.data.data);
+                    //this.toEdit(response.data.data);
 
                     this.fetchData();
                     this.clearData();
                 })
                 .catch(error=>{
+                    console.log('delever error :' + error)
                     this.alert = 'error';
                 })
             }else if (this.state == 'update'){
@@ -238,14 +249,14 @@ export default {
                 .put(`${path}`,{
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    delivery_date: this.delivery.delivery_date,
+                    delivery_date: this.delivery_date,
                     overdue_days: this.delivery.overdue_days,
                     penalty: this.delivery.penalty
                 })
                 .then(response=>{
 
                     this.alert = 'success';
-                    this.toEdit(response.data.data);
+                    //this.toEdit(response.data.data);
 
                     this.fetchData();
                     this.clearData();

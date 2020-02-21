@@ -37,8 +37,8 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3">
-                                    <b-form-group v-if="time_edit && time_edit.edit_type == 4">
+                                <b-col sm="3" v-if="time_edit && time_edit.edit_type == 4">
+                                    <b-form-group >
                                         <label for="edit_detail">ระบุ :</label>
                                         <b-form-input type="text"
                                             placeholder="ระบุประเภทการอนุมัติ"
@@ -48,8 +48,30 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
+                                 <b-col sm="3" v-if="time_edit.edit_type == 2 || time_edit.edit_type ==3">
+                                    <b-form-group>
+                                        <label for="edit_budget">จำนวนเงิน :</label>
+                                        <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
+
+                                    </b-form-group>
+                                </b-col>
                             </b-row>
                             <b-row>
+
+
+
+                                <b-col sm="3">
+                                    <b-form-group>
+                                        <label for="edit_start_date">ตั้งแต่วันที่ :</label>
+                                        <my-date-picker ref="edit_start_date" :id="12" :showDate="date_edit_start" @update="value => date_edit_start = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="3">
+                                    <b-form-group>
+                                        <label for="edit_end_date">ถึงวันที่ :</label>
+                                        <my-date-picker ref="edit_end_date" :id="12" :showDate="date_edit_end" @update="value => date_edit_end = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
                                 <b-col sm="3">
                                     <b-form-group>
                                         <label for="edit_days">จำนวนวัน :</label>
@@ -58,21 +80,9 @@
                                             placeholder="จำนวนวัน"
                                             name="edit_days"
                                             v-model = "time_edit.edit_days"
+                                            disabled
                                         >
                                         </b-form-input>
-                                    </b-form-group>
-                                </b-col>
-                                <b-col sm="3">
-                                    <b-form-group>
-                                        <label for="edit_budget">จำนวนเงิน :</label>
-                                        <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
-
-                                    </b-form-group>
-                                </b-col>
-                                <b-col sm="3">
-                                    <b-form-group>
-                                        <label for="time_edit_date">สิ้นสุดสัญญาวันที่ :</label>
-                                        <my-date-picker ref="contract_end_date" :id="12" :showDate="date_contract_end" @update="value => time_edit.contract_end_date = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
@@ -88,7 +98,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="9">
+                                <b-col sm="9" v-if="time_edit.approve_type > 3">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -101,13 +111,13 @@
                                 </b-col>
                             </b-row>
                             <b-row>
-                                <b-col sm="3">
+                                <b-col sm="3" v-if="time_edit.approve_type > 3">
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => time_edit.problem_end_date = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3">
+                                <b-col sm="3" v-if="time_edit.approve_type > 3">
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => time_edit.book_date = value"></my-date-picker>
@@ -116,6 +126,7 @@
                             </b-row>
                             <b-row>
                                 <b-col>
+
                                     <div class="text-center" style="margin-bottom:5px;">
                                         <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                         <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
@@ -158,7 +169,6 @@
                     </tr>
                 </tbody>
             </table>
-
     </div>
 </template>
 <script>
@@ -180,6 +190,9 @@ export default {
                 {text: 'มติ ครม. ว 66', value: 2},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 3},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 4},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 5},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 6},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 7},
             ],
             cleave_options:{
                 number: {
@@ -202,6 +215,8 @@ export default {
             date_contract_end: '',
             date_problem_end: '',
             date_book: '',
+            date_edit_start: '',
+            date_edit_end: '',
             state: 'new',
             alert: ''
 
@@ -233,26 +248,19 @@ export default {
             if (this.state == 'new'){
                 console.log('Path : ' + path + ' data :'+this.time_edit);
                 axios.post(`${path}`,{
-                    // approve_date: this.time_edit.approve_date,
-                    // edit_type: this.time_edit.edit_type,
-                    // edit_detail: this.time_edit.edit_detail,
-                    // edit_days: this.time_edit.edit_days,
-                    // edit_budget: this.time_edit.edit_budget,
-                    // contract_end_date: this.time_edit.contract_end_date,
-                    // approve_type: this.time_edit.approve_type,
-                    // approve_case: this.time_edit.approve_case,
-                    // problem_end_date: this.time_edit.problem_end_date,
-                    // book_date: this.time_edit.book_date
-                    	approve_date: this.time_edit.approve_date,
-                        edit_type: this.time_edit.edit_type,
-                        edit_detail: this.time_edit.edit_detail,
-                        edit_days: this.time_edit.edit_days,
-                        edit_budget: this.time_edit.edit_budget,
-                        contract_end_date: this.time_edit.contract_end_date,
-                        approve_type: this.time_edit.approve_type,
-                        approve_case: this.time_edit.approve_case,
-                        problem_end_date: this.time_edit.problem_end_date,
-                        book_date: this.time_edit.book_date
+                    approve_date: this.time_edit.approve_date,
+                    edit_type: this.time_edit.edit_type,
+                    edit_detail: this.time_edit.edit_detail,
+                    edit_days: this.time_edit.edit_days,
+                    edit_budget: this.time_edit.edit_budget,
+                    edit_start_date: this.date_edit_start,
+                    edit_end_date: this.date_edit_end,
+                    approve_type: this.time_edit.approve_type,
+                    approve_case: this.time_edit.approve_case,
+                    problem_end_date: this.time_edit.problem_end_date,
+                    book_date: this.time_edit.book_date
+
+
                 })
                 .then(response=>{
 
@@ -276,7 +284,8 @@ export default {
                     edit_detail: this.time_edit.edit_detail,
                     edit_days: this.time_edit.edit_days,
                     edit_budget: this.time_edit.edit_budget,
-                    contract_end_date: this.time_edit.contract_end_date,
+                    edit_start_date: this.date_edit_start,
+                    edit_end_date: this.date_edit_end,
                     approve_type: this.time_edit.approve_type,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.time_edit.problem_end_date,
@@ -296,20 +305,19 @@ export default {
             }
 
 
-
-
-
         },
         showCalendar(value){
             if (value){
                 this.date_approve = value.approve_date;
-                this.date_contract_end = value.contract_end_date;
+                this.date_edit_start = value.edit_start_date;
+                this.date_edit_end = value.edit_end_date;
                 this.date_problem_end = value.problem_end_date;
                 this.date_book = value.book_date;
                 this.$forceUpdate();
             }else{
                 this.date_approve = '';
-                this.date_contract_end = '';
+                 this.date_edit_start = '';
+                this.date_edit_end = '';
                 this.date_problem_end = '';
                 this.date_book = '';
                 this.$forceUpdate();
@@ -367,6 +375,8 @@ export default {
             this.date_contract_end = '';
             this.date_problem_end = '';
             this.date_book = '';
+            this.date_edit_start = '';
+            this.date_edit_end = '';
             this.$forceUpdate();
             //this.showCalendar();
         }

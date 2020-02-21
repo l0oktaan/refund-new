@@ -38,18 +38,26 @@ export default {
     },
     watch: {
         showDate(){
-            this.date = this.showDate;
-            console.log('----change Date 1 :' + this.date);
-            this.$forceUpdate();
+            console.log('change Date  :' + this.showDate);
+            if (this.showDate != ''){
+                this.date = this.showDate;
+                console.log('----change Date 1 :' + this.date);
+                this.$forceUpdate();
+            }else{
+                console.log('Clear Date');
+                this.date = null;
+            }
+
         },
         date(){
-             var str = ''
+            console.log('date :' + this.date);
+            var str = '';
             try{
                 str = this.date.slice(0, 10);
             }catch{
-
+                str = '';
             }
-
+             console.log('date str :' + str);
 
            this.$emit('update',str);
             this.$forceUpdate();
@@ -60,19 +68,5 @@ export default {
 </script>
 
 <style scoped>
-.time-input{
 
-    width: 100%!important;
-
-    padding: 0.375rem 0.75rem!important;
-    font-size: 0.8rem!important;
-    font-weight: 400!important;
-    line-height: 1.6!important;
-    color: #5c6873!important;
-    background-color: #fff!important;
-    background-clip: padding-box!important;
-    border: 1px solid #e4e7ea!important;
-    border-radius: 0.25rem!important;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out!important;
-}
 </style>
