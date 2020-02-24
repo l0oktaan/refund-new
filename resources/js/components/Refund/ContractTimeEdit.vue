@@ -141,10 +141,11 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="width: 15%">วันที่อนุมัติ</th>
-                        <th scope="col" style="width: 20%">ประเภทการอนุมัติ</th>
+                        <th scope="col" style="width: 15%">ประเภทการอนุมัติ</th>
                         <th scope="col" style="width: 10%">จำนวนวัน</th>
-                        <th scope="col" style="width: 20%">อนุมัติให้ตาม</th>
-                        <th scope="col" style="width: 15%">วันที่แจ้ง</th>
+                        <th scope="col" style="width: 15%">ตั้งแต่วันที่</th>
+                        <th scope="col" style="width: 15%">ถึงวันที่</th>
+                        <th scope="col" style="width: 20%">อนุมัติให้ตาม</th>                        
                         <th scope="col" style="width: 10%">การดำเนินการ</th>
                     </tr>
                 </thead>
@@ -153,8 +154,9 @@
                         <td>{{getThaiDate(item.approve_date)}}</td>
                         <td>{{arrEditType[item.edit_type].text}}</td>
                         <td>{{item.edit_days}}</td>
-                        <td>{{arrApproveType[item.approve_type].text}}</td>
-                        <td>{{getThaiDate(item.book_date)}}</td>
+                        <td>{{getThaiDate(item.edit_start_date)}}</td>
+                        <td>{{getThaiDate(item.edit_end_date)}}</td>
+                        <td>{{arrApproveType[item.approve_type].text}}</td>                        
                         <td>
                             <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                             <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">

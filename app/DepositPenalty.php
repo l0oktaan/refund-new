@@ -12,7 +12,9 @@ class DepositPenalty extends Model
         'refund_id',
         'deposit_no',
         'deposit_date',
-        'amount'
+        'amount',
+        'amount_in_contract',
+        'description'
     ];
 
     public function refund(){

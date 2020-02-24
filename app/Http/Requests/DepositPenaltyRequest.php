@@ -27,7 +27,8 @@ class DepositPenaltyRequest extends FormRequest
 
             'deposit_no' => 'required|max:50',
             'deposit_date' => 'required',
-            'amount' => 'required'
+            'amount' => 'required',
+            'amount_in_contract' => 'required'
         ];
     }
 }

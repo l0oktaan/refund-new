@@ -20,7 +20,7 @@
             <b-form @submit="onSubmit">
 
                         <b-row align-h="center">
-                            <b-col sm="3">
+                            <b-col sm="2">
                                 <b-form-group>
                                     <label for="deposit_no">เลขที่เอกสาร : (เบิกหักผลักส่ง/นำส่ง)</label>
                                     <b-form-input type="text"
@@ -32,22 +32,33 @@
                                 </b-form-group>
                             </b-col>
 
-                            <b-col sm="3">
+                            <b-col sm="2">
                                 <b-form-group>
                                     <label for="deposit_date">วันที่ผ่านรายการ :</label>
-                                    <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => deposit_date = value"></my-date-picker>
+                                    <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => date_deposit = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
-                            <b-col sm="3">
+                            <b-col sm="2">
                                 <b-form-group>
-                                    <label for="amount">จำนวนเงินที่นำส่ง ทั้งหมด : (บาท)</label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง  : (บาท)</label>
                                     <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col sm="3">
                                 <b-form-group>
                                     <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ : (บาท)</label>
-                                    <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
+                                    <cleave placeholder="จำนวนเงิน" name="amount_in_contract" v-model="deposit.amount_in_contract" class="form-control" :options="cleave_options.number"></cleave>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="description">เป็นเงินค่าปรับของงาน งวดที่/ครั้งที่</label>
+                                    <b-form-input type="text"
+                                        placeholder="เป็นเงินค่าปรับของงาน งวดที่/ครั้งที่"
+                                        name="description"
+                                        v-model = "deposit.description"
+                                    >
+                                    </b-form-input>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -68,8 +79,10 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col" style="width: 15%">เลขที่เอกสาร</th>
-                    <th scope="col" style="width: 20%">วันที่</th>
+                    <th scope="col" style="width: 15%">วันที่</th>
                     <th scope="col" style="width: 10%">จำนวน (บาท)</th>
+                    <th scope="col" style="width: 10%">จำนวนในสัญญานี้ (บาท)</th>
+                    <th scope="col" style="width: 15%">ค่าปรับงวดที่/ครั้งที่</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
             </thead>
@@ -78,6 +91,8 @@
                     <td>{{item.deposit_no}}</td>
                     <td>{{getThaiDate(item.deposit_date)}}</td>
                     <td>{{item.amount | numeral('0,0.00') }}</td>
+                    <td>{{item.amount_in_contract | numeral('0,0.00') }}</td>
+                    <td>{{item.description}}</td>
                     <td>
                         <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                         <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
@@ -107,7 +122,7 @@ export default {
             deposit: {},
             deposit_list: [],
             date_deposit: '',
-            deposit_date: '',
+            
             alert: '',
             state: 'new',
             cleave_options:{
@@ -155,13 +170,15 @@ export default {
                 axios
                 .post(`${path}`,{
                     deposit_no: this.deposit.deposit_no,
-                    deposit_date: this.deposit_date,
-                    amount: this.deposit.amount
+                    deposit_date: this.date_deposit,
+                    amount: this.deposit.amount,
+                    amount_in_contract: this.deposit.amount_in_contract,
+                    description: this.deposit.description,
                 })
                 .then(response=>{
 
                    this.alert = 'success';
-                    this.toEdit(response.data.data);
+                    //this.toEdit(response.data.data);
 
                     this.fetchData();
                     this.clearData();
@@ -175,13 +192,15 @@ export default {
                 .put(`${path}`,{
 
                     deposit_no : this.deposit.deposit_no,
-                    deposit_date : this.deposit_date,
-                    amount : this.deposit.amount
+                    deposit_date : this.date_deposit,
+                    amount : this.deposit.amount,
+                    amount_in_contract: this.deposit.amount_in_contract,
+                    description: this.deposit.description,
                 })
                 .then(response=>{
 
                     this.alert = 'success';
-                    this.toEdit(response.data.data);
+                    //this.toEdit(response.data.data);
 
                     this.fetchData();
                     this.clearData();
@@ -209,7 +228,7 @@ export default {
             this.deposit = {};
             this.state = 'new';
             this.date_deposit = '';
-            this.deposit_date = '';
+            
             this.$forceUpdate();
             //this.$refs.deposit_date.reset();
         },
