@@ -47,9 +47,14 @@
                         <b-row>
                             <b-col>
                                 <b-form-group>
-                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
-                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => delivery_date = value"></my-date-picker>
-
+                                    <label for="date_start">วันที่เริ่มคิดค่าปรับ : <span class="detail"></span></label>
+                                    <my-date-picker ref="date_start" id="date_start" :showDate="date_start" @update="value => date_start = value"></my-date-picker>
+                                </b-form-group>
+                            </b-col>
+                            <b-col>
+                                <b-form-group>
+                                    <label for="date_end">วันที่สิ้นสุดการคิดค่าปรับ : <span class="detail"></span></label>
+                                    <my-date-picker ref="date_end" id="date_end" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
                             <b-col>
@@ -58,11 +63,22 @@
                                     <b-form-input type="text"
                                         placeholder="จำนวนวัน"
                                         name="overdue_days"
-                                        v-model="delivery.overdue_days"
+                                        v-model="overdue_days"
+                                        disabled
                                     >
                                     </b-form-input>
                                 </b-form-group>
                             </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group>
+                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
+                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => date_delivery = value"></my-date-picker>
+
+                                </b-form-group>
+                            </b-col>
+
                             <b-col>
                                 <b-form-group>
                                     <label for="penalty">ถูกปรับเป็นเงิน : (บาท)</label>
@@ -117,7 +133,6 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
 </template>
 <script>
@@ -142,9 +157,39 @@ export default {
             delivery_list: [],
             delivery_date: '',
             date_delivery: '',
+            date_start: '',
+            date_end: '',
+            overdue_days: null,
             state: 'new',
             alert: ''
         }
+    },
+    watch: {
+        date_start(newDate, oldDate){
+            if (this.date_start != '' && this.date_end){
+                if (!this.checkDate(newDate,this.date_end)){
+                    this.$nextTick(() => {
+                        this.date_start = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.overdue_days = this.diffDate(this.date_start,this.date_end);
+                }
+            }
+        },
+        date_end(newDate, oldDate){
+
+            if (this.date_end != '' && this.date_start){
+                if (!this.checkDate(this.date_start,newDate)){
+                    this.$nextTick(() => {
+                        this.date_end = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.overdue_days = this.diffDate(this.date_start,this.date_end);
+                }
+            }
+        },
     },
     mounted(){
         this.fetchData();
@@ -175,13 +220,19 @@ export default {
             if (item){
                 this.state = 'update';
                 this.date_delivery = item.delivery_date;
+                this.date_start = item.overdue_start_date;
+                this.date_end = item.overdue_end_date;
+                this.overdue_days = item.overdue_days;
             }
         },
         clearData(){
             this.delivery = {};
             this.state = 'new';
             this.date_delivery = '';
+            this.date_start = '';
+            this.date_end = '';
             this.delivery_date = '';
+            this.overdue_days = null;
             this.$forceUpdate();
         },
         toDel(id){
@@ -226,8 +277,10 @@ export default {
                     // penalty: this.delivery.penalty
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    delivery_date: this.delivery_date,
-                    overdue_days: this.delivery.overdue_days,
+                    delivery_date: this.date_delivery,
+                    overdue_start_date: this.date_start,
+                    overdue_end_date: this.date_end,
+                    overdue_days: this.overdue_days,
                     penalty: this.delivery.penalty
                 })
                 .then(response=>{
@@ -249,8 +302,10 @@ export default {
                 .put(`${path}`,{
                     delivery: this.delivery.delivery,
                     detail: this.delivery.detail,
-                    delivery_date: this.delivery_date,
-                    overdue_days: this.delivery.overdue_days,
+                    delivery_date: this.date_delivery,
+                    overdue_start_date: this.date_start,
+                    overdue_end_date: this.date_end,
+                    overdue_days: this.overdue_days,
                     penalty: this.delivery.penalty
                 })
                 .then(response=>{
@@ -266,7 +321,32 @@ export default {
                 })
 
             }
-        }
+        },
+        diffDate(date1,date2){
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            var diff = null;
+            if (d2 > d1){
+                diff = (d2.getTime() - d1.getTime())/(1000*60*60*24) + 1;
+                return diff;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+        },
+        checkDate(date1,date2){
+            //console.log('check date : '+ date1 + ' and ' + date2);
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            if (d2 > d1){
+                //console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
+                return true;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+
+        },
     }
 }
 </script>

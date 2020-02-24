@@ -40,7 +40,13 @@
                             </b-col>
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="amount">จำนวน : (บาท)</label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง ทั้งหมด : (บาท)</label>
+                                    <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
+                                </b-form-group>
+                            </b-col>
+                            <b-col sm="3">
+                                <b-form-group>
+                                    <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ : (บาท)</label>
                                     <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>

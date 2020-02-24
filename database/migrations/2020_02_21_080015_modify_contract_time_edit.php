@@ -17,6 +17,11 @@ class ModifyContractTimeEdit extends Migration
             $table->dropColumn('contract_end_date');
             $table->date('edit_start_date')->after('edit_days')->nullable();
             $table->date('edit_end_date')->after('edit_start_date')->nullable();
+            $table->date('book_date')->nullable()->change();
+            $table->date('problem_end_date')->nullable()->change();
+            $table->integer('edit_days')->nullable()->change();
+            $table->decimal('edit_budget')->nullable()->change();
+
         });
     }
 

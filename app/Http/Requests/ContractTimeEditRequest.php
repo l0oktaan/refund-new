@@ -29,9 +29,7 @@ class ContractTimeEditRequest extends FormRequest
             'edit_days' => 'required',
             'edit_start_date' => 'required',
             'edit_end_date' => 'required',
-            'approve_type'=> 'required',
-
-            'book_date' => 'required'
+            'approve_type'=> 'required'
         ];
     }
 }

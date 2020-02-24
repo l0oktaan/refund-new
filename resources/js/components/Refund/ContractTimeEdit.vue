@@ -23,7 +23,7 @@
                                 <b-col sm="3">
                                     <b-form-group>
                                         <label for="time_edit_date">วันที่อนุมัติ :</label>
-                                        <my-date-picker ref="approve_date" :id="11" :showDate="date_approve" @update="value => time_edit.approve_date = value"></my-date-picker>
+                                        <my-date-picker ref="approve_date" :id="11" :showDate="date_approve" @update="value => date_approve = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                                 <b-col sm="3">
@@ -79,7 +79,7 @@
                                         <b-form-input type="text"
                                             placeholder="จำนวนวัน"
                                             name="edit_days"
-                                            v-model = "time_edit.edit_days"
+                                            v-model = "edit_days"
                                             disabled
                                         >
                                         </b-form-input>
@@ -114,13 +114,13 @@
                                 <b-col sm="3" v-if="time_edit.approve_type > 3">
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
-                                        <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => time_edit.problem_end_date = value"></my-date-picker>
+                                        <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                                 <b-col sm="3" v-if="time_edit.approve_type > 3">
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
-                                        <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => time_edit.book_date = value"></my-date-picker>
+                                        <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
@@ -153,7 +153,7 @@
                         <td>{{getThaiDate(item.approve_date)}}</td>
                         <td>{{arrEditType[item.edit_type].text}}</td>
                         <td>{{item.edit_days}}</td>
-                        <td>{{item.approve_type}}</td>
+                        <td>{{arrApproveType[item.approve_type].text}}</td>
                         <td>{{getThaiDate(item.book_date)}}</td>
                         <td>
                             <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
@@ -217,6 +217,7 @@ export default {
             date_book: '',
             date_edit_start: '',
             date_edit_end: '',
+            edit_days: null,
             state: 'new',
             alert: ''
 
@@ -225,6 +226,33 @@ export default {
     mounted(){
         this.fetchEditTimeList();
         this.$forceUpdate();
+    },
+    watch: {
+        date_edit_start(newDate, oldDate){
+            if (this.date_edit_start != '' && this.date_edit_end){
+                if (!this.checkDate(newDate,this.date_edit_end)){
+                    this.$nextTick(() => {
+                        this.date_edit_start = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
+                }
+            }
+        },
+        date_edit_end(newDate, oldDate){
+
+            if (this.date_edit_end != '' && this.date_edit_start){
+                if (!this.checkDate(this.date_edit_start,newDate)){
+                    this.$nextTick(() => {
+                        this.date_edit_end = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
+                }
+            }
+        },
     },
     methods: {
         fetchEditTimeList(){
@@ -248,19 +276,17 @@ export default {
             if (this.state == 'new'){
                 console.log('Path : ' + path + ' data :'+this.time_edit);
                 axios.post(`${path}`,{
-                    approve_date: this.time_edit.approve_date,
+                    approve_date: this.date_approve,
                     edit_type: this.time_edit.edit_type,
                     edit_detail: this.time_edit.edit_detail,
-                    edit_days: this.time_edit.edit_days,
+                    edit_days: this.edit_days,
                     edit_budget: this.time_edit.edit_budget,
                     edit_start_date: this.date_edit_start,
                     edit_end_date: this.date_edit_end,
                     approve_type: this.time_edit.approve_type,
                     approve_case: this.time_edit.approve_case,
-                    problem_end_date: this.time_edit.problem_end_date,
-                    book_date: this.time_edit.book_date
-
-
+                    problem_end_date: this.date_problem_end,
+                    book_date: this.date_book
                 })
                 .then(response=>{
 
@@ -279,17 +305,17 @@ export default {
 
                 path = `${path}/${this.time_edit.id}`
                 axios.put(`${path}`,{
-                    approve_date: this.time_edit.approve_date,
+                    approve_date: this.date_approve,
                     edit_type: this.time_edit.edit_type,
                     edit_detail: this.time_edit.edit_detail,
-                    edit_days: this.time_edit.edit_days,
+                    edit_days: this.edit_days,
                     edit_budget: this.time_edit.edit_budget,
                     edit_start_date: this.date_edit_start,
                     edit_end_date: this.date_edit_end,
                     approve_type: this.time_edit.approve_type,
                     approve_case: this.time_edit.approve_case,
-                    problem_end_date: this.time_edit.problem_end_date,
-                    book_date: this.time_edit.book_date
+                    problem_end_date: this.date_problem_end,
+                    book_date: this.date_book
                 })
                 .then(response=>{
                     this.alert = 'success';
@@ -311,8 +337,11 @@ export default {
                 this.date_approve = value.approve_date;
                 this.date_edit_start = value.edit_start_date;
                 this.date_edit_end = value.edit_end_date;
-                this.date_problem_end = value.problem_end_date;
-                this.date_book = value.book_date;
+                this.edit_days = value.edit_days;
+                this.$nextTick(() => {
+                    this.date_problem_end = value.problem_end_date;
+                    this.date_book = value.book_date;
+                })
                 this.$forceUpdate();
             }else{
                 this.date_approve = '';
@@ -329,6 +358,7 @@ export default {
             this.time_edit = _.cloneDeep(t_edit);
             this.state = 'update';
             this.showCalendar(t_edit);
+
             this.$forceUpdate();
         },
         toDel(id){
@@ -357,6 +387,31 @@ export default {
                 }
             })
         },
+        diffDate(date1,date2){
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            var diff = null;
+            if (d2 > d1){
+                diff = (d2.getTime() - d1.getTime())/(1000*60*60*24) + 1;
+                return diff;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+        },
+        checkDate(date1,date2){
+            //console.log('check date : '+ date1 + ' and ' + date2);
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            if (d2 > d1){
+                console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
+                return true;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+
+        },
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -377,6 +432,7 @@ export default {
             this.date_book = '';
             this.date_edit_start = '';
             this.date_edit_end = '';
+            this.edit_days = null;
             this.$forceUpdate();
             //this.showCalendar();
         }
