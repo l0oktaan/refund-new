@@ -3,8 +3,8 @@
     <div>
         <b-row class="justify-content-md-center text-center">
             <b-col>
-                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md"><i class="fas fa-print fa-2x"></i></b-button>
-                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport"><i class="fas fa-file-pdf fa-2x"></i></b-button>
+                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport"><i class="fas fa-print fa-2x"></i></b-button>
+                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" ><i class="fas fa-file-pdf fa-2x"></i></b-button>
                 <b-popover target="print_form" triggers="hover" placement="top">
                     พิมพ์แบบถอนคืน
                 </b-popover>
@@ -33,8 +33,8 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style="width: 45%"><p class="topic">ข้อเท็จจริง</p></th>
-                                                <th style="width: 30%"><p class="topic">หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี</p></th>
+                                                <th style="width: 40%"><p class="topic">ข้อเท็จจริง</p></th>
+                                                <th style="width: 35%"><p class="topic">หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี</p></th>
                                                 <th style="width: 25%"><p class="topic">การพิจารณา</p></th>
                                             </tr>
                                         </thead>
@@ -46,9 +46,9 @@
                                                         <div class="sub_order">
                                                             <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
-                                                            <p class="head" v-if="refund.refund.contract_edit">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>
-                                                            <div v-for="(contract_edit,index) in refund.refund.contract_edit" :key="contract_edit.id">
-                                                                <p class="head sub">{{index+1 + '.'}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                            <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>                                                            
+                                                            <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
+                                                                <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                 <p class="head sub">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
                                                             </div>
                                                         </div>
@@ -56,25 +56,25 @@
                                                     <div class="main_order" v-if="time_edits">
                                                         <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
                                                         <div v-for="(time_edit,index) in time_edits" :key="index">
-                                                            <p class="head sub">{{index + 1 + '.'}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> ประเภทการอนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span></p>
-                                                            <p class="head sub">จำนวนวัน <span class="show">{{time_edit.edit_days}}</span> วัน จำนวนเงิน <span class="show">{{time_edit.edit_budget | numeral('0,0.00')}} บาท</span></p>
+                                                            <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> ประเภทการอนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span></p>
+                                                            <p class="head sub">จำนวนวัน <span class="show">{{time_edit.edit_days}}</span> วัน <span v-if="time_edit.edit_type == 2 || time_edit.edit_type ==3">จำนวนเงิน <span class="show">{{time_edit.edit_budget | numeral('0,0.00')}} บาท</span></span></p>
                                                             <p class="head sub">ตั้งแต่วันที่ <span class="show">{{getThaiDate('2019-09-01')}}</span> ถึงวันที่ <span class="show">{{getThaiDate('2019-09-30')}}</span></p>
                                                             <p class="head sub">อนุมัติให้ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span></p>
-                                                            <p class="head sub">กรณี <span class="show">{{time_edit.approve_case}}</span></p>
-                                                            <p class="head sub">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
+                                                            <p class="head sub" v-if="arrShowTimeEditDetail.includes(time_edit.approve_type)">กรณี <span class="show">{{time_edit.approve_case}}</span></p>
+                                                            <p class="head sub" v-if="arrShowTimeEditDetail.includes(time_edit.approve_type)">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="main_order">
                                                         <p class="head">3. รายละเอียดการส่งมอบงาน (เฉพาะที่มีค่าปรับ)</p>
                                                         <div v-for="(deliver,index) in delivers" :key="index">
-                                                            <p class="head sub">{{index + 1 + '.'}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
+                                                            <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty | numeral('0,0.00')}} บาท</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="main_order">
                                                         <p class="head">4. รายละเอียดการการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
                                                         <div v-for="(deposit,index) in deposits" :key="index">
-                                                            <p class="head sub">{{index + 1 + '.'}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
+                                                            <p class="head sub">{{'4.' + (index + 1)}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
                                                             <p class="head sub">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}} บาท</span></p>
                                                         </div>
                                                     </div>
@@ -86,12 +86,32 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-
+                                                <!-- หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี -->
+                                                <td colspan="2" style="padding-left: 0px; padding-right: 0px;">
+                                                    <table style="width: 100%" class="table_rule">
+                                                        <tr v-for="(rule,index) in refund.form.rules" :key="index">
+                                                            <td style="width: 57%">
+                                                                <div class="main_order">
+                                                                    <p class="head">{{rule.order + '. ' + rule.name}}</p> 
+                                                                     <div v-for="(sub_rule,index) in rule.sub_rules" :key="index">
+                                                                        <p class="head">{{sub_rule.order + '. ' + sub_rule.name}}</p>
+                                                                    </div>                                                               
+                                                                </div>
+                                                            </td>
+                                                            <td style="width: 43%">
+                                                                <div class="main_order" >
+                                                                    <!-- <p class="head" v-for="(consider,index_x) in rule.considers" :key="index_x">{{consider.name}}</p>  -->
+                                                                    <p class="head" v-if="rule.sub_rules.length == 0"><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}</p>
+                                                                    <div v-else class="space"></div>
+                                                                    <div v-for="(sub_rule,index) in rule.sub_rules" :key="index">
+                                                                        <p class="head" v-for="(sub_consider,index_y) in sub_rule.considers" :key="index_y"><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}</p>
+                                                                    </div>                                                                                                                                  
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
-                                                <td>
-
-                                                </td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -146,11 +166,16 @@ export default {
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 31},
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 32},
             ],
+            arrShowTimeEditDetail : [
+                22,23,31,32
+            ],
             time_edits : [],
             delivers: [],
             deposits: [],
             approves: [],
-            refund_form_id: 0
+            refund_form_id: 0,
+            icon_check: 'far fa-check-square fa-lg',
+            icon_uncheck: 'far fa-square fa-lg',
         }
     },
     mounted(){
@@ -275,7 +300,7 @@ export default {
 
         },
         printElement(elem) {
-            console.log('element ' + elem);
+            
             var domClone = elem.cloneNode(true);
 
             var $printSection = document.getElementById("printSection");
@@ -300,6 +325,7 @@ export default {
     font-size: 9pt!important;
     border: 1px #000 solid!important;
     text-align: center;
+    color: #000;
 
 }
 .table th td{
@@ -315,6 +341,7 @@ export default {
 .topic{
     margin-bottom: 0px;
     text-align: center;
+    color: #000;
 }
 p.head{
     font-weight: normal;
@@ -359,27 +386,11 @@ th{
     vertical-align: bottom;
 
 }
-@page {
-    size: A4;
-    margin: 0;
+.table_rule td{
+    padding: 0px 5px 0px 5px!important;
 }
-@media screen {
-  #printSection {
-      display: none;
-  }
-}
-
-@media print {
-  body * {
-    visibility:hidden;
-  }
-  #printSection, #printSection * {
-    visibility:visible;
-  }
-  #printSection {
-    position:absolute;
-    left:0;
-    top:0;
-  }
+.space{
+    height: 17px;
+    margin-bottom: 3px;
 }
 </style>

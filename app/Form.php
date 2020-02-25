@@ -19,6 +19,7 @@ class Form extends Model
 
     public function form_rules(){
         return $this->hasMany('App\FormRule')
+            ->where('sub_of','=',0)
             ->orderBy('order');
     }
     public function refund_forms(){
