@@ -6,7 +6,7 @@
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
                             <i class='fa fa-align-justify'></i>
-                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวมการขออนุมัติในครั้งนี้)</span>
+                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวมการขออนุมัติในครั้งนี้) </span><span class="require"> (*)</span> จำเป็นต้องกรอก
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
@@ -22,13 +22,13 @@
                             <b-row>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="time_edit_date">วันที่อนุมัติ :</label>
+                                        <label for="time_edit_date">วันที่อนุมัติ : <span class="require">*</span></label>
                                         <my-date-picker ref="approve_date" :id="11" :showDate="date_approve" @update="value => date_approve = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="edit_type">ประเภทการอนุมัติ :</label>
+                                        <label for="edit_type">ประเภทการอนุมัติ :<span class="require">*</span></label>
                                         <b-form-select
 
                                             :options="arrEditType"
@@ -62,13 +62,13 @@
 
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="edit_start_date">ตั้งแต่วันที่ :</label>
+                                        <label for="edit_start_date">ตั้งแต่วันที่ :<span class="require">*</span></label>
                                         <my-date-picker ref="edit_start_date" :id="12" :showDate="date_edit_start" @update="value => date_edit_start = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="edit_end_date">ถึงวันที่ :</label>
+                                        <label for="edit_end_date">ถึงวันที่ :<span class="require">*</span></label>
                                         <my-date-picker ref="edit_end_date" :id="12" :showDate="date_edit_end" @update="value => date_edit_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
@@ -90,7 +90,7 @@
                             <b-row>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="approve_type">อนุมัติให้ตาม :</label>
+                                        <label for="approve_type">อนุมัติให้ตาม :<span class="require">*</span></label>
                                         <b-form-select
                                             :options="arrApproveType"
                                             v-model = "time_edit.approve_type"
@@ -98,7 +98,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="9" v-if="time_edit.approve_type > 3">
+                                <b-col sm="9" v-if="arrShowDetail.includes(time_edit.approve_type)">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -111,13 +111,13 @@
                                 </b-col>
                             </b-row>
                             <b-row>
-                                <b-col sm="3" v-if="time_edit.approve_type > 3">
+                                <b-col sm="3" v-if="arrShowDetail.includes(time_edit.approve_type)">
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3" v-if="time_edit.approve_type > 3">
+                                <b-col sm="3" v-if="arrShowDetail.includes(time_edit.approve_type)">
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
@@ -145,7 +145,7 @@
                         <th scope="col" style="width: 10%">จำนวนวัน</th>
                         <th scope="col" style="width: 15%">ตั้งแต่วันที่</th>
                         <th scope="col" style="width: 15%">ถึงวันที่</th>
-                        <th scope="col" style="width: 20%">อนุมัติให้ตาม</th>                        
+                        <th scope="col" style="width: 20%">อนุมัติให้ตาม</th>
                         <th scope="col" style="width: 10%">การดำเนินการ</th>
                     </tr>
                 </thead>
@@ -156,7 +156,7 @@
                         <td>{{item.edit_days}}</td>
                         <td>{{getThaiDate(item.edit_start_date)}}</td>
                         <td>{{getThaiDate(item.edit_end_date)}}</td>
-                        <td>{{arrApproveType[item.approve_type].text}}</td>                        
+                        <td>{{getApproveType(item.approve_type)}}</td>
                         <td>
                             <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                             <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
@@ -183,18 +183,26 @@ export default {
                 {text: 'ประเภทการอนุมัติ', value : null},
                 {text: 'ขยายเวลา', value : 1},
                 {text: 'งดหรือลดค่าปรับ', value : 2},
-                {text: 'คืนเงินค่าปรับ', value : 3},
-                {text: 'อื่น ๆ', value : 4}
+                {text: 'คืนเงินค่าปรับ', value : 3}
             ],
             arrApproveType : [
                 {text: 'อนุมัติให้ตาม', value: null},
-                {text: 'มติ ครม. ว 63', value: 1},
-                {text: 'มติ ครม. ว 66', value: 2},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 3},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 4},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 5},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 6},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 7},
+                {text: 'มติ ครม. ว 63 ลว 2 พ.ค. 54', value: 11},
+                {text: 'มติ ครม. ว 66 ลว 6 พ.ค. 54', value: 12},
+                {text: 'มติ ครม. ว 72 ลว 8 มี.ค. 55', value: 13},
+                {text: 'มติ ครม. ว 204 ลว 15 ส.ค. 55', value: 14},
+                {text: 'มติ ครม. ว 208 ลว 27 พ.ย. 56', value: 15},
+                {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16},
+                {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17},
+                {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 23},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 31},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 32},
+            ],
+            arrShowDetail : [
+                22,23,31,32
             ],
             cleave_options:{
                 number: {
@@ -418,6 +426,11 @@ export default {
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             //return moment(String(value)).format('LL')
+        },
+        getApproveType(value){
+            console.log('Get Approve Type :' + value);
+            var index = this.arrApproveType.findIndex(x => x.value == value);
+            return this.arrApproveType[index].text;
         },
         clearData(){
             console.log('Clear Time Edit');

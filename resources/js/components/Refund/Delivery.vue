@@ -6,7 +6,7 @@
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
                         <i class='fa fa-align-justify'></i>
-                            ข้อมูลการส่งมอบงาน <span class="detail"> (ตั้งแต่งวดแรกที่มีค่าปรับ)</span>
+                            ข้อมูลการส่งมอบงาน <span class="detail"> (ตั้งแต่งวดแรกที่มีค่าปรับ)</span><span class="require"> (*)</span> จำเป็นต้องกรอก
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
@@ -17,18 +17,28 @@
                     </li>
                 </ul>
             </div>
-            <b-form @submit="onSubmit">
+            <validation-observer ref="observer" v-slot="{ passes }">
+            <b-form @submit.stop.prevent="passes(onSubmit)">
                         <b-row>
                             <b-col >
+                                <validation-provider
+                                    name="ส่งมอบงาน"
+                                    rules="required|min:5"
+                                    v-slot="validationContext"
+                                >
                                 <b-form-group>
-                                    <label for="time_edit_date">ส่งมอบงาน :</label>
+                                    <label for="time_edit_date">ส่งมอบงาน : <span class="require">*</span></label>
                                     <b-form-input type="text"
                                         placeholder="งวดที่ / ครั้งที่"
                                         name="delivery"
                                         v-model="delivery.delivery"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-1-live-feedback"
                                     >
                                     </b-form-input>
+                                    <b-form-invalid-feedback id="input-1-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
+                                </validation-provider>
                             </b-col>
                         </b-row>
                         <b-row>
@@ -47,13 +57,13 @@
                         <b-row>
                             <b-col>
                                 <b-form-group>
-                                    <label for="date_start">วันที่เริ่มคิดค่าปรับ : <span class="detail"></span></label>
+                                    <label for="date_start">วันที่เริ่มคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
                                     <my-date-picker ref="date_start" id="date_start" :showDate="date_start" @update="value => date_start = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
                             <b-col>
                                 <b-form-group>
-                                    <label for="date_end">วันที่สิ้นสุดการคิดค่าปรับ : <span class="detail"></span></label>
+                                    <label for="date_end">วันที่สิ้นสุดการคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
                                     <my-date-picker ref="date_end" id="date_end" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
@@ -73,7 +83,7 @@
                         <b-row>
                             <b-col>
                                 <b-form-group>
-                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
+                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="require">*</span><span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
                                     <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => date_delivery = value"></my-date-picker>
 
                                 </b-form-group>
@@ -81,7 +91,7 @@
 
                             <b-col>
                                 <b-form-group>
-                                    <label for="penalty">ถูกปรับเป็นเงิน : (บาท)</label>
+                                    <label for="penalty">ถูกปรับเป็นเงิน : (บาท) <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
@@ -96,6 +106,7 @@
                             </b-col>
                         </b-row>
             </b-form>
+            </validation-observer>
         </b-card>
             <!-- ======================= Delivery List ========================================-->
 
@@ -195,6 +206,9 @@ export default {
         this.fetchData();
     },
     methods: {
+        getValidationState({ dirty, validated, valid = null }) {
+            return dirty || validated ? valid : null;
+        },
         fetchData(){
             this.delivery_list = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers`;
@@ -233,6 +247,9 @@ export default {
             this.date_end = '';
             this.delivery_date = '';
             this.overdue_days = null;
+            this.$nextTick(() => {
+                this.$refs.observer.reset();
+            });
             this.$forceUpdate();
         },
         toDel(id){
@@ -264,7 +281,7 @@ export default {
             })
         },
         onSubmit(e){
-            e.preventDefault();
+            //e.preventDefault();
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers`;
             console.log('delivery status :' + this.state);
             if (this.state == 'new'){

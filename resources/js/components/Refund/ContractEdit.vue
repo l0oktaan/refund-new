@@ -20,14 +20,14 @@
                                 </b-form-input>
                             </b-form-group> -->
                             <b-form-group>
-                                <label for="edit_date">หนังสือลงวันที่ :</label>
+                                <label for="edit_date">หนังสือลงวันที่ : <span class="require"> *</span></label>
                                 <my-date-picker ref="edit_date" :id="11" :showDate="date_show" @update="value => edit_date = value"></my-date-picker>
                             </b-form-group>
                         </b-col>
                         <b-col sm="4">
 
                             <b-form-group>
-                                <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น :</label>
+                                <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น : <span class="require"> *</span></label>
                                 <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number"></cleave>
                                 <!-- <b-form-input type="text"
                                     placeholder="วงเงินใหม่"
@@ -41,7 +41,7 @@
                         </b-col>
                         <b-col sm="4">
                             <b-form-group>
-                                <label for="penalty_new">ค่าปรับเป็น :</label>
+                                <label for="penalty_new">ค่าปรับเป็น : <span class="require"> *</span></label>
                                 <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number"></cleave>
                                 <!-- <b-form-input type="text"
                                     placeholder="ค่าปรับใหม่"

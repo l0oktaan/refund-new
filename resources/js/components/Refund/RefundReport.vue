@@ -111,7 +111,7 @@
 <script>
 import jsPDF from 'jspdf'
 export default {
-    props: ['refund_id','refund_form_id'],
+    props: ['refund_id'],
     data(){
         return{
             refund : null,
@@ -132,18 +132,29 @@ export default {
             ],
             arrApproveType : [
                 {text: 'อนุมัติให้ตาม', value: null},
-                {text: 'มติ ครม. ว 63', value: 1},
-                {text: 'มติ ครม. ว 66', value: 2},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 3},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 4},
+                {text: 'มติ ครม. ว 63 ลว 2 พ.ค. 54', value: 11},
+                {text: 'มติ ครม. ว 66 ลว 6 พ.ค. 54', value: 12},
+                {text: 'มติ ครม. ว 72 ลว 8 มี.ค. 55', value: 13},
+                {text: 'มติ ครม. ว 204 ลว 15 ส.ค. 55', value: 14},
+                {text: 'มติ ครม. ว 208 ลว 27 พ.ย. 56', value: 15},
+                {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16},
+                {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17},
+                {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 23},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 31},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 32},
             ],
             time_edits : [],
             delivers: [],
             deposits: [],
-            approves: []
+            approves: [],
+            refund_form_id: 0
         }
     },
     mounted(){
+        //this.getRefundFormID();
         this.getRefund();
         this.getContractTimeEdit();
         this.getDeliver();
@@ -154,6 +165,21 @@ export default {
 
     },
     methods: {
+        getRefundFormID(){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
+            //var refund_form_id = 0;
+            axios.get(`${path}`)
+            .then(response=>{
+
+                return response.data.data[0]['id'];
+
+                //console.log('Refund Form ID :' + refund_form_id);
+                // return refund_form_id;
+            })
+            .catch(error=>{
+
+            })
+        },
         loadReport(){
             let pdfName = 'test';
             var doc = new jsPDF();
@@ -162,16 +188,27 @@ export default {
             doc.save(pdfName + '.pdf');
         },
         getRefund(){
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}`;
+            var refund_form_id = 0;
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
+            //var refund_form_id = 0;
             axios.get(`${path}`)
             .then(response=>{
-                this.refund = _.cloneDeep(response.data.data);
-                this.isReady = true;
-                this.$forceUpdate();
+                refund_form_id = response.data.data[0]['id'];
+                path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form_id}`;
+                axios.get(`${path}`)
+                .then(response=>{
+                    this.refund = _.cloneDeep(response.data.data);
+                    this.isReady = true;
+                    this.$forceUpdate();
+                })
+                .catch(error=>{
+
+                })
             })
             .catch(error=>{
 
             })
+
         },
         getContractTimeEdit(){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
@@ -227,6 +264,7 @@ export default {
             return this.arrEditType[index].text;
         },
         getApproveType(value){
+            console.log('Get Approve Type :' + value);
             var index = this.arrApproveType.findIndex(x => x.value == value);
             return this.arrApproveType[index].text;
         },

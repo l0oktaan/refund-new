@@ -16,14 +16,21 @@ export default {
           this.$swal({
               title: "ทำรายการสำเร็จ",
               icon: "success",
-              timer: 2000,
+              timer: 1200,
               button: false,
           });
         }else if (this.AlertType == "error"){
           this.$swal({
               title: "เกิดข้อผิดพลาด",
               icon: "error",
-              timer: 2000,
+              timer: 1200,
+              button: false,
+          });
+        }else if (this.AlertType == "require"){
+          this.$swal({
+              title: "กรุณาตรวจสอบข้อมูล",
+              icon: "error",
+              timer: 1200,
               button: false,
           });
         }

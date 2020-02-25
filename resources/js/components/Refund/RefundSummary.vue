@@ -6,7 +6,7 @@
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
                         <i class='fa fa-align-justify'></i>
-                            การขออนุมัติถอนคืน
+                            การขอถอนคืนเงินค่าปรับให้แก่ผู้มีสิทธิ
                     </li>
                 </ul>
 
@@ -38,7 +38,6 @@
                                     <b-input-group append="วัน">
                                        <b-form-input id="approve_refund_days" v-model="approve.refund_days"></b-form-input>
                                     </b-input-group>
-
                                 </b-form-group>
                             </b-col>
                         </b-row>

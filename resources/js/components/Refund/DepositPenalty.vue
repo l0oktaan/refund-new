@@ -6,7 +6,7 @@
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
                         <i class='fa fa-align-justify'></i>
-                            ข้อมูลการนำส่ง / เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน
+                            ข้อมูลการนำส่ง / เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน <span class="require"> (*)</span> จำเป็นต้องกรอก
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
@@ -17,42 +17,56 @@
                     </li>
                 </ul>
             </div>
-            <b-form @submit="onSubmit">
+            <validation-observer ref="observer" v-slot="{ passes }">
+            <b-form @submit.stop.prevent="passes(onSubmit)">
 
-                        <b-row align-h="center">
-                            <b-col sm="2">
-                                <b-form-group>
-                                    <label for="deposit_no">เลขที่เอกสาร : (เบิกหักผลักส่ง/นำส่ง)</label>
-                                    <b-form-input type="text"
-                                        placeholder="เลขที่"
-                                        name="deposit_no"
-                                        v-model = "deposit.deposit_no"
-                                    >
-                                    </b-form-input>
-                                </b-form-group>
+                        <b-row>
+                            <b-col sm="3">
+                                <validation-provider
+                                    name="เลขที่เอกสาร"
+                                    rules="required|numeric|length:10"
+                                    v-slot="validationContext"
+                                >
+                                    <b-form-group>
+
+                                        <label for="deposit_no">เลขที่เอกสาร : (เบิกหักผลักส่ง/นำส่ง)<span class="require">*</span></label>
+                                        <b-form-input type="text"
+                                            placeholder="เลขที่เอกสาร"
+                                            name="deposit_no"
+                                            v-model = "deposit.deposit_no"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="input-1-live-feedback"
+                                            maxlength="10"
+                                        >
+                                        </b-form-input>
+                                        <b-form-invalid-feedback id="input-1-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                    </b-form-group>
+                                </validation-provider>
                             </b-col>
 
-                            <b-col sm="2">
+                            <b-col sm="3">
                                 <b-form-group>
-                                    <label for="deposit_date">วันที่ผ่านรายการ :</label>
+                                    <label for="deposit_date">วันที่ผ่านรายการ :<span class="require">*</span></label>
                                     <my-date-picker ref="deposit_date" :id="11" :showDate="date_deposit" @update="value => date_deposit = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
-                            <b-col sm="2">
+                        </b-row>
+                        <b-row>
+                            <b-col sm="3">
                                 <b-form-group>
-                                    <label for="amount">จำนวนเงินที่นำส่ง  : (บาท)</label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง  : (บาท)<span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ : (บาท)</label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ : (บาท)<span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="amount_in_contract" v-model="deposit.amount_in_contract" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="description">เป็นเงินค่าปรับของงาน งวดที่/ครั้งที่</label>
+                                    <label for="description">เป็นเงินค่าปรับของงาน งวดที่/ครั้งที่ :<span class="require">*</span></label>
                                     <b-form-input type="text"
                                         placeholder="เป็นเงินค่าปรับของงาน งวดที่/ครั้งที่"
                                         name="description"
@@ -72,16 +86,17 @@
                         </b-row>
 
             </b-form>
+            </validation-observer>
         </b-card>
             <!-- ======================= Deposit Penalty List ========================================-->
 
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col" style="width: 15%">เลขที่เอกสาร</th>
+                    <th scope="col" style="width: 10%">เลขที่เอกสาร</th>
                     <th scope="col" style="width: 15%">วันที่</th>
                     <th scope="col" style="width: 10%">จำนวน (บาท)</th>
-                    <th scope="col" style="width: 10%">จำนวนในสัญญานี้ (บาท)</th>
+                    <th scope="col" style="width: 15%">จำนวนในสัญญานี้ (บาท)</th>
                     <th scope="col" style="width: 15%">ค่าปรับงวดที่/ครั้งที่</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
@@ -122,7 +137,7 @@ export default {
             deposit: {},
             deposit_list: [],
             date_deposit: '',
-            
+
             alert: '',
             state: 'new',
             cleave_options:{
@@ -147,6 +162,9 @@ export default {
         this.fetchData();
     },
     methods: {
+        getValidationState({ dirty, validated, valid = null }) {
+            return dirty || validated ? valid : null;
+        },
         fetchData(){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/deposit_penalties`;
             this.deposit_list = [];
@@ -210,7 +228,7 @@ export default {
                 })
 
             }
-            e.preventDefault();
+            //e.preventDefault();
         },
          getThaiDate(item){
             var d = new Date(item);
@@ -228,7 +246,9 @@ export default {
             this.deposit = {};
             this.state = 'new';
             this.date_deposit = '';
-            
+            this.$nextTick(() => {
+                this.$refs.observer.reset();
+            });
             this.$forceUpdate();
             //this.$refs.deposit_date.reset();
         },

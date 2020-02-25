@@ -9,55 +9,80 @@
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
                             <i class='fa fa-align-justify'></i>
-                                บันทึกข้อมูลสัญญา
+                                บันทึกข้อมูลสัญญา <span class="require">(*)</span> จำเป็นต้องกรอก
                         </li>
                     </ul>
 
                 </div>
 
-
-            <b-form @submit="onContractSubmit">
+            <validation-observer ref="observer" v-slot="{ passes }">
+            <b-form @submit.stop.prevent="passes(onContractSubmit)">
                 <b-row>
                     <b-col sm="12">
+                        <validation-provider
+                            name="ชื่อคู่สัญญา"
+                            :rules="{ required: true, min: 5 }"
+                            v-slot="validationContext"
+                        >
                         <b-form-group>
-                            <label for="contract_party">ชื่อคู่สัญญา :</label>
+                            <label for="contract_party">ชื่อคู่สัญญา : <span class="require">*</span></label>
                             <b-form-input type="text"
                                 placeholder="ชื่อคู่สัญญา"
                                 v-model="contract_party"
+                                :state="getValidationState(validationContext)"
+                                aria-describedby="input-1-live-feedback"
                             >
                             </b-form-input>
+                            <b-form-invalid-feedback id="input-1-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                         </b-form-group>
+                        </validation-provider>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col sm="6">
+                        <validation-provider
+                            name="สัญญาเลขที่"
+                            :rules="{ required: true, min: 5 }"
+                            v-slot="validationContext"
+                        >
                         <b-form-group>
-                            <label for="contract_no">สัญญาเลขที่ :</label>
+                            <label for="contract_no">สัญญาเลขที่ :<span class="require">*</span></label>
                             <b-form-input type="text"
                                 placeholder="สัญญาเลขที่"
                                 name="contract_no"
                                 v-model="contract_no"
+                                :state="getValidationState(validationContext)"
+                                aria-describedby="input-2-live-feedback"
                             >
                             </b-form-input>
+                            <b-form-invalid-feedback id="input-2-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                         </b-form-group>
+                        </validation-provider>
                     </b-col>
                     <b-col sm="6">
+
                         <b-form-group>
-                            <label for="contract_date">สัญญาลงวันที่ :</label>
-                            <my-date-picker ref="contract_date" :id="11" :showDate="date_sign" @update="value => contract_date = value"></my-date-picker>
+                            <label for="contract_date">สัญญาลงวันที่ :<span class="require">*</span></label>
+                            <my-date-picker ref="contract_date" :id="11" :showDate="date_sign" @update="value => contract_date = value"
+
+                            ></my-date-picker>
+
                         </b-form-group>
+
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col sm="6">
+
                         <b-form-group>
-                            <label for="budget">วงเงินในสัญญา :</label>
+                            <label for="budget">วงเงินในสัญญา :<span class="require">*</span></label>
                             <cleave
                                 placeholder="วงเงินในสัญญา"
                                 name="budget_new"
                                 v-model="budget"
                                 class="form-control"
-                                :options="cleave_options.number">
+                                :options="cleave_options.number"
+                                >
                             </cleave>
                             <!-- <b-form-input type="text"
                                 placeholder="วงเงินในสัญญา"
@@ -65,11 +90,14 @@
                                 v-model="budget"
                             >
                             </b-form-input> -->
+
                         </b-form-group>
+
+
                     </b-col>
                     <b-col sm="6">
                         <b-form-group>
-                            <label for="penalty_per_day">ค่าปรับวันละ :</label>
+                            <label for="penalty_per_day">ค่าปรับวันละ :<span class="require">*</span></label>
                             <cleave
                                 placeholder="ค่าปรับวันละ"
                                 name="penalty_per_day"
@@ -89,13 +117,13 @@
                 <b-row>
                     <b-col sm="6">
                         <b-form-group>
-                            <label for="contract_start">วันที่สัญญาเริ่มต้น :</label>
+                            <label for="contract_start">วันที่สัญญาเริ่มต้น :<span class="require">*</span></label>
                             <my-date-picker ref="start" :id="1" :showDate="date_start" @update="value => contract_start = value"></my-date-picker>
                         </b-form-group>
                     </b-col>
                     <b-col sm="6">
                         <b-form-group>
-                            <label for="contract_end">วันที่สัญญาสิ้นสุด :</label>
+                            <label for="contract_end">วันที่สัญญาสิ้นสุด :<span class="require">*</span></label>
                             <my-date-picker ref="end" :id="2" :showDate="date_end" @update="value => contract_end = value"></my-date-picker>
                         </b-form-group>
                     </b-col>
@@ -108,18 +136,20 @@
                     </b-col>
                 </b-row>
             </b-form>
+            </validation-observer>
             </b-card>
             </b-col>
         </b-row>
         <b-row class="justify-content-md-center">
             <b-col cols="10">
-                <contract-edit :refund_id="refund_id" v-if="contract_status == 'update'"></contract-edit>
+                <contract-edit :refund_id="refund_id"></contract-edit>
             </b-col>
         </b-row>
 
     </div>
 </template>
 <script>
+
 export default {
     props: ['refund_id'],
     data(){
@@ -153,6 +183,9 @@ export default {
             }
         }
     },
+    validations: {
+
+    },
     mounted(){
         this.fetchContract();
         this.$forceUpdate();
@@ -175,8 +208,11 @@ export default {
         },
     },
     methods: {
+        getValidationState({ dirty, validated, valid = null }) {
+            return dirty || validated ? valid : null;
+        },
         onContractSubmit(e){
-            e.preventDefault();
+            //e.preventDefault();
             var contract = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
             console.log('contract path : ' + path);
@@ -302,6 +338,9 @@ export default {
             this.penalty_per_day = '';
             this.contract_start = '';
             this.contract_end = '';
+            this.$nextTick(() => {
+                this.$refs.observer.reset();
+            });
         },
         showContract(){
 
@@ -356,4 +395,5 @@ export default {
 .dropdown-item{
     color: black!important;
 }
+
 </style>

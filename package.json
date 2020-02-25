@@ -37,6 +37,7 @@
         "perfect-scrollbar": "^1.4.0",
         "simple-line-icons": "^2.4.1",
         "sweetalert": "^2.1.2",
+        "vee-validate": "^3.2.5",
         "vue-2-crumbs": "^0.5.4",
         "vue-axios": "^2.1.4",
         "vue-cleave-component": "^2.1.3",

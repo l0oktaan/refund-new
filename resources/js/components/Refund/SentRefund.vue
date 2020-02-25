@@ -24,9 +24,7 @@
                                     >
 
                                         <refund-report
-                                            :refund_id="50"
-                                            :refund_form_id="65"
-
+                                            :refund_id="refund_id"
                                         ></refund-report>
 
                                 </b-modal>
@@ -127,6 +125,7 @@ export default {
             list_files: [],
             status: 'new',
 
+
         }
     },
     computed: {
@@ -138,9 +137,12 @@ export default {
         }
     },
     mounted(){
+
         this.fetchData();
+
     },
     methods: {
+
         showReport(){
             this.$refs['modalReport'].show()
         },

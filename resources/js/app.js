@@ -67,6 +67,27 @@ Vue.use(VueSwal)
 
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+//------------------- Validation
+import {
+    ValidationObserver,
+    ValidationProvider,
+    extend,
+    localize
+  } from "vee-validate";
+import th from "vee-validate/dist/locale/th.json";
+import * as rules from "vee-validate/dist/rules";
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule]);
+  });
+
+  localize("th", th);
+
+  // Install VeeValidate components globally
+  Vue.component("ValidationObserver", ValidationObserver);
+  Vue.component("ValidationProvider", ValidationProvider);
+//------------------- Validation
+
+
 
 import ToggleButton from 'vue-js-toggle-button'
 Vue.use(ToggleButton)

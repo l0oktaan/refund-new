@@ -19,7 +19,6 @@
                 >
                 </refund-check>
             </b-tab>
-
             <!--==================================== Tab Form End =====================================-->
             <!--==================================== Tab  =====================================-->
             <b-tab v-if="refund_s >= 2" >
@@ -86,10 +85,9 @@
           </b-tabs>
           <div class="text-center" style="margin-top: 10px;">
 
-
                     <b-button variant="success" @click="tabIndex--" :disabled="(tabIndex == 0) ? true : false"><i class="fas fa-step-backward"></i></b-button>
                     <span>เปลี่ยนหน้า</span>
-                    <b-button variant="success" @click="tabIndex++" :disabled="(tabIndex == tabs.length-1) ? true : false"><i class="fas fa-step-forward"></i></b-button>
+                    <b-button variant="success" @click="tabIndex++" :disabled="(tabIndex == (tabs.length + tab_forms.length)-1) ? true : false"><i class="fas fa-step-forward"></i></b-button>
 
 
 
