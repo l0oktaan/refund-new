@@ -17,15 +17,15 @@ use Illuminate\Http\Request;
 
 
 
-Route::middleware('auth:api')->group(function() {
-
+Route::group(['middleware' => 'auth:api'],function() {
+    Route::Resource('/offices', 'OfficeController');
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    });
+});
     
 
-    Route::Resource('/offices', 'OfficeController');
+    
     Route::group(['prefix'=>'offices'],function(){
 
         Route::apiResource('/{office}/refunds','RefundController');
