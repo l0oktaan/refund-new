@@ -171,11 +171,13 @@ export default{
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
-                    this.clearData();
-                    this.state = 'update';
-                    this.contract_edit = response.data.data;
-                    this.toEdit(this.contract_edit);
+
+                    //this.state = 'update';
+                    //this.contract_edit = response.data.data;
+                    //this.toEdit(this.contract_edit);
                     this.alert = "success";
+                    this.clearData();
+                    //this.clearData();
                     this.fetchContractEdit();
 
                 })
@@ -189,11 +191,13 @@ export default{
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
-                    this.clearData();
-                    this.state = 'update';
-                    this.contract_edit = response.data.data;
-                    this.toEdit(this.contract_edit);
+
+                    //this.state = 'update';
+                    //this.contract_edit = response.data.data;
+                    //this.toEdit(this.contract_edit);
                     this.alert = "success";
+                    this.clearData();
+                    //this.clearData();
                     this.fetchContractEdit();
                 })
                 .catch(error=>{

@@ -164,28 +164,60 @@ export default {
                 return "date"
             }
         },
+        createConsiderDetail(arr_consider,arrDetail){
+            for (let j=0; j < arr_consider.length; j++){
+                arrDetail.push({
+                    consider_id: arr_consider[j].id,
+                    result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
+                    value: this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
+                    status: 0
+                });
+            }
+        },
+        createDetail(rules){
+            var arrDetail = []
+            for (let i = 0; i < rules.length; i++){
+                if (rules[i]['sub_rules'].length > 0){
+                    for (let j = 0; j < rules[i]['sub_rules'].length; j++){
+                        let arr_consider = rules[i]['sub_rules'][j]['considers'];
+                        this.createConsiderDetail(arr_consider, arrDetail);
+                        console.log('Detail Length : ' + arrDetail.length);
+                    }
+                }else{
+                    let arr_consider = rules[i]['considers'];
+                    this.createConsiderDetail(arr_consider, arrDetail);
+                    console.log('Detail Length : ' + arrDetail.length);
+                }
+            }
+            return arrDetail;
+        },
         createRefundDetail(refund_form){
             //console.log('refund_form :' + refund_form.id);
             var arr_detail = [];
             var rule = {};
             var arr_consider = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form.id}/refund_details`;
-            axios
+
             var form = refund_form.form;
-            for (let i=0; i<form.rules.length; i++){
-                rule = form.rules[i]
-                arr_consider = rule.considers;
-                for (let j=0; j < arr_consider.length; j++){
-                    arr_detail.push({
-                        consider_id: arr_consider[j].id,
-                        result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
-                        value: this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
-                        status: 0
-                    });
-                }
-            }
+            arr_detail = this.createDetail(form.rules)
+            // return [];
+            // for (let i=0; i<form.rules.length; i++){
+
+
+
+            //     rule = form.rules[i]
+            //     arr_consider = rule.considers;
+            //     for (let j=0; j < arr_consider.length; j++){
+            //         arr_detail.push({
+            //             consider_id: arr_consider[j].id,
+            //             result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
+            //             value: this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
+            //             status: 0
+            //         });
+            //     }
+            // }
             if (arr_detail.length > 0){
-                console.log('refund_detail :' + arr_detail);
+                console.log('refund_detail :' + arr_detail.length);
                 axios.post(`${path}`,{
                     state : 'new',
                     detail : arr_detail
@@ -197,7 +229,7 @@ export default {
                     console.log('Error : ' + error);
                 })
             }
-            return arr_detail;
+            return [];
         },
         saveRefundForm(){
             if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
