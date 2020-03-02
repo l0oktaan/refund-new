@@ -200,7 +200,7 @@ export default {
             }
         },
         consider_var1(newDate, oldDate){
-            console.log('change date1' + this.consider_var1);
+            //console.log('change date1' + this.consider_var1);
              if (this.consider_oper > 1 && newDate != '' && !newDate){
                 this.myDate1 = this.consider_var1;
                 this.$nextTick(() => {
@@ -209,7 +209,7 @@ export default {
             }
         },
         consider_var2(newDate, oldDate){
-            console.log('change date 2' + this.consider_var2);
+            //console.log('change date 2' + this.consider_var2);
              if (this.consider_oper == 3 && newDate != '' && !newDate){
                 this.myDate2 = this.consider_var2;
                 this.$nextTick(() => {
