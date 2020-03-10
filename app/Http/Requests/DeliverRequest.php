@@ -25,12 +25,12 @@ class DeliverRequest extends FormRequest
     {
         return [
             'delivery' => 'required',
-            'detail' => 'required|max:255',
-            'delivery_date' => 'required',
-            'overdue_start_date' => 'required',
-            'overdue_end_date' => 'required',
-            'overdue_days' => 'required',
-            'penalty' => 'required'
+            'detail' => 'required',
+            'delivery_date' => 'required'
+            // 'overdue_start_date' => 'required',
+            // 'overdue_end_date' => 'required',
+            // 'overdue_days' => 'required',
+            // 'penalty' => 'required'
         ];
     }
 }

@@ -6,7 +6,7 @@
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
                             <i class='fa fa-align-justify'></i>
-                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวมการขออนุมัติในครั้งนี้) </span><span class="require"> (*)</span> จำเป็นต้องกรอก
+                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวม การขออนุมัติถอนคืนในครั้งนี้) </span><span class="require"> (*)</span> จำเป็นต้องกรอก
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
@@ -57,9 +57,6 @@
                                 </b-col>
                             </b-row>
                             <b-row>
-
-
-
                                 <b-col sm="3">
                                     <b-form-group>
                                         <label for="edit_start_date">ตั้งแต่วันที่ :<span class="require">*</span></label>
@@ -72,15 +69,20 @@
                                         <my-date-picker ref="edit_end_date" :id="12" :showDate="date_edit_end" @update="value => date_edit_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3">
+                                <b-col sm="2">
                                     <b-form-group>
-                                        <label for="edit_days">จำนวนวัน :</label>
+                                        <label for="edit_days">จำนวนวัน (คำนวณ) :</label>
+                                        <p v-if="cal_edit_days" style="text-align: center">{{cal_edit_days}} วัน</p>
+                                    </b-form-group>
+                                </b-col>
+                                 <b-col sm="3">
+                                    <b-form-group>
+                                        <label for="edit_days">จำนวนวันที่อนุมัติ :</label>
 
                                         <b-form-input type="text"
                                             placeholder="จำนวนวัน"
                                             name="edit_days"
                                             v-model = "edit_days"
-                                            disabled
                                         >
                                         </b-form-input>
                                     </b-form-group>
@@ -88,7 +90,7 @@
                             </b-row>
 
                             <b-row>
-                                <b-col sm="3">
+                                <b-col sm="4">
                                     <b-form-group>
                                         <label for="approve_type">อนุมัติให้ตาม :<span class="require">*</span></label>
                                         <b-form-select
@@ -98,7 +100,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="9" v-if="arrShowDetail.includes(time_edit.approve_type)">
+                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type))">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -111,13 +113,13 @@
                                 </b-col>
                             </b-row>
                             <b-row>
-                                <b-col sm="3" v-if="arrShowDetail.includes(time_edit.approve_type)">
+                                <b-col sm="3" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3" v-if="arrShowDetail.includes(time_edit.approve_type)">
+                                <b-col sm="3" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
@@ -195,13 +197,20 @@ export default {
                 {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16},
                 {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17},
                 {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18},
+                {text: 'มติ ครม. ว 165 ลว 26 เม.ย. 62', value: 19},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
+                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (1)', value: 24},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 23},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (2)', value: 31},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2535 มาตรา 102 (3)', value: 32},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 97', value: 34},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (1)', value: 30},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (2)', value: 31},
+                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32}
             ],
-            arrShowDetail : [
+            arrShowDetail1 : [
+                21,24,22,23,34,30,31,32
+            ],
+            arrShowDetail2 : [
                 22,23,31,32
             ],
             cleave_options:{
@@ -228,6 +237,7 @@ export default {
             date_edit_start: '',
             date_edit_end: '',
             edit_days: null,
+            cal_edit_days: null,
             state: 'new',
             alert: ''
 
@@ -246,7 +256,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    this.edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
+                    this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
         },
@@ -259,12 +269,17 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    this.edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
+                    this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
         },
+        cal_edit_days(newVal,oldVal){
+            this.edit_days = newVal;
+            this.$forceUpdate();
+        }
     },
     methods: {
+
         fetchEditTimeList(){
             this.$emit('refund_update');
             this.time_edit_list = [];
@@ -448,6 +463,7 @@ export default {
             this.date_edit_start = '';
             this.date_edit_end = '';
             this.edit_days = null;
+            this.cal_edit_days = null;
             this.$forceUpdate();
             //this.showCalendar();
         }

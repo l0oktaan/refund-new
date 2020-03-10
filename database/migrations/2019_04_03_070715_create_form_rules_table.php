@@ -18,7 +18,7 @@ class CreateFormRulesTable extends Migration
             $table->integer('form_id')->unsigned()->index();
             $table->foreign('form_id')->references('id')->on('9_forms')->onDelete('cascade');
             $table->integer('order');
-            $table->string('name');
+            $table->string('name',300);
             $table->integer('sub_of');
             $table->integer('rule_type');
             $table->integer('result_type')->nullable();

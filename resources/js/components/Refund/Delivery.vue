@@ -43,18 +43,39 @@
                         </b-row>
                         <b-row>
                         <b-col >
+                            <validation-provider
+                                    name="รายละเอียดส่งมอบงาน"
+                                    rules="required|min:5"
+                                    v-slot="validationContext"
+                                >
                             <b-form-group>
-                                <label for="detail">รายละเอียดส่งมอบงาน :</label>
+                                <label for="detail">รายละเอียดส่งมอบงาน : <span class="require">*</span></label>
                                 <b-form-input type="text"
                                     placeholder="เช่น ส่งมอบงานเกินกำหนด 45 วัน แต่ปรับไว้ 43 วัน เป็นต้น"
                                     name="detail"
                                     v-model="delivery.detail"
+                                    :state="getValidationState(validationContext)"
+                                    aria-describedby="delivery_detail"
                                 >
                                 </b-form-input>
+                                <b-form-invalid-feedback id="delivery_detail">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                             </b-form-group>
+                            </validation-provider>
                         </b-col>
                         </b-row>
                         <b-row>
+                            <b-col>
+                                <div>
+                                    ค่าปรับ : <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                        :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
+                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                        style="padding-top:4px; line-height:0px;"
+                                        v-model="hasPenalty"
+                                    /> (กรณีไม่มีค่าปรับ กรุณาให้ข้อมูลเพิ่มเติมในช่อง "รายละเอียดส่งมอบงาน)"
+                                </div>
+                            </b-col>
+                        </b-row>
+                        <b-row v-if="hasPenalty" class="animated fadeIn fadeOut">
                             <b-col>
                                 <b-form-group>
                                     <label for="date_start">วันที่เริ่มคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
@@ -67,6 +88,12 @@
                                     <my-date-picker ref="date_end" id="date_end" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
+                            <b-col sm="2">
+                                    <b-form-group>
+                                        <label>จำนวนวัน (คำนวณ) :</label>
+                                        <p v-if="cal_overdue_days" style="text-align: center">{{cal_overdue_days}} วัน</p>
+                                    </b-form-group>
+                                </b-col>
                             <b-col>
                                 <b-form-group>
                                     <label for="overdue_days">เกินกำหนด : (วัน)</label>
@@ -74,13 +101,13 @@
                                         placeholder="จำนวนวัน"
                                         name="overdue_days"
                                         v-model="overdue_days"
-                                        disabled
                                     >
                                     </b-form-input>
+
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row  v-if="hasPenalty" class="animated fadeIn fadeOut">
                             <b-col>
                                 <b-form-group>
                                     <label for="delivery_date">วันที่ส่งมอบงาน : <span class="require">*</span><span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
@@ -94,6 +121,11 @@
                                     <label for="penalty">ถูกปรับเป็นเงิน : (บาท) <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <show-alert :message="message" @clearMessage="clearMessage"></show-alert>
                             </b-col>
                         </b-row>
                         <b-row>
@@ -171,8 +203,11 @@ export default {
             date_start: '',
             date_end: '',
             overdue_days: null,
+            cal_overdue_days: null,
+            hasPenalty: false,
             state: 'new',
-            alert: ''
+            alert: '',
+            message: ''
         }
     },
     watch: {
@@ -184,7 +219,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    this.overdue_days = this.diffDate(this.date_start,this.date_end);
+                    this.cal_overdue_days = this.diffDate(this.date_start,this.date_end);
                 }
             }
         },
@@ -197,15 +232,40 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    this.overdue_days = this.diffDate(this.date_start,this.date_end);
+                    this.cal_overdue_days = this.diffDate(this.date_start,this.date_end);
                 }
             }
         },
+        cal_overdue_days(newVal, oldVal){
+            this.overdue_days = newVal;
+        }
     },
     mounted(){
         this.fetchData();
     },
     methods: {
+        clearMessage(){
+            this.message = ''
+        },
+        checkHasPenalty(){
+            if (this.hasPenalty){
+                console.log('ค่าปรับ : ' + this.delivery.penalty);
+                if (!this.delivery.penalty || this.delivery.penalty == ''){
+                    this.message = 'กรุณากรอกข้อมูลให้ครบ';
+                    setTimeout(function(){
+                        this.message = '';
+                        return false;
+                    }, 3000);
+
+                }else{
+                    this.message = '';
+                    return true;
+                }
+            }else{
+                this.message = '';
+                return true;
+            }
+        },
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
@@ -284,6 +344,9 @@ export default {
             //e.preventDefault();
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers`;
             console.log('delivery status :' + this.state);
+            if (!this.checkHasPenalty()){
+                return;
+            }
             if (this.state == 'new'){
                 axios
                 .post(`${path}`,{
@@ -334,6 +397,7 @@ export default {
                     this.clearData();
                 })
                 .catch(error=>{
+                    console.log('delever error :' + error)
                     this.alert = 'error';
                 })
 

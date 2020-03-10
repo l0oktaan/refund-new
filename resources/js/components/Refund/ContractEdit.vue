@@ -1,7 +1,19 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-         <b-form  @submit="SubmitContractEdit">
+        <div v-if="!isEdit">
+            มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
+                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                style="padding-top:4px; line-height:0px;"
+
+                v-model="isEdit"
+            />
+        </div>
+
+
+
+         <b-form  @submit="SubmitContractEdit" v-if="isEdit">
             <b-card no-body class="bg-secondary">
                 <b-card-body class="pb-0 list ">
                    <b-row>
@@ -65,7 +77,7 @@
             </b-card>
         </b-form>
         <!-- ======================= Contract Edit List ========================================-->
-        <table class="table table-hover" v-if="contract_edit_list">
+        <table class="table table-hover" v-if="contract_edit_list.length > 0">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col" style="width: 20%">หนังสือลงวันที่</th>
@@ -142,8 +154,8 @@ export default{
                     numeralDecimalScale: 2,
 
                 },
-            }
-
+            },
+            isEdit: false
         }
     },
     mounted(){
@@ -210,6 +222,7 @@ export default{
             axios.get(`${path}`)
             .then(response=>{
                 this.contract_edit_list = response.data.data;
+                (this.contract_edit_list.length > 0) ? this.isEdit = true : this.isEdit = false;
                 this.$forceUpdate();
             })
             .catch(error=>{

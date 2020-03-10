@@ -129,6 +129,7 @@ import RefundFormTest from './views/RefundFormTest.vue'
 
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
+
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
 
@@ -322,8 +323,13 @@ Vue.component('ConsiderCover', ConsiderCover).defaults;
 import MyAlert from './components/MyAlert.vue';
 Vue.component('MyAlert', MyAlert).default;
 
+import ShowAlert from './components/ShowAlert.vue';
+Vue.component('ShowAlert', ShowAlert).default;
+
 import MyLogin from './components/Login/Login.vue';
 Vue.component('MyLogin', MyLogin).default;
+
+
 
 //***********************Refund************************* */
 import RefundNav from './components/Refund/RefundNav.vue';

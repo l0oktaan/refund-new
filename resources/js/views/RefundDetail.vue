@@ -34,9 +34,7 @@
                     <span>{{tabs[2].title}}</span>
                 </template>
                 <contract-time-edit @refund_update="checkRefundStatus"></contract-time-edit>
-
             </b-tab>
-
             <b-tab v-if="refund_s >= 3">
                 <template slot="title">
                     <h6>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h6>
@@ -259,9 +257,7 @@ export default {
 }
 </script>
 <style scoped>
-.tabTitle{
 
-}
 .nav-link{
     padding-top: 10px!important;
 }
