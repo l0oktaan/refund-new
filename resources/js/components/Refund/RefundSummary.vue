@@ -31,12 +31,26 @@
                             <b-col sm="12">
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ หรือคืนเงินค่าปรับ :"
+                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ :"
                                     label-align-sm="right"
                                     label-for="approve_refund_days"
                                 >
                                     <b-input-group append="วัน">
                                        <b-form-input id="approve_refund_days" v-model="approve.refund_days"></b-form-input>
+                                    </b-input-group>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="12">
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label="หน่วยงานอนุมัติให้คืนเงินค่าปรับ :"
+                                    label-align-sm="right"
+                                    label-for="approve_refund_money"
+                                >
+                                    <b-input-group append="วัน">
+                                       <b-form-input id="approve_refund_money" v-model="approve.refund_money"></b-form-input>
                                     </b-input-group>
                                 </b-form-group>
                             </b-col>
@@ -144,6 +158,7 @@ export default {
                 axios.post(`${path}`,{
                     receive_date: this.approve.receive_date,
                     refund_days: this.approve.refund_days,
+                    refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
                     approve_amount: this.approve.approve_amount
                 })
@@ -162,6 +177,7 @@ export default {
                 .put(`${path}`,{
                     receive_date: this.approve.receive_date,
                     refund_days: this.approve.refund_days,
+                    refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
                     approve_amount: this.approve.approve_amount
                 })

@@ -20,7 +20,7 @@
             <validation-observer ref="observer" v-slot="{ passes }">
             <b-form @submit.stop.prevent="passes(onSubmit)">
                         <b-row>
-                            <b-col >
+                            <b-col cols="4">
                                 <validation-provider
                                     name="ส่งมอบงาน"
                                     rules="required|min:5"
@@ -39,6 +39,13 @@
                                     <b-form-invalid-feedback id="input-1-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                                 </validation-provider>
+                            </b-col>
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="require">*</span><span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
+                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => date_delivery = value"></my-date-picker>
+
+                                </b-form-group>
                             </b-col>
                         </b-row>
                         <b-row>
@@ -76,25 +83,25 @@
                             </b-col>
                         </b-row>
                         <b-row v-if="hasPenalty" class="animated fadeIn fadeOut">
-                            <b-col>
+                            <b-col cols="3">
                                 <b-form-group>
                                     <label for="date_start">วันที่เริ่มคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
                                     <my-date-picker ref="date_start" id="date_start" :showDate="date_start" @update="value => date_start = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
-                            <b-col>
+                            <b-col cols="3">
                                 <b-form-group>
                                     <label for="date_end">วันที่สิ้นสุดการคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
                                     <my-date-picker ref="date_end" id="date_end" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
                                 </b-form-group>
                             </b-col>
-                            <b-col sm="2">
+                            <b-col cols="3">
                                     <b-form-group>
                                         <label>จำนวนวัน (คำนวณ) :</label>
                                         <p v-if="cal_overdue_days" style="text-align: center">{{cal_overdue_days}} วัน</p>
                                     </b-form-group>
                                 </b-col>
-                            <b-col>
+                            <b-col cols="3">
                                 <b-form-group>
                                     <label for="overdue_days">เกินกำหนด : (วัน)</label>
                                     <b-form-input type="text"
@@ -108,15 +115,9 @@
                             </b-col>
                         </b-row>
                         <b-row  v-if="hasPenalty" class="animated fadeIn fadeOut">
-                            <b-col>
-                                <b-form-group>
-                                    <label for="delivery_date">วันที่ส่งมอบงาน : <span class="require">*</span><span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
-                                    <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => date_delivery = value"></my-date-picker>
 
-                                </b-form-group>
-                            </b-col>
 
-                            <b-col>
+                            <b-col cols="3">
                                 <b-form-group>
                                     <label for="penalty">ถูกปรับเป็นเงิน : (บาท) <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
@@ -204,13 +205,18 @@ export default {
             date_end: '',
             overdue_days: null,
             cal_overdue_days: null,
-            hasPenalty: false,
+            hasPenalty: true,
             state: 'new',
             alert: '',
             message: ''
         }
     },
     watch: {
+        date_delivery(newDate,oldDate){
+            if (this.hasPenalty && this.date_end){
+                this.checkEqualDate(this.date_end, newDate);
+            }
+        },
         date_start(newDate, oldDate){
             if (this.date_start != '' && this.date_end){
                 if (!this.checkDate(newDate,this.date_end)){
@@ -224,7 +230,6 @@ export default {
             }
         },
         date_end(newDate, oldDate){
-
             if (this.date_end != '' && this.date_start){
                 if (!this.checkDate(this.date_start,newDate)){
                     this.$nextTick(() => {
@@ -233,11 +238,26 @@ export default {
                     })
                 }else{
                     this.cal_overdue_days = this.diffDate(this.date_start,this.date_end);
+                    this.checkEqualDate(newDate,this.date_delivery);
                 }
             }
         },
         cal_overdue_days(newVal, oldVal){
-            this.overdue_days = newVal;
+            if (this.state == 'new'){
+                this.overdue_days = newVal;
+            }
+
+        },
+        hasPenalty(newVal, oldVal){
+            if (newVal == false){
+                this.date_start = null;
+                this.date_end = null;
+                this.overdue_days = null;
+                this.cal_overdue_days = null;
+                if (this.delivery){
+                    this.delivery.penalty = null;
+                }
+            }
         }
     },
     mounted(){
@@ -246,6 +266,21 @@ export default {
     methods: {
         clearMessage(){
             this.message = ''
+        },
+        checkEqualDate(d1,d2){
+            // var d1 = new Date(d1);
+            // var d2 = new Date(d2);
+            console.log('dateDiff :' + d1 + ' : ' + d2);
+            if (d2.toString() != d1.toString()){
+
+                this.message = 'ข้อมูลวันที่สิ้นสุดค่าปรับ ไม่สอดคล้องกับวันที่ส่งมอบบงาน กรุณาใส่ข้อมูลเพิ่มเติมในช่อง "รายละเอียดส่งมอบงาน"';
+                setTimeout(function(){
+                    this.message = '';
+                    return false;
+                }, 10000);
+            }else{
+                this.message = '';
+            }
         },
         checkHasPenalty(){
             if (this.hasPenalty){
@@ -292,21 +327,38 @@ export default {
 
             this.delivery = _.cloneDeep(item);
             if (item){
-                this.state = 'update';
-                this.date_delivery = item.delivery_date;
-                this.date_start = item.overdue_start_date;
-                this.date_end = item.overdue_end_date;
-                this.overdue_days = item.overdue_days;
+
+
+                    this.state = 'update';
+                    this.date_delivery = item.delivery_date;
+                    if (item.penalty || item.penalty > 0){
+                        this.hasPenalty = true;
+                        this.$nextTick(() => {
+                            this.date_start = item.overdue_start_date;
+                            this.date_end = item.overdue_end_date;
+                            this.overdue_days = item.overdue_days;
+                        })
+
+
+                    }else{
+                        this.hasPenalty = false;
+                    }
+
+                    this.$forceUpdate();
+
             }
         },
         clearData(){
             this.delivery = {};
             this.state = 'new';
             this.date_delivery = '';
-            this.date_start = '';
-            this.date_end = '';
             this.delivery_date = '';
+            this.hasPenalty = true;
             this.overdue_days = null;
+            this.cal_overdue_days = null;
+            this.date_start = null;
+            this.date_end = null;
+            this.message = '';
             this.$nextTick(() => {
                 this.$refs.observer.reset();
             });
@@ -314,8 +366,8 @@ export default {
         },
         toDel(id){
             this.$swal({
-                title: "กรุณายืนยัน",
-                text: `คุณต้องการลบข้อมูล ใช่หรือไม่`,
+                title: "คุณต้องการลบข้อมูล ใช่หรือไม่",
+                //text: `คุณต้องการลบข้อมูล ใช่หรือไม่`,
                 icon: "warning",
                 closeOnClickOutside: false,
                 buttons: [
@@ -347,61 +399,78 @@ export default {
             if (!this.checkHasPenalty()){
                 return;
             }
-            if (this.state == 'new'){
-                axios
-                .post(`${path}`,{
-                    // delivery: this.delivery.delivery,
-                    // detail: this.delivery.detail,
-                    // delivery_date: this.delivery.delivery_date,
-                    // overdue_days: this.delivery.overdue_days,
-                    // penalty: this.delivery.penalty
-                    delivery: this.delivery.delivery,
-                    detail: this.delivery.detail,
-                    delivery_date: this.date_delivery,
-                    overdue_start_date: this.date_start,
-                    overdue_end_date: this.date_end,
-                    overdue_days: this.overdue_days,
-                    penalty: this.delivery.penalty
-                })
-                .then(response=>{
+            this.$swal({
+                title: "คุณต้องการบันทึกข้อมูล ใช่หรือไม่",
+                //text: `กรุณายืนยัน`,
 
-                    this.alert = 'success';
-                    //this.toEdit(response.data.data);
+                icon: "info",
+                closeOnClickOutside: false,
+                buttons: [
+                    'ยกเลิก',
+                    'ยืนยัน'
+                ],
 
-                    this.fetchData();
-                    this.clearData();
-                })
-                .catch(error=>{
-                    console.log('delever error :' + error)
-                    this.alert = 'error';
-                })
-            }else if (this.state == 'update'){
-                path = `${path}/${this.delivery.id}`;
+            })
+            .then(isConfirm =>{
+                if (isConfirm){
+                    if (this.state == 'new'){
+                        axios
+                        .post(`${path}`,{
+                            // delivery: this.delivery.delivery,
+                            // detail: this.delivery.detail,
+                            // delivery_date: this.delivery.delivery_date,
+                            // overdue_days: this.delivery.overdue_days,
+                            // penalty: this.delivery.penalty
+                            delivery: this.delivery.delivery,
+                            detail: this.delivery.detail,
+                            delivery_date: this.date_delivery,
+                            overdue_start_date: this.date_start,
+                            overdue_end_date: this.date_end,
+                            overdue_days: this.overdue_days,
+                            penalty: this.delivery.penalty
+                        })
+                        .then(response=>{
 
-                axios
-                .put(`${path}`,{
-                    delivery: this.delivery.delivery,
-                    detail: this.delivery.detail,
-                    delivery_date: this.date_delivery,
-                    overdue_start_date: this.date_start,
-                    overdue_end_date: this.date_end,
-                    overdue_days: this.overdue_days,
-                    penalty: this.delivery.penalty
-                })
-                .then(response=>{
+                            this.alert = 'success';
+                            //this.toEdit(response.data.data);
 
-                    this.alert = 'success';
-                    //this.toEdit(response.data.data);
+                            this.fetchData();
+                            this.clearData();
+                        })
+                        .catch(error=>{
+                            console.log('delever error :' + error)
+                            this.alert = 'error';
+                        })
+                    }else if (this.state == 'update'){
+                        path = `${path}/${this.delivery.id}`;
 
-                    this.fetchData();
-                    this.clearData();
-                })
-                .catch(error=>{
-                    console.log('delever error :' + error)
-                    this.alert = 'error';
-                })
+                        axios
+                        .put(`${path}`,{
+                            delivery: this.delivery.delivery,
+                            detail: this.delivery.detail,
+                            delivery_date: this.date_delivery,
+                            overdue_start_date: this.date_start,
+                            overdue_end_date: this.date_end,
+                            overdue_days: this.overdue_days,
+                            penalty: this.delivery.penalty
+                        })
+                        .then(response=>{
 
-            }
+                            this.alert = 'success';
+                            //this.toEdit(response.data.data);
+
+                            this.fetchData();
+                            this.clearData();
+                        })
+                        .catch(error=>{
+                            console.log('delever error :' + error)
+                            this.alert = 'error';
+                        })
+
+                    }
+                }
+            })
+
         },
         diffDate(date1,date2){
             var d1 = new Date(date1);

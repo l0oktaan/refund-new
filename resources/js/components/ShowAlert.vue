@@ -8,7 +8,7 @@
       @dismissed="showed"
 
     >
-      {{message}}
+      <span style="text-align: center"><i class="fas fa-exclamation-triangle"></i> {{message}}</span>
     </b-alert>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     props: ['message'],
     data() {
       return {
-        dismissSecs: 3,
+        dismissSecs: 5,
         dismissCountDown: 0,
         showDismissibleAlert: false,
         message_show: ''
@@ -49,5 +49,7 @@ export default {
 </script>
 
 <style>
-
+.alert-danger{
+    text-align: center!important;
+}
 </style>
