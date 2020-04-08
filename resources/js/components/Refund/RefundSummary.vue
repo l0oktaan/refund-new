@@ -9,14 +9,13 @@
                             การขอถอนคืนเงินค่าปรับให้แก่ผู้มีสิทธิ
                     </li>
                 </ul>
-
             </div>
             <b-form @submit="onSubmit">
 
                         <b-row>
                             <b-col cols="12" style="text-align:center; margin-bottom:10px;"><h5>การขอถอนคืนเงินค่าปรับให้แก่ผู้มีสิทธิ</h5></b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="false">
                             <b-col sm="12">
                                 <b-form-group
                                     label-cols-sm="6"
@@ -156,7 +155,7 @@ export default {
             if (this.state == 'new'){
 
                 axios.post(`${path}`,{
-                    receive_date: this.approve.receive_date,
+                    //receive_date: this.approve.receive_date,
                     refund_days: this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
@@ -175,7 +174,7 @@ export default {
                 path = `${path}/${this.approve.id}`;
                 axios
                 .put(`${path}`,{
-                    receive_date: this.approve.receive_date,
+                    //receive_date: this.approve.receive_date,
                     refund_days: this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,

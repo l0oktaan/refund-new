@@ -18,8 +18,8 @@ class CreateConsidersTable extends Migration
             $table->integer('form_rule_id')->unsigned()->index();
             $table->foreign('form_rule_id')->references('id')->on('10_form_rules')->onDelete('cascade');
             $table->integer('order');
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('name',250);
+            $table->string('description',250)->nullable();
             $table->integer('type');
             $table->string('oper')->nullable();
             $table->string('var1')->nullable();

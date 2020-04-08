@@ -113,13 +113,13 @@
                                 </b-col>
                             </b-row>
                             <b-row>
-                                <b-col sm="3" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="4" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="4" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
@@ -128,7 +128,6 @@
                             </b-row>
                             <b-row>
                                 <b-col>
-
                                     <div class="text-center" style="margin-bottom:5px;">
                                         <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                         <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
@@ -273,10 +272,10 @@ export default {
                 }
             }
         },
-        cal_edit_days(newVal,oldVal){
-            this.edit_days = newVal;
-            this.$forceUpdate();
-        }
+        // cal_edit_days(newVal,oldVal){
+        //     this.edit_days = newVal;
+        //     this.$forceUpdate();
+        // }
     },
     methods: {
 
@@ -381,6 +380,7 @@ export default {
         toEdit(t_edit){
             //this.time_edit = t_edit;
             this.time_edit = _.cloneDeep(t_edit);
+
             this.state = 'update';
             this.showCalendar(t_edit);
 

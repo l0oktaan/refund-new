@@ -24,7 +24,7 @@ class ApproveRefundRequest extends FormRequest
     public function rules()
     {
         return [
-            'receive_date' => 'required',
+
             'refund_days' => 'required',
             'refund_amount' => 'required',
             'approve_amount' => 'required'

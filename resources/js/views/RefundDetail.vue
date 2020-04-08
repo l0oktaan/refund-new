@@ -61,7 +61,7 @@
             <b-tab v-if="refund_s >= 7">
                 <template slot="title">
                     <h6>การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h6>
-                    <span>ส่งข้อมูลให้กรมบัญชีกลาง</span>
+                    <span>พิมพ์รายงานและส่งข้อมูล</span>
                 </template>
                 <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></sent-refund>
             </b-tab>

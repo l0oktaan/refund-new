@@ -50,7 +50,7 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="false">
                             <b-col>
                                 <b-form-group
                                     label-cols-sm="5"
@@ -80,7 +80,7 @@
                                 >
                                     <br>
 
-                                    <b-progress :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress>
+                                    <b-progress v-if="(uploadPercentage == 0 || uploadPercentage == 100) ? false : true" :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress>
                                     <br>
                                     <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>
                                     <b-button :variant=" file ? 'primary' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>

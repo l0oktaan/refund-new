@@ -68,7 +68,7 @@
                         <b-col>
 
                             <div class="text-center" style="margin-bottom:5px;">
-                                <b-button type="submit" variant="primary">บันทึกเงื่อนไข</b-button>
+                                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                 <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                             </div>
                         </b-col>
@@ -269,6 +269,9 @@ export default{
             this.contract_edit = {};
             this.date_show = '';
             this.state = 'new';
+            if (this.contract_edit_list.length <= 0) {
+                this.isEdit = false;
+            }
             this.$forceUpdate();
         },
         getThaiDate(value){
