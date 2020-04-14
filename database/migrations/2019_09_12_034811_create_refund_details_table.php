@@ -20,6 +20,7 @@ class CreateRefundDetailsTable extends Migration
             $table->integer('consider_id')->unsigned()->index();
             $table->foreign('consider_id')->references('id')->on('112_considers')->onDelete('cascade');
             $table->string('result_type')->nullable();
+            $table->tinyInteger('selected')->nullable();
             $table->string('value')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();

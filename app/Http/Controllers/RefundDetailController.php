@@ -59,10 +59,10 @@ class RefundDetailController extends Controller
                     }
                 break;
                 case 2 :
-                    if ($detail->value <> ''){
-                        $this->UpdateDetail(intval($detail->id),1);
-                    }else{
+                    if ((strval($detail->value) == '') || (strval($detail->value == '-'))){
                         $this->UpdateDetail(intval($detail->id),0);
+                    }else{
+                        $this->UpdateDetail(intval($detail->id),1);
                     }
                 break;
                 case 3 :  //ตรวจสอบข้อมูล
@@ -194,6 +194,7 @@ class RefundDetailController extends Controller
                         $detail = new RefundDetail;
                         $detail->consider_id = $data[$i]['consider_id'];
                         $detail->result_type = $data[$i]['result_type'];
+                        $detail->selected = $data[$i]['selected'];
                         $detail->value = $data[$i]['value'];
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
@@ -305,6 +306,7 @@ class RefundDetailController extends Controller
                     $detail = new RefundDetail;
                     $detail->consider_id = $data[$i]['consider_id'];
                     $detail->result_type = $data[$i]['result_type'];
+                    $detail->selected = $data[$i]['selected'];
                     $detail->value = $data[$i]['value'];
                     $detail->status = $data[$i]['status'];
                     $refund_form->refund_details()->save($detail);
@@ -312,6 +314,7 @@ class RefundDetailController extends Controller
                 }else if ($request->state == "update"){
 
                     $detail = RefundDetail::find($data[$i]['id']);
+                    $detail->selected = $data[$i]['selected'];
                     $detail->value = $data[$i]['value'];
                     $detail->save();
                     //$this->CheckConsider($refund_form, $detail);

@@ -169,6 +169,7 @@ export default {
                 arrDetail.push({
                     consider_id: arr_consider[j].id,
                     result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),
+                    selected: 0,
                     value: this.checkConsidetType(arr_consider[j].type ,arr_consider[j].oper),
                     status: 0
                 });

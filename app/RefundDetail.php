@@ -12,6 +12,7 @@ class RefundDetail extends Model
         'refund_form_id',
         'consider_id',
         'result_type',
+        'selected',
         'value',
         'status'
     ];
