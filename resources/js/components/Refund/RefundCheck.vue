@@ -8,7 +8,7 @@
                     <template slot="title">
                         <i class="icon-calculator"></i> {{index+1}}
                     </template>
-                    <rule-check :rule="rule"></rule-check>
+                    <rule-check :rule="rule" :detail="refund_form.detail"></rule-check>
                     <!-- <div >
                         <b-row>
                             <b-col cols="5"><div>หลักเกณฑ์</div></b-col>
