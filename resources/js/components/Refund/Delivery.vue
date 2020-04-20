@@ -44,7 +44,6 @@
                                 <b-form-group>
                                     <label for="delivery_date">วันที่ส่งมอบงาน : <span class="require">*</span><span class="detail">(วันที่หน่วยงานได้รับหนังสือ)</span></label>
                                     <my-date-picker ref="delivery_date" :id="11" :showDate="date_delivery" @update="value => date_delivery = value"></my-date-picker>
-
                                 </b-form-group>
                             </b-col>
                         </b-row>

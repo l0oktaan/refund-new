@@ -4,6 +4,7 @@
             <b-row>
                 <b-col>
                     <p>{{results}}</p>
+                    <p>{{date_show}}</p>
                     <!-- <p>{{detail}}</p> -->
 
                 </b-col>
@@ -54,7 +55,7 @@
                                         v-if="get_result_type(consider.id) == 'date'"
                                         :id="consider.id"
                                         :ref="'mydate' + consider.id"
-
+                                        :showDate="date_show[date_show.findIndex(x=>x.consider_id == consider.id)].show"
                                         @update="value=>results[results.findIndex(x=>x.consider_id == consider.id)].result = value"
                                     ></my-date-picker>
 
@@ -128,20 +129,25 @@ export default {
     data(){
         return {
             results: [],
-            i_rule: {}
+            i_rule: {},
+            date_show: [],
+
         }
     },
     mounted(){
-        this.fetchData();
+
+
     },
-    created(){
-        // this.fetchData();
-        // if (this.rule){
-        //     this.i_rule = this.rule;
-        // }
+    async created(){
+        // setTimeout( () => this.fetchData(), 2000);
+
+        this.results = await this.fetchData();
+        this.date_show = await this.get_date_show();
+
 
     },
     watch: {
+
         // i_rule(){
 
         //     this.results = [];
@@ -212,11 +218,22 @@ export default {
         // }
     },
     methods: {
+        get_date_show(){
+            let date_show = [];
+            for (let i=0; i < this.results.length; i++){
+                if (this.results[i]['result_type'] == 'date'){
+                    date_show.push(this.results[i]);
+                }
+
+            }
+            return date_show;
+        },
         fetchData(){
 
 
-            this.results = [];
+
             let _results = [];
+            this.date_show = [];
             if (this.rule.sub_rules.length == 0){
 
                 for (let j = 0; j < this.rule.considers.length; j++){
@@ -237,6 +254,7 @@ export default {
                             "result" : this.getResult(this.detail[index]['result_type'],this.detail[index]['value']),
                             "status" : this.detail[index]['status']
                         }
+
                         // console.log('id :' + this.detail[index]['id']);
                         // console.log('consider_id :' + this.detail[index]['consider_id']);
                         // console.log('result type :' + this.detail[index]['result_type']);
@@ -275,11 +293,10 @@ export default {
                     }
                 }
             }
-            this.$nextTick(() => {
-                this.results = _results;
-                this.showDate();
-                this.$forceUpdate();
-            })
+
+               return _results;
+
+
 
 
         },

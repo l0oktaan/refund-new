@@ -1,6 +1,52 @@
 <template>
 <div class="animated fadeIn">
-        <b-list-group flush v-if="consider">
+    <b-row align-h="center">
+        <b-col cols="8">
+            <div class="text-center">เงื่อนไข</div>
+        </b-col>
+        <b-col cols="4">
+            <div class="text-center">ข้อมูลตรวจสอบ</div>
+        </b-col>
+    </b-row>
+    <b-row>
+        <b-col cols="8">
+            <div>
+                <b>{{consider.name}}</b>
+                <span class="helpIcon">
+                    <i class="fas fa-question-circle fa-2x"
+                        :id="`exPopover1-${consider.id}`"
+                        v-if="description(consider.description)"
+                        @click="showDesc = true"
+                        style="cursor: pointer">
+                    </i>
+                </span>
+                <b-popover :target="`exPopover1-${consider.id}`"
+                            placement="topright"
+                            triggers="hover focus"
+                            content="ดูคำอธิบาย"
+                            v-if="description(consider.description)"
+                            >
+                </b-popover>
+                <b-alert v-if="description(consider.description)"
+                    variant="info"
+                    dismissible
+                    fade
+                    :show="showDesc"
+                    @dismissed="showDesc = false"
+                    >
+                    <h6>คำอธิบาย</h6>
+                    <span>{{consider.description}}</span>
+                </b-alert>
+            </div>
+        </b-col>
+        <b-col cols="4">
+            <div class="text-center">
+                <slot></slot>
+            </div>
+
+        </b-col>
+    </b-row>
+        <!-- <b-list-group flush v-if="consider">
             <b-list-group-item class="d-flex justify-content-between align-items-center">
                <div>
                     <b>เงื่อนไข : </b>{{consider.name}}
@@ -36,7 +82,7 @@
                     <slot></slot>
                 </div>
             </b-list-group-item>
-        </b-list-group>
+        </b-list-group> -->
 </div>
 </template>
 
