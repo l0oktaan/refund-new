@@ -1,17 +1,10 @@
 <template>
 <div class="animated fadeIn">
-    <b-row align-h="center">
-        <b-col cols="8">
-            <div class="text-center">เงื่อนไข</div>
-        </b-col>
-        <b-col cols="4">
-            <div class="text-center">ข้อมูลตรวจสอบ</div>
-        </b-col>
-    </b-row>
+
     <b-row>
         <b-col cols="8">
             <div>
-                <b>{{consider.name}}</b>
+                <span>เงื่อนไข : {{consider.name}}</span>
                 <span class="helpIcon">
                     <i class="fas fa-question-circle fa-2x"
                         :id="`exPopover1-${consider.id}`"

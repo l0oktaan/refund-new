@@ -3,14 +3,16 @@
     <my-alert :AlertType="alert"></my-alert>
         <b-row class="justify-content-md-center">
             <b-col cols="10">
-                <b-card class="bg-dark">
+                <b-card>
                         <b-tabs card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
                             <b-tab v-for="(rule,x_index) in rules" :key="x_index">
                                 <template slot="title">
                                     <i class="icon-calculator"></i> {{x_index+1}}
                                 </template>
+                                    <b-card border-variant="primary">
+                                        <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
+                                    </b-card>
 
-                                    <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
 
                                     <consider-check
                                         v-for="(consider,index) in rule.considers" :key="index"
@@ -333,7 +335,7 @@ export default {
     margin-bottom: 5px!important;
 }
 .card-body{
-    background-color: #ffffff!important;
+
     padding: 5px!important;
     color: #000!important;
 }
