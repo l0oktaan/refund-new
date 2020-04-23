@@ -9,7 +9,7 @@
                                 <template slot="title">
                                     <i class="icon-calculator"></i> {{x_index+1}}
                                 </template>
-                                    <b-card border-variant="primary">
+                                    <b-card bg-variant="primary" text-variant="white" class="p-1 pl-2">
                                         <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
                                     </b-card>
 
@@ -331,14 +331,7 @@ export default {
 }
 </script>
 <style scoped>
-.card{
-    margin-bottom: 5px!important;
-}
-.card-body{
 
-    padding: 5px!important;
-    color: #000!important;
-}
 .sub_rule{
     margin: 5px;
    border: 0px!important;

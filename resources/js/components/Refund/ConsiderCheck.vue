@@ -2,42 +2,48 @@
 <div class="animated fadeIn">
 
     <b-row>
-        <b-col cols="8">
-            <div>
-                <span>เงื่อนไข : {{consider.name}}</span>
-                <span class="helpIcon">
-                    <i class="fas fa-question-circle fa-2x"
-                        :id="`exPopover1-${consider.id}`"
-                        v-if="description(consider.description)"
-                        @click="showDesc = true"
-                        style="cursor: pointer">
-                    </i>
-                </span>
-                <b-popover :target="`exPopover1-${consider.id}`"
-                            placement="topright"
-                            triggers="hover focus"
-                            content="ดูคำอธิบาย"
-                            v-if="description(consider.description)"
+        <b-col cols="12">
+            <div class="brand-card">
+                <div class="brand-card-body">
+                    <div class="p-2" style="max-width:15%">
+                        <span>เงื่อนไข : </span>
+                    </div>
+                    <div class="p-2 pl-4 mr-3 float-left text-left">
+                        <span>{{consider.name}}</span>
+                        <span class="helpIcon">
+                            <i class="fas fa-question-circle fa-2x"
+                                :id="`exPopover1-${consider.id}`"
+                                v-if="description(consider.description)"
+                                @click="showDesc = true"
+                                style="cursor: pointer">
+                            </i>
+                        </span>
+                        <b-popover :target="`exPopover1-${consider.id}`"
+                                    placement="topright"
+                                    triggers="hover focus"
+                                    content="ดูคำอธิบาย"
+                                    v-if="description(consider.description)"
+                                    >
+                        </b-popover>
+                        <b-alert v-if="description(consider.description)"
+                            variant="info"
+                            dismissible
+                            fade
+                            :show="showDesc"
+                            @dismissed="showDesc = false"
                             >
-                </b-popover>
-                <b-alert v-if="description(consider.description)"
-                    variant="info"
-                    dismissible
-                    fade
-                    :show="showDesc"
-                    @dismissed="showDesc = false"
-                    >
-                    <h6>คำอธิบาย</h6>
-                    <span>{{consider.description}}</span>
-                </b-alert>
-            </div>
-        </b-col>
-        <b-col cols="4">
-            <div class="text-center">
-                <slot></slot>
+                            <h6>คำอธิบาย</h6>
+                            <span>{{consider.description}}</span>
+                        </b-alert>
+                    </div>
+                    <div class="p-2" style="max-width:30%">
+                        <slot></slot>
+                    </div>
+                </div>
             </div>
 
         </b-col>
+
     </b-row>
         <!-- <b-list-group flush v-if="consider">
             <b-list-group-item class="d-flex justify-content-between align-items-center">
@@ -177,5 +183,13 @@ export default {
 }
 .alert{
     margin-bottom: 2px;
+}
+.detail{
+    padding: 10px!important;
+}
+.brand-card{
+    margin-bottom: 5px!important;
+    border-width: 0px;
+
 }
 </style>
