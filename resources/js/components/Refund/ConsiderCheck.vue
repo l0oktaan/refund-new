@@ -5,8 +5,8 @@
         <b-col cols="12">
             <div class="brand-card">
                 <div class="brand-card-body">
-                    <div class="p-2" style="max-width:15%">
-                        <span>เงื่อนไข : </span>
+                    <div class="p-2" style="max-width:15%" align-v="center">
+                        <span class="align-middle">เงื่อนไข : </span>
                     </div>
                     <div class="p-2 pl-4 mr-3 float-left text-left">
                         <span>{{consider.name}}</span>
@@ -100,6 +100,7 @@ export default {
             showDesc: true
         }
     },
+
     watch: {
         // iRule(){
         //     this.getConsider();
