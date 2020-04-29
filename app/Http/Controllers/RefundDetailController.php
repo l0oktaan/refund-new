@@ -178,18 +178,10 @@ class RefundDetailController extends Controller
         // return response([
         //     'data' => $detail
         // ],Response::HTTP_CREATED);
-
-
-
             if ($request->has('detail')){
-
-
                 //$data = json_encode($request->data);
                 $data = $request->detail;
-
-
                 for ($i = 0; $i < count($data); $i++){
-
                     if ($request->state == "new"){
                         $detail = new RefundDetail;
                         $detail->consider_id = $data[$i]['consider_id'];
@@ -199,14 +191,11 @@ class RefundDetailController extends Controller
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
 
-                    }else if ($request->state == "update"){
-
+                    }else if ($request->state == "update" || $request->state == "update-2"){
                         $detail = RefundDetail::find($data[$i]['id']);
                         $detail->value = $data[$i]['value'];
                         $detail->save();
-
                     }
-
                     $detail = null;
                 }
                 $arrDetail = RefundDetail::orderBy('id')
@@ -215,10 +204,16 @@ class RefundDetailController extends Controller
                 //return $arrDetail;
                 $this->checkResult($arrDetail);
 
+                if ($request->state == "update-2"){
+                    return $detail = RefundDetail::find($data[0]['id']);
+                    // return response([
+                    //     'data' => new RefundDetailResource($detail)
+                    // ],Response::HTTP_CREATED);
+                }
+
                 return response([
                     'data' => new RefundFormResource($refund_form)
                 ],Response::HTTP_CREATED);
-
             }
 
         // if ($request->has('data'))
@@ -318,6 +313,7 @@ class RefundDetailController extends Controller
                     $detail->value = $data[$i]['value'];
                     $detail->save();
                     //$this->CheckConsider($refund_form, $detail);
+
                 }
 
                 $detail = null;
@@ -330,7 +326,6 @@ class RefundDetailController extends Controller
             return response([
                 'data' => new RefundFormResource($refund_form)
             ],Response::HTTP_CREATED);
-
         }
     }
 

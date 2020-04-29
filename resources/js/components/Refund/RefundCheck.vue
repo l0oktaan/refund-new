@@ -6,7 +6,7 @@
                     <b-tabs card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
                         <b-tab v-for="(rule,x_index) in rules" :key="x_index">
                             <template slot="title">
-                                <i :class="(rule.status == 0) ? 'fas fa-check-circle fa-lg' : 'fas fa-times-circle fa-lg'"></i> {{x_index+1}}
+                                <i :class="(rule.status == 1) ? 'fas fa-check-circle fa-lg' : 'fas fa-times-circle fa-lg'"></i> {{x_index+1}}
                             </template>
                             <rule-check
                                 :refund_id="refund_id"
