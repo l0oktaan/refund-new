@@ -201,7 +201,9 @@ export default {
                     });
                 }
             }else{
-                this.rule_select = this.rule.id;
+                await this.$nextTick(() => {
+                    this.rule_select = this.rule.id;
+                });
             }
             await this.check_rule_pass();
             this.$forceUpdate();
