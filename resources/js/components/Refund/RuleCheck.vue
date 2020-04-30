@@ -4,11 +4,12 @@
         <b-form  @submit="onSubmit">
             <b-row>
                 <b-col>
-                    <p>{{rule}}</p>
+                    <!-- <p>{{rule}}</p> -->
                     <p>{{results}}</p>
                     <p>{{arr_detail}}</p>
+                    <p>{{rule_passed}}</p>
                     <!-- <p>{{result_tmp}}</p> -->
-                    <!-- <p>{{rule_select}}</p> -->
+                    <p>{{rule_select}}</p>
                     <b-card bg-variant="primary" text-variant="white" class="p-1 pl-2">
                         <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
                     </b-card>
@@ -115,7 +116,7 @@
             <b-row>
                 <b-col>
                     <div class="text-center" style="margin-bottom:5px;">
-                        <b-button type="submit" variant="primary">ตรวจสอบเงื่อนไข</b-button>
+                        <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
                     </div>
                 </b-col>
             </b-row>
@@ -135,24 +136,74 @@ export default {
             result_tmp: [],
             alert: '',
             rule_select: 0,
-            arr_detail: []
+            arr_detail: [],
+            rule_passed: false
         }
     },
     watch: {
-        details(){
-            if (details){
-                this.createResult();
+        // details(){
+        //     if (details){
+        //         this.createResult();
+        //     }
+        // },
+        rule_select(newVal,oldVal){
+            if (newVal){
+                this.select_rule(newVal);
             }
         },
+        async rule(){
+            await this.getRefundDetail();
+        }
 
     },
     mounted(){
         this.getRefundDetail();
-
     },
     methods: {
+        check_rule_pass(){
+            let status = 0;
+            let tmp = this.results.filter(x=>x.rule_id == this.rule_select);
+            for (let i=0; i<tmp.length; i++){
+                status += parseInt(tmp[i]['status']);
+            }
+            this.$nextTick(() => {
+                if (status != 0 && tmp.length == status){
+                    this.rule_passed = true;
+                }else{
+                    this.rule_passed = false;
+                }
+            })
+        },
+        select_rule(rule_id){
+            for (let i=0; i<this.results.length; i++){
+                this.$nextTick(() => {
+                    if (this.results[i]['rule_id'] == rule_id){
+                        this.results[i]['selected'] = 1
+                    }else{
+                        this.results[i]['selected'] = 0
+                    }
+                });
+            }
+        },
         async getRefundDetail(){
+            let tmp = 0;
             this.results = await this.createResult();
+            if (this.rule.sub_rules.length > 1){
+                for (let i=0; i<this.results.length; i++){
+
+                        if (this.results[i]['selected'] == 1){
+                            tmp = this.results[i]['rule_id'];
+                        }
+                }
+                if (!tmp == 0){
+                    await this.$nextTick(() => {
+                        this.rule_select = tmp;
+                    });
+                }
+            }else{
+                this.rule_select = this.rule.id;
+            }
+            await this.check_rule_pass();
             this.$forceUpdate();
             setTimeout(() => {
                 this.result_show = this.result_tmp;
@@ -162,7 +213,6 @@ export default {
             let tmp = [];
             this.result_tmp = [];
              this.result_show = [];
-
             if (this.rule.sub_rules.length > 0){
                 for (let i=0; i<this.rule.sub_rules.length; i++){
                     for (let j=0; j<this.rule.sub_rules[i]['considers'].length; j++){
@@ -205,7 +255,7 @@ export default {
         findResultIndex(consider_id){
             return this.results.findIndex(x=>x.consider_id == consider_id);
         },
-        async sentResult(rule){
+        async sentResult(){
             let result_detail = [];
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let tmp = await axios.post(`${path}`,
@@ -213,7 +263,7 @@ export default {
                     state: 'update-2',
                     detail: this.results
                 })
-            this.arr_detail.push(tmp);
+            //this.arr_detail.push(tmp);
             // for (let i=0; i< rule.considers.length; i++){
             //     let arr_detail = [];
             //     await arr_detail.push(this.results[this.results.findIndex(x=>x.consider_id == consider_id)]);
@@ -225,7 +275,7 @@ export default {
             //         })
             //     result_detail.push(tmp);
             // }
-            this.arr_detail = result_detail;
+            //this.arr_detail = result_detail;
         },
         async onSubmit(e){
             e.preventDefault();
@@ -234,15 +284,16 @@ export default {
                 let sub_rule = await this.rule.sub_rules;
                 if (this.rule.result_type == 1){  // หรือ
                     if (this.rule_select != 0){
-                        let tmp_rule = await sub_rule[sub_rule.findIndex(x=>x.id == this.rule_select)]
-                        let result = await this.sentResult(tmp_rule);
+                        //let tmp_rule = await sub_rule[sub_rule.findIndex(x=>x.id == this.rule_select)]
+                        let result = await this.sentResult();
                     }
                 }
 
             }else{ //Main Rule
-
+                let result = await this.sentResult();
             }
-
+            await this.$emit("update_detail");
+            await this.check_rule_pass();
 
         }
 

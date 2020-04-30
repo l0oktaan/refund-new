@@ -47,6 +47,9 @@ class RefundDetailController extends Controller
         for ($i=0; $i < count($arrDetail); $i++)
         {
             $detail = $arrDetail[$i];
+            if (intval($detail->selected) == 0){
+                $this->UpdateDetail(intval($detail->id),0);
+            }
             $consider = Consider::find($detail->consider_id);
 
             switch (intval($consider->type))
@@ -190,9 +193,9 @@ class RefundDetailController extends Controller
                         $detail->value = $data[$i]['value'];
                         $detail->status = $data[$i]['status'];
                         $refund_form->refund_details()->save($detail);
-
                     }else if ($request->state == "update" || $request->state == "update-2"){
                         $detail = RefundDetail::find($data[$i]['id']);
+                        $detail->selected = $data[$i]['selected'];
                         $detail->value = $data[$i]['value'];
                         $detail->save();
                     }
