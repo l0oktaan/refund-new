@@ -19,7 +19,7 @@
                         v-for="(consider,index) in rule.considers" :key="index"
                         :consider = "consider"
                     >
-                        <div v-if="results">
+                        <div v-if="results && result_show">
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'boolean'"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
@@ -34,8 +34,8 @@
                             <my-date-picker
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                 :id="consider.id"
-                                :showDate="result_show[findResultIndex(consider.id)]['value']"
-                                @update="value => results[findResultIndex(consider.id)]['value'] = value"
+                                :showDate="result_show[result_show.findIndex(x=>x.consider_id == consider.id)].value"
+                                @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker>
                         </div>
                     </consider-check>
@@ -51,7 +51,7 @@
                                 :consider = "consider"
                             >
 
-                                <div v-if="results">
+                                <div v-if="results && result_show">
                                     <b-form>
                                         <b-form-group :disabled="!(rule_select == sub_rule.id)">
                                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
@@ -62,7 +62,7 @@
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             />
                                             <b-form-input type="text"
-                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             ></b-form-input>
                                             <my-date-picker
@@ -89,7 +89,7 @@
                                 :consider = "consider"
                             >
 
-                                <div v-if="results">
+                                <div v-if="results && result_show">
                                     <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'boolean'"
                                         :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
@@ -152,12 +152,14 @@ export default {
             }
         },
         async rule(){
-            await this.getRefundDetail();
-        }
 
+            // this.results = await this.createResult();
+            // await this.getRefundDetail();
+        }
     },
-    mounted(){
-        this.getRefundDetail();
+    async mounted(){
+        this.results = await this.createResult();
+        await this.getRefundDetail();
     },
     methods: {
         check_rule_pass(){
@@ -187,7 +189,7 @@ export default {
         },
         async getRefundDetail(){
             let tmp = 0;
-            this.results = await this.createResult();
+
             if (this.rule.sub_rules.length > 1){
                 for (let i=0; i<this.results.length; i++){
 
@@ -206,26 +208,26 @@ export default {
                 });
             }
             await this.check_rule_pass();
-            this.$forceUpdate();
+
             setTimeout(() => {
                 this.result_show = this.result_tmp;
-            }, 1000);
+            }, 500);
         },
         async createResult(){
             let tmp = [];
             this.result_tmp = [];
-             this.result_show = [];
+            this.result_show = [];
             if (this.rule.sub_rules.length > 0){
                 for (let i=0; i<this.rule.sub_rules.length; i++){
                     for (let j=0; j<this.rule.sub_rules[i]['considers'].length; j++){
                         let detail = await this.findDetail(this.rule.sub_rules[i]['considers'][j].id);
-                        tmp.push(detail);
+                        await tmp.push(detail);
                     }
                 }
             }else{
                 for (let j=0; j<this.rule.considers.length; j++){
                     let detail = await this.findDetail(this.rule.considers[j].id);
-                    tmp.push(detail);
+                    await tmp.push(detail);
                 }
             }
             return tmp;
@@ -259,11 +261,14 @@ export default {
         },
         async sentResult(){
             let result_detail = [];
+            result_detail = await this.results.filter(x=>x.rule_id == this.rule_select);
+
+            console.log('sent detail :' + result_detail.length);
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let tmp = await axios.post(`${path}`,
                 {
                     state: 'update-2',
-                    detail: this.results
+                    detail: result_detail
                 })
             //this.arr_detail.push(tmp);
             // for (let i=0; i< rule.considers.length; i++){
@@ -281,11 +286,15 @@ export default {
         },
         async onSubmit(e){
             e.preventDefault();
+
             //var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             if (this.rule.sub_rules.length > 0){  //Has Sub Rule
-                let sub_rule = await this.rule.sub_rules;
+
+                //let sub_rule = await this.rule.sub_rules;
                 if (this.rule.result_type == 1){  // หรือ
+
                     if (this.rule_select != 0){
+
                         //let tmp_rule = await sub_rule[sub_rule.findIndex(x=>x.id == this.rule_select)]
                         let result = await this.sentResult();
                     }
@@ -294,8 +303,8 @@ export default {
             }else{ //Main Rule
                 let result = await this.sentResult();
             }
-            await this.$emit("update_detail");
-            await this.check_rule_pass();
+            let update = await this.$emit("update_detail");
+            let check = await this.check_rule_pass();
 
         }
 
