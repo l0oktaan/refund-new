@@ -5,11 +5,11 @@
             <b-row>
                 <b-col>
                     <!-- <p>{{rule}}</p> -->
-                    <p>{{results}}</p>
-                    <p>{{arr_detail}}</p>
-                    <p>{{rule_passed}}</p>
+                    <!-- <p>{{results}}</p> -->
+                    <!--<p>{{arr_detail}}</p>
+                    <p>{{rule_passed}}</p> -->
                     <!-- <p>{{result_tmp}}</p> -->
-                    <p>{{rule_select}}</p>
+                    <!-- <p>{{rule_select}}</p> -->
                     <b-card bg-variant="primary" text-variant="white" class="p-1 pl-2">
                         <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
                     </b-card>
@@ -127,7 +127,7 @@
 
 <script>
 export default {
-    props: ['refund_id','rule','refund_form_id','details'],
+    props: ['refund_id','rule','refund_form_id','details','refresh'],
     data(){
         return {
             office_id: 2,
@@ -151,10 +151,18 @@ export default {
                 this.select_rule(newVal);
             }
         },
-        async rule(){
-
+        async refresh(){
+            if (this.refresh){
+                this.results = await this.createResult();
+                await this.getRefundDetail();
+            }
             // this.results = await this.createResult();
             // await this.getRefundDetail();
+        },
+        rule_passed(newVal,oldVal){
+            if (newVal == true){
+                this.$emit("rule_passed", this.rule.id);
+            }
         }
     },
     async mounted(){
@@ -162,18 +170,43 @@ export default {
         await this.getRefundDetail();
     },
     methods: {
-        check_rule_pass(){
+        async recheck_rule_pass(){
+            let rule_pass = false;
             let status = 0;
-            let tmp = this.results.filter(x=>x.rule_id == this.rule_select);
+            let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+            let response = await axios.get(`${path}`);
+            let tmp = await response.data.data;
+            let details = await tmp.filter(x=>x.rule_id == this.rule_select);
+            for (let i=0; i<details.length; i++){
+                status = await status + parseInt(details[i]['status']);
+            }
+            console.log('detail length :' + details.length + 'pass :' + status);
+            if (status != 0 && details.length == status){
+                console.log('rule passed !!')
+                return  true;
+            }else{
+                console.log('rule not passed !!')
+                return  false;
+            }
+
+        },
+        async check_rule_pass(){
+            let status = 0;
+            let tmp = await this.results.filter(x=>x.rule_id == this.rule_select);
+
+
+
+
             for (let i=0; i<tmp.length; i++){
-                status += parseInt(tmp[i]['status']);
+                status = await status + parseInt(tmp[i]['status']);
             }
             this.$nextTick(() => {
                 if (status != 0 && tmp.length == status){
                     this.rule_passed = true;
                 }else{
-                    this.rule_passed = false;
+                   this.rule_passed = false;
                 }
+                this.$forceUpdate();
             })
             return this.rule_passed;
         },
@@ -191,8 +224,11 @@ export default {
         async getRefundDetail(){
             let tmp = 0;
 
-            if (this.rule.sub_rules.length > 1){
-                for (let i=0; i<this.results.length; i++){
+            if (this.rule.sub_rules.length > 0){
+                if (this.rule.sub_rules.length == 1){
+                    this.rule_select = this.rule.sub_rules[0]['id'];
+                }else{
+                    for (let i=0; i<this.results.length; i++){
 
                         if (this.results[i]['selected'] == 1){
                             tmp = this.results[i]['rule_id'];
@@ -203,12 +239,17 @@ export default {
                         this.rule_select = tmp;
                     });
                 }
+                }
+
             }else{
                 await this.$nextTick(() => {
                     this.rule_select = this.rule.id;
                 });
             }
-            await this.check_rule_pass();
+            let pass = await this.check_rule_pass();
+
+
+
 
             setTimeout(() => {
                 this.result_show = this.result_tmp;
@@ -238,7 +279,7 @@ export default {
             let index = this.details.findIndex(x=>x.consider_id == consider_id);
             detail = _.cloneDeep(this.details[index]);
             if (detail){
-                console.log('find detail :' + consider_id + ' index : ' + index + ' type :' + detail.result_type);
+                //console.log('find detail :' + consider_id + ' index : ' + index + ' type :' + detail.result_type);
                 if (detail.result_type == 'boolean'){
                     detail.value = (detail.value == 1) ? true : false;
                 }
@@ -289,7 +330,7 @@ export default {
             e.preventDefault();
 
             //var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
-            if (this.rule.sub_rules.length > 0){  //Has Sub Rule
+            if (this.rule.sub_rules.length > 1){  //Has Sub Rule
 
                 //let sub_rule = await this.rule.sub_rules;
                 if (this.rule.result_type == 1){  // หรือ
@@ -304,11 +345,15 @@ export default {
                 let result = await this.sentResult();
             }
             //let update = await this.$emit("update_detail");
-            let check = await this.check_rule_pass();
-            if (check == true){
-
+            // let check = await this.recheck_rule_pass();
+            // console.log("check :" + check);
+            this.rule_passed = await this.recheck_rule_pass();
+            if (this.rule_passed){
+                this.alert = 'success';
+                this.$emit("rule_passed", this.rule.id);
+            }else{
+                this.alert = 'require';
             }
-
         }
 
     }

@@ -105,11 +105,27 @@ export default {
             this.$router.push({path: 'form'});
         },
         getStatus(status){
-            if (status < 7){
-                return 'ยังไม่ส่งข้อมล'
-            }else{
-                return 'ส่งข้อมูลแล้ว'
+            switch(status){
+                case 0:
+                case 1:
+                    return 'ตรวจสอบหลักเกณฑ์'
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    return 'บันทึกข้อมูล'
+                    break;
+                case 7:
+                    return 'ส่งข้อมูลแล้ว'
+                    break;
             }
+            // if (status < 7){
+            //     return 'ยังไม่ส่งข้อมล'
+            // }else{
+            //     return 'ส่งข้อมูลแล้ว'
+            // }
         },
         getClass(status){
             if (status < 7){

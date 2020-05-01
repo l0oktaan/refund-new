@@ -6,14 +6,17 @@
                     <b-tabs card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
                         <b-tab v-for="(rule,x_index) in rules" :key="x_index">
                             <template slot="title">
-                                <i :class="(rule.status == 1) ? 'fas fa-check-circle fa-lg' : 'fas fa-times-circle fa-lg'"></i> {{x_index+1}}
+                                <i class="fas fa-check-circle fa-lg pass"  v-if="arr_rule_status[arr_rule_status.findIndex(x=>x.rule_id==rule.id)]['status'] == 1"></i>
+                                <i class="fas fa-times-circle fa-lg no_pass" v-else></i>
+                                {{x_index+1}}
                             </template>
                             <rule-check
                                 :refund_id="refund_id"
                                 :rule="rule"
                                 :refund_form_id="refund_form_id"
                                 :details="refund_form.detail"
-                                @update_detail="fetchData"
+                                :refresh="arr_rule_status[arr_rule_status.findIndex(x=>x.rule_id == rule.id)]['refresh']"
+                                @rule_passed="rule_passed"
                             ></rule-check>
                         </b-tab>
                     </b-tabs>
@@ -32,7 +35,8 @@ export default {
             rules : null,
             refund_detail : null,
             tabIndex: [0,0],
-            alert: ''
+            alert: '',
+            arr_rule_status: []
         }
     },
     mounted(){
@@ -45,7 +49,17 @@ export default {
             this.refund_form = refund_form.data.data;
 
             if (this.refund_form){
+                this.arr_rule_status = [];
                 this.rules = await this.refund_form.form.rules;
+                for (let i=0; i<this.rules.length; i++){
+                    this.arr_rule_status.push(
+                        {
+                            'rule_id' : this.rules[i]['id'],
+                            'status': 0,
+                            'refresh' : false
+                        }
+                    )
+                }
                 this.refund_detail = await this.refund_form.detail;
             }
         },
@@ -53,11 +67,38 @@ export default {
             this.$nextTick(() => {
 
             });
+        },
+        async rule_passed(id){
+            let index = await this.arr_rule_status.findIndex(x=>x.rule_id == id);
+            this.arr_rule_status[index]['status'] = 1;
+            await this.check_form_passed();
+        },
+        async check_form_passed(){
+            let passed = true;
+            await this.arr_rule_status.forEach((e)=>{
+                //console.log("rule id :" + e.rule_id);
+                if (e.status == 0){
+                    passed = false;
+                }
+            })
+            if (passed){
+                let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}`;
+                await axios.put(`${path}`,{
+                    result: 1
+                });
+                this.$emit("refund_update");
+                //console.log('Form passed!!!');
+            }
         }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.pass{
+    color: rgb(24, 117, 21);
+}
+.no_pass{
+    color: rgb(255, 0, 0);
+}
 </style>

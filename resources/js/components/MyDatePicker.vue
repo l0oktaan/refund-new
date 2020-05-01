@@ -38,26 +38,26 @@ export default {
     },
     watch: {
         showDate(){
-            console.log('change Date  :' + this.showDate);
+            //console.log('change Date  :' + this.showDate);
             if (this.showDate != ''){
                 this.date = this.showDate;
-                console.log('----change Date 1 :' + this.date);
+                //console.log('----change Date 1 :' + this.date);
                 this.$forceUpdate();
             }else{
-                console.log('Clear Date');
+                //console.log('Clear Date');
                 this.date = null;
             }
 
         },
         date(){
-            console.log('date :' + this.date);
+            //console.log('date :' + this.date);
             var str = '';
             try{
                 str = this.date.slice(0, 10);
             }catch{
                 str = '';
             }
-             console.log('date str :' + str);
+             //console.log('date str :' + str);
 
            this.$emit('update',str);
             this.$forceUpdate();

@@ -7,14 +7,14 @@
                     <template slot="button-content">
                         <i class="icon-settings sub_rule"></i>
                     </template>
-                    <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>                    
+                    <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>
                 </b-dropdown>
                 <b-dropdown v-else class="float-right" style="color: #000!important;" variant="transparent p-0" right>
                     <template slot="button-content">
                         <i class="icon-settings sub_rule"></i>
                     </template>
                     <b-dropdown-item @click="showRefund()"><i class="fas fa-edit" ></i>&nbsp;ข้อมูลการถอนคืน</b-dropdown-item>
-                    
+
                     <b-dropdown-item @click="delRefund(refund.id)"> <i class="fas fa-trash" ></i>&nbsp;ลบข้อมูลการถอนคืน</b-dropdown-item>
                 </b-dropdown>
                 <b-row>
@@ -66,11 +66,27 @@ export default {
     },
     methods: {
         getStatus(status){
-            if (status < 7){
-                return 'ยังไม่ส่งข้อมล'
-            }else{
-                return 'ส่งข้อมูลแล้ว'
+            switch(status){
+                case 0:
+                    return 'อยู่ระหว่างตรวจสอบหลักเกณฑ์'
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    return 'อยู่ระหว่างบันทึกข้อมูล'
+                    break;
+                case 7:
+                    return 'ส่งข้อมูลแล้ว'
+                    break;
             }
+            // if (status < 7){
+            //     return 'ยังไม่ส่งข้อมล'
+            // }else{
+            //     return 'ส่งข้อมูลแล้ว'
+            // }
         },
         getClass(status){
             if (status < 7){
