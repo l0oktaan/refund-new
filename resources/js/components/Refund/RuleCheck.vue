@@ -175,6 +175,7 @@ export default {
                     this.rule_passed = false;
                 }
             })
+            return this.rule_passed;
         },
         select_rule(rule_id){
             for (let i=0; i<this.results.length; i++){
@@ -299,12 +300,14 @@ export default {
                         let result = await this.sentResult();
                     }
                 }
-
             }else{ //Main Rule
                 let result = await this.sentResult();
             }
-            let update = await this.$emit("update_detail");
+            //let update = await this.$emit("update_detail");
             let check = await this.check_rule_pass();
+            if (check == true){
+
+            }
 
         }
 
