@@ -25,7 +25,8 @@ class RefundFileController extends Controller
     public function index(Office $office, Refund $refund)
     {
         $file = $refund->refund_files()->get();
-        return RefundFileResource::collection($file);
+        //return RefundFileResource::collection($file);
+        return $file;
     }
 
     /**
@@ -103,14 +104,16 @@ class RefundFileController extends Controller
             $exists = Storage::disk('uploads')->exists($iRefundFile->file_path . '/' . $iRefundFile->file_name);
 
             if($exists) {
-
-                $path = storage_path() . "/files/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
-                $headers = array(
-                    'Content-Type: application/pdf',
-                  );
+                $path = storage_path('uploads') . "/" . $iRefundFile->file_path . "/" . $iRefundFile->file_name;
+                //$path = storage_path() . "/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                $headers = [
+                    'Content-Type' => 'application/pdf',
+                ];
                 $filename = $iRefundFile->file_name;
+                //return $path;
                 return response()->download($path, $filename, $headers);
-                return Storage::download($path, $iRefundFile->file_name, $headers);
+                //return Storage::download($path, $iRefundFile->file_name, $headers);
+                //return Storage::download($path, $filename, $headers);
             }else{
                 return "NO";
             }

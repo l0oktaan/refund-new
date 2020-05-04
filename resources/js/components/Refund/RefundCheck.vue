@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
             <b-row class="justify-content-md-center">
                 <b-col cols="10">
-                    <b-tabs card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
+                    <b-tabs class="tab" card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
                         <b-tab v-for="(rule,x_index) in rules" :key="x_index">
                             <template slot="title">
                                 <i class="fas fa-check-circle fa-lg pass"  v-if="arr_rule_status[arr_rule_status.findIndex(x=>x.rule_id==rule.id)]['status'] == 1"></i>
@@ -30,7 +30,7 @@ export default {
     props: ['form_id','refund_id','refund_form_id'],
     data(){
         return {
-            office_id : 2,
+            office_id: this.$store.getters.office_id,
             refund_form : null,
             rules : null,
             refund_detail : null,
@@ -100,5 +100,8 @@ export default {
 }
 .no_pass{
     color: rgb(255, 0, 0);
+}
+.tab{
+    background-color: thistle!important;
 }
 </style>

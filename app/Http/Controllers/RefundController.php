@@ -10,6 +10,7 @@ use App\Http\Requests\RefundRequest;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Refunds as RefundResource;
+use Illuminate\Support\Facades\Auth;
 
 class RefundController extends Controller
 {
@@ -18,7 +19,27 @@ class RefundController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Office $office)
+    public function index(Office $office){
+        $user = Auth::user();
+        if ($user->type == 'admin'){
+            $refund = Refund::where('status','>=',8)
+            ->orderBy('sent_date','DESC')
+            ->get();
+            return response([
+                'data' => RefundResource::collection($refund)
+            ],Response::HTTP_CREATED);
+        }else if ($user->type == 'user'){
+            $refund = $office->refunds()
+            ->where('office_id','=',$user->office_id)
+            ->where('status','>=',1)
+            ->orderBy('sent_date','DESC')
+            ->get();
+            return response([
+                'data' => RefundResource::collection($refund)
+            ],Response::HTTP_CREATED);
+        }
+    }
+    public function index1(Office $office)
     {
         //return $office->refunds();
 
@@ -27,6 +48,7 @@ class RefundController extends Controller
         // //$refund = Office::with('refunds')->get();
         // return RefundResource::collection($refund);
         $office_id = $office->id;
+
         // $refund = Refund::with([
         //     'contracts'=>function($query){
         //     //$query->select('refund_id');

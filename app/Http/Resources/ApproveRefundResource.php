@@ -17,7 +17,6 @@ class ApproveRefundResource extends JsonResource
         return [
             'id' => $this->id,
             'refund_id' => $this->refund_id,
-            'receive_date' => $this->receive_date,
             'refund_days' => $this->refund_days,
             'refund_money' => $this->refund_money,
             'refund_amount' => $this->refund_amount,

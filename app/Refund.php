@@ -20,7 +20,11 @@ class Refund extends Model
         'approve_code',
         'create_date',
         'sent_date',
+        'consider_date',
+        'consider_by',
         'complete_date',
+        'complete_by',
+        'complete_description',
         'status'
     ];
 

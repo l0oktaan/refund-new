@@ -3,7 +3,7 @@
     <p>OK</p>
     <router-view @authenticated="setAuthenticated" />
 </div>
-    
+
 </template>
 <script>
 export default {
@@ -17,6 +17,7 @@ export default {
             }
         },
         mounted() {
+
             if(!this.authenticated) {
                 this.$router.push('/login');
             }

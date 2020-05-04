@@ -3,7 +3,6 @@
         <my-alert :AlertType="alert"></my-alert>
         <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
         <b-tabs v-model="tabIndex">
-
             <!--================================= Tab Form ==================================-->
             <b-tab v-for="(tab,index) in tab_forms" :key="index" :disable="'disabled'">
                 <template slot="title">
@@ -15,7 +14,7 @@
                     :refund_form_id="refund_forms[index].id"
                     @showTabs="showTabs"
                     @refund_update="checkRefundStatus"
-
+                    :office_id = "office_id"
                 >
                 </refund-check>
             </b-tab>
@@ -26,52 +25,52 @@
                     <h6>ขั้นตอนที่ 1 : <i :class="refund_s > 2 ? icon_check : icon_uncheck"></i></h6>
                     <span>{{tabs[1].title}}</span>
                 </template>
-                <contract-form @refund_update="checkRefundStatus"></contract-form>
+                <contract-form @refund_update="checkRefundStatus" :office_id = "office_id"></contract-form>
             </b-tab>
             <b-tab v-if="refund_s >= 3" >
                 <template slot="title">
                     <h6>ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h6>
                     <span>{{tabs[2].title}}</span>
                 </template>
-                <contract-time-edit @refund_update="checkRefundStatus"></contract-time-edit>
+                <contract-time-edit @refund_update="checkRefundStatus" :office_id = "office_id"></contract-time-edit>
             </b-tab>
-            <b-tab v-if="refund_s >= 3">
+            <b-tab v-if="refund_s >= 4">
                 <template slot="title">
                     <h6>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h6>
-                    <span>{{tabs[3].title}}</span>
+                    <span>ข้อมูลการส่งมอบงาน</span>
                 </template>
-                <delivery :refund_id="refund_id" @refund_update="checkRefundStatus"></delivery>
+                <delivery :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></delivery>
 
             </b-tab>
             <b-tab v-if="refund_s >= 5">
                 <template slot="title">
                     <h6>ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h6>
-                    <span>{{tabs[4].title}}</span>
+                    <span>การนำส่งเงินค่าปรับ</span>
                 </template>
 
-                <deposit-penalty :refund_id="refund_id" @refund_update="checkRefundStatus"></deposit-penalty>
+                <deposit-penalty :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></deposit-penalty>
             </b-tab>
             <b-tab v-if="refund_s >= 6">
                 <template slot="title">
                     <h6>สรุปข้อมูล : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h6>
-                    <span>{{tabs[5].title}}</span>
+                    <span>การขออนุมัติ</span>
                 </template>
-                <refund-summary  :refund_id="refund_id" @refund_update="checkRefundStatus"></refund-summary>
+                <refund-summary :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></refund-summary>
             </b-tab>
             <b-tab v-if="refund_s >= 7">
                 <template slot="title">
                     <h6>การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h6>
                     <span>พิมพ์รายงานและส่งข้อมูล</span>
                 </template>
-                <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></sent-refund>
+                <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></sent-refund>
             </b-tab>
-            <b-tab v-if="isAdmin">
+            <!-- <b-tab v-if="isAdmin">
                 <template slot="title">
                     <h6>ผลการตรวจสอบ : <i :class="refund_s > 8 ? icon_check : icon_uncheck"></i></h6>
                     <span>บันทึกผลการตรวจสอบ</span>
                 </template>
-                <admin-approve :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus"></admin-approve>
-            </b-tab>
+                <admin-approve :refund_status="refund_s" :refund_id="refund_id" :office_id = "office_id" @refund_update="checkRefundStatus"></admin-approve>
+            </b-tab> -->
             <!--==================================== Tab End =====================================-->
             <!-- <b-tab>
                 <template slot="title">
@@ -86,7 +85,6 @@
                     <b-button variant="success" @click="tabIndex--" :disabled="(tabIndex == 0) ? true : false"><i class="fas fa-step-backward"></i></b-button>
                     <span>เปลี่ยนหน้า</span>
                     <b-button variant="success" @click="tabIndex++" :disabled="(tabIndex == (tabs.length + tab_forms.length)-1) ? true : false"><i class="fas fa-step-forward"></i></b-button>
-
 
 
         </div>
@@ -113,7 +111,7 @@ export default {
             refund_id : this.$route.params.id,
             form_id : this.$route.params.id,
             form_id: 0,
-            office_id: 2,
+            office_id: 0,//this.$store.getters.office_id,
             refund_status: 'new',
             refund_forms: [],
             alert: '',
@@ -152,6 +150,7 @@ export default {
         }
     },
     mounted(){
+        this.office_id = this.$store.getters.office_id;
         this.getRefundForm();
         //this.tabIndex = 3;
         this.$forceUpdate();

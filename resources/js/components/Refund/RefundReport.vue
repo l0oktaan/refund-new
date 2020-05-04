@@ -207,12 +207,12 @@
 <script>
 import jsPDF from 'jspdf'
 export default {
-    props: ['refund_id'],
+    props: ['refund_id','office_id'],
     data(){
         return{
             refund : null,
             isReady : false,
-            office_id: 2,
+            //office_id: this.$store.getters.office_id,
             obj: {
                 'id' : 1111,
                 'form' : {
@@ -263,6 +263,17 @@ export default {
         this.getDeliver();
         this.getDeposit();
         this.getApproveRefund();
+    },
+    watch: {
+        refund_id(){
+            if (this.refund_id != 0){
+                this.getRefund();
+                this.getContractTimeEdit();
+                this.getDeliver();
+                this.getDeposit();
+                this.getApproveRefund();
+            }
+        }
     },
     computed: {
 

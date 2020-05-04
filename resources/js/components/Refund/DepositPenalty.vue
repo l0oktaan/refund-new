@@ -1,7 +1,7 @@
 <template>
     <div class="animated fadeIn">
             <my-alert :AlertType="alert"></my-alert>
-            <b-card class="bg-dark">
+            <b-card class="bg-primary">
             <div slot="header" class="navbar">
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
@@ -79,7 +79,7 @@
                         <b-row>
                             <b-col>
                                 <div class="text-center" style="margin-bottom:5px;">
-                                    <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                                    <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                                 </div>
                             </b-col>
@@ -91,7 +91,7 @@
             <!-- ======================= Deposit Penalty List ========================================-->
 
         <table class="table table-hover">
-            <thead class="thead-dark">
+            <thead class="thead">
                 <tr>
                     <th scope="col" style="width: 10%">เลขที่เอกสาร</th>
                     <th scope="col" style="width: 15%">วันที่</th>
@@ -129,11 +129,11 @@
 <script>
 
 export default {
-    props: ['refund_id'],
+    props: ['refund_id','office_id'],
     data(){
         return {
             r_id: this.$route.params.id,
-            office_id: 2,
+            //office_id: this.$store.getters.office_id,
             deposit: {},
             deposit_list: [],
             date_deposit: '',
@@ -342,5 +342,10 @@ export default {
     background-color: #f0f3f5;
     border: 1px solid #c8ced3;
 
+}
+.thead{
+    background-color: #1074b8;
+    color: #fff;
+    font-weight: normal!important;
 }
 </style>

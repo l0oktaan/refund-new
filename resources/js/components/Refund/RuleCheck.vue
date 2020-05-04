@@ -41,7 +41,7 @@
                     </consider-check>
                     <b-form-radio-group id="radio-group-1" v-model="rule_select" name="sub_rule" v-if="(rule && rule.sub_rules.length > 1)">
 
-                        <b-card v-for="(sub_rule,i_index) in rule.sub_rules" :key="i_index">
+                        <b-card v-for="(sub_rule,i_index) in rule.sub_rules" :key="i_index" :class="rule_select == sub_rule.id ? '' : 'bg-secondary'">
                             <b-form-radio :value="sub_rule.id" >
                                 <span>{{'หลักเกณฑ์ย่อย ' + rule.order + '.' + sub_rule.order + ' : ' + sub_rule.name}}</span>
                             </b-form-radio>
@@ -130,7 +130,7 @@ export default {
     props: ['refund_id','rule','refund_form_id','details','refresh'],
     data(){
         return {
-            office_id: 2,
+            office_id: this.$store.getters.office_id,
             results: null,
             result_show: null,
             result_tmp: [],
@@ -361,6 +361,8 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+.card {
+    margin-bottom: 5px!important;
+}
 </style>

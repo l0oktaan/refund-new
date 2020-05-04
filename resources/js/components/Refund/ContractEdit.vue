@@ -1,7 +1,7 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-        <div v-if="!isEdit">
+        <div>
             มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                 :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
@@ -14,7 +14,7 @@
 
 
          <b-form  @submit="SubmitContractEdit" v-if="isEdit">
-            <b-card no-body class="bg-secondary">
+            <b-card no-body class="bg-primary">
                 <b-card-body class="pb-0 list ">
                    <b-row>
                         <b-col>
@@ -68,7 +68,7 @@
                         <b-col>
 
                             <div class="text-center" style="margin-bottom:5px;">
-                                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                                <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
                                 <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                             </div>
                         </b-col>
@@ -132,11 +132,11 @@
 <script>
 import moment from 'moment'
 export default{
-
+    props : ['office_id'],
     data(){
         return {
             refund_id: this.$route.params.id,
-            office_id: 2,
+            //office_id: this.$store.getters.office_id,
             date_show: '',
             edit_date: '',
             contract_edit_list: [],
@@ -162,8 +162,15 @@ export default{
         this.fetchContractEdit();
     },
     watch: {
-        refund_id(){
+        isEdit(newVal, oldVal){
+            if (newVal == false){
+                if (this.contract_edit_list.length > 0){
+                    this.$nextTick(()=>{
+                        this.isEdit = oldVal
+                    })
 
+                }
+            }
         }
     },
     filters: {

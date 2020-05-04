@@ -1,7 +1,7 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-            <b-card class="bg-dark">
+            <b-card class="bg-primary">
                 <div slot="header" class="navbar">
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
@@ -129,7 +129,7 @@
                             <b-row>
                                 <b-col>
                                     <div class="text-center" style="margin-bottom:5px;">
-                                        <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                                        <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
                                         <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                                     </div>
                                 </b-col>
@@ -139,7 +139,7 @@
             </b-card>
             <!-- ======================= Contract Edit List ========================================-->
             <table class="table table-hover">
-                <thead class="thead-dark">
+                <thead class="thead">
                     <tr>
                         <th scope="col" style="width: 15%">วันที่อนุมัติ</th>
                         <th scope="col" style="width: 15%">ประเภทการอนุมัติ</th>
@@ -176,9 +176,10 @@
 </template>
 <script>
 export default {
+    props: ['office_id'],
     data() {
         return {
-            office_id: 2,
+            //office_id: this.$store.getters.office_id,
             r_id: this.$route.params.id,
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
@@ -534,5 +535,10 @@ export default {
 }
 .detail{
     font-size: 0.9rem!important;
+}
+.thead{
+    background-color: #1074b8;
+    color: #fff;
+    font-weight: normal!important;
 }
 </style>

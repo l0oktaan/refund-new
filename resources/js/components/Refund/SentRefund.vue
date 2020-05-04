@@ -2,9 +2,25 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
-            <b-col cols="8">
-                <b-card class="bg-dark" v-if="status == 'new' || isAdmin">
-
+            <b-col cols="7">
+                <b-card class="bg-primary " v-if="status == 'new' || isAdmin">
+                    <div slot="header" class="navbar ">
+                        <ul class="nav navbar-nav d-md-down-none">
+                            <li class="nav-item px-3">
+                                <i class='fa fa-align-justify'></i>
+                                    พิมพ์รายงาน และส่งข้อมูล
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item px-3">
+                                <!-- <b-button variant="outline-success">
+                                    <i class="fas fa-save fa-2x"></i>&nbsp;<span>บันทึกข้อมูล</span>
+                                </b-button> -->
+                            </li>
+                        </ul>
+                    </div>
+                <!-- <b-card class="bg-dark" v-if="status == 'new' || isAdmin"> -->
+                    <b-card-body class="bg-default">
                         <b-row>
                             <b-col>
                                 <b-form-group
@@ -13,7 +29,7 @@
                                     label-align-sm="right"
                                     label-for="load_form"
                                 >
-                                    <b-button ref="load_form" variant="primary" size="md" @click="showReport"><i class="fas fa-file-download fa-2x"></i></b-button>
+                                    <b-button ref="load_form" variant="warning" size="md" @click="showReport"><i class="fas fa-download fa-1x"></i></b-button>
                                 </b-form-group>
                                 <b-modal id="modalReport"
                                     ref="modalReport"
@@ -25,6 +41,7 @@
 
                                         <refund-report
                                             :refund_id="refund_id"
+                                            :office_id="office_id"
                                         ></refund-report>
 
                                 </b-modal>
@@ -78,20 +95,19 @@
                                     label-align-sm="right"
                                     label-for="description"
                                 >
-                                    <br>
 
-                                    <b-progress v-if="(uploadPercentage == 0 || uploadPercentage == 100) ? false : true" :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress>
-                                    <br>
+                                    <!-- <b-progress v-if="(uploadPercentage == 0 || uploadPercentage == 100) ? false : true" :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress> -->
+
                                     <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>
-                                    <b-button :variant=" file ? 'primary' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>
+                                    <b-button :disabled="file ? false : true" :variant=" file ? 'dark' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>
                                 </b-form-group>
                             </b-col>
                         </b-row>
-
+                    </b-card-body>
                 </b-card>
             </b-col>
         </b-row>
-        <b-row align-h="center" v-if="status=='success'">
+        <b-row align-h="center" v-if="status=='success' && !isAdmin">
             <b-col cols="6">
                 <b-alert variant="success" show>
                     <h4 class="alert-heading">ข้อมูลถูกจัดส่งแล้ว</h4>
@@ -99,13 +115,49 @@
                         ข้อมูลของท่านได้ถูกส่งให้กรมบัญชีกลางเรียบร้อยแล้ว
                     </p>
                 </b-alert>
-                <div class="text-center" >
-                    <b-button variant="primary" class="download"
-                        v-for="file in list_files" :key="file.id"
-                        size="md" @click="downloadForm(file.id)"
+                <!-- <div class="text-center" >
+                    <b-button variant="primary" class="download mb-4"
+                        v-for="(file,index) in list_files" :key="index"
+                        size="md" @click="downloadForm(file.id,index)"
                         >{{ file.upload_by == 'admin' ? 'ฟอร์มโดย Admin' : 'ดูแบบฟอร์มของท่าน'}}
                     </b-button>
-                </div>
+                </div> -->
+            </b-col>
+        </b-row>
+        <b-row align-h="center" v-if="list_files.length > 0">
+            <b-col cols="7">
+                <table class="table table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col" style="width: 20%">ลำดับที่</th>
+                            <th scope="col" style="width: 35%">วันที่บันทึก</th>
+                            <th scope="col" style="width: 30%">ผู้บันทึก</th>
+                            <th scope="col" style="width: 15%">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in list_files" :key="index">
+                            <td>{{index+1}}</td>
+                            <td>{{getThaiDate(item.created_at)}}</td>
+                            <td>{{item.upload_by}}</td>
+                            <td>
+                                <b-button variant="outline-danger" class="download"
+                                    size="sm" @click="downloadForm(item.id,index+1)"
+                                    ><i class="far fa-file-pdf fa-2x"></i>
+                                </b-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </b-col>
+        </b-row>
+        <b-row align-h="center" v-if="isAdmin">
+            <b-col cols="7">
+                <admin-approve
+                    :refund_status="refund_status"
+                    :refund_id="refund_id"
+                    :office_id = "office_id"
+                ></admin-approve>
             </b-col>
         </b-row>
     </div>
@@ -113,10 +165,10 @@
 
 <script>
 export default {
-    props: ['refund_id','refund_status'],
+    props: ['refund_id','refund_status','office_id'],
     data(){
         return {
-            office_id: 2,
+            //office_id: this.$store.getters.office_id,
             file: null,
             alert: '',
             uploadPercentage: 0,
@@ -124,16 +176,15 @@ export default {
             upload_by: 'user',
             list_files: [],
             status: 'new',
+            user: this.$store.getters.user
 
 
         }
     },
     computed: {
         isAdmin(){
-            var path = [];
-            path = this.$route.path.split("/");
-            return path.indexOf('admin') > -1 ? true : false;
-
+            console.log('isAdmin :' + this.user.type);
+            return this.user.type == 'admin' ? true : false;
         }
     },
     mounted(){
@@ -173,7 +224,7 @@ export default {
                     var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files`;
                     formData.append('file',this.file);
                     formData.append('description',this.description);
-                    formData.append('upload_by', this.isAdmin ? 'admin' : this.upload_by);
+                    formData.append('upload_by', this.user.username);
                     axios.post(`${path}`,formData,
                     {
                         headers: {
@@ -196,12 +247,13 @@ export default {
                 }
             })
         },
+
         fetchData(){
             this.list_files = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files`;
             axios.get(`${path}`)
             .then(response=>{
-                this.list_files = response.data.data;
+                this.list_files = response.data;
                 this.status = this.list_files.length > 0 ? "success" : "new";
                 this.$forceUpdate();
             })
@@ -209,15 +261,23 @@ export default {
                 console.log('error' + error);
             })
         },
-        downloadForm(id){
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files/${this.list_files[0].id}`;
+        downloadForm(id,index){
+            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files/${id}`;
             console.log('download file :' + path);
             axios.get(`${path}`)
+            axios({
+                url : `${path}`,
+                methods : 'GET',
+                responseType : 'blob'
+            })
             .then(response=>{
                 var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                //console.log('file url :' + fileURL);
+                //return
                 var fileLink = document.createElement('a');
                 fileLink.href = fileURL;
-                fileLink.setAttribute('download', 'report.pdf');
+                let filename = 'form_refund_' + this.refund_id + '_' + index + '.pdf'
+                fileLink.setAttribute('download', filename);
                 document.body.appendChild(fileLink);
 
                 fileLink.click();
@@ -225,6 +285,11 @@ export default {
             .catch(error=>{
 
             })
+        },
+        getThaiDate(item){
+            var d = new Date(item);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            //return moment(String(value)).format('LL')
         },
 
 
@@ -236,5 +301,14 @@ export default {
 .download{
     margin-left: 10px!important;
 }
-
+td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+.thead{
+    background-color: #1074b8;
+    color: #fff;
+    font-weight: normal!important;
+}
 </style>

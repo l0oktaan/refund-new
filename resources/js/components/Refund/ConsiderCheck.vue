@@ -191,6 +191,7 @@ export default {
 .brand-card{
     margin-bottom: 5px!important;
     border-width: 0px;
+    background: transparent!important;
 
 }
 .consider_head{

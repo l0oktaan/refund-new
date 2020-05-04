@@ -59,11 +59,25 @@ class LoginController extends Controller
 
     protected function guard()
     {
-        return Auth::guard('guard-name');
+        return Auth::guard('api');
     }
 
     public function username()
     {
         return 'username';
+    }
+
+    public function logout(Request $request){
+
+        // $value = $request->bearerToken();
+        // return $request->user()->token();
+        //return $value;
+        // if (Auth::check()) {
+            // $user = Auth::user()->token();
+            // $user->revoke();
+        //     return 'logout';
+        // }
+        // $this->guard()->logout();
+        // Auth::guard('api')->logout();
     }
 }

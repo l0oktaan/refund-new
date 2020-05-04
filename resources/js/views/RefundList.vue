@@ -3,20 +3,125 @@
         <b-row>
             <b-col>
                 <div class="topHead float-right">
-                    <b-button variant="outline-success" @click="createRefund">
+                    <b-button v-if="user_type=='user'" class="pt-2 pb-2" variant="outline-success" @click="createRefund">
                         <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
                     </b-button>
-                    <b-button variant="outline-primary">
+                    <b-button class="pt-2 pb-2" variant="outline-primary">
                         <i class="fas fa-search fa-2x"></i>&nbsp;<span>ค้นหา</span>
                     </b-button>
                 </div>
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
             </b-col>
         </b-row>
+        <b-row class="justify-content-md-center"  v-if="user_type == 'user'">
+            <b-col cols="3">
+                <b-card class="warning" @click="set_refund_show('new')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="icon-magic-wand"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_new}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">ตรวจสอบหลักเกณฑ์</div>
+
+                </b-card>
+            </b-col>
+            <b-col cols="3">
+                <b-card class="primary" @click="set_refund_show('info')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="icon-pencil"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_info}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">กำลังบันทึกข้อมูล</div>
+
+                </b-card>
+            </b-col>
+            <b-col cols="3">
+                <b-card class="success" @click="set_refund_show('success')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_success}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">ส่งข้อมูลแล้ว</div>
+
+                </b-card>
+            </b-col>
+
+        </b-row>
+        <b-row class="justify-content-md-center" >
+            <b-col cols="3" v-if="user_type == 'admin'">
+                <b-card class="warning" @click="set_refund_show('success')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_success}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">ข้อมูลรอการพิจารณา</div>
+
+                </b-card>
+            </b-col>
+            <b-col cols="3" >
+                <b-card class="consider" @click="set_refund_show('consider')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="icon-note"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_consider}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">อยู่ระหว่างพิจารณา</div>
+                </b-card>
+            </b-col>
+            <b-col cols="3">
+                <b-card class="complete" @click="set_refund_show('complete')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_complete}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">ข้อมูลอนุมัติแล้ว</div>
+                </b-card>
+            </b-col>
+            <b-col cols="3">
+                <b-card class="reject" @click="set_refund_show('reject')">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">{{count_reject}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">ไม่ผ่านการอนุมัติ</div>
+                </b-card>
+            </b-col>
+
+        </b-row>
+
         <b-row>
+            <!-- <b-col>{{refunds}}</b-col> -->
+        </b-row>
+        <b-row v-if="user_type == 'user'">
             <b-col cols="12">
                 <table class="table table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead">
                         <tr>
                             <th scope="col" style="width: 15%">วันที่สร้าง</th>
                             <th scope="col" style="width: 35%">คู่สัญญา</th>
@@ -26,28 +131,117 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(refund,index) in refunds" :key="index">
+                        <tr v-for="(refund,index) in refund_show" :key="index">
                             <td>{{getThaiDate(refund.create_date)}}</td>
                             <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_party}}</span><span v-else>-</span></td>
                             <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_no}}</span><span v-else>-</span></td>
                             <td>{{getStatus(refund.status)}}</td>
                             <td>
-                                <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showRefund(refund.id)"><i class="fas fa-edit"></i></b-button>
-                                <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
-                                    แสดงข้อมูล
-                                </b-tooltip>
+                                <div v-if="user_type == 'user'">
+                                    <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showRefund(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
+                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
+                                        แสดงข้อมูล
+                                    </b-tooltip>
 
-                                <b-button :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
-                                <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
-                                    ลบข้อมูล
-                                </b-tooltip>
+                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
+                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
+                                        ลบข้อมูล
+                                    </b-tooltip>
+                                </div>
+                                <div v-if="user_type == 'admin'">
+                                    <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showReport(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
+                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
+                                        แสดงข้อมูล
+                                    </b-tooltip>
 
+                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
+                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
+                                        ลบข้อมูล
+                                    </b-tooltip>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </b-col>
         </b-row>
+        <b-row v-if="user_type == 'admin'">
+            <b-col cols="12">
+                <table class="table table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col" style="width: 15%">วันที่ส่ง</th>
+                            <th scope="col" style="width: 25%">หน่วยงาน</th>
+                            <th scope="col" style="width: 23%">คู่สัญญา</th>
+                            <th scope="col" style="width: 10%">เลขที่สัญญา</th>
+                            <th scope="col" style="width: 12%">สถานะ</th>
+                            <th scope="col" style="width: 15%">การดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(refund,index) in refund_show" :key="index">
+                            <td>{{getThaiDate(refund.sent_date)}}</td>
+                            <td><span >{{refund.office.name}}</span></td>
+                            <td><span >{{refund.contracts[0].contract_party}}</span></td>
+                            <td><span >{{refund.contracts[0].contract_no}}</span></td>
+                            <td>{{getStatus(refund.status)}}</td>
+                            <td>
+                                <div v-if="user_type == 'user'">
+
+
+                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
+                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
+                                        ลบข้อมูล
+                                    </b-tooltip>
+                                </div>
+                                <div v-if="user_type == 'admin'">
+                                    <b-button :id="'btnShow'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showReport(refund.id,refund.office_id)"><i class="fas fa-eye fa-lg"></i></b-button>
+                                    <b-tooltip :target="'btnShow'+refund.id" triggers="hover" placement="left">
+                                        แสดงข้อมูล
+                                    </b-tooltip>
+
+                                    <b-button v-if="refund.status == 8" :id="'btnConsider'+refund.id" class="tools" size="sm" variant="outline-success" @click="considerRefund(refund.id,refund.office_id)"><i class="fas fa-user-check fa-lg"></i></b-button>
+                                    <b-tooltip :target="'btnConsider'+refund.id" triggers="hover" placement="left">
+                                        รับพิจารณา
+                                    </b-tooltip>
+                                    <b-button v-if="refund.status >= 9"
+                                        :id="'btnEdit'+refund.id"
+                                        class="tools" size="sm"
+                                        variant="outline-dark"
+                                        @click="showRefund(refund.id,refund.office_id)"
+
+                                    >
+                                        <i class="fas fa-pencil-alt fa-lg"></i>
+                                    </b-button>
+                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
+                                        แก้ข้อมูล {{(user.username != refund.consider_by) ? 'โดย :' + refund.consider_by : "" }}
+                                    </b-tooltip>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center">
+            <b-col cols="2">
+                <b-button v-if="refund_filter" variant="outline-danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
+            </b-col>
+        </b-row>
+        <b-modal id="modalReport"
+            ref="modalReport"
+            size="xl"
+            hideFooter
+            no-close-on-backdrop
+            no-close-on-esc
+            >
+
+                <refund-report v-if="refund_id != 0"
+                    :refund_id="refund_id"
+                    :office_id="office_id"
+                ></refund-report>
+
+        </b-modal>
         <!-- <refund-cover
             :state="state" :refund="refund"
              v-for="(refund,index) in refunds" :key="index"
@@ -60,13 +254,66 @@
 export default {
     data(){
         return {
+            refund_id: 0,
             refunds: [],
-            office_id: 2,
-            state: ''
+            refund_show: [],
+            office_id: this.$store.getters.office_id,
+            user: this.$store.getters.user,
+            state: '',
+            refund_new: [],
+            refund_info: [],
+            refund_success: [],
+            refund_consider: [],
+            refund_complete: [],
+            refund_reject: [],
+            count_new: 0,
+            count_info: 0,
+            count_success: 0,
+            count_consider: 0,
+            count_complete: 0,
+            count_reject: 0,
+            refund_filter: false,
+            arr_refund_status: [
+                {
+                    name : 'new',
+                    text : 'ตรวจสอบหลักเกณฑ์',
+                    status : [1]
+                },
+                {
+                    name : 'info',
+                    text : 'กำลังบันทึกข้อมูล',
+                    status : [2,3,4,5,6,7]
+                },
+                {
+                    name : 'success',
+                    text : 'ส่งข้อมูลแล้ว',
+                    status : [8]
+                },
+                {
+                    name : 'consider',
+                    text : 'อยู่ระหว่างพิจารณา',
+                    status : [9]
+                },
+                {
+                    name : 'complete',
+                    text : 'ข้อมูลอนุมัติแล้ว',
+                    status : [99]
+                },
+                {
+                    name : 'reject',
+                    text : 'ไม่ผ่านการอนุมัติ',
+                    status : [88]
+                },
+            ],
+            user_type: ''
+
         }
     },
-    mounted(){
-        this.fetchData();
+    async mounted(){
+        this.user_type = this.$store.getters.user_type;
+        await this.fetchData();
+        //this.$store.state.refund_show = 'all';
+
 
     },
     computed: {
@@ -81,25 +328,82 @@ export default {
         }
     },
     methods: {
-        fetchData(){
-            var user = this.$store.state.user;
-            console.log('user :' + user);
-            if (this.isAdmin){
-                var path = `/api/offices/${this.office_id}/refunds?status=8`;
+        set_refund_show(status){
+            if (status == 'all'){
+                this.refund_filter = false;
             }else{
-                var path = `/api/offices/${this.office_id}/refunds?fields=contracts`;
+                this.refund_filter = true;
             }
+            this.$store.commit('SET_REFUND_SHOW',status)
+
+            switch (status){
+                case 'new' :
+                    this.refund_show = this.refund_new;
+                    break;
+                case 'info' :
+                    this.refund_show = this.refund_info;
+                    break;
+                case 'success' :
+                    this.refund_show = this.refund_success;
+                    break;
+                case 'consider' :
+                    this.refund_show = this.refund_consider;
+                    break;
+                case 'complete' :
+                    this.refund_show = this.refund_complete;
+                    break;
+                case 'reject' :
+                    this.refund_show = this.refund_reject;
+                    break;
+                case 'all' :
+                    this.refund_show = this.refunds;
+                    break;
+                default :
+                    this.refund_show = this.refunds;
+            }
+        },
+        async refund_status(){
+            if (this.user_type == 'user'){
+                this.refund_new = await this.refunds.filter(x=>x.status == 1);
+            this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
+            }
+
+            this.refund_success = await this.refunds.filter(x=>x.status == 8);
+            this.refund_consider = await this.refunds.filter(x=>x.status == 9);
+            this.refund_complete = await this.refunds.filter(x=>x.status == 99);
+            this.refund_reject = await this.refunds.filter(x=>x.status == 88);
+
+            this.count_new = await this.refund_new.length;
+            this.count_info = await this.refund_info.length;
+            this.count_success = await this.refund_success.length;
+            this.count_consider = await this.refund_consider.length;
+            this.count_complete = await this.refund_complete.length;
+            this.count_reject = await this.refund_reject.length;
+        },
+        async fetchData(){
+            //console.log('refund show :' + this.$store.state.refund_show);
+            //let user_type = await this.$store.getters.user_type;
+            //console.log('user :' + user_type);
+            let path = '';
+            if (this.user_type == 'admin'){
+                path = await `/api/admin/0/refunds`;
+            }else if (this.user_type == 'user'){
+                path = await `/api/offices/${this.office_id}/refunds`;
+            }else{
+                return;
+            }
+
 
             var refunds = [];
             var contracts = [];
             console.log('path :' + path);
-            axios.get(path)
-            .then(response=>{
-                refunds = response.data;
-                this.refunds = refunds;
-                this.state = 'show';
-                this.$forceUpdate();
-            })
+            let response = await axios.get(path);
+            this.refunds = await response.data.data;
+            this.refund_show = await this.refunds;
+            await this.refund_status();
+            await this.set_refund_show(this.$store.getters.refund_show);
+            this.state = 'show';
+            this.$forceUpdate();
         },
         createRefund(){
             this.$router.push({path: 'form'});
@@ -115,10 +419,20 @@ export default {
                 case 4:
                 case 5:
                 case 6:
+                case 7:
                     return 'บันทึกข้อมูล'
                     break;
-                case 7:
+                case 8:
                     return 'ส่งข้อมูลแล้ว'
+                    break;
+                case 9:
+                    return 'กำลังพิจารณา'
+                    break;
+                case 88:
+                    return 'ไม่อนุมัติ'
+                    break;
+                case 99:
+                    return 'อนุมัติ'
                     break;
             }
             // if (status < 7){
@@ -140,9 +454,14 @@ export default {
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             //return moment(String(value)).format('LL')
         },
-        showRefund(id){
+        async showRefund(id,office_id){
+            if (this.$store.getters.user_type == 'admin'){
+                await this.$store.commit('office_id', office_id);
+            }
 
-            this.$router.push(`refunds/${id}`);
+            // let route = this.$router.resolve({path: `refunds/${id}`});
+            // window.open(route.href, '_blank');
+            await this.$router.push(`refunds/${id}`);
         },
         delRefund(id){
             this.$swal({
@@ -170,6 +489,50 @@ export default {
                     })
                 }
             });
+        },
+        showReport(refund_id,office_id){
+            this.$nextTick(()=>{
+                this.refund_id = refund_id;
+                this.office_id = office_id;
+            })
+
+
+            this.$refs['modalReport'].show()
+        },
+        considerRefund(refund_id,office_id){
+            //console.log(today);
+            this.$swal({
+                title: "กรุณายืนยันการรับเรื่อง",
+                text: "",
+                icon: "info",
+                closeOnClickOutside: false,
+                buttons: [
+                    'ยกเลิก',
+                    'ยืนยัน'
+                ],
+            }).then(isConfirm =>{
+                if (isConfirm){
+                    let path = `/api/offices/${office_id}/refunds/${refund_id}`;
+                    let today = new Date();
+                    let str_today = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()
+                    //console.log(str_today);
+
+                    let user = this.$store.getters.user;
+                    axios.put(`${path}`,{
+                        "status" : 9,
+                        "consider_date" : str_today,
+                        "consider_by" : user.username
+                    })
+                    .then(response=>{
+                        //console.log('OK : ');
+                        this.fetchData();
+                    })
+                    .catch(error=>{
+                        console.log('error : ' + error);
+                    })
+                }
+            });
+
         }
 
     }
@@ -183,10 +546,7 @@ export default {
     padding: 0px;
     vertical-align: middle;
 }
-.btn{
-    padding-top: 15px!important;
-    padding-bottom: 15px!important;
-}
+
 i{
     vertical-align: middle!important;
 }
@@ -206,5 +566,48 @@ td{
 }
 .status2{
     background-color: rgb(170, 224, 149);
+}
+.warning{
+    cursor: pointer;
+    background-color: #ffc107;
+    border: 1px solid #a88008;
+}
+.warning:hover,.primary:hover,.success:hover,.consider:hover,.complete:hover,.refect:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.primary{
+    cursor: pointer;
+    background-color: #25a2f5;
+    border: 1px solid #086aac;
+    color: #011929;
+}
+.success{
+    cursor: pointer;
+    background-color: #55e09f;
+    border: 1px solid #046638;
+    color: #03331d;
+}
+.consider{
+    cursor: pointer;
+    background-color: #df7e10;
+    border: 1px solid #793e0e;
+    color: #ffffff;
+}
+.complete{
+    cursor: pointer;
+    background-color: #368d2e;
+    border: 1px solid #1d4b10;
+    color: #dee8f8;
+}
+.reject{
+    cursor: pointer;
+    background-color: #e44c4c;
+    border: 1px solid #a03030;
+    color: #fcfafa;
+}
+.thead{
+    background-color: #1074b8;
+    color: #fff;
+    font-weight: normal!important;
 }
 </style>

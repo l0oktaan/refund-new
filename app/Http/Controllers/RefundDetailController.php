@@ -200,6 +200,7 @@ class RefundDetailController extends Controller
                         $detail->save();
 
                         $arrDetail = RefundDetail::orderBy('id')
+                                    ->where('refund_form_id','=',$refund_form->id)
                                     ->where('id','=',$data[$i]['id'])
                                     ->get();
                         //return $arrDetail;

@@ -55,7 +55,7 @@ export default {
             isSelect: [],
             form_id : this.$route.params.id,
             form_id: 0,
-            office_id: 2,
+            office_id: this.$store.getters.office_id,
             refund_id: 0,
             refund_status: 'new',
             refund_forms: [],

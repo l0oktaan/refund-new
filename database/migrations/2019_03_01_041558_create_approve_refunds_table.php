@@ -17,7 +17,7 @@ class CreateApproveRefundsTable extends Migration
             $table->increments('id');
             $table->integer('refund_id')->unsigned()->index()->unique();
             $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
-            $table->date('receive_date');
+            //$table->date('receive_date');
             $table->integer('refund_days');
             $table->double('refund_money',15,2);
             $table->double('refund_amount',15,2);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Offices as OfficeResource;
 use App\Http\Requests\OfficeRequest;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 //use App\Http\Resources\OfficeCollection;
 class OfficeController extends Controller
 {
@@ -19,6 +20,8 @@ class OfficeController extends Controller
 
     public function index()
     {
+        // $user = Auth::user();
+        // return $user->type;
         return OfficeResource::collection(Office::all());
         //return Office::all();
     }

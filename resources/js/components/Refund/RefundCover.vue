@@ -46,7 +46,7 @@ export default {
         return {
             iRefund: [],
             contracts: {},
-            office_id: 2,
+            office_id: this.$store.getters.office_id,
         }
     },
     watch: {

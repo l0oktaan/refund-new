@@ -86,7 +86,7 @@ export default {
     },
     computed: {
         getUser(){
-            return this.$store.state.user;
+            return !this.$store.getters.user ? '' : this.$store.getters.user.username ;
         },
         isAdmin(){
             var path = [];
@@ -95,12 +95,12 @@ export default {
         }
     },
     mounted(){
-        this.user = this.$store.state.user;
+
     },
     methods: {
         logout(){
-            this.$store.state.user = '';
-            this.$router.push('/');
+            this.$store.dispatch('logout');
+            this.$router.push('/login');
         }
     }
 }

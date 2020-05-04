@@ -10,7 +10,6 @@ class ApproveRefund extends Model
     protected $fillable = [
         'id',
         'refund_id',
-        'receive_date',
         'refund_days',
         'refund_money',
         'refund_amount',

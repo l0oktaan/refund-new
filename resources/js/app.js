@@ -12,8 +12,8 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+
+
 
 import $ from 'jquery';
 window.$ = window.jQuery = $;
@@ -27,8 +27,8 @@ Vue.use(Buefy,{
     defaultMonthNames: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
 }) */
 
-
-
+// import { store } from './store'
+//import router from './router'
 import Vue2Crumbs from 'vue-2-crumbs'
 
 Vue.use(Vue2Crumbs)
@@ -50,16 +50,14 @@ import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist'
 import Cookies from 'js-cookie';
 Vue.use(Vuex)
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 //axios.defaults.baseURL = 'http://sajjainfo.com';
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-Vue.use(VueAxios, axios)
-window.axios.defaults.headers.common = {
 
-    'X-Requested-With': 'XMLHttpRequest'
-};
 Vue.use(VueAxios, axios)
 
 import jsPDF from 'jspdf'
@@ -119,7 +117,7 @@ Vue.use(Cleave,{
 
 
 import App from './views/App.vue'
-import Home from './views/Home.vue'
+ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Refund from './views/Refund.vue'
 import RefundDashboard from './views/Dashboard.vue'
@@ -157,6 +155,13 @@ const router = new VueRouter({
         {
             path: '/refund',
             component: Refund,
+            beforeEnter (to, from, next) {
+                if (store.state.user.type == 'user') {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             meta: {
                 breadCrumb: 'หน้าแรก' //crumb
             },
@@ -229,9 +234,21 @@ const router = new VueRouter({
             path: '/admin',
             component: Admin,
             mode: 'history',
+            beforeEnter (to, from, next) {
+                if (store.state.user) {
+                    if (store.state.user.type == 'admin'){
+                        next()
+                    }else{
+                        next('/refund')
+                    }
+                } else {
+                    next('/login')
+                }
+            },
             meta: {
                 breadCrumb: 'Dashboard' //crumb
             },
+
             children: [
                 {
                     path: '',
@@ -268,19 +285,19 @@ const router = new VueRouter({
     ]
 });
 
-router.beforeEach((to, from, next) => {
-    if (to.fullPath !== "/login") {
-        axios.get('/api/profile')
-        .then(response => {
-            console.log('next page' + response.data);
-            next();
-        }).catch(error => {
-            router.push('/login');
-        })
-    } else {
-        next();
-    }
-})
+// router.beforeEach((to, from, next) => {
+//     if (to.fullPath !== "/login") {
+//         axios.get('/api/profile')
+//         .then(response => {
+//             console.log('next page' + response.data);
+//             next();
+//         }).catch(error => {
+//             router.push('/login');
+//         })
+//     } else {
+//         next();
+//     }
+// })
 import AdminNav from './components/Admin/AdminNav.vue';
 Vue.component('AdminNav', AdminNav).defaults;
 
@@ -395,12 +412,12 @@ Vue.component('SentRefund', SentRefund).defaults;
 import AdminApprove from './components/Refund/AdminApprove.vue';
 Vue.component('AdminApprove', AdminApprove).defaults;
 
-
-
 const store = new Vuex.Store({
     state: {
-        user: '',
-        form_count: 0
+        user: null,
+        userToken: null,
+        refund_show: null,
+        office_id: null
     },
     // plugins: [
     //     createPersistedState({
@@ -413,26 +430,125 @@ const store = new Vuex.Store({
     //     })
     // ],
     plugins: [new VuexPersistence().plugin],
-
+    getters: {
+        refund_show: state => {
+            return state.refund_show;
+        },
+        user_type (state){
+            if (state.user){
+                return state.user.type
+            }
+        },
+        user (state){
+            if (state.user){
+                return state.user
+            }
+        },
+        userToken (state){
+            if (state.userToken){
+                return state.userToken
+            }
+        },
+        office_id (state){
+            if (state.office_id){
+                return state.office_id
+            }
+        }
+    },
     mutations: {
+        authUser (state, userData){
+            //console.log(userData.user);
+            state.user = userData.user
+            state.userToken = userData.token
+        },
+        clearAuthData (state){
+            state.user = null
+            state.userToken = null
+        },
         SET_USER:(state, value) => {
             state.user = value
         },
-        SET_FORMS: (state, forms) => {
-            state.forms = forms
+        SET_REFUND_SHOW: (state, value) => {
+            state.refund_show = value
         },
         FETCH_FORM: (state) => {
 
         },
+        office_id (state, value){
+            state.office_id = value
+        }
 
     },
     actions: {
-        fetch_form: ({ commit }) => {
-            commit('FETCH_FORM');
-        }
+        login ({ commit, state}, authData){
+            let path = '/api/login'
+            return new Promise((resolve, reject) => {
+                axios.post(path,{
+                    username: authData.username,
+                    password: authData.password
+                })
+                .then(response=>{
+                    const userData = response.data.data
+                    commit('authUser',{
+                        user: userData,
+                        token: response.data.success
+                    })
+                    localStorage.setItem('token', response.data.success)
+                    if (userData.type == 'admin'){
+                        router.replace('/admin')
+                    }else if (userData.type == 'user'){
+                        commit('office_id', userData.office_id)
+                        router.replace('/refund')
+                    }
+                    resolve(response)
+                })
+                .catch(error=>{
+                    reject(error)
+                })
+            })
+        },
+        checkLogin({ state }){
+            const userData = state.user
+            if (userData){
+                if (userData.type == 'admin'){
+                    router.replace('/admin')
+                }else if (userData.type == 'user'){
+                    router.replace('/refund')
+                }
+            }
+        },
+        logout({ commit }){
+            commit('clearAuthData')
+            router.replace('/login')
+        },
+
     }
 
 })
+Vue.use(VueAxios, axios)
+
+// let AUTH_TOKEN = store.getters('userToken');
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+
+
+};
+axios.interceptors.request.use(
+    (config) => {
+      let token = localStorage.getItem('token');
+
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${ token }`;
+      }
+
+      return config;
+    },
+
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 const app = new Vue({
     el: '#app',
     components: { App },

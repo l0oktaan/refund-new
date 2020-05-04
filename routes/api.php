@@ -20,14 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'auth:api'],function() {
-
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-});
-
-
     Route::Resource('/offices', 'OfficeController');
+
     Route::group(['prefix'=>'offices'],function(){
 
         Route::apiResource('/{office}/refunds','RefundController');
@@ -51,5 +45,24 @@ Route::group(['middleware' => 'auth:api'],function() {
         Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
     });
 
+    Route::group(['prefix' => 'admin'],function(){
+        Route::apiResource('/{admin}/refunds','RefundController');
+    });
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+});
+
+
+    // Route::Resource('/offices', 'OfficeController')->middleware('auth:api');
+
+
+    // Route::Resource('/forms','FormController');
+
+
 Auth::routes();
+
 Route::get('/profile','AuthController@index');
+
