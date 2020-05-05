@@ -151,7 +151,7 @@
                 </table>
             </b-col>
         </b-row>
-        <b-row align-h="center" v-if="isAdmin">
+        <b-row align-h="center">
             <b-col cols="7">
                 <admin-approve
                     :refund_status="refund_status"

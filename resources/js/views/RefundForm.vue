@@ -1,6 +1,8 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
+        <!-- {{arrFormSelected}}
+        {{isSelect}} -->
         <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
         <b-row>
             <b-col cols="6" v-for="(form,index) in forms" :key="index">
@@ -97,15 +99,23 @@ export default {
             })
         },
         confirmChange(form,index){
-            let formIndex = this.arrFormSelected.findIndex(i => i.id === form.id);
-            if (formIndex >= 0){
-                this.arrFormSelected.splice(formIndex,1);
-            }else{
-                this.arrFormSelected.push(
-                    {id: form.id, name: form.name1, order: form.order, selectIndex: index}
-                );
+            // let formIndex = this.arrFormSelected.findIndex(i => i.id === form.id);
+            // if (formIndex >= 0){
+            //     this.arrFormSelected.splice(formIndex,1);
+            // }else{
+            //     this.arrFormSelected.push(
+            //         {id: form.id, name: form.name1, order: form.order, selectIndex: index}
+            //     );
+            // }
+            // this.arrFormSelected = this.sortArrays(this.arrFormSelected);
+            if (this.arrFormSelected.length > 0){
+                let formIndex = this.arrFormSelected[0]['selectIndex'];
+                this.arrFormSelected = [];
+                this.isSelect[formIndex] = false
             }
-            this.arrFormSelected = this.sortArrays(this.arrFormSelected);
+            this.arrFormSelected.push(
+                {id: form.id, name: form.name1, order: form.order, selectIndex: index}
+            );
         },
         sortArrays(arr){
             return _.orderBy(arr,'order','asc');

@@ -2,7 +2,7 @@
   <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
 
-        <b-card class="bg-primary" v-if="!complete_status">
+        <b-card class="bg-primary" v-if="!complete_status && user.type == 'admin'">
             <div slot="header" class="navbar ">
                 <ul class="nav navbar-nav d-md-down-none">
                     <li class="nav-item px-3">
@@ -114,7 +114,7 @@
                         {{getThaiDate(date_complete)}}
                     </b-col>
                 </b-row>
-                <b-row>
+                <b-row v-if="user.type == 'admin'">
                     <b-col>
                         <p class="text-right">ผู้บันทึก :</p>
                     </b-col>

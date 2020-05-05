@@ -365,4 +365,7 @@ export default {
 .card {
     margin-bottom: 5px!important;
 }
+.card-body{
+    padding: 10px!important;
+}
 </style>

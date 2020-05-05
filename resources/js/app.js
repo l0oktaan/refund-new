@@ -464,6 +464,9 @@ const store = new Vuex.Store({
         clearAuthData (state){
             state.user = null
             state.userToken = null
+            state.office_id = null
+            state.refund_show = null
+
         },
         SET_USER:(state, value) => {
             state.user = value
@@ -476,7 +479,8 @@ const store = new Vuex.Store({
         },
         office_id (state, value){
             state.office_id = value
-        }
+        },
+
 
     },
     actions: {
@@ -519,6 +523,7 @@ const store = new Vuex.Store({
         },
         logout({ commit }){
             commit('clearAuthData')
+            localStorage.removeItem('token')
             router.replace('/login')
         },
 

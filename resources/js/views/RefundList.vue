@@ -69,7 +69,7 @@
                         </b-col>
                     </b-row>
                     <div><span><span class="h4">{{count_success}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ข้อมูลรอการพิจารณา</div>
+                    <div class="h5 mb-0">รอการพิจารณา</div>
 
                 </b-card>
             </b-col>
@@ -96,7 +96,7 @@
                         </b-col>
                     </b-row>
                     <div><span><span class="h4">{{count_complete}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ข้อมูลอนุมัติแล้ว</div>
+                    <div class="h5 mb-0">อนุมัติแล้ว</div>
                 </b-card>
             </b-col>
             <b-col cols="3">
@@ -135,7 +135,7 @@
                             <td>{{getThaiDate(refund.create_date)}}</td>
                             <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_party}}</span><span v-else>-</span></td>
                             <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_no}}</span><span v-else>-</span></td>
-                            <td>{{getStatus(refund.status)}}</td>
+                            <td><i :class="getStatus(refund.status).icon" ></i>{{getStatus(refund.status).status}}</td>
                             <td>
                                 <div v-if="user_type == 'user'">
                                     <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showRefund(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
@@ -184,7 +184,7 @@
                             <td><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.contracts[0].contract_party}}</span></td>
                             <td><span >{{refund.contracts[0].contract_no}}</span></td>
-                            <td>{{getStatus(refund.status)}}</td>
+                            <td><i :class="getStatus(refund.status).icon" ></i>{{getStatus(refund.status).status}}</td>
                             <td>
                                 <div v-if="user_type == 'user'">
 
@@ -201,7 +201,7 @@
                                     </b-tooltip>
 
                                     <b-button v-if="refund.status == 8" :id="'btnConsider'+refund.id" class="tools" size="sm" variant="outline-success" @click="considerRefund(refund.id,refund.office_id)"><i class="fas fa-user-check fa-lg"></i></b-button>
-                                    <b-tooltip :target="'btnConsider'+refund.id" triggers="hover" placement="left">
+                                    <b-tooltip v-if="refund.status == 8" :target="'btnConsider'+refund.id" triggers="hover" placement="left">
                                         รับพิจารณา
                                     </b-tooltip>
                                     <b-button v-if="refund.status >= 9"
@@ -213,7 +213,7 @@
                                     >
                                         <i class="fas fa-pencil-alt fa-lg"></i>
                                     </b-button>
-                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
+                                    <b-tooltip v-if="refund.status >= 9" :target="'btnEdit'+refund.id" triggers="hover" placement="left">
                                         แก้ข้อมูล {{(user.username != refund.consider_by) ? 'โดย :' + refund.consider_by : "" }}
                                     </b-tooltip>
                                 </div>
@@ -277,32 +277,38 @@ export default {
                 {
                     name : 'new',
                     text : 'ตรวจสอบหลักเกณฑ์',
-                    status : [1]
+                    status : [1],
+                    icon: 'icon-magic-wand'
                 },
                 {
                     name : 'info',
                     text : 'กำลังบันทึกข้อมูล',
-                    status : [2,3,4,5,6,7]
+                    status : [2,3,4,5,6,7],
+                    icon: 'icon-magic-wand'
                 },
                 {
                     name : 'success',
                     text : 'ส่งข้อมูลแล้ว',
-                    status : [8]
+                    status : [8],
+                    icon: 'icon-magic-wand'
                 },
                 {
                     name : 'consider',
                     text : 'อยู่ระหว่างพิจารณา',
-                    status : [9]
+                    status : [9],
+                    icon: 'icon-magic-wand'
                 },
                 {
                     name : 'complete',
                     text : 'ข้อมูลอนุมัติแล้ว',
-                    status : [99]
+                    status : [99],
+                    icon: 'icon-magic-wand'
                 },
                 {
                     name : 'reject',
                     text : 'ไม่ผ่านการอนุมัติ',
-                    status : [88]
+                    status : [88],
+                    icon: 'icon-magic-wand'
                 },
             ],
             user_type: ''
@@ -329,10 +335,14 @@ export default {
     },
     methods: {
         set_refund_show(status){
-            if (status == 'all'){
-                this.refund_filter = false;
+            if (status){
+                if (status == 'all'){
+                    this.refund_filter = false;
+                }else{
+                    this.refund_filter = true;
+                }
             }else{
-                this.refund_filter = true;
+                this.refund_filter = false;
             }
             this.$store.commit('SET_REFUND_SHOW',status)
 
@@ -402,7 +412,7 @@ export default {
             this.refund_show = await this.refunds;
             await this.refund_status();
             await this.set_refund_show(this.$store.getters.refund_show);
-            this.state = 'show';
+            //this.state = 'show';
             this.$forceUpdate();
         },
         createRefund(){
@@ -412,7 +422,7 @@ export default {
             switch(status){
                 case 0:
                 case 1:
-                    return 'ตรวจสอบหลักเกณฑ์'
+                    return { status :'ตรวจสอบหลักเกณฑ์' , icon : 'icon-magic-wand icon_warning' ,color: 'icon_warning'}
                     break;
                 case 2:
                 case 3:
@@ -420,21 +430,53 @@ export default {
                 case 5:
                 case 6:
                 case 7:
-                    return 'บันทึกข้อมูล'
+                    return { status :'บันทึกข้อมูล' , icon : 'icon-pencil icon_primary',color: 'icon_primary'}
                     break;
                 case 8:
-                    return 'ส่งข้อมูลแล้ว'
+                    if (this.user.type == 'admin'){
+                        return { status :'รอการพิจารณา' , icon : 'fas fa-paper-plane icon_warning',color: 'icon_warning'}
+                    }else{
+                        return { status :'ส่งข้อมูลแล้ว' , icon : 'fas fa-paper-plane icon_success',color: 'icon_success'}
+                    }
+
                     break;
                 case 9:
-                    return 'กำลังพิจารณา'
+                    return { status :'กำลังพิจารณา' , icon : 'icon-note icon_consider',color: 'icon_consider'}
                     break;
                 case 88:
-                    return 'ไม่อนุมัติ'
+                    return { status :'ไม่อนุมัติ' , icon : 'fas fa-sign-out-alt icon_reject',color: 'icon_reject'}
                     break;
                 case 99:
-                    return 'อนุมัติ'
+                    return { status :'อนุมัติ' , icon : 'fas fa-check icon_complete',color: 'icon_complete'}
                     break;
             }
+        // getStatus(status){
+        //     switch(status){
+        //         case 0:
+        //         case 1:
+        //             return 'ตรวจสอบหลักเกณฑ์'
+        //             break;
+        //         case 2:
+        //         case 3:
+        //         case 4:
+        //         case 5:
+        //         case 6:
+        //         case 7:
+        //             return 'บันทึกข้อมูล'
+        //             break;
+        //         case 8:
+        //             return 'ส่งข้อมูลแล้ว'
+        //             break;
+        //         case 9:
+        //             return 'กำลังพิจารณา'
+        //             break;
+        //         case 88:
+        //             return 'ไม่อนุมัติ'
+        //             break;
+        //         case 99:
+        //             return 'อนุมัติ'
+        //             break;
+        //     }
             // if (status < 7){
             //     return 'ยังไม่ส่งข้อมล'
             // }else{
@@ -575,6 +617,7 @@ td{
 .warning:hover,.primary:hover,.success:hover,.consider:hover,.complete:hover,.refect:hover{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 .primary{
     cursor: pointer;
     background-color: #25a2f5;
@@ -605,6 +648,28 @@ td{
     border: 1px solid #a03030;
     color: #fcfafa;
 }
+.icon_complete, .icon_consider, .icon_primary, .icon_reject, .icon_success, .icon_warning{
+    margin-right: 5px;
+}
+.icon_warning{
+    color: #a88008;
+}
+.icon_primary{
+    color: #086aac;
+}
+.icon_success{
+    color: #046638;
+}
+.icon_consider{
+    color: #793e0e;
+}
+.icon_complete{
+    color: #1d4b10;
+}
+.icon_reject{
+    color: #a03030;
+}
+
 .thead{
     background-color: #1074b8;
     color: #fff;
