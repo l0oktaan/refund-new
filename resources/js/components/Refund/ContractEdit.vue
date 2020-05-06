@@ -6,14 +6,14 @@
                 :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                 :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                 style="padding-top:4px; line-height:0px;"
-
+                :disabled="isDisable"
                 v-model="isEdit"
             />
         </div>
 
 
 
-         <b-form  @submit="SubmitContractEdit" v-if="isEdit">
+         <b-form  @submit="SubmitContractEdit" v-if="isEdit && !isDisable">
             <b-card no-body class="bg-primary">
                 <b-card-body class="pb-0 list ">
                    <b-row>
@@ -68,7 +68,7 @@
                         <b-col>
 
                             <div class="text-center" style="margin-bottom:5px;">
-                                <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                                <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                 <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                             </div>
                         </b-col>
@@ -92,12 +92,12 @@
                     <td>{{item.budget_new | numeral('0,0.00') }}</td>
                     <td>{{item.penalty_new | numeral('0,0.00') }}</td>
                     <td>
-                        <b-button :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                        <b-button :disabled="isDisable" :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                         <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
                             แก้ไขข้อมูล
                         </b-tooltip>
 
-                        <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item)"><i class="fas fa-trash"></i></b-button>
+                        <b-button :disabled="isDisable" :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item)"><i class="fas fa-trash"></i></b-button>
                         <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
                             ลบข้อมูล
                         </b-tooltip>
@@ -155,11 +155,18 @@ export default{
 
                 },
             },
-            isEdit: false
+            isEdit: false,
+            refund_status: this.$store.getters.refund_status
         }
     },
     mounted(){
         this.fetchContractEdit();
+    },
+    computed: {
+        isDisable(){
+            console.log('status :' + this.refund_status);
+            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+        }
     },
     watch: {
         isEdit(newVal, oldVal){

@@ -447,6 +447,7 @@ import SentRefund from './components/Refund/SentRefund.vue';
 Vue.component('SentRefund', SentRefund).defaults;
 
 import AdminApprove from './components/Refund/AdminApprove.vue';
+//import state from 'sweetalert/typings/modules/state';
 Vue.component('AdminApprove', AdminApprove).defaults;
 
 const store = new Vuex.Store({
@@ -454,7 +455,8 @@ const store = new Vuex.Store({
         user: null,
         userToken: null,
         refund_show: null,
-        office_id: null
+        office_id: null,
+        refund_status: null
     },
     // plugins: [
     //     createPersistedState({
@@ -490,6 +492,11 @@ const store = new Vuex.Store({
             if (state.office_id){
                 return state.office_id
             }
+        },
+        refund_status (state){
+            if (state.refund_status){
+                return state.refund_status
+            }
         }
     },
     mutations: {
@@ -517,6 +524,9 @@ const store = new Vuex.Store({
         office_id (state, value){
             state.office_id = value
         },
+        refund_status (state,value){
+            state.refund_status = value
+        }
 
 
     },
@@ -565,6 +575,7 @@ const store = new Vuex.Store({
             localStorage.removeItem('token')
             router.push('/login')
         },
+
 
     }
 

@@ -16,7 +16,7 @@
                 </div>
 
             <validation-observer ref="observer" v-slot="{ passes }">
-            <b-form @submit.stop.prevent="passes(onContractSubmit)">
+            <b-form @submit.stop.prevent="passes(onContractSubmit)" >
                 <b-row>
                     <b-col sm="8">
                         <validation-provider
@@ -127,7 +127,7 @@
                 <b-row>
                     <b-col>
                         <div class="text-center" style="margin-bottom:5px;">
-                            <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                            <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                         </div>
                     </b-col>
                 </b-row>
@@ -176,7 +176,8 @@ export default {
                     numeralIntegerScale: 15,
                     numeralDecimalScale: 2
                 },
-            }
+            },
+            refund_status: this.$store.getters.refund_status
         }
     },
     validations: {
@@ -186,6 +187,13 @@ export default {
         this.office_id = this.$store.getters.office_id;
         await this.fetchContract();
         this.$forceUpdate();
+    },
+    computed: {
+        isDisable(){
+            console.log('status :' + this.refund_status);
+            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+        }
+
     },
     watch: {
         contract_start(newDate, oldDate){

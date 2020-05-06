@@ -125,7 +125,30 @@ class RefundDetailController extends Controller
                                 $this->UpdateDetail(intval($detail->id),0);
                             }
                         break;
+                        case 4: //หลังจากวันที่
+                            //$date_var1 = Carbon::now();
+                            try {
+                                $var1 = explode("-",$consider->var1);
 
+                                //$date_var1->setDate($var1[0],$var1[1],$var1[2]);
+                                $date_var1 = Carbon::create($var1[0],$var1[1],$var1[2]);
+
+                                //$date_detail = Carbon::now();
+                                $value = explode("-",$detail->value);
+                                $date_detail = Carbon::create($value[0],$value[1],$value[2]);
+                                //$date_detail->setDate($value[0],$value[1],$value[2]);
+                                if ($date_detail->greaterThan($date_var1)){
+                                    $this->UpdateDetail(intval($detail->id),1);
+                                }else{
+                                    $this->UpdateDetail(intval($detail->id),0);
+                                }
+                            } catch (\Throwable $th) {
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
+
+
+
+                        break;
                         default :
                             $this->UpdateDetail(intval($detail->id),0);
                     }

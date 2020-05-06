@@ -132,7 +132,7 @@
                             <b-col>
 
                                 <div class="text-center" style="margin-bottom:5px;">
-                                    <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                                    <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
                                 </div>
                             </b-col>
@@ -168,8 +168,8 @@
                             แก้ไขข้อมูล
                         </b-tooltip>
 
-                        <b-button :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item.id)"><i class="fas fa-trash"></i></b-button>
-                        <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                        <b-button :disabled="isDisable" :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item.id)"><i class="fas fa-trash"></i></b-button>
+                        <b-tooltip  :target="'btnDel'+item.id" triggers="hover" placement="left">
                             ลบข้อมูล
                         </b-tooltip>
                     </td>
@@ -207,7 +207,14 @@ export default {
             hasPenalty: true,
             state: 'new',
             alert: '',
-            message: ''
+            message: '',
+            refund_status: this.$store.getters.refund_status
+        }
+    },
+    computed: {
+        isDisable(){
+            console.log('status :' + this.refund_status);
+            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     watch: {

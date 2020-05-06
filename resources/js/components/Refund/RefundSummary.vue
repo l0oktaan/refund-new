@@ -88,7 +88,7 @@
                         <b-row>
                             <b-col>
                                 <div class="text-center" style="margin-bottom:5px;">
-                                    <b-button type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                                    <b-button :disabled="isDisable" type="submit" variant="dark">บันทึกข้อมูล</b-button>
                                 </div>
                             </b-col>
                         </b-row>
@@ -121,10 +121,17 @@ export default {
                     numeralDecimalScale: 2,
                 },
             },
+            refund_status: this.$store.getters.refund_status
         }
     },
     mounted(){
         this.fetchData();
+    },
+    computed: {
+        isDisable(){
+            console.log('status :' + this.refund_status);
+            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+        }
     },
     methods: {
         fetchData(){
@@ -149,6 +156,9 @@ export default {
         },
          onSubmit(e){
             e.preventDefault();
+            if (isDisable){
+                return;
+            }
             ///api/offices/2/refunds/14/deposit_penalties
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
 

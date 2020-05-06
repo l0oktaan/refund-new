@@ -35,7 +35,7 @@
                 </b-row>
                 <b-row>
                     <b-col cols="3">
-                        <b-form-group label="ปรเภทเงื่อนไข">
+                        <b-form-group label="ประเภทเงื่อนไข">
                             <b-form-select
                                 v-model="consider_type"
                                 :options="type_list"
@@ -144,7 +144,9 @@ export default {
                 {value: 0, text: 'ตัวเลือกการตรวจสอบ'},
                 {value: 1, text: 'ไม่เกินจำนวนวัน'},
                 {value: 2, text: 'ไม่เกินวันที่'},
+                {value: 4, text: 'หลังจากวันที่'},
                 {value: 3, text: 'อยู่ในช่วงเวลา'},
+
             ],
             alert: '',
             lang: 'th',
