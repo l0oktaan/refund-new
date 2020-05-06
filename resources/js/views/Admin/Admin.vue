@@ -3,7 +3,6 @@
         <admin-nav></admin-nav>
         <div class="app-body" id="app">
             <admin-menu></admin-menu>
-
             <main class="main">
                 <admin-breadcrumb></admin-breadcrumb>
                 <div class="container-fluid">

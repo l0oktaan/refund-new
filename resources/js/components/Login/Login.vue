@@ -14,8 +14,6 @@
             </b-card>
             <b-card no-body class="p-4">
               <b-card-body class="txt">
-                <div class="animated fadeIn">
-                <b-form>
                     <b-row>
                         <b-col>
                             <p class="text-muted txt">ใส่รหัสผู้ใช้งานระบบ</p>
@@ -53,8 +51,8 @@
                         </b-col>
                     </b-row>
 
-                </b-form>
-                </div>
+
+
 
               </b-card-body>
             </b-card>
@@ -79,24 +77,10 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('checkLogin')
+        this.$store.dispatch('checkLogin');
+
     },
     methods: {
-        checkUser(){
-            this.state = 'password';
-
-            this.dismissCountDown = this.dismissSecs
-            this.alertMessage = 'ไม่พบชื่อผู้ใช้ระบบ!!!'
-            this.$emit("authenticated", true);
-        },
-        checkPassword(){
-            this.state = 'username';
-
-            this.dismissCountDown = this.dismissSecs
-            this.alertMessage = 'รหัสผ่านไม่ถูกต้อง!!!'
-            this.$emit("authenticated", true);
-            this.$router.push('/refund');
-        },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown
         },

@@ -22,7 +22,7 @@ class DepositPenaltyController extends Controller
         $deposit = new DepositPenalty;
         $deposit =  $office->deposit_penalties()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('deposit_date','desc')
+                    ->orderBy('deposit_date','asc')
                     ->get();
         return DepositPenaltyResource::collection($deposit);
     }
@@ -52,7 +52,7 @@ class DepositPenaltyController extends Controller
             if ($refund->status < 6){
                 $refund->update(['status' => 6]);
             }
-            
+
             return response([
                 'data' => new DepositPenaltyResource($deposit)
             ],Response::HTTP_CREATED);

@@ -13,7 +13,7 @@
                         <!--b-dropdown-item @click="showCondition(rule.id)" v-if="rule.sub_rules.length == 0"><i class="fas fa-link"></i>&nbsp;ข้อมูลเงื่อนไข</b-dropdown-item-->
                         <b-dropdown-item @click="delRule(rule.id)"><i class="fas fa-trash"></i>&nbsp;ลบหลักเกณฑ์</b-dropdown-item>
                     </b-dropdown>
-                    <b-form-group label="ตัวเลือกหลักย่อย" v-if="rule.sub_rules.length > 1" class="float-right">
+                    <b-form-group label="ตัวเลือกหลักเกณฑ์ย่อย" v-if="rule.sub_rules.length > 1" class="float-right">
                         <b-form-radio-group
                             id="btn-radios-2"
                             v-model="result_type"
@@ -77,7 +77,7 @@
                     ></rule-condition>
             </b-modal>
         </div>
-        
+
     </div>
 </template>
 <script>

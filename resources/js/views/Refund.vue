@@ -13,19 +13,38 @@
                     </div>
                 </div>
             </main>
-            <refund-side></refund-side>
+            <!-- <refund-side></refund-side> -->
         </div> <!-- End app-body -->
         <footer class="app-footer">
             <div>
-                <a href="https://coreui.io">My App</a>
-                <span>&copy; 2018 creativeLabs.</span>
+                <span>สงวนลิขสิทธิ์ &copy; 2020 Comptroller General's Department </span>
             </div>
             <div class="ml-auto">
                 <span>Powered by</span>
-                <a href="https://coreui.io">My Company</a>
+                <a href="https://www.cgd.go.th">IT@CGD</a>
             </div>
         </footer>
     </div>
 </template>
 <script>
+
+export default{
+
+    data(){
+        return {
+            items: [
+                {
+                    name: 'Dashboard',
+                    url: '/dashboard',
+                    icon: 'icon-speedometer',
+                    badge: {
+                        variant: 'primary',
+                        text: 'NEW'
+                    }
+                },
+            ],
+        }
+    }
+}
+</script>
 

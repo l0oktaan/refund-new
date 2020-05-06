@@ -83,7 +83,7 @@
                         </b-col>
                     </b-row>
                     <div><span><span class="h4">{{count_consider}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">อยู่ระหว่างพิจารณา</div>
+                    <div class="h5 mb-0">กำลังพิจารณา</div>
                 </b-card>
             </b-col>
             <b-col cols="3">
@@ -96,7 +96,7 @@
                         </b-col>
                     </b-row>
                     <div><span><span class="h4">{{count_complete}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">อนุมัติแล้ว</div>
+                    <div class="h5 mb-0">อนุมัติ</div>
                 </b-card>
             </b-col>
             <b-col cols="3">
@@ -109,7 +109,7 @@
                         </b-col>
                     </b-row>
                     <div><span><span class="h4">{{count_reject}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ไม่ผ่านการอนุมัติ</div>
+                    <div class="h5 mb-0">ไม่อนุมัติ</div>
                 </b-card>
             </b-col>
 

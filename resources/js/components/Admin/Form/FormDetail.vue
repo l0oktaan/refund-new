@@ -20,7 +20,7 @@
                     <div class="error" v-if="!$v.name1.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name1.$params.minLength.min}} ตัวอักษร.</div>
                 </b-form-group>
                 <b-form-group :class="{'form-group-error': $v.name2.$error }">
-                    <label for="name2">ชื่อแบบฟอร์ม เพิ่มเติม</label>
+                    <label for="name2">รายละเอียดแบบฟอร์ม</label>
                     <b-form-input type="text"
                         v-model.trim="$v.name2.$model"
 
@@ -30,7 +30,7 @@
                     <div class="error" v-if="!$v.name2.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name2.$params.minLength.min}} ตัวอักษร.</div>
                 </b-form-group>
                 <b-form-group :class="{invalid: $v.name1.$error}">
-                    <label for="formName3">ชื่อแบบฟอร์ม เพิ่มเติม</label>
+                    <label for="formName3">ชื่อย่อแบบฟอร์ม</label>
                     <b-form-input type="text" v-model="name3" id="txtFormName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
                 </b-form-group>
                 <b-row>

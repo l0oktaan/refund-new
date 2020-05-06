@@ -8,8 +8,9 @@
                     <!-- <p>{{results}}</p> -->
                     <!--<p>{{arr_detail}}</p>
                     <p>{{rule_passed}}</p> -->
-                    <!-- <p>{{result_tmp}}</p> -->
+                    <!-- <p>{{result_show}}</p> -->
                     <!-- <p>{{rule_select}}</p> -->
+                    <!-- <p>{{arr_rule_select}}</p> -->
                     <b-card bg-variant="primary" text-variant="white" class="p-1 pl-2">
                         <span>หลักเกณฑ์ {{rule.order}} : {{rule.name}}</span>
                     </b-card>
@@ -39,7 +40,7 @@
                             ></my-date-picker>
                         </div>
                     </consider-check>
-                    <b-form-radio-group id="radio-group-1" v-model="rule_select" name="sub_rule" v-if="(rule && rule.sub_rules.length > 1)">
+                    <b-form-radio-group id="radio-group-1" v-model="rule_select" name="sub_rule" v-if="(rule && rule.sub_rules.length > 1 && rule.result_type == 1)">
 
                         <b-card v-for="(sub_rule,i_index) in rule.sub_rules" :key="i_index" :class="rule_select == sub_rule.id ? '' : 'bg-secondary'">
                             <b-form-radio :value="sub_rule.id" >
@@ -136,6 +137,7 @@ export default {
             result_tmp: [],
             alert: '',
             rule_select: 0,
+            arr_rule_select: [],
             arr_detail: [],
             rule_passed: false
         }
@@ -167,6 +169,14 @@ export default {
     },
     async mounted(){
         this.results = await this.createResult();
+        if (this.rule.result_type == 2 && this.rule.sub_rules.length>1){
+            this.$nextTick(()=>{
+                for (let i=0; i<this.results.length; i++){
+                    this.results[i]['selected'] = 1;
+                }
+            })
+
+        }
         await this.getRefundDetail();
     },
     methods: {
@@ -176,11 +186,22 @@ export default {
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let response = await axios.get(`${path}`);
             let tmp = await response.data.data;
-            let details = await tmp.filter(x=>x.rule_id == this.rule_select);
+            let details = [];
+            let result_tmp = [];
+            if (this.arr_rule_select>0){
+                for (let i=0; i<this.arr_rule_select.length; i++){
+                    let tmp = await this.results.filter(x=>x.rule_id == this.arr_rule_select[i]);
+                    result_tmp = details;
+                    details = result_tmp.concat(tmp);
+                }
+            }else{
+                details = await tmp.filter(x=>x.rule_id == this.rule_select);
+            }
+
             for (let i=0; i<details.length; i++){
                 status = await status + parseInt(details[i]['status']);
             }
-            console.log('detail length :' + details.length + 'pass :' + status);
+            // console.log('detail length :' + details.length + 'pass :' + status);
             if (status != 0 && details.length == status){
                 console.log('rule passed !!')
                 return  true;
@@ -192,7 +213,18 @@ export default {
         },
         async check_rule_pass(){
             let status = 0;
-            let tmp = await this.results.filter(x=>x.rule_id == this.rule_select);
+            let tmp = [];
+            let tmp2 = [];
+            if (this.arr_rule_select.length > 0){
+                for (let i=0; i<this.arr_rule_select.length; i++){
+                    let tmp3 = await this.results.filter(x=>x.rule_id == this.arr_rule_select[i]);
+                    tmp2 = tmp;
+                    tmp = tmp2.concat(tmp3);
+                }
+            }else{
+                tmp = await this.results.filter(x=>x.rule_id == this.rule_select);
+            }
+
 
 
 
@@ -260,7 +292,13 @@ export default {
             this.result_tmp = [];
             this.result_show = [];
             if (this.rule.sub_rules.length > 0){
+
                 for (let i=0; i<this.rule.sub_rules.length; i++){
+                    //result_type == 2 (AND)
+                    if (this.rule.result_type == 2 && this.rule.sub_rules.length > 1){
+                        this.arr_rule_select.push(this.rule.sub_rules[i].id)
+                    }
+
                     for (let j=0; j<this.rule.sub_rules[i]['considers'].length; j++){
                         let detail = await this.findDetail(this.rule.sub_rules[i]['considers'][j].id);
                         await tmp.push(detail);
@@ -303,7 +341,18 @@ export default {
         },
         async sentResult(){
             let result_detail = [];
-            result_detail = await this.results.filter(x=>x.rule_id == this.rule_select);
+            let result_tmp = []
+            console.log('sent detail :');
+            if (this.arr_rule_select.length > 0){
+                for (let i=0; i<this.arr_rule_select.length; i++){
+                    let tmp = await this.results.filter(x=>x.rule_id == this.arr_rule_select[i]);
+                    result_tmp = result_detail;
+                    result_detail = result_tmp.concat(tmp);
+                }
+            }else{
+                result_detail = await this.results.filter(x=>x.rule_id == this.rule_select);
+            }
+
 
             console.log('sent detail :' + result_detail.length);
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
@@ -340,6 +389,8 @@ export default {
                         //let tmp_rule = await sub_rule[sub_rule.findIndex(x=>x.id == this.rule_select)]
                         let result = await this.sentResult();
                     }
+                }else{
+                    let result = await this.sentResult();
                 }
             }else{ //Main Rule
                 let result = await this.sentResult();

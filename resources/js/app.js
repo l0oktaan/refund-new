@@ -57,6 +57,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 //axios.defaults.baseURL = 'http://sajjainfo.com';
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+import { SidebarNav } from '@coreui/vue'
+Vue.component('SidebarNav', SidebarNav).defaults;
 
 Vue.use(VueAxios, axios)
 
@@ -124,6 +126,7 @@ import RefundDashboard from './views/Dashboard.vue'
 import Office from './views/Office.vue'
 import RefundList from './views/RefundList.vue'
 import RefundForm from './views/RefundForm.vue'
+import RefundShow from './views/RefundShow.vue'
 import RefundDetail from './views/RefundDetail.vue'
 import RefundFormCheck from './views/RefundFormCheck.vue'
 import RefundFormTest from './views/RefundFormTest.vue'
@@ -134,13 +137,18 @@ import AdminIndex from './views/Admin/AdminIndex'
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
 
+
+//const DefaultContainer = () => import('@/views/containers/DefaultContainer')
+
 const router = new VueRouter({
     mode: 'history',
     base: '/',
     routes: [
         {
             path: '/',
+
             component: Home,
+            redirect: '/login',
             meta: {
                 breadCrumb: 'หน้าหลัก' //crumb
             }
@@ -175,28 +183,38 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds',
-                    component: RefundList,
+                    component: RefundShow,
                     meta: {
-                        breadCrumb: 'แบบถอนคืนเงินรายได้ฯ' //crumb
-                    }
-                },
-                {
-                    path: 'refunds/:id',
-                    name: 'refund',
-                    component: RefundDetail,
-                    //component: RefundFormCheck,
-                    meta: {
-                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
-                    },children: [
+                        breadCrumb: 'การถอนคืนฯ' //crumb
+                    },
+                    children: [
                         {
-                            path: '_id/detail',
-                            component: RefundDetail,
+                            path: '',
+                            component: RefundList,
                             meta: {
-                                breadCrumb: 'ตรวจสอบแบบถอนคืนเงินรายได้ฯ' //crumb
+                                breadCrumb: 'รายการถอนคืนฯ' //crumb
+                            },
+                        },
+                        {
+                            path: ':id',
+                            name: 'refund',
+                            component: RefundDetail,
+                            //component: RefundFormCheck,
+                            meta: {
+                                breadCrumb: `ข้อมูลการถอนคืนฯ` //crumb
                             }
                         },
                     ]
                 },
+                // {
+                //     path: 'refunds/:id',
+                //     name: 'refund',
+                //     component: RefundDetail,
+                //     //component: RefundFormCheck,
+                //     meta: {
+                //         breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                //     }
+                // },
                 {
                     path: 'form',
                     component: RefundForm,
@@ -232,7 +250,7 @@ const router = new VueRouter({
         },
         {
             path: '/admin',
-            component: Admin,
+            component: Refund,
             mode: 'history',
             beforeEnter (to, from, next) {
                 if (store.state.user) {
@@ -246,7 +264,7 @@ const router = new VueRouter({
                 }
             },
             meta: {
-                breadCrumb: 'Dashboard' //crumb
+                breadCrumb: 'Admin' //crumb
             },
 
             children: [
@@ -266,19 +284,28 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds',
-                    component: RefundList,
+                    component: RefundShow,
                     meta: {
-                        breadCrumb: 'รายการขอถอนคืน' //crumb
-                    }
-                },
-                {
-                    path: 'refunds/:id',
-
-                    component: RefundDetail,
-                    //component: RefundFormCheck,
-                    meta: {
-                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                        breadCrumb: 'การถอนคืนฯ' //crumb
                     },
+                    children: [
+                        {
+                            path: '',
+                            component: RefundList,
+                            meta: {
+                                breadCrumb: 'รายการถอนคืนฯ' //crumb
+                            },
+                        },
+                        {
+                            path: ':id',
+                            name: 'refund',
+                            component: RefundDetail,
+                            //component: RefundFormCheck,
+                            meta: {
+                                breadCrumb: `ข้อมูลการถอนคืนฯ` //crumb
+                            }
+                        },
+                    ]
                 },
             ]
         }
@@ -298,6 +325,7 @@ const router = new VueRouter({
 //         next();
 //     }
 // })
+// ---------------- Layout -----------------------
 import AdminNav from './components/Admin/AdminNav.vue';
 Vue.component('AdminNav', AdminNav).defaults;
 
@@ -310,6 +338,20 @@ Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
 import AdminSide from './components/Admin/AdminSide.vue';
 Vue.component('AdminSide', AdminSide).defaults;
 
+import RefundNav from './views/containers/AdminNav.vue';
+Vue.component('RefundNav', RefundNav).defaults;
+
+import RefundMenu from './views/containers/AdminMenu.vue';
+Vue.component('RefundMenu', RefundMenu).defaults;
+
+import RefundBreadcrumb from './views/containers/AdminBreadcrumb.vue';
+Vue.component('RefundBreadcrumb', RefundBreadcrumb).defaults;
+
+import RefundSide from './views/containers/AdminSide.vue';
+Vue.component('RefundSide', RefundSide).defaults;
+
+
+//------------------------- Component ----------------
 import FormFind from './components/Admin/Form/FormFind.vue';
 Vue.component('FormFind', FormFind).defaults;
 
@@ -352,17 +394,7 @@ Vue.component('MyLogin', MyLogin).default;
 
 
 //***********************Refund************************* */
-import RefundNav from './components/Refund/RefundNav.vue';
-Vue.component('RefundNav', RefundNav).defaults;
 
-import RefundMenu from './components/Refund/RefundMenu.vue';
-Vue.component('RefundMenu', RefundMenu).defaults;
-
-import RefundBreadcrumb from './components/Refund/RefundBreadcrumb.vue';
-Vue.component('RefundBreadcrumb', RefundBreadcrumb).defaults;
-
-import RefundSide from './components/Refund/RefundSide.vue';
-Vue.component('RefundSide', RefundSide).defaults;
 
 import RefundCover from './components/Refund/RefundCover.vue';
 Vue.component('RefundCover', RefundCover).defaults;
@@ -403,8 +435,13 @@ Vue.component('ConsiderCheck', ConsiderCheck).defaults;
 import MyDatePicker from './components/MyDatePicker.vue';
 Vue.component('MyDatePicker', MyDatePicker).defaults;
 
+
+
 import RefundReport from './components/Refund/RefundReport.vue';
 Vue.component('RefundReport', RefundReport).defaults;
+
+import RefundReportDocList from './components/Refund/RefundReportDocList.vue';
+Vue.component('RefundReportDocList', RefundReportDocList).defaults;
 
 import SentRefund from './components/Refund/SentRefund.vue';
 Vue.component('SentRefund', SentRefund).defaults;
@@ -519,12 +556,14 @@ const store = new Vuex.Store({
                 }else if (userData.type == 'user'){
                     router.replace('/refund')
                 }
+            }else{
+                return
             }
         },
         logout({ commit }){
             commit('clearAuthData')
             localStorage.removeItem('token')
-            router.replace('/login')
+            router.push('/login')
         },
 
     }

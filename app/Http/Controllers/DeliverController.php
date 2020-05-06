@@ -22,7 +22,7 @@ class DeliverController extends Controller
         $delivers = new Deliver;
         $delivers =  $office->delivers()
                     ->where('refund_id','=',$refund->id)
-                    ->orderBy('delivery_date','desc')
+                    ->orderBy('delivery_date','asc')
                     ->get();
         return DeliverResource::collection($delivers);
     }
@@ -52,7 +52,7 @@ class DeliverController extends Controller
             if ($refund->status < 5){
                 $refund->update(['status' => 5]);
             }
-            
+
             return response([
                 'data' => new DeliverResource($deliver)
             ],Response::HTTP_CREATED);

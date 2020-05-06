@@ -32,11 +32,13 @@ export default {
             date2: '',
             date11: '2019-10-25',
             date22 : '',
-            xxx: ''
+            xxx: '',
+            new_date: '2020-10-25'
         }
     },
     mounted(){
         this.xxx = '2019-11-11'
+
     },
     created(){
 
@@ -48,7 +50,7 @@ export default {
 
     },
     methods: {
-        myclick(){
+        myclick1(){
             this.$refs.d1.date = '2019-10-25';
             this.date = '2019-10-25';
             this.$forceUpdate();
@@ -60,6 +62,14 @@ export default {
         },
         mydate(){
             return '2019-12-22'
+        },
+        myclick(){
+             tmp = this.new_date.split('-');
+                if (parseInt(tmp[1]) > 9){
+                    let year = parseInt(tmp[0])+1;
+                    console.log(String(year));
+                }
+
         }
 
     },

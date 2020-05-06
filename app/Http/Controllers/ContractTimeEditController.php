@@ -25,7 +25,7 @@ class ContractTimeEditController extends Controller
             $timeEdits = new ContractTimeEdit;
             $timeEdits =  $office->contract_time_edits()
                         ->where('refund_id','=',$refund->id)
-                        ->orderBy('approve_date','desc')
+                        ->orderBy('approve_date','asc')
                         ->get();
             return ContractTimeEditResource::collection($timeEdits);
         }
@@ -58,7 +58,7 @@ class ContractTimeEditController extends Controller
             if ($refund->status < 4){
                 $refund->update(['status' => 4]);
             }
-            
+
             return response([
                 'data' => new ContractTimeEditResource($time_edit)
             ],Response::HTTP_CREATED);
