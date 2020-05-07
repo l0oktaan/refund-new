@@ -4,13 +4,13 @@
         <b-row class="justify-content-md-center text-center">
             <b-col>
 
-                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport"><i class="fas fa-print fa-2x"></i></b-button>
-                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" ><i class="fas fa-file-pdf fa-2x"></i></b-button>
+                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport('printThis')"><i class="fas fa-print fa-2x"></i></b-button>
+                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport('attach')"><i class="fas fa-paperclip fa-2x"></i></b-button>
                 <b-popover target="print_form" triggers="hover" placement="top">
                     พิมพ์แบบถอนคืน
                 </b-popover>
                 <b-popover target="save_form" triggers="hover" placement="top">
-                    บันทึกแบบถอนคืนเป็น PDF
+                    พิมพ์รายการเอกสาร
                 </b-popover>
 
             </b-col>
@@ -31,7 +31,7 @@
                             </b-row>
                             <b-row>
                                 <b-col>
-                                    <table class="table table-bordered">
+                                    <table class="table report">
                                         <thead>
                                             <tr>
                                                 <th style="width: 40%"><p class="topic">ข้อเท็จจริง</p></th>
@@ -80,14 +80,14 @@
                                                 <td colspan="2" style="padding-left: 0px; padding-right: 0px;">
                                                     <table style="width: 100%" class="table_rule">
                                                         <tr v-for="(rule,index) in refund.form.rules" :key="index">
-                                                            <td :colspan="(rule.sub_rules.length > 0) ? 2 : 0" :style="(rule.sub_rules.length > 0) ? 'paddind: 0px!important' : 'width: 60%'">
+                                                            <td :colspan="(rule.sub_rules.length > 0) ? 2 : 0" :style="(rule.sub_rules.length > 0) ? 'paddind: 0px!important' : 'width: 379px'">
                                                                 <p class="head">{{rule.order + '. ' + rule.name}}</p>
                                                                 <table style="width: 100%" class="table_sub_rule">
                                                                     <tr v-for="(sub_rule,index_x) in rule.sub_rules" :key="index_x">
-                                                                        <td style="width: 60%">
+                                                                        <td style="width: 379px">
                                                                             <p class="head">{{(index+1) + '.' + (index_x + 1) + ' ' + sub_rule.name}}</p>
                                                                         </td>
-                                                                        <td style="width: 40%">
+                                                                        <td style="width: 270px">
                                                                             <!-- <p class="head" v-for="(sub_consider,index_y) in sub_rule.considers" :key="index_y"><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}</p> -->
                                                                             <div v-for="(sub_consider,index_y) in sub_rule.considers" :key="index_y">
                                                                                 <p class="head" v-if="sub_consider.type == 1"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}</p>
@@ -103,7 +103,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </td>
-                                                            <td v-if="rule.sub_rules.length == 0"  style="width: 40%">
+                                                            <td v-if="rule.sub_rules.length == 0"  style="width: 270px">
                                                                 <!-- <p class="head" ><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{refund.detail[find_detail_index(rule.considers[0]['id'])]['result_type']}}</p> -->
 
                                                                 <!-- <p>{{getDetail(rule.considers[0]['id']).result_type}}</p> -->
@@ -145,7 +145,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <table class="table table-bordered">
+                                    <table class="table report">
                                         <tr>
                                             <td style="width: 40%">
                                                 <div class="main_order">
@@ -420,11 +420,11 @@ export default {
             return this.arrApproveType[index].text;
         },
 
-        printReport(){
+        printReport(print_page){
 
-            console.log('print report');
+            //console.log('print report');
 
-            this.printElement(document.getElementById("printThis"));
+            this.printElement(document.getElementById(print_page));
 
         },
         printElement(elem) {
@@ -500,9 +500,7 @@ export default {
     color: #000;
 
 }
-.table th td{
-    border: 2px #000 solid!important;
-}
+
 .table{
     margin-bottom: 0px!important;
 }
@@ -579,16 +577,50 @@ th{
     vertical-align: bottom;
 
 }
-.table-bordered td{
-    padding-top: 5px!important;
+.table td{
+    padding: 3px!important;
+}
+table.report tr td,table.report th{
+    border: 1px #000000 solid!important;
+}
+table.repor td{
+    padding-top: 2px!important;
     padding-bottom: 3px!important;
 }
-.table_rule td{
-    padding: 0px 5px 0px 5px!important;
-    border: 1px #c8ced3 solid!important;
+.table_rule{
+    height: 100%!important;
 }
-.table_sub_rule td{
-    border: 1px #c8ced3 solid!important;
+.table_rule td{
+    padding: 0px 0px 0px 0px!important;
+    border: 1px #000000 solid!important;
+}
+.table_sub_rule > td{
+    border: 1px #000000 solid!important;
+    padding: 3px!important;
+}
+
+
+
+.table_sub_rule > tr:first-child td{
+    border-top-width: 0px!important;
+
+}
+.table_sub_rule > tr:last-child td{
+    border-bottom-width: 1px!important;
+
+}
+.table_sub_rule > tr{
+    border-left-width: 0px!important;
+    border-right-width: 0px!important;
+}
+
+.table_sub_rule > tr > td:first-child{
+    border-left-width: 0px!important;
+
+}
+.table_sub_rule > tr > td:last-child{
+
+    border-right-width: 0px!important;
 }
 .space{
     height: 17px;

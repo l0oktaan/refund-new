@@ -88,7 +88,7 @@
                         <b-row>
                             <b-col>
                                 <div class="text-center" style="margin-bottom:5px;">
-                                    <b-button :disabled="isDisable" type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                                    <b-button  type="submit" variant="dark">บันทึกข้อมูล</b-button>
                                 </div>
                             </b-col>
                         </b-row>
@@ -156,9 +156,7 @@ export default {
         },
          onSubmit(e){
             e.preventDefault();
-            if (isDisable){
-                return;
-            }
+
             ///api/offices/2/refunds/14/deposit_penalties
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
 
