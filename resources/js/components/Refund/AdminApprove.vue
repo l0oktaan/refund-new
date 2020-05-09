@@ -32,12 +32,13 @@
                                         label-align-sm="right"
                                         label-for="load_form"
                                     >
-                                        <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                                        :labels="{checked: 'อนุมัติ', unchecked: 'ไม่'}"
-                                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                                        style="padding-top:4px; line-height:0px;"
-                                        v-model="isApprove"
-                                    />
+                                        <!-- <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                            :labels="{checked: 'อนุมัติ', unchecked: 'ไม่'}"
+                                            :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                            style="padding-top:4px; line-height:0px;"
+                                            v-model="isApprove"
+                                        /> -->
+                                        <b-form-select v-model="status" :options="arr_status"></b-form-select>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
@@ -68,7 +69,7 @@
                                         label="วันที่บันทึก :"
                                         label-align-sm="right"
                                         label-for="complete_date"                                >
-                                        <my-date-picker ref="complete_date" :id="11" :showDate="date_complete" @update="value => date_complete = value"></my-date-picker>
+                                        <my-date-picker ref="complete_date" :id="11" :showDate="date_show" @update="value => date_complete = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
@@ -136,9 +137,17 @@ export default {
             isApprove: false,
             alert: '',
             date_complete: null,
+            date_show: null,
             user: this.$store.getters.user,
             refund: null,
-            complete_status : false
+            complete_status : false,
+            arr_status : [
+                {value : 0 , text : 'ตัวเลือก'},
+                {value : 11 , text : 'ขอเอกสารเพิ่มเติม'},
+                {value : 99 , text : 'อนุมัติ'},
+                {value : 88 , text : 'ไม่อนุมัติ'},
+            ],
+            status : 0
         }
     },
     mounted(){
@@ -148,6 +157,14 @@ export default {
         refund_id(){
             this.fetchData();
         }
+    },
+    computed: {
+        date_today(){
+            let today = new Date();
+            let str_today = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+            console.log('today :' + str_today);
+            return str_today;
+        },
     },
     methods: {
         onSubmit(){
@@ -168,25 +185,43 @@ export default {
                     //console.log(str_today);
 
                     let user = this.$store.getters.user;
-                    axios.put(`${path}`,{
-                        "status" : this.isApprove ? 99 : 88,
-                        "complete_date" : this.date_complete,
-                        "complete_by" : this.user.username,
-                        "complete_description" : this.description
-                    })
+                    let data = null;
+                    if (this.status == 11){
+                        data = {
+                            "status" : this.status,
+                            "return_date" : this.date_complete,
+                            "return_by" : this.user.username,
+                            "return_description" : this.description
+                        }
+                    }else{
+                        data = {
+                            "status" : this.status,
+                            "complete_date" : this.date_complete,
+                            "complete_by" : this.user.username,
+                            "complete_description" : this.description
+                        }
+                    }
+                    axios.put(`${path}`,data)
                     .then(response=>{
                         this.alert = 'success';
                         this.refund = response.data.data;
                         this.$nextTick(()=>{
-                            this.description = this.refund.complete_description;
-                            this.date_complete = this.refund.complete_date;
+
                             if (this.refund.status == 99){
                                 this.isApprove = true;
                                 this.complete_status = true;
+                                this.description = this.refund.complete_description;
+                                this.date_complete = this.refund.complete_date;
                             }else if (this.refund.status == 88){
                                 this.isApprove = false;
                                 this.complete_status = true;
-                            }else{
+                                this.description = this.refund.complete_description;
+                                this.date_complete = this.refund.complete_date;
+                            }else if (this.refund.status == 11){
+                                this.isApprove = false;
+                                this.complete_status = false;
+                            }
+                            else{
                                 this.complete_status = false;
                             }
                         })
@@ -199,6 +234,7 @@ export default {
             });
 
         },
+
         async fetchData(){
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`
             let refund = await axios.get(`${path}`);
@@ -212,8 +248,15 @@ export default {
                 }else if (this.refund.status == 88){
                     this.isApprove = false;
                     this.complete_status = true;
+                }else if (this.refund.status == 11){
+                    this.isApprove = false;
+                    this.complete_status = false;
+                    this.status = 11;
+                    this.description = this.refund.return_description;
+                    this.date_show = this.refund.return_date;
                 }else{
                     this.complete_status = false;
+                    this.date_show = this.date_today;
                 }
             })
 

@@ -460,82 +460,66 @@ const store = new Vuex.Store({
         arr_refund_status: [
             {
                 status : [1],
-                name: 'new',
+                class_name: 'new',
+                show: ['user'],
                 text : 'ตรวจสอบหลักเกณฑ์',
                 icon: 'icon-magic-wand icon_warning',
-                color: 'icon_warning'
+                color: 'icon_warning',
+                count: 0
             },
             {
                 status : [2,3,4,5,6,7],
-                name: 'info',
+                class_name: 'info',
+                show: ['user'],
                 text : 'กำลังบันทึกข้อมูล',
                 icon: 'icon-pencil icon_primary',
-                color: 'icon_primary'
+                color: 'icon_primary',
+                count: 0
             },
-            // {
-            //     status : 3,
-            //     text : 'กำลังบันทึกข้อมูล',
-            //     icon: 'icon-pencil icon_primary',
-            //     color: 'icon_primary'
-            // },
-            // {
-            //     status : 4,
-            //     text : 'กำลังบันทึกข้อมูล',
-            //     icon: 'icon-pencil icon_primary',
-            //     color: 'icon_primary'
-            // },
-            // {
-            //     status : 5,
-            //     text : 'กำลังบันทึกข้อมูล',
-            //     icon: 'icon-pencil icon_primary',
-            //     color: 'icon_primary'
-            // },
-            // {
-            //     status : 6,
-            //     text : 'กำลังบันทึกข้อมูล',
-            //     icon: 'icon-pencil icon_primary',
-            //     color: 'icon_primary'
-            // },
-            // {
-            //     status : 7,
-            //     text : 'กำลังบันทึกข้อมูล',
-            //     icon: 'icon-pencil icon_primary',
-            //     color: 'icon_primary'
-            // },
             {
                 status : [8],
-                name: 'success',
+                class_name: {'user':'success','admin':'stanby'},
+                show: ['user','admin'],
                 text : { 'user':'ส่งข้อมูลแล้ว','admin':'รอการพิจารณา'},
                 icon: {'user':'fas fa-paper-plane icon_success','admin':'fas fa-paper-plane icon_warning'},
-                color: {'user':'icon_success','admin':'icon_warning'}
+                color: {'user':'icon_success','admin':'icon_warning'},
+                count: 0
             },
             {
                 status : [9],
-                name: 'consider',
+                class_name: 'consider',
+                show: ['user','admin'],
                 text : 'กำลังพิจารณา',
                 icon: 'icon-note icon_consider',
-                color: 'icon_consider'
+                color: 'icon_consider',
+                count: 0
             },
             {
                 status : [11],
-                name: 'wait',
+                class_name: 'wait',
+                show: ['user','admin'],
                 text : 'รอเอกสารเพิ่มเติม',
                 icon: 'fas fa-reply icon_wait',
-                color: 'icon_wait'
+                color: 'icon_wait',
+                count: 0
             },
             {
                 status : [88],
-                name: 'reject',
+                class_name: 'reject',
+                show: ['user','admin'],
                 text : 'ไม่อนุมัติ',
                 icon: 'fas fa-sign-out-alt icon_reject',
-                color: 'icon_reject'
+                color: 'icon_reject',
+                count: 0
             },
             {
                 status : [99],
-                name: 'complete',
+                class_name: 'complete',
+                show: ['user','admin'],
                 text : 'อนุมัติ',
                 icon: 'fas fa-check icon_complete',
-                color: 'icon_complete'
+                color: 'icon_complete',
+                count: 0
             },
         ],
     },

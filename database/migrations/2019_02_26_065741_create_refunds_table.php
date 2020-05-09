@@ -22,6 +22,8 @@ class CreateRefundsTable extends Migration
             $table->date('sent_date')->nullable();
             $table->date('consider_date')->nullable();
             $table->string('consider_by',50)->nullable();
+            $table->date('return_date')->nullable();
+            $table->string('return_by',50)->nullable();
             $table->text('return_description')->nullable();
             $table->date('complete_date')->nullable();
             $table->string('complete_by',50)->nullable();

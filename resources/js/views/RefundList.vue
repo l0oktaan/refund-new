@@ -11,178 +11,44 @@
                     </b-button>
                 </div>
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
-                {{arr_refund_status}}
             </b-col>
         </b-row>
         <b-row class="justify-content-md-center">
-            <b-col cols="3" v-for="(status,index) in arr_refund_status" :key="index">
-                <b-card :class="(status.status.includes(8)) ? (user.type == 'admin') ? status.name.admin : status.name.user : status.name">
+            <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(0,4).filter(x=>x.show.includes(user_type))" :key="index">
+                <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
                     <b-row>
                         <b-col>
                             <div class="h3 icon text-right mb-2">
-                                <i :class="(status.status.includes(8)) ? (user.type == 'admin') ? status.icon.admin : status.icon.user : status.icon"></i>
+                                <i :class="(status.status.includes(8)) ? get_icon : status.icon"></i>
                             </div>
                         </b-col>
                     </b-row>
-                    <div><span><span class="h4">10</span> รายการ</span></div>
-                    <div class="h5 mb-0">{{(status.status.includes(8)) ? (user.type == 'admin') ? status.text.admin : status.text.user : status.text}}</div>
-
+                    <div><span><span class="h4">{{status.count}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
         </b-row>
-        <b-row class="justify-content-md-center"  v-if="user_type == 'user'">
-            <b-col cols="3">
-                <b-card class="warning" @click="set_refund_show('new')">
+        <b-row class="justify-content-md-center">
+            <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(4,7)" :key="index">
+                <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
                     <b-row>
                         <b-col>
                             <div class="h3 icon text-right mb-2">
-                                <i class="icon-magic-wand"></i>
+                                <i :class="(status.status.includes(8)) ? get_icon : status.icon"></i>
                             </div>
                         </b-col>
                     </b-row>
-                    <div><span><span class="h4">{{count_new}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ตรวจสอบหลักเกณฑ์</div>
-
+                    <div><span><span class="h4">{{status.count}}</span> รายการ</span></div>
+                    <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
-            <b-col cols="3">
-                <b-card class="primary" @click="set_refund_show('info')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="icon-pencil"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_info}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">กำลังบันทึกข้อมูล</div>
-
-                </b-card>
-            </b-col>
-            <b-col cols="3">
-                <b-card class="success" @click="set_refund_show('success')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="fas fa-paper-plane"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_success}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ส่งข้อมูลแล้ว</div>
-
-                </b-card>
-            </b-col>
-
-        </b-row>
-        <b-row class="justify-content-md-center" >
-            <b-col cols="3" v-if="user_type == 'admin'">
-                <b-card class="warning" @click="set_refund_show('success')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="fas fa-paper-plane"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_success}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">รอการพิจารณา</div>
-
-                </b-card>
-            </b-col>
-            <b-col cols="3" >
-                <b-card class="consider" @click="set_refund_show('consider')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="icon-note"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_consider}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">กำลังพิจารณา</div>
-                </b-card>
-            </b-col>
-            <b-col cols="3">
-                <b-card class="complete" @click="set_refund_show('complete')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="fas fa-check"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_complete}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">อนุมัติ</div>
-                </b-card>
-            </b-col>
-            <b-col cols="3">
-                <b-card class="reject" @click="set_refund_show('reject')">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{count_reject}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">ไม่อนุมัติ</div>
-                </b-card>
-            </b-col>
-
         </b-row>
 
         <b-row>
             <!-- <b-col>{{refunds}}</b-col> -->
         </b-row>
-        <b-row v-if="user_type == 'user'">
-            <b-col cols="12">
-                <table class="table table-hover">
-                    <thead class="thead">
-                        <tr>
-                            <th scope="col" style="width: 15%">วันที่สร้าง</th>
-                            <th scope="col" style="width: 35%">คู่สัญญา</th>
-                            <th scope="col" style="width: 20%">เลขที่สัญญา</th>
-                            <th scope="col" style="width: 15%">สถานะ</th>
-                            <th scope="col" style="width: 15%">การดำเนินการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(refund,index) in refund_show" :key="index">
-                            <td>{{getThaiDate(refund.create_date)}}</td>
-                            <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_party}}</span><span v-else>-</span></td>
-                            <td><span v-if="refund.contracts.length > 0">{{refund.contracts[0].contract_no}}</span><span v-else>-</span></td>
-                            <td><i :class="getStatus(refund.status).icon" ></i>{{getStatus(refund.status).status}}</td>
-                            <td>
-                                <div v-if="user_type == 'user'">
-                                    <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showRefund(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
-                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
-                                        แสดงข้อมูล
-                                    </b-tooltip>
 
-                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
-                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
-                                        ลบข้อมูล
-                                    </b-tooltip>
-                                </div>
-                                <div v-if="user_type == 'admin'">
-                                    <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showReport(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
-                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
-                                        แสดงข้อมูล
-                                    </b-tooltip>
-
-                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
-                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
-                                        ลบข้อมูล
-                                    </b-tooltip>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </b-col>
-        </b-row>
-        <b-row v-if="user_type == 'admin'">
+        <b-row>
             <b-col cols="12">
                 <table class="table table-hover">
                     <thead class="thead">
@@ -191,7 +57,8 @@
                             <th scope="col" style="width: 25%">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
-                            <th scope="col" style="width: 12%">สถานะ</th>
+                            <th scope="col" style=""></th>
+                            <th scope="col" style="width: 15%">สถานะ</th>
                             <th scope="col" style="width: 15%">การดำเนินการ</th>
                         </tr>
                     </thead>
@@ -199,18 +66,12 @@
                         <tr v-for="(refund,index) in refund_show" :key="index">
                             <td>{{getThaiDate(refund.sent_date)}}</td>
                             <td><span >{{refund.office.name}}</span></td>
-                            <td><span >{{refund.contracts[0].contract_party}}</span></td>
-                            <td><span >{{refund.contracts[0].contract_no}}</span></td>
-                            <td><i :class="getStatus(refund.status).icon" ></i>{{getStatus(refund.status).status}}</td>
+                            <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_party : '-'}}</span></td>
+                            <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_no : '-'}}</span></td>
+                            <td><i :class="get_status_icon(refund.status)"></i></td>
+                            <td>{{get_status_text(refund.status)}}</td>
                             <td>
-                                <div v-if="user_type == 'user'">
 
-
-                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
-                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
-                                        ลบข้อมูล
-                                    </b-tooltip>
-                                </div>
                                 <div v-if="user_type == 'admin'">
                                     <b-button :id="'btnShow'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showReport(refund.id,refund.office_id)"><i class="fas fa-eye fa-lg"></i></b-button>
                                     <b-tooltip :target="'btnShow'+refund.id" triggers="hover" placement="left">
@@ -234,6 +95,19 @@
                                         แก้ข้อมูล {{(user.username != refund.consider_by) ? 'โดย :' + refund.consider_by : "" }}
                                     </b-tooltip>
                                 </div>
+                                <div v-if="user_type == 'user'">
+                                    <b-button :id="'btnEdit'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showRefund(refund.id,refund.office_id)"><i class="fas fa-edit"></i></b-button>
+                                    <b-tooltip :target="'btnEdit'+refund.id" triggers="hover" placement="left">
+                                        แสดงข้อมูล
+                                    </b-tooltip>
+
+                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
+                                    <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
+                                        ลบข้อมูล
+                                    </b-tooltip>
+                                </div>
+
+
                             </td>
                         </tr>
                     </tbody>
@@ -350,22 +224,64 @@ export default {
             path = this.$route.path.split("/");
             return path.indexOf('admin') > -1 ? true : false;
 
-        }
+        },
+        get_class(){
+            if (this.user_type == 'user'){
+                return this.arr_refund_status[2].class_name.user;
+            }else if (this.user_type == 'admin'){
+
+                return this.arr_refund_status[2].class_name.admin;
+            }
+        },
+        get_icon(){
+            if (this.user_type == 'user'){
+                return this.arr_refund_status[2].icon.user;
+            }else if (this.user_type == 'admin'){
+
+                return this.arr_refund_status[2].icon.admin;
+            }
+        },
+        get_text(){
+            if (this.user_type == 'user'){
+                return this.arr_refund_status[2].text.user;
+            }else if (this.user_type == 'admin'){
+                return this.arr_refund_status[2].text.admin;
+            }
+        },
+
     },
     methods: {
+        get_status_icon(status){
+            return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
+        },
+        get_status_text(status){
+            if (this.user_type == 'admin'){
+                return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.admin : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
+            }else{
+                return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.user : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
+            }
+
+        },
         set_refund_show(status){
+            //console.log('typeof :' + typeof status);
+
+            let show = null;
             if (status){
-                if (status == 'all'){
+                if (typeof status == 'object'){
+                    show = 'success';
+                    this.refund_filter = true;
+                }else if (status == 'all'){
                     this.refund_filter = false;
                 }else{
+                    show = status;
                     this.refund_filter = true;
                 }
             }else{
                 this.refund_filter = false;
             }
-            this.$store.commit('SET_REFUND_SHOW',status)
+            this.$store.commit('SET_REFUND_SHOW',show)
 
-            switch (status){
+            switch (show){
                 case 'new' :
                     this.refund_show = this.refund_new;
                     break;
@@ -373,7 +289,6 @@ export default {
                     this.refund_show = this.refund_info;
                     break;
                 case 'success' :
-                case 'stanby' :
                     this.refund_show = this.refund_success;
                     break;
                 case 'consider' :
@@ -398,36 +313,23 @@ export default {
         async refund_status(){
             if (this.user_type == 'user'){
                 this.refund_new = await this.refunds.filter(x=>x.status == 1);
-                Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'new')],{
-                    count: this.refund_new.length
-                })
                 this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
-                Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'info')],{
-                        count: this.refund_info.length
-                    })
+
             }
 
             this.refund_success = await this.refunds.filter(x=>x.status == 8);
-            console.log('success :' + this.refund_success.length);
-            Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'success')],{
-                count: this.refund_success.length
-            })
-            // this.refund_consider = await this.refunds.filter(x=>x.status == 9);
-            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'consider')],{
-            //     count: this.refund_consider.length
-            // })
-            // this.refund_wait = await this.refunds.filter(x=>x.status == 11);
-            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'wait')],{
-            //     count: this.refund_wait.length
-            // })
-            // this.refund_complete = await this.refunds.filter(x=>x.status == 99);
-            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'complete')],{
-            //     count: this.refund_complete.length
-            // })
-            // this.refund_reject = await this.refunds.filter(x=>x.status == 88);
-            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'reject')],{
-            //     count: this.refund_reject.length
-            // })
+            this.refund_consider = await this.refunds.filter(x=>x.status == 9);
+            this.refund_wait = await this.refunds.filter(x=>x.status == 11);
+            this.refund_complete = await this.refunds.filter(x=>x.status == 99);
+            this.refund_reject = await this.refunds.filter(x=>x.status == 88);
+
+            this.arr_refund_status[0].count = this.refund_new.length;
+            this.arr_refund_status[1].count = this.refund_info.length;
+            this.arr_refund_status[2].count = this.refund_success.length;
+            this.arr_refund_status[3].count = this.refund_consider.length;
+            this.arr_refund_status[4].count = this.refund_wait.length;
+            this.arr_refund_status[5].count = this.refund_reject.length;
+            this.arr_refund_status[6].count = this.refund_complete.length;
 
             // this.count_new = await this.refund_new.length;
             // this.count_info = await this.refund_info.length;
@@ -465,38 +367,38 @@ export default {
         createRefund(){
             this.$router.push({path: 'form'});
         },
-        getStatus(status){
-            switch(status){
-                case 0:
-                case 1:
-                    return { status :'ตรวจสอบหลักเกณฑ์' , icon : 'icon-magic-wand icon_warning' ,color: 'icon_warning'}
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    return { status :'บันทึกข้อมูล' , icon : 'icon-pencil icon_primary',color: 'icon_primary'}
-                    break;
-                case 8:
-                    if (this.user.type == 'admin'){
-                        return { status :'รอการพิจารณา' , icon : 'fas fa-paper-plane icon_warning',color: 'icon_warning'}
-                    }else{
-                        return { status :'ส่งข้อมูลแล้ว' , icon : 'fas fa-paper-plane icon_success',color: 'icon_success'}
-                    }
+        // getStatus(status){
+        //     switch(status){
+        //         case 0:
+        //         case 1:
+        //             return { status :'ตรวจสอบหลักเกณฑ์' , icon : 'icon-magic-wand icon_warning' ,color: 'icon_warning'}
+        //             break;
+        //         case 2:
+        //         case 3:
+        //         case 4:
+        //         case 5:
+        //         case 6:
+        //         case 7:
+        //             return { status :'บันทึกข้อมูล' , icon : 'icon-pencil icon_primary',color: 'icon_primary'}
+        //             break;
+        //         case 8:
+        //             if (this.user.type == 'admin'){
+        //                 return { status :'รอการพิจารณา' , icon : 'fas fa-paper-plane icon_warning',color: 'icon_warning'}
+        //             }else{
+        //                 return { status :'ส่งข้อมูลแล้ว' , icon : 'fas fa-paper-plane icon_success',color: 'icon_success'}
+        //             }
 
-                    break;
-                case 9:
-                    return { status :'กำลังพิจารณา' , icon : 'icon-note icon_consider',color: 'icon_consider'}
-                    break;
-                case 88:
-                    return { status :'ไม่อนุมัติ' , icon : 'fas fa-sign-out-alt icon_reject',color: 'icon_reject'}
-                    break;
-                case 99:
-                    return { status :'อนุมัติ' , icon : 'fas fa-check icon_complete',color: 'icon_complete'}
-                    break;
-            }
+        //             break;
+        //         case 9:
+        //             return { status :'กำลังพิจารณา' , icon : 'icon-note icon_consider',color: 'icon_consider'}
+        //             break;
+        //         case 88:
+        //             return { status :'ไม่อนุมัติ' , icon : 'fas fa-sign-out-alt icon_reject',color: 'icon_reject'}
+        //             break;
+        //         case 99:
+        //             return { status :'อนุมัติ' , icon : 'fas fa-check icon_complete',color: 'icon_complete'}
+        //             break;
+        //     }
         // getStatus(status){
         //     switch(status){
         //         case 0:
@@ -529,7 +431,7 @@ export default {
             // }else{
             //     return 'ส่งข้อมูลแล้ว'
             // }
-        },
+        // },
         getClass(status){
             if (status < 7){
                 return 'status1'
