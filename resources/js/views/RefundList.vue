@@ -11,6 +11,23 @@
                     </b-button>
                 </div>
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
+                {{arr_refund_status}}
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center">
+            <b-col cols="3" v-for="(status,index) in arr_refund_status" :key="index">
+                <b-card :class="(status.status.includes(8)) ? (user.type == 'admin') ? status.name.admin : status.name.user : status.name">
+                    <b-row>
+                        <b-col>
+                            <div class="h3 icon text-right mb-2">
+                                <i :class="(status.status.includes(8)) ? (user.type == 'admin') ? status.icon.admin : status.icon.user : status.icon"></i>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <div><span><span class="h4">10</span> รายการ</span></div>
+                    <div class="h5 mb-0">{{(status.status.includes(8)) ? (user.type == 'admin') ? status.text.admin : status.text.user : status.text}}</div>
+
+                </b-card>
             </b-col>
         </b-row>
         <b-row class="justify-content-md-center"  v-if="user_type == 'user'">
@@ -264,6 +281,7 @@ export default {
             refund_info: [],
             refund_success: [],
             refund_consider: [],
+            refund_wait: [],
             refund_complete: [],
             refund_reject: [],
             count_new: 0,
@@ -273,44 +291,45 @@ export default {
             count_complete: 0,
             count_reject: 0,
             refund_filter: false,
-            arr_refund_status: [
-                {
-                    name : 'new',
-                    text : 'ตรวจสอบหลักเกณฑ์',
-                    status : [1],
-                    icon: 'icon-magic-wand'
-                },
-                {
-                    name : 'info',
-                    text : 'กำลังบันทึกข้อมูล',
-                    status : [2,3,4,5,6,7],
-                    icon: 'icon-magic-wand'
-                },
-                {
-                    name : 'success',
-                    text : 'ส่งข้อมูลแล้ว',
-                    status : [8],
-                    icon: 'icon-magic-wand'
-                },
-                {
-                    name : 'consider',
-                    text : 'อยู่ระหว่างพิจารณา',
-                    status : [9],
-                    icon: 'icon-magic-wand'
-                },
-                {
-                    name : 'complete',
-                    text : 'ข้อมูลอนุมัติแล้ว',
-                    status : [99],
-                    icon: 'icon-magic-wand'
-                },
-                {
-                    name : 'reject',
-                    text : 'ไม่ผ่านการอนุมัติ',
-                    status : [88],
-                    icon: 'icon-magic-wand'
-                },
-            ],
+            arr_refund_status: this.$store.getters.arr_refund_status,
+            // arr_refund_status: [
+            //     {
+            //         name : 'new',
+            //         text : 'ตรวจสอบหลักเกณฑ์',
+            //         status : [1],
+            //         icon: 'icon-magic-wand'
+            //     },
+            //     {
+            //         name : 'info',
+            //         text : 'กำลังบันทึกข้อมูล',
+            //         status : [2,3,4,5,6,7],
+            //         icon: 'icon-magic-wand'
+            //     },
+            //     {
+            //         name : 'success',
+            //         text : 'ส่งข้อมูลแล้ว',
+            //         status : [8],
+            //         icon: 'icon-magic-wand'
+            //     },
+            //     {
+            //         name : 'consider',
+            //         text : 'อยู่ระหว่างพิจารณา',
+            //         status : [9],
+            //         icon: 'icon-magic-wand'
+            //     },
+            //     {
+            //         name : 'complete',
+            //         text : 'ข้อมูลอนุมัติแล้ว',
+            //         status : [99],
+            //         icon: 'icon-magic-wand'
+            //     },
+            //     {
+            //         name : 'reject',
+            //         text : 'ไม่ผ่านการอนุมัติ',
+            //         status : [88],
+            //         icon: 'icon-magic-wand'
+            //     },
+            // ],
             user_type: ''
 
         }
@@ -354,10 +373,14 @@ export default {
                     this.refund_show = this.refund_info;
                     break;
                 case 'success' :
+                case 'stanby' :
                     this.refund_show = this.refund_success;
                     break;
                 case 'consider' :
                     this.refund_show = this.refund_consider;
+                    break;
+                case 'wait' :
+                    this.refund_show = this.refund_wait;
                     break;
                 case 'complete' :
                     this.refund_show = this.refund_complete;
@@ -375,20 +398,44 @@ export default {
         async refund_status(){
             if (this.user_type == 'user'){
                 this.refund_new = await this.refunds.filter(x=>x.status == 1);
-            this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
+                Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'new')],{
+                    count: this.refund_new.length
+                })
+                this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
+                Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'info')],{
+                        count: this.refund_info.length
+                    })
             }
 
             this.refund_success = await this.refunds.filter(x=>x.status == 8);
-            this.refund_consider = await this.refunds.filter(x=>x.status == 9);
-            this.refund_complete = await this.refunds.filter(x=>x.status == 99);
-            this.refund_reject = await this.refunds.filter(x=>x.status == 88);
+            console.log('success :' + this.refund_success.length);
+            Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'success')],{
+                count: this.refund_success.length
+            })
+            // this.refund_consider = await this.refunds.filter(x=>x.status == 9);
+            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'consider')],{
+            //     count: this.refund_consider.length
+            // })
+            // this.refund_wait = await this.refunds.filter(x=>x.status == 11);
+            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'wait')],{
+            //     count: this.refund_wait.length
+            // })
+            // this.refund_complete = await this.refunds.filter(x=>x.status == 99);
+            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'complete')],{
+            //     count: this.refund_complete.length
+            // })
+            // this.refund_reject = await this.refunds.filter(x=>x.status == 88);
+            // Object.assign(this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.name == 'reject')],{
+            //     count: this.refund_reject.length
+            // })
 
-            this.count_new = await this.refund_new.length;
-            this.count_info = await this.refund_info.length;
-            this.count_success = await this.refund_success.length;
-            this.count_consider = await this.refund_consider.length;
-            this.count_complete = await this.refund_complete.length;
-            this.count_reject = await this.refund_reject.length;
+            // this.count_new = await this.refund_new.length;
+            // this.count_info = await this.refund_info.length;
+            // this.count_success = await this.refund_success.length;
+            // this.count_consider = await this.refund_consider.length;
+            // this.count_wait = await this.refund_wait.length;
+            // this.count_complete = await this.refund_complete.length;
+            // this.count_reject = await this.refund_reject.length;
         },
         async fetchData(){
             //console.log('refund show :' + this.$store.state.refund_show);
@@ -614,10 +661,26 @@ td{
     background-color: #ffc107;
     border: 1px solid #a88008;
 }
-.warning:hover,.primary:hover,.success:hover,.consider:hover,.complete:hover,.refect:hover{
+
+.warning:hover,.stanby:hover,.new:hover,.info:hover,.success:hover,.consider:hover,.wait:hover,.complete:hover,.reject:hover{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
+.new{
+    cursor: pointer;
+    background-color: #ffc107;
+    border: 1px solid #a88008;
+}
+.info{
+    cursor: pointer;
+    background-color: #25a2f5;
+    border: 1px solid #086aac;
+    color: #011929;
+}
+.stanby{
+    cursor: pointer;
+    background-color: #ffc107;
+    border: 1px solid #a88008;
+}
 .primary{
     cursor: pointer;
     background-color: #25a2f5;
@@ -634,6 +697,12 @@ td{
     cursor: pointer;
     background-color: #df7e10;
     border: 1px solid #793e0e;
+    color: #ffffff;
+}
+.wait{
+    cursor: pointer;
+    background-color: #d13bca;
+    border: 1px solid #8a218a;
     color: #ffffff;
 }
 .complete{
@@ -662,6 +731,9 @@ td{
 }
 .icon_consider{
     color: #793e0e;
+}
+.icon_wait{
+    color: #83117f;
 }
 .icon_complete{
     color: #1d4b10;
