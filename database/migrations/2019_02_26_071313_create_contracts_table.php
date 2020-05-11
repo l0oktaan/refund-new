@@ -22,6 +22,7 @@ class CreateContractsTable extends Migration
             $table->date('contract_date');
             $table->decimal('budget',15,2);
             $table->decimal('penalty_per_day', 10, 2);
+            $table->decimal('penalty_per_day_percent', 3, 2);
             $table->date('contract_start');
             $table->date('contract_end');
             $table->timestamps();
