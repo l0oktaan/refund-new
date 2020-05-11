@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
             <b-col cols="7">
-                <b-card class="bg-primary " v-if="status == 'new' || isAdmin">
+                <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 88)">
                     <div slot="header" class="navbar ">
                         <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">

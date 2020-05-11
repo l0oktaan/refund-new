@@ -25,7 +25,7 @@ class DeliverRequest extends FormRequest
     {
         return [
             'delivery' => 'required',
-            'detail' => 'required',
+            //'detail' => 'required',
             'delivery_date' => 'required'
             // 'overdue_start_date' => 'required',
             // 'overdue_end_date' => 'required',

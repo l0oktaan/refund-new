@@ -17,7 +17,7 @@ export default {
     props: ['message'],
     data() {
       return {
-        dismissSecs: 5,
+        dismissSecs: 7,
         dismissCountDown: 0,
         showDismissibleAlert: false,
         message_show: ''

@@ -15,6 +15,7 @@ class Contract extends Model
         'contract_date',
         'budget',
         'penalty_per_day',
+        'penalty_per_day_percent',
         'contract_start',
         'contract_end'
     ];

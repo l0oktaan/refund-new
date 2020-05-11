@@ -23,6 +23,7 @@ class ContractResource extends Resource
             'contract_date' => $this->contract_date,
             'budget' => $this->budget,
             'penalty_per_day' => $this->penalty_per_day,
+            'penalty_per_day_percent' => $this->penalty_per_day_percent,
             'contract_start' => $this->contract_start,
             'contract_end' => $this->contract_end
 

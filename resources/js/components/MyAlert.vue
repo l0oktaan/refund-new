@@ -33,7 +33,22 @@ export default {
               timer: 1200,
               button: false,
           });
+        }else if (this.AlertType == "pass"){
+          this.$swal({
+              title: "เงื่อนไขถูกต้อง",
+              icon: "success",
+              timer: 1200,
+              button: false,
+          });
+        }else if (this.AlertType == "notpass"){
+          this.$swal({
+              title: "เงื่อนไขไม่ถูกต้อง",
+              icon: "error",
+              timer: 1200,
+              button: false,
+          });
         }
+
         this.$parent.alert = "";
       }
     }

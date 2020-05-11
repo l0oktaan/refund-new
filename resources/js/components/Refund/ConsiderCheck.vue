@@ -37,7 +37,9 @@
                         </b-alert>
                     </div>
                     <div class="p-2" style="max-width:30%">
-                        <slot></slot>
+
+                            <slot></slot>
+
                     </div>
                 </div>
             </div>

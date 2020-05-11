@@ -58,7 +58,7 @@
                         </b-form-group>
                         </validation-provider>
                     </b-col>
-                    <b-col sm="4">
+                    <b-col sm="3">
 
                         <b-form-group>
                             <label for="contract_date">สัญญาลงวันที่ :<span class="require">*</span></label>
@@ -70,7 +70,7 @@
 
                     </b-col>
 
-                    <b-col sm="4">
+                    <b-col sm="3">
 
                         <b-form-group>
                             <label for="budget">วงเงินในสัญญา :<span class="require">*</span></label>
@@ -93,13 +93,31 @@
 
 
                     </b-col>
-                    <b-col sm="4">
+                    <b-col sm="3">
                         <b-form-group>
                             <label for="penalty_per_day">ค่าปรับวันละ :<span class="require">*</span></label>
                             <cleave
                                 placeholder="ใส่จำนวนค่าปรับวันละ"
                                 name="penalty_per_day"
                                 v-model="penalty_per_day"
+                                class="form-control"
+                                :options="cleave_options.number">
+                            </cleave>
+                            <!-- <b-form-input type="text"
+                                placeholder="ค่าปรับวันละ"
+                                name="penalty_per_day"
+                                v-model="penalty_per_day"
+                            >
+                            </b-form-input> -->
+                        </b-form-group>
+                    </b-col>
+                    <b-col sm="3">
+                        <b-form-group>
+                            <label for="penalty_per_day">อัตราค่าปรับร้อยละ(ต่อวัน) :<span class="require">*</span></label>
+                            <cleave
+                                placeholder="ค่าปรับอัตราร้อยละต่อวัน"
+                                name="penalty_per_day"
+                                v-model="penalty_per_day_percent"
                                 class="form-control"
                                 :options="cleave_options.number">
                             </cleave>
@@ -157,7 +175,8 @@ export default {
             contract_no: '',
             contract_date: '',
             budget: '',
-            penalty_per_day: '',
+            penalty_per_day: 0.00,
+            penalty_per_day_percent: 0.00,
             contract_start: '',
             contract_end: '',
             date_sign: '',
@@ -235,7 +254,8 @@ export default {
                     contract_no:    this.contract_no,
                     contract_date:  this.contract_date,
                     budget:         this.budget,
-                    penalty_per_day:this.penalty_per_day,
+                    penalty_per_day: this.penalty_per_day,
+                    penalty_per_day_percent: this.penalty_per_day_percent,
                     contract_start: this.contract_start,
                     contract_end:   this.contract_end,
                 })
@@ -272,7 +292,8 @@ export default {
                     contract_no:    this.contract_no,
                     contract_date:  this.contract_date,
                     budget:         this.budget,
-                    penalty_per_day:this.penalty_per_day,
+                    penalty_per_day: this.penalty_per_day,
+                    penalty_per_day_percent: this.penalty_per_day_percent,
                     contract_start: this.contract_start,
                     contract_end:   this.contract_end,
                 })
@@ -346,7 +367,8 @@ export default {
             this.contract_no = '';
             this.contract_date = '';
             this.budget = '';
-            this.penalty_per_day = '';
+            this.penalty_per_day = 0.00;
+            this.penalty_per_day_percent = 0.00;
             this.contract_start = '';
             this.contract_end = '';
             this.$nextTick(() => {
@@ -362,7 +384,7 @@ export default {
             //this.showDatePick('contract_date',this.contract.contract_date);
             this.budget = this.contract.budget;
             this.penalty_per_day = this.contract.penalty_per_day;
-
+            this.penalty_per_day_percent = this.contract.penalty_per_day_percent;
             //this.showDatePick('start',this.contract.contract_start);
             //this.showDatePick('end',this.contract.contract_end);
             this.contract_start = this.contract.contract_start;

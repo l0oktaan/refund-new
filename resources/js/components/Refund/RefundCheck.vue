@@ -68,9 +68,9 @@ export default {
 
             });
         },
-        async rule_passed(id){
-            let index = await this.arr_rule_status.findIndex(x=>x.rule_id == id);
-            this.arr_rule_status[index]['status'] = 1;
+        async rule_passed(item){
+            let index = await this.arr_rule_status.findIndex(x=>x.rule_id == item.id);
+            this.arr_rule_status[index]['status'] = item.value;
             await this.check_form_passed();
         },
         async check_form_passed(){

@@ -54,13 +54,13 @@
                         <b-row>
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="amount">จำนวนเงินที่นำส่ง  : (บาท)<span class="require">*</span></label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง  :<span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="amount" v-model="deposit.amount" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col sm="3">
                                 <b-form-group>
-                                    <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ : (บาท)<span class="require">*</span></label>
+                                    <label for="amount">จำนวนเงินที่นำส่ง เฉพาะสัญญานี้ :<span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="amount_in_contract" v-model="deposit.amount_in_contract" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
@@ -121,6 +121,17 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot class="tfoot">
+                <tr>
+                    <td colspan="3" variant="secondary" class="text-right">
+                        รวมเป็นเงิน
+                    </td>
+                    <td colspan="3" variant="secondary" class="text-left">
+                        {{amount | numeral('0,0.00')}}
+                    </td>
+
+                </tr>
+            </tfoot>
         </table>
 
 
@@ -151,7 +162,8 @@ export default {
                     numeralDecimalScale: 2,
                 },
             },
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            amount: 0.00
         }
     },
     watch : {
@@ -166,7 +178,8 @@ export default {
         isDisable(){
             console.log('status :' + this.refund_status);
             return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
-        }
+        },
+
     },
     methods: {
         getValidationState({ dirty, validated, valid = null }) {
@@ -179,6 +192,11 @@ export default {
             .get(`${path}`)
             .then(response=>{
                 this.deposit_list = response.data.data;
+                let sum = 0.00;
+                for (let i=0; i<this.deposit_list.length; i++){
+                    sum += this.deposit_list[i]['amount_in_contract']
+                }
+                this.amount = sum;
             })
             .catch(error=>{
                 this.alert = 'error';
@@ -259,6 +277,7 @@ export default {
             this.$forceUpdate();
             //this.$refs.deposit_date.reset();
         },
+
         toDel(id){
             this.$swal({
                 title: "กรุณายืนยัน",
@@ -350,7 +369,7 @@ export default {
     border: 1px solid #c8ced3;
 
 }
-.thead{
+.thead, .tfoot{
     background-color: #1074b8;
     color: #fff;
     font-weight: normal!important;

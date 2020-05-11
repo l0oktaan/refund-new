@@ -194,14 +194,7 @@ export default {
             return this.count_group_3;
         },
     },
-    methods: {
-        getThaiDate(item){
-            var d = new Date(item);
-            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
-            //return moment(String(value)).format('LL')
-        },
 
-    },
     methods: {
         getApproveType(id){
             if (id){
@@ -227,7 +220,12 @@ export default {
         },
         editType(id){
             return this.arrEditType[this.editType.findIndex(x=>x.value == id)]['text'];
-        }
+        },
+        getThaiDate(item){
+            var d = new Date(item);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            //return moment(String(value)).format('LL')
+        },
     }
 }
 </script>

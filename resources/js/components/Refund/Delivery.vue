@@ -48,8 +48,8 @@
                             </b-col>
                         </b-row>
                         <b-row>
-                        <b-col >
-                            <validation-provider
+                        <b-col>
+                            <!-- <validation-provider
                                     name="รายละเอียดส่งมอบงาน"
                                     rules="required|min:5"
                                     v-slot="validationContext"
@@ -66,7 +66,20 @@
                                 </b-form-input>
                                 <b-form-invalid-feedback id="delivery_detail">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                             </b-form-group>
-                            </validation-provider>
+                            </validation-provider> -->
+
+                            <b-form-group>
+                                <label for="detail">รายละเอียดส่งมอบงาน : </label>
+                                <b-form-input type="text"
+                                    placeholder="เช่น ส่งมอบงานเกินกำหนด 45 วัน แต่ปรับไว้ 43 วัน เป็นต้น"
+                                    name="detail"
+                                    v-model="delivery.detail"
+                                    aria-describedby="delivery_detail"
+                                >
+                                </b-form-input>
+
+                            </b-form-group>
+
                         </b-col>
                         </b-row>
                         <b-row>
@@ -123,11 +136,12 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
-                            <b-col>
+                        <b-row align-h="center">
+                            <b-col cols="7">
                                 <show-alert :message="message" @clearMessage="clearMessage"></show-alert>
                             </b-col>
                         </b-row>
+
                         <b-row>
                             <b-col>
 
@@ -208,7 +222,9 @@ export default {
             state: 'new',
             alert: '',
             message: '',
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            showAlert: false,
+
         }
     },
     computed: {
@@ -279,7 +295,7 @@ export default {
             console.log('dateDiff :' + d1 + ' : ' + d2);
             if (d2.toString() != d1.toString()){
 
-                this.message = 'ข้อมูลวันที่สิ้นสุดค่าปรับ ไม่สอดคล้องกับวันที่ส่งมอบบงาน กรุณาใส่ข้อมูลเพิ่มเติมในช่อง "รายละเอียดส่งมอบงาน"';
+                this.message = 'ข้อมูลวันที่สิ้นสุดค่าปรับ ไม่สอดคล้องกับวันที่ส่งมอบบงาน';
                 setTimeout(function(){
                     this.message = '';
                     return false;
@@ -398,8 +414,20 @@ export default {
                 }
             })
         },
+        countDownChanged(dismissCountDown) {
+            this.dismissCountDown = dismissCountDown
+        },
         onSubmit(e){
             //e.preventDefault();
+            if (this.hasPenalty == false && (!this.delivery.detail || this.delivery.detail == '')){
+
+                this.message = 'กรุณาให้ข้อมูลเพิ่มเติมในช่อง "รายละเอียดส่งมอบงาน"';
+                setTimeout(function(){
+                    this.message = '';
+
+                }, 5000);
+                return;
+            }
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/delivers`;
             console.log('delivery status :' + this.state);
             if (!this.checkHasPenalty()){

@@ -118,6 +118,7 @@
                 <b-col>
                     <div class="text-center" style="margin-bottom:5px;">
                         <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
+                        <b-button variant="danger" @click="clearData" v-if="rule_passed && refund_status < 2">ยกเลิก</b-button>
                     </div>
                 </b-col>
             </b-row>
@@ -139,7 +140,8 @@ export default {
             rule_select: 0,
             arr_rule_select: [],
             arr_detail: [],
-            rule_passed: false
+            rule_passed: false,
+            refund_status: this.$store.getters.refund_status
         }
     },
     watch: {
@@ -163,7 +165,9 @@ export default {
         },
         rule_passed(newVal,oldVal){
             if (newVal == true){
-                this.$emit("rule_passed", this.rule.id);
+                this.$emit("rule_passed", {id:this.rule.id,value:1});
+            }else{
+                this.$emit("rule_passed", {id:this.rule.id,value:0});
             }
         }
     },
@@ -180,6 +184,76 @@ export default {
         await this.getRefundDetail();
     },
     methods: {
+        clearData(){
+            if (this.rule_passed){
+
+                this.$swal({
+                title: "ต้องการลบข้อมูล ใช่หรือไม่",
+                //text: `กรุณายืนยัน`,
+
+                icon: "warning",
+                closeOnClickOutside: false,
+                buttons: [
+                    'กลับ',
+                    'ยืนยัน'
+                ],
+
+            })
+            .then(isConfirm =>{
+                if (isConfirm){
+                    this.rule_passed = false;
+
+                    this.$nextTick(()=>{
+                        if (this.rule.sub_rules.length > 1 && this.rule.result_type == 1){
+                            this.rule_select = 0;
+                            for (let i=0; i<this.results.length; i++){
+                                this.results[i]['selected'] = 0;
+                                this.results[i]['status'] = 0;
+                                switch (this.results[i]['result_type']){
+                                    case 'boolean' :
+                                        this.results[i]['value'] = false;
+                                        break;
+                                    case 'value' :
+                                    case 'date' :
+                                        this.results[i]['value'] = '';
+                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        break;
+                                    case 'number' :
+                                         this.results[i]['value'] = 0;
+                                }
+                            }
+                        }else{
+                            for (let i=0; i<this.results.length; i++){
+                                this.results[i]['status'] = 0;
+                                switch (this.results[i]['result_type']){
+                                    case 'boolean' :
+                                        this.results[i]['value'] = false;
+                                        break;
+                                    case 'value' :
+                                    case 'date' :
+                                        this.results[i]['value'] = '';
+                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        break;
+                                    case 'number' :
+                                         this.results[i]['value'] = 0;
+                                }
+                            }
+                        }
+                        //this.createResult();
+                        let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+                        let tmp = axios.post(`${path}`,
+                        {
+                            state: 'update-2',
+                            detail: this.results
+                        })
+                    })
+
+
+                }})
+
+
+            }
+        },
         async recheck_rule_pass(){
             let rule_pass = false;
             let status = 0;
@@ -361,6 +435,7 @@ export default {
                     state: 'update-2',
                     detail: result_detail
                 })
+
             //this.arr_detail.push(tmp);
             // for (let i=0; i< rule.considers.length; i++){
             //     let arr_detail = [];
@@ -400,10 +475,17 @@ export default {
             // console.log("check :" + check);
             this.rule_passed = await this.recheck_rule_pass();
             if (this.rule_passed){
-                this.alert = 'success';
-                this.$emit("rule_passed", this.rule.id);
+                this.alert = 'pass';
+                this.$emit("rule_passed", {
+                    id:this.rule.id,
+                    value : 1
+                });
             }else{
-                this.alert = 'require';
+                this.alert = 'notpass';
+                this.$emit("rule_passed", {
+                    id:this.rule.id,
+                    value : 0
+                });
             }
         }
 
