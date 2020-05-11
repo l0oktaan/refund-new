@@ -191,10 +191,11 @@
                                             <td>
                                                 <div class="main_order">
                                                         <p class="head">5. การขอถอนคืนเงินค่าปรับแก้ผู้มีสิทธิ</p>
+                                                        <p class="head sub">5.1 หนังสือขอรับความช่วยเหลือ หน่วยงานรับเรื่องวันที่ </p>
                                                         <div v-for="(approve,index) in approves" :key="index">
-                                                            <p class="head sub">หน่วยงานอนุมัติให้งด ลดค่าปรับ คือเงินค่าปรับ </p>
+                                                            <p class="head sub">5.2 หน่วยงานอนุมัติให้งด ลดค่าปรับ คือเงินค่าปรับ </p>
                                                             <p class="head sub">จำนวน <span class="show">{{approve.refund_days}} </span>วัน เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
-                                                            <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
+                                                            <p class="head sub">5.3 หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
                                                         </div>
                                                     </div>
                                             </td>
