@@ -347,13 +347,13 @@ export default {
     },
     watch: {
         refund_id(){
-            // if (this.refund_id != 0){
-            //     this.getRefund();
-            //     this.getContractTimeEdit();
-            //     this.getDeliver();
-            //     this.getDeposit();
-            //     this.getApproveRefund();
-            // }
+            if (this.refund_id != 0){
+                this.getRefund();
+                this.getContractTimeEdit();
+                this.getDeliver();
+                this.getDeposit();
+                this.getApproveRefund();
+            }
         },
         check(){
             this.matchHeight();

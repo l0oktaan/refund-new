@@ -131,7 +131,7 @@
 
                 <refund-report v-if="refund_id != 0"
                     :refund_id="refund_id"
-                    :office_id="office_id"
+                    :office_id="office_id"                    
                 ></refund-report>
 
         </b-modal>
@@ -206,7 +206,8 @@ export default {
             //         icon: 'icon-magic-wand'
             //     },
             // ],
-            user_type: ''
+            user_type: '',
+            show: false
 
         }
     },
