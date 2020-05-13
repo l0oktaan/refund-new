@@ -330,12 +330,12 @@ export default {
         }
     },
    async mounted(){
-        //this.getRefundFormID();
-        // await this.getRefund();
-        // await this.getContractTimeEdit();
-        // await this.getDeliver();
-        // await this.getDeposit();
-        // await this.getApproveRefund();
+        this.getRefundFormID();
+        await this.getRefund();
+        await this.getContractTimeEdit();
+        await this.getDeliver();
+        await this.getDeposit();
+        await this.getApproveRefund();
 
 
     },
