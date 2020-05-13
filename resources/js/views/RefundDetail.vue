@@ -34,7 +34,7 @@
                 </template>
                 <contract-time-edit @refund_update="checkRefundStatus" :office_id = "office_id"></contract-time-edit>
             </b-tab>
-            <b-tab v-if="refund_s >= 2" :disabled="refund_s < 4">
+            <b-tab v-if="refund_s >= 2" :disabled="refund_s < 3">
                 <template slot="title">
                     <h6>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h6>
                     <span>ข้อมูลการส่งมอบงาน</span>

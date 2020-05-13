@@ -53,7 +53,8 @@
                 <table class="table table-hover">
                     <thead class="thead">
                         <tr>
-                            <th scope="col" style="width: 15%">วันที่ส่ง</th>
+                            <th scope="col" style="width: 15%" v-if="user_type == 'user'">วันที่สร้าง</th>
+                            <th scope="col" style="width: 15%" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 25%">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
@@ -64,7 +65,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="(refund,index) in refund_show" :key="index">
-                            <td>{{getThaiDate(refund.sent_date)}}</td>
+                            <td v-if="user_type == 'user'">{{getThaiDate(refund.create_date)}}</td>
+                            <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
                             <td><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_party : '-'}}</span></td>
                             <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_no : '-'}}</span></td>

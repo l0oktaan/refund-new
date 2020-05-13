@@ -34,6 +34,7 @@
                                 <b-modal id="modalReport"
                                     ref="modalReport"
                                     size="xl"
+                                    class="report"
                                     hideFooter
                                     no-close-on-backdrop
                                     no-close-on-esc
@@ -42,6 +43,7 @@
                                         <refund-report
                                             :refund_id="refund_id"
                                             :office_id="office_id"
+                                            :show_report="show"
                                         ></refund-report>
 
                                 </b-modal>
@@ -176,7 +178,8 @@ export default {
             upload_by: 'user',
             list_files: [],
             status: 'new',
-            user: this.$store.getters.user
+            user: this.$store.getters.user,
+            show: false
 
 
         }
@@ -195,7 +198,11 @@ export default {
     methods: {
 
         showReport(){
+            this.show = true;
             this.$refs['modalReport'].show()
+            setTimeout(() => {
+                this.show = false;
+            }, 3000);
         },
         formatNames(files) {
             if (files.length === 1) {
@@ -310,5 +317,8 @@ td{
     background-color: #1074b8;
     color: #fff;
     font-weight: normal!important;
+}
+.report{
+    color: #000!important;
 }
 </style>

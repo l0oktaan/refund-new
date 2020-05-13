@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth:api'],function() {
         return $request->user();
     });
 
+    Route::get('/user_online','UserController@UserOnlineStatus');
+
 });
 
 

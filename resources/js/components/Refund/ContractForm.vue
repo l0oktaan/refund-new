@@ -95,7 +95,7 @@
                     </b-col>
                     <b-col sm="3">
                         <b-form-group>
-                            <label for="penalty_per_day">ค่าปรับวันละ :<span class="require">*</span></label>
+                            <label for="penalty_per_day">ค่าปรับวันละ :</label>
                             <cleave
                                 placeholder="ใส่จำนวนค่าปรับวันละ"
                                 name="penalty_per_day"
@@ -113,7 +113,7 @@
                     </b-col>
                     <b-col sm="3">
                         <b-form-group>
-                            <label for="penalty_per_day">อัตราค่าปรับร้อยละ(ต่อวัน) :<span class="require">*</span></label>
+                            <label for="penalty_per_day">อัตราค่าปรับร้อยละ(ต่อวัน) :</label>
                             <cleave
                                 placeholder="ค่าปรับอัตราร้อยละต่อวัน"
                                 name="penalty_per_day"

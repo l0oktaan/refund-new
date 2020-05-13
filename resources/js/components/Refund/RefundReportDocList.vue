@@ -194,8 +194,11 @@ export default {
             return this.count_group_3;
         },
     },
-
+    created(){
+        
+    },
     methods: {
+        
         getApproveType(id){
             if (id){
                 return this.arrApproveType[this.arrApproveType.findIndex(x=>x.value == id)]['text']
@@ -327,7 +330,6 @@ th{
     font-size: 0.8rem!important;
     vertical-align: bottom;
     text-decoration: underline;
-
 }
 .table-bordered td{
     padding-top: 5px!important;
