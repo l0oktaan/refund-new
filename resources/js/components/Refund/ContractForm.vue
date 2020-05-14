@@ -278,7 +278,7 @@ export default {
                     this.contract_status = 'update';
                     this.alert = 'success';
                     // this.contract = contract;
-
+                    this.$emit("refund_update");
                     this.$forceUpdate();
                 })
                 .catch(error=>{

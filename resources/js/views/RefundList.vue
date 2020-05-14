@@ -55,7 +55,7 @@
                         <tr>
                             <th scope="col" style="width: 15%" v-if="user_type == 'user'">วันที่สร้าง</th>
                             <th scope="col" style="width: 15%" v-if="user_type == 'admin'">วันที่ส่ง</th>
-                            <th scope="col" style="width: 25%">หน่วยงาน</th>
+                            <th scope="col" style="width: 25%" v-if="user_type == 'admin'">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
                             <th scope="col" style=""></th>
@@ -67,9 +67,9 @@
                         <tr v-for="(refund,index) in refund_show" :key="index">
                             <td v-if="user_type == 'user'">{{getThaiDate(refund.create_date)}}</td>
                             <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
-                            <td><span >{{refund.office.name}}</span></td>
-                            <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_party : '-'}}</span></td>
-                            <td><span >{{refund.contracts.length>0 ? refund.contracts[0].contract_no : '-'}}</span></td>
+                            <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
+                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
+                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
                             <td><i :class="get_status_icon(refund.status)"></i></td>
                             <td>{{get_status_text(refund.status)}}</td>
                             <td>
