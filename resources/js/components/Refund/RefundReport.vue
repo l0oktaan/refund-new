@@ -107,6 +107,8 @@
                                                                 <!-- <p class="head" ><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{refund.detail[find_detail_index(rule.considers[0]['id'])]['result_type']}}</p> -->
 
                                                                 <!-- <p>{{getDetail(rule.considers[0]['id']).result_type}}</p> -->
+
+                                                                <!--
                                                                 <div v-if="rule.considers[0]['type'] == 1">
                                                                     <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}</p>
                                                                 </div>
@@ -118,6 +120,17 @@
                                                                 </div>
                                                                 <div v-if="rule.considers[0]['type'] == 4">
                                                                     <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}<span class="show" v-if="getDetail(rule.considers[0]['id']).status == 1">{{getThaiDate(getDetail(rule.considers[0]['id']).value)}}</span></p>
+                                                                </div>
+                                                                -->
+                                                                <div v-for="(sub_consider,index_z) in rule.considers" :key="index_z">
+                                                                    <p class="head" v-if="sub_consider.type == 1"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}</p>
+                                                                    <p class="head" v-if="sub_consider.type == 2"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
+                                                                        <span class="show" >{{(getDetail(sub_consider.id).value) ? getDetail(sub_consider.id).value : ''}}</span>
+                                                                    </p>
+                                                                    <p class="head" v-if="sub_consider.type == 3"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}} ({{((getDetail(sub_consider.id).value)) ? ((getDetail(sub_consider.id).result_type == 'date') ? getThaiDate((getDetail(sub_consider.id).value)) : getDetail(sub_consider.id).value) : ''}})</p>
+                                                                    <p class="head" v-if="sub_consider.type == 4"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
+                                                                        <span class="show" v-if="getDetail(sub_consider.id).value">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
+                                                                    </p>
                                                                 </div>
 
                                                             </td>
