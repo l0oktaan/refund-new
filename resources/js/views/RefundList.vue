@@ -70,7 +70,7 @@
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
-                            <td><i :class="get_status_icon(refund.status)"></i></td>
+                            <td class="text-right"><i :class="get_status_icon(refund.status)"></i></td>
                             <td>{{get_status_text(refund.status)}}</td>
                             <td>
 
