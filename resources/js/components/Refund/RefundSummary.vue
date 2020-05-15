@@ -172,8 +172,7 @@ export default {
                 .then(response=>{
                    this.alert = 'success';
                    this.$emit('refund_update');
-                   this.toEdit(response.data.data);
-                   
+                   this.toEdit(response.data.data);                  
 
                 })
                 .catch(error=>{
