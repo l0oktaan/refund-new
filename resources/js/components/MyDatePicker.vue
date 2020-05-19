@@ -10,6 +10,7 @@
             :phrases="{ok: 'ตกลง', cancel: 'ยกเลิก'}"
             :input-id="'myDate' + id"
             input-class="time-input"
+            class="theme-blue"
         ></datetime>
     </b-col>
 </b-row>
@@ -68,5 +69,8 @@ export default {
 </script>
 
 <style scoped>
+.ext{
+    color: #000!important;
+}
 
 </style>

@@ -19786,6 +19786,10 @@ body {
   }
 }
 
+.form-control {
+  color: #000 !important;
+}
+
 .form-group-error input {
   border: 1px solid red;
   background-color: #ffc9aa;
@@ -19805,12 +19809,52 @@ body {
   padding: 0.375rem 0.75rem !important;
   font-weight: 400 !important;
   line-height: 1.6 !important;
-  color: #5c6873 !important;
+  color: #000000 !important;
   background-color: #fff !important;
   background-clip: padding-box !important;
   border: 1px solid #e4e7ea !important;
   border-radius: 0.25rem !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.vdatetime-popup__year {
+  text-align: center;
+  margin: auto !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border: 1px solid #fff !important;
+  max-width: 150px !important;
+  border-radius: 5px !important;
+}
+
+.vdatetime-popup__date {
+  text-align: center;
+}
+
+.vdatetime-popup__header {
+  text-align: center !important;
+}
+
+.theme-blue .vdatetime-popup__header,
+.theme-blue .vdatetime-calendar__month__day--selected > span > span,
+.theme-blue .vdatetime-calendar__month__day--selected:hover > span > span {
+  background: #3490dc !important;
+}
+
+.theme-blue .vdatetime-year-picker__item--selected,
+.theme-blue .vdatetime-time-picker__item--selected,
+.theme-blue .vdatetime-popup__actions__button {
+  color: #3490dc !important;
+}
+
+.nav-tabs .nav-link {
+  color: #000 !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active > h6 {
+  color: #06335e !important;
+  font-weight: bold !important;
 }
 
 .require {

@@ -457,71 +457,7 @@ const store = new Vuex.Store({
         refund_show: null,
         office_id: null,
         refund_status: null,
-        arr_refund_status: [
-            {
-                status : [1],
-                class_name: 'new',
-                show: ['user'],
-                text : 'ตรวจสอบหลักเกณฑ์',
-                icon: 'icon-magic-wand icon_warning',
-                color: 'icon_warning',
-                count: 0
-            },
-            {
-                status : [2,3,4,5,6,7],
-                class_name: 'info',
-                show: ['user'],
-                text : 'กำลังบันทึกข้อมูล',
-                icon: 'icon-pencil icon_primary',
-                color: 'icon_primary',
-                count: 0
-            },
-            {
-                status : [8],
-                class_name: {'user':'success','admin':'stanby'},
-                show: ['user','admin'],
-                text : { 'user':'ส่งข้อมูลแล้ว','admin':'รอการพิจารณา'},
-                icon: {'user':'fas fa-paper-plane icon_success','admin':'fas fa-paper-plane icon_warning'},
-                color: {'user':'icon_success','admin':'icon_warning'},
-                count: 0
-            },
-            {
-                status : [9],
-                class_name: 'consider',
-                show: ['user','admin'],
-                text : 'กำลังพิจารณา',
-                icon: 'icon-note icon_consider',
-                color: 'icon_consider',
-                count: 0
-            },
-            {
-                status : [11],
-                class_name: 'wait',
-                show: ['user','admin'],
-                text : 'รอเอกสารเพิ่มเติม',
-                icon: 'fas fa-reply icon_wait',
-                color: 'icon_wait',
-                count: 0
-            },
-            {
-                status : [88],
-                class_name: 'reject',
-                show: ['user','admin'],
-                text : 'ไม่อนุมัติ',
-                icon: 'fas fa-sign-out-alt icon_reject',
-                color: 'icon_reject',
-                count: 0
-            },
-            {
-                status : [99],
-                class_name: 'complete',
-                show: ['user','admin'],
-                text : 'อนุมัติ',
-                icon: 'fas fa-check icon_complete',
-                color: 'icon_complete',
-                count: 0
-            },
-        ],
+        arr_refund_status: null,
         arrApproveType : [
             {text: 'อนุมัติให้ตาม', value: null},
             {text: 'มติ ครม. ว 63 ลว 2 พ.ค. 54', value: 11},
@@ -584,6 +520,71 @@ const store = new Vuex.Store({
             }
         },
         arr_refund_status (state){
+            state.arr_refund_status = [
+                {
+                    status : [1],
+                    class_name: 'new',
+                    show: ['user'],
+                    text : 'ตรวจสอบหลักเกณฑ์',
+                    icon: 'icon-magic-wand icon_warning',
+                    color: 'icon_warning',
+                    count: 0
+                },
+                {
+                    status : [2,3,4,5,6,7],
+                    class_name: 'info',
+                    show: ['user'],
+                    text : 'อยู่ระหว่างบันทึกข้อมูล',
+                    icon: 'icon-pencil icon_primary',
+                    color: 'icon_primary',
+                    count: 0
+                },
+                {
+                    status : [8],
+                    class_name: {'user':'success','admin':'stanby'},
+                    show: ['user','admin'],
+                    text : { 'user':'ส่งข้อมูลแล้ว','admin':'รอการพิจารณา'},
+                    icon: {'user':'fas fa-paper-plane icon_success','admin':'fas fa-paper-plane icon_warning'},
+                    color: {'user':'icon_success','admin':'icon_warning'},
+                    count: 0
+                },
+                {
+                    status : [9],
+                    class_name: 'consider',
+                    show: ['user','admin'],
+                    text : 'อยู่ระหว่างพิจารณา',
+                    icon: 'icon-note icon_consider',
+                    color: 'icon_consider',
+                    count: 0
+                },
+                {
+                    status : [11],
+                    class_name: 'wait',
+                    show: ['user','admin'],
+                    text : 'รอเอกสารเพิ่มเติม',
+                    icon: 'fas fa-reply icon_wait',
+                    color: 'icon_wait',
+                    count: 0
+                },
+                {
+                    status : [88],
+                    class_name: 'reject',
+                    show: ['user','admin'],
+                    text : 'ไม่อนุมัติ',
+                    icon: 'fas fa-sign-out-alt icon_reject',
+                    color: 'icon_reject',
+                    count: 0
+                },
+                {
+                    status : [99],
+                    class_name: 'complete',
+                    show: ['user','admin'],
+                    text : 'อนุมัติ',
+                    icon: 'fas fa-check icon_complete',
+                    color: 'icon_complete',
+                    count: 0
+                },
+            ]
             return state.arr_refund_status
         },
         arrApproveType (state) {

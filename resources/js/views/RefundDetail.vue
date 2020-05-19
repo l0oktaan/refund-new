@@ -2,7 +2,7 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
-        <b-tabs v-model="tabIndex">
+        <b-tabs v-model="tabIndex" active-tab-class="tab-active" id="tabs-status">
             <!--================================= Tab Form ==================================-->
             <b-tab v-for="(tab,index) in tab_forms" :key="index" :disable="'disabled'">
                 <template slot="title">
@@ -261,7 +261,11 @@ export default {
 </script>
 <style scoped>
 
-.nav-link{
+.nav-tabs .nav-link{
     padding-top: 10px!important;
+    color: #000!important;
+}
+.tab-active{
+    background-color: rgb(151, 192, 253)!important;
 }
 </style>
