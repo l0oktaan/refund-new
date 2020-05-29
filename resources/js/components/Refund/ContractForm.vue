@@ -81,19 +81,42 @@
                                 class="form-control"
                                 :options="cleave_options.number"
                                 >
-                            </cleave>
-                            <!-- <b-form-input type="text"
-                                placeholder="วงเงินในสัญญา"
-                                name="budget"
-                                v-model="budget"
-                            >
-                            </b-form-input> -->
+                            </cleave>                            
 
                         </b-form-group>
 
 
                     </b-col>
-                    <b-col sm="3">
+                    <b-col cols="6">                        
+                        <b-form-radio-group id="rbt_penalty_type" v-model="penalty_type" name="rbt_penalty_type">
+                            <b-form-radio value="1">
+                                <b-form-group :disabled="penalty_type != 1">
+                                    <label for="penalty_per_day">ค่าปรับวันละ :</label>
+                                    <cleave
+                                        placeholder="ใส่จำนวนค่าปรับวันละ"
+                                        name="penalty_per_day"
+                                        v-model="penalty_per_day"
+                                        class="form-control"
+                                        :options="cleave_options.number">
+                                    </cleave>                                    
+                                </b-form-group>
+                            </b-form-radio>
+                            <b-form-radio value="2">
+                                <b-form-group :disabled="penalty_type != 2">
+                                    <label for="penalty_per_day">อัตราค่าปรับร้อยละ(ต่อวัน) :</label>
+                                    <cleave
+                                        placeholder="ค่าปรับอัตราร้อยละต่อวัน"
+                                        name="penalty_per_day"
+                                        v-model="penalty_per_day_percent"
+                                        class="form-control"
+                                        :options="cleave_options.number">
+                                    </cleave>
+                                
+                                </b-form-group>
+                            </b-form-radio>
+                        </b-form-radio-group>
+                    </b-col>
+                    <!-- <b-col sm="3">
                         <b-form-group>
                             <label for="penalty_per_day">ค่าปรับวันละ :</label>
                             <cleave
@@ -103,12 +126,7 @@
                                 class="form-control"
                                 :options="cleave_options.number">
                             </cleave>
-                            <!-- <b-form-input type="text"
-                                placeholder="ค่าปรับวันละ"
-                                name="penalty_per_day"
-                                v-model="penalty_per_day"
-                            >
-                            </b-form-input> -->
+                            
                         </b-form-group>
                     </b-col>
                     <b-col sm="3">
@@ -121,14 +139,9 @@
                                 class="form-control"
                                 :options="cleave_options.number">
                             </cleave>
-                            <!-- <b-form-input type="text"
-                                placeholder="ค่าปรับวันละ"
-                                name="penalty_per_day"
-                                v-model="penalty_per_day"
-                            >
-                            </b-form-input> -->
+                           
                         </b-form-group>
-                    </b-col>
+                    </b-col> -->
                     <b-col sm="4">
                         <b-form-group>
                             <label for="contract_start">วันที่สัญญาเริ่มต้น :<span class="require">*</span></label>
@@ -163,7 +176,7 @@
     </div>
 </template>
 <script>
-
+import { Switch as cSwitch } from '@coreui/vue'
 export default {
     props: ['refund_id','office_id'],
     data(){
@@ -175,6 +188,7 @@ export default {
             contract_no: '',
             contract_date: '',
             budget: '',
+            penalty_type: 0,
             penalty_per_day: 0.00,
             penalty_per_day_percent: 0.00,
             contract_start: '',

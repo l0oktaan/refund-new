@@ -29,7 +29,7 @@
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             />
                             <b-form-input type="text"
-                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             ></b-form-input>
                             <my-date-picker
@@ -99,7 +99,7 @@
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     />
                                     <b-form-input type="text"
-                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     ></b-form-input>
                                     <my-date-picker
