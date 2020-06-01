@@ -1,132 +1,124 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-        <div>
-            มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
-                :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
-                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                style="padding-top:4px; line-height:0px;"
-                :disabled="isDisable"
-                v-model="isEdit"
-            />
-        </div>
+        <b-row>
+            <b-col>
+                <div>
+                    <span class="edit_contract">
+                        <span style="color:#000;">มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                            :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
+                            :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                            style="padding-top:4px; line-height:0px;"
+                            :disabled="isDisable"
+                            v-model="isEdit"
+                        />
+                    </span>
+                </div> 
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <b-form class="frm"  @submit="SubmitContractEdit" v-if="isEdit && !isDisable">
+                    <b-card no-body class="bg-primary">
+                        <b-card-body class="pb-0 list ">
+                        <b-row>
+                                <b-col>
+                                    <h5><i class='fas fa-edit'></i> รายละเอียดการแก้ไขสัญญา <span class="detail"> (เฉพาะที่เปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ)</span></h5>
+                                </b-col>
+                        </b-row>
+                            <b-row>
+                                <b-col sm="4">
+                                    <!-- <b-form-group>
+                                        <label for="contract_edit_order">หนังสือลงวันที่ :</label>
+                                        <b-form-input type="text"
+                                            placeholder="ครั้งที่"
+                                            name="contract_edit_order"
+                                        >
+                                        </b-form-input>
+                                    </b-form-group> -->
+                                    <b-form-group>
+                                        <label for="edit_date">หนังสือลงวันที่ : <span class="require"> *</span></label>
+                                        <my-date-picker ref="edit_date" :id="11" :showDate="date_show" @update="value => edit_date = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="4">
+
+                                    <b-form-group>
+                                        <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น : <span class="require"> *</span></label>
+                                        <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number"></cleave>
+                                        <!-- <b-form-input type="text"
+                                            placeholder="วงเงินใหม่"
+                                            name="budget_new"
+                                            v-model="contract_edit.budget_new"
+                                        >
 
 
+                                        </b-form-input>-->
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="4">
+                                    <b-form-group>
+                                        <label for="penalty_new">ค่าปรับเป็น : <span class="require"> *</span></label>
+                                        <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number"></cleave>
+                                        <!-- <b-form-input type="text"
+                                            placeholder="ค่าปรับใหม่"
+                                            name="penalty_new"
+                                            v-model="contract_edit.penalty_new"
+                                        >
+                                        </b-form-input> -->
+                                    </b-form-group>
+                                </b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col>
 
-         <b-form  @submit="SubmitContractEdit" v-if="isEdit && !isDisable">
-            <b-card no-body class="bg-primary">
-                <b-card-body class="pb-0 list ">
-                   <b-row>
-                        <b-col>
-                            <h5><i class='fas fa-edit'></i> รายละเอียดการแก้ไขสัญญา <span class="detail"> (เฉพาะที่เปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ)</span></h5>
-                        </b-col>
-                   </b-row>
-                    <b-row>
-                        <b-col sm="4">
-                            <!-- <b-form-group>
-                                <label for="contract_edit_order">หนังสือลงวันที่ :</label>
-                                <b-form-input type="text"
-                                    placeholder="ครั้งที่"
-                                    name="contract_edit_order"
-                                >
-                                </b-form-input>
-                            </b-form-group> -->
-                            <b-form-group>
-                                <label for="edit_date">หนังสือลงวันที่ : <span class="require"> *</span></label>
-                                <my-date-picker ref="edit_date" :id="11" :showDate="date_show" @update="value => edit_date = value"></my-date-picker>
-                            </b-form-group>
-                        </b-col>
-                        <b-col sm="4">
+                                    <div class="text-center" style="margin-bottom:5px;">
+                                        <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
+                                        <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
+                                    </div>
+                                </b-col>
+                            </b-row>
+                        </b-card-body>
+                    </b-card>
+                </b-form>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <!-- ======================= Contract Edit List ========================================-->
+                <table class="table table-hover" v-if="contract_edit_list.length > 0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" style="width: 20%">หนังสือลงวันที่</th>
+                            <th scope="col" style="width: 30%">วงเงินใหม่</th>
+                            <th scope="col" style="width: 30%">ค่าปรับใหม่</th>
+                            <th scope="col" style="width: 20%">การดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in contract_edit_list" :key="index">
+                            <td>{{getThaiDate(item.contract_edit_date)}}</td>
+                            <td>{{item.budget_new | numeral('0,0.00') }}</td>
+                            <td>{{item.penalty_new | numeral('0,0.00') }}</td>
+                            <td>
+                                <b-button :disabled="isDisable" :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
+                                <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
+                                    แก้ไขข้อมูล
+                                </b-tooltip>
 
-                            <b-form-group>
-                                <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น : <span class="require"> *</span></label>
-                                <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number"></cleave>
-                                <!-- <b-form-input type="text"
-                                    placeholder="วงเงินใหม่"
-                                    name="budget_new"
-                                     v-model="contract_edit.budget_new"
-                                >
-
-
-                                </b-form-input>-->
-                            </b-form-group>
-                        </b-col>
-                        <b-col sm="4">
-                            <b-form-group>
-                                <label for="penalty_new">ค่าปรับเป็น : <span class="require"> *</span></label>
-                                <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number"></cleave>
-                                <!-- <b-form-input type="text"
-                                    placeholder="ค่าปรับใหม่"
-                                    name="penalty_new"
-                                    v-model="contract_edit.penalty_new"
-                                >
-                                </b-form-input> -->
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-
-                            <div class="text-center" style="margin-bottom:5px;">
-                                <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
-                                <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
-                            </div>
-                        </b-col>
-                    </b-row>
-                </b-card-body>
-            </b-card>
-        </b-form>
-        <!-- ======================= Contract Edit List ========================================-->
-        <table class="table table-hover" v-if="contract_edit_list.length > 0">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" style="width: 20%">หนังสือลงวันที่</th>
-                    <th scope="col" style="width: 30%">วงเงินใหม่</th>
-                    <th scope="col" style="width: 30%">ค่าปรับใหม่</th>
-                    <th scope="col" style="width: 20%">การดำเนินการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index) in contract_edit_list" :key="index">
-                    <td>{{getThaiDate(item.contract_edit_date)}}</td>
-                    <td>{{item.budget_new | numeral('0,0.00') }}</td>
-                    <td>{{item.penalty_new | numeral('0,0.00') }}</td>
-                    <td>
-                        <b-button :disabled="isDisable" :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
-                        <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
-                            แก้ไขข้อมูล
-                        </b-tooltip>
-
-                        <b-button :disabled="isDisable" :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item)"><i class="fas fa-trash"></i></b-button>
-                        <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
-                            ลบข้อมูล
-                        </b-tooltip>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- <b-card no-body :class="(item.id === contract_edit.id) && (contract_edit) ? 'item_select' : 'edit_list'" v-for="(item,index) in contract_edit_list" :key="index">
-            <b-card-body class="pb-0 list ">
-                <b-dropdown class="float-right" variant="transparent p-0" right>
-                    <template slot="button-content">
-                        <i class="icon-settings" style="color: #000;"></i>
-                    </template>
-                    <b-dropdown-item @click="toEdit(item)"><i class="fas fa-edit"></i>&nbsp;แก้ไขข้อมูล</b-dropdown-item>
-                    <b-dropdown-item @click="toDel(item)"><i class="fas fa-trash"></i>&nbsp;ลบข้อมูล</b-dropdown-item>
-                </b-dropdown>
-                <b-row>
-                    <b-col sm="4">
-                        <span class="fieldName">หนังสือลงวันที่ : </span>{{getThaiDate(item.contract_edit_date)}}
-                    </b-col>
-                    <b-col sm="4">
-                        <span class="fieldName">วงเงินใหม่ : </span><span class="float-right"> {{item.budget_new | numeral('0,0.00') }} <span class="unit"> บาท</span>  </span>
-                    </b-col>
-                    <b-col sm="4">
-                        <span class="fieldName">ค่าปรับใหม่ : </span><span class="float-right">{{item.penalty_new | numeral('0,0.00') }} <span class="unit"> บาท</span> </span>
-                    </b-col>
-                </b-row>
-            </b-card-body>
-        </b-card> -->
+                                <b-button :disabled="isDisable" :id="'btnDel'+item.id" class="tools" size="sm" variant="outline-danger" @click="toDel(item)"><i class="fas fa-trash"></i></b-button>
+                                <b-tooltip :target="'btnDel'+item.id" triggers="hover" placement="left">
+                                    ลบข้อมูล
+                                </b-tooltip>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </b-col>
+        </b-row>
+         
+        
+        
     </div>
 </template>
 <script>
@@ -344,5 +336,19 @@ export default{
 }
 .detail{
     font-size: 0.9rem!important;
+}
+.frm{
+    margin-top: 10px!important;
+}
+.edit_contract{
+    
+    
+    margin-bottom: 10px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: rgb(255, 175, 83);
+}
+.table{
+    margin-top: 10px;;
 }
 </style>

@@ -152,7 +152,10 @@ export default {
         // },
         rule_select(newVal,oldVal){
             if (newVal){
-                this.select_rule(newVal);
+                if (this.rule.result_type == 1){
+                    this.select_rule(newVal);
+                }
+                
             }
         },
         async refresh(){
@@ -259,23 +262,24 @@ export default {
             let status = 0;
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let response = await axios.get(`${path}`);
-            let tmp = await response.data.data;
+            let results = await response.data.data;
             let details = [];
             let result_tmp = [];
-            if (this.arr_rule_select>0){
+            if (this.arr_rule_select.length > 0){
                 for (let i=0; i<this.arr_rule_select.length; i++){
-                    let tmp = await this.results.filter(x=>x.rule_id == this.arr_rule_select[i]);
+                    let tmp = await results.filter(x=>x.rule_id == this.arr_rule_select[i]);
                     result_tmp = details;
                     details = result_tmp.concat(tmp);
+                    console.log('id "' + this.arr_rule_select[i] + 'result concat :' + details.length);
                 }
             }else{
-                details = await tmp.filter(x=>x.rule_id == this.rule_select);
+                details = await results.filter(x=>x.rule_id == this.rule_select);
             }
 
             for (let i=0; i<details.length; i++){
                 status = await status + parseInt(details[i]['status']);
             }
-            // console.log('detail length :' + details.length + 'pass :' + status);
+            console.log('detail length :' + details.length + 'pass :' + status);
             if (status != 0 && details.length == status){
                 console.log('rule passed !!')
                 return  true;

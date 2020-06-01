@@ -85,9 +85,8 @@
 
                         </b-form-group>
 
-
                     </b-col>
-                    <b-col cols="6">                        
+                    <!-- <b-col cols="6">                        
                         <b-form-radio-group id="rbt_penalty_type" v-model="penalty_type" name="rbt_penalty_type">
                             <b-form-radio value="1">
                                 <b-form-group :disabled="penalty_type != 1">
@@ -115,10 +114,10 @@
                                 </b-form-group>
                             </b-form-radio>
                         </b-form-radio-group>
-                    </b-col>
-                    <!-- <b-col sm="3">
-                        <b-form-group>
-                            <label for="penalty_per_day">ค่าปรับวันละ :</label>
+                    </b-col> -->
+                    <b-col sm="3">
+                        <b-form-group :disabled="penalty_type != 1">
+                            <label for="penalty_per_day"><i :class=" penalty_type == 1 ? icon_check : icon_uncheck" @click="penalty_type = 1"></i> ค่าปรับต่อวัน : (บาท)</label>
                             <cleave
                                 placeholder="ใส่จำนวนค่าปรับวันละ"
                                 name="penalty_per_day"
@@ -130,18 +129,18 @@
                         </b-form-group>
                     </b-col>
                     <b-col sm="3">
-                        <b-form-group>
-                            <label for="penalty_per_day">อัตราค่าปรับร้อยละ(ต่อวัน) :</label>
+                        <b-form-group :disabled="penalty_type != 2">
+                            <label for="penalty_per_day"><i :class=" penalty_type == 2 ? icon_check : icon_uncheck" @click="penalty_type = 2"></i> ค่าปรับต่อวัน : (ร้อยละ)</label>
                             <cleave
                                 placeholder="ค่าปรับอัตราร้อยละต่อวัน"
                                 name="penalty_per_day"
                                 v-model="penalty_per_day_percent"
                                 class="form-control"
-                                :options="cleave_options.number">
+                                :options="cleave_options.percent">
                             </cleave>
                            
                         </b-form-group>
-                    </b-col> -->
+                    </b-col>
                     <b-col sm="4">
                         <b-form-group>
                             <label for="contract_start">วันที่สัญญาเริ่มต้น :<span class="require">*</span></label>
@@ -153,6 +152,11 @@
                             <label for="contract_end">วันที่สัญญาสิ้นสุด :<span class="require">*</span></label>
                             <my-date-picker ref="end" :id="2" :showDate="contract_end" @update="value => contract_end = value"></my-date-picker>
                         </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row align-h="center">
+                    <b-col cols="7">
+                        <show-alert :message="message" @clearMessage="clearMessage"></show-alert>
                     </b-col>
                 </b-row>
                 <b-row>
@@ -189,8 +193,10 @@ export default {
             contract_date: '',
             budget: '',
             penalty_type: 0,
-            penalty_per_day: 0.00,
-            penalty_per_day_percent: 0.00,
+            icon_check: 'far fa-check-square fa-lg',
+            icon_uncheck: 'far fa-square fa-lg',
+            penalty_per_day: '',
+            penalty_per_day_percent: '',
             contract_start: '',
             contract_end: '',
             date_sign: '',
@@ -209,8 +215,18 @@ export default {
                     numeralIntegerScale: 15,
                     numeralDecimalScale: 2
                 },
+                percent: {
+                    prefix: '',
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    noImmediatePrefix: true,
+                    rawValueTrimPrefix: true,
+                    numeralIntegerScale: 2,
+                    numeralDecimalScale: 2
+                },
             },
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            message: ''
         }
     },
     validations: {
@@ -249,14 +265,42 @@ export default {
                 }
             }
         },
+        penalty_type(newVal, oldVal){
+            if (newVal == 1){
+                this.penalty_per_day_percent = '';
+            }else if (newVal == 2){
+                this.penalty_per_day = '';
+            }
+        }
 
     },
     methods: {
+        clearMessage(){
+            this.message = ''
+        },
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
         onContractSubmit(e){
             //e.preventDefault();
+
+            if (!this.penalty_type || this.penalty_type == 0){
+                
+                this.message = "กรุณาบันทึกค่าปรับ";
+                return;
+            }else{
+                if (this.penalty_type == 1){
+                    if (this.penalty_per_day < 0 || this.penalty_per_day == ''){
+                        this.message = "กรุณาบันทึกค่าปรับ";
+                        return;
+                    }                    
+                }else if (this.penalty_type == 2){
+                    if (this.penalty_per_day_percent < 0 || this.penalty_per_day_percent == ''){
+                        this.message = "กรุณาบันทึกค่าปรับ";
+                        return;
+                    } 
+                }
+            }
             var contract = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
             console.log('contract path : ' + path);
@@ -268,6 +312,7 @@ export default {
                     contract_no:    this.contract_no,
                     contract_date:  this.contract_date,
                     budget:         this.budget,
+                    penalty_type:   this.penalty_type,
                     penalty_per_day: this.penalty_per_day,
                     penalty_per_day_percent: this.penalty_per_day_percent,
                     contract_start: this.contract_start,
@@ -306,6 +351,7 @@ export default {
                     contract_no:    this.contract_no,
                     contract_date:  this.contract_date,
                     budget:         this.budget,
+                    penalty_type:   this.penalty_type,
                     penalty_per_day: this.penalty_per_day,
                     penalty_per_day_percent: this.penalty_per_day_percent,
                     contract_start: this.contract_start,
@@ -397,8 +443,17 @@ export default {
             this.contract_date = this.contract.contract_date;
             //this.showDatePick('contract_date',this.contract.contract_date);
             this.budget = this.contract.budget;
+            this.penalty_type = this.contract.penalty_type;
             this.penalty_per_day = this.contract.penalty_per_day;
             this.penalty_per_day_percent = this.contract.penalty_per_day_percent;
+            if (!this.penalty_type || this.penalty_type == 0){
+                if (this.penalty_per_day || this.penalty_per_day > 0){
+                    this.penalty_type = 1
+                }else if (this.penalty_per_day_percent || this.penalty_per_day_percent > 0){
+                    this.penalty_type = 2
+                }
+            }
+            
             //this.showDatePick('start',this.contract.contract_start);
             //this.showDatePick('end',this.contract.contract_end);
             this.contract_start = this.contract.contract_start;

@@ -432,78 +432,64 @@ export default {
             console.log('delivery status :' + this.state);
             if (!this.checkHasPenalty()){
                 return;
+            }            
+            
+            if (this.state == 'new'){
+                axios
+                .post(`${path}`,{
+                    // delivery: this.delivery.delivery,
+                    // detail: this.delivery.detail,
+                    // delivery_date: this.delivery.delivery_date,
+                    // overdue_days: this.delivery.overdue_days,
+                    // penalty: this.delivery.penalty
+                    delivery: this.delivery.delivery,
+                    detail: this.delivery.detail,
+                    delivery_date: this.date_delivery,
+                    overdue_start_date: this.date_start,
+                    overdue_end_date: this.date_end,
+                    overdue_days: this.overdue_days,
+                    penalty: this.delivery.penalty
+                })
+                .then(response=>{
+
+                    this.alert = 'success';
+                    //this.toEdit(response.data.data);
+
+                    this.fetchData();
+                    this.clearData();
+                })
+                .catch(error=>{
+                    console.log('delever error :' + error)
+                    this.alert = 'error';
+                })
+            }else if (this.state == 'update'){
+                path = `${path}/${this.delivery.id}`;
+
+                axios
+                .put(`${path}`,{
+                    delivery: this.delivery.delivery,
+                    detail: this.delivery.detail,
+                    delivery_date: this.date_delivery,
+                    overdue_start_date: this.date_start,
+                    overdue_end_date: this.date_end,
+                    overdue_days: this.overdue_days,
+                    penalty: this.delivery.penalty
+                })
+                .then(response=>{
+
+                    this.alert = 'success';
+                    //this.toEdit(response.data.data);
+
+                    this.fetchData();
+                    this.clearData();
+                })
+                .catch(error=>{
+                    console.log('delever error :' + error)
+                    this.alert = 'error';
+                })
+
             }
-            this.$swal({
-                title: "คุณต้องการบันทึกข้อมูล ใช่หรือไม่",
-                //text: `กรุณายืนยัน`,
-
-                icon: "info",
-                closeOnClickOutside: false,
-                buttons: [
-                    'ยกเลิก',
-                    'ยืนยัน'
-                ],
-
-            })
-            .then(isConfirm =>{
-                if (isConfirm){
-                    if (this.state == 'new'){
-                        axios
-                        .post(`${path}`,{
-                            // delivery: this.delivery.delivery,
-                            // detail: this.delivery.detail,
-                            // delivery_date: this.delivery.delivery_date,
-                            // overdue_days: this.delivery.overdue_days,
-                            // penalty: this.delivery.penalty
-                            delivery: this.delivery.delivery,
-                            detail: this.delivery.detail,
-                            delivery_date: this.date_delivery,
-                            overdue_start_date: this.date_start,
-                            overdue_end_date: this.date_end,
-                            overdue_days: this.overdue_days,
-                            penalty: this.delivery.penalty
-                        })
-                        .then(response=>{
-
-                            this.alert = 'success';
-                            //this.toEdit(response.data.data);
-
-                            this.fetchData();
-                            this.clearData();
-                        })
-                        .catch(error=>{
-                            console.log('delever error :' + error)
-                            this.alert = 'error';
-                        })
-                    }else if (this.state == 'update'){
-                        path = `${path}/${this.delivery.id}`;
-
-                        axios
-                        .put(`${path}`,{
-                            delivery: this.delivery.delivery,
-                            detail: this.delivery.detail,
-                            delivery_date: this.date_delivery,
-                            overdue_start_date: this.date_start,
-                            overdue_end_date: this.date_end,
-                            overdue_days: this.overdue_days,
-                            penalty: this.delivery.penalty
-                        })
-                        .then(response=>{
-
-                            this.alert = 'success';
-                            //this.toEdit(response.data.data);
-
-                            this.fetchData();
-                            this.clearData();
-                        })
-                        .catch(error=>{
-                            console.log('delever error :' + error)
-                            this.alert = 'error';
-                        })
-
-                    }
-                }
-            })
+                
 
         },
         diffDate(date1,date2){

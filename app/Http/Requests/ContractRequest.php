@@ -28,7 +28,7 @@ class ContractRequest extends FormRequest
             'contract_no' => 'required',
             'contract_date' => 'required',
             'budget' => 'required',
-            
+            'penalty_type' => 'required',            
             
             'contract_start' => 'required',
             'contract_end' => 'required'

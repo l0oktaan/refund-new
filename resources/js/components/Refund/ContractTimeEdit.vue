@@ -126,6 +126,11 @@
                                     </b-form-group>
                                 </b-col>
                             </b-row>
+                            <b-row align-h="center">
+                                <b-col cols="7">
+                                    <show-alert :message="message" @clearMessage="clearMessage"></show-alert>
+                                </b-col>
+                            </b-row>
                             <b-row>
                                 <b-col>
                                     <div class="text-center" style="margin-bottom:5px;">
@@ -221,7 +226,8 @@ export default {
             cal_edit_days: null,
             state: 'new',
             alert: '',
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            message: ''
 
         }
     },
@@ -264,10 +270,52 @@ export default {
         cal_edit_days(newVal,oldVal){
             this.edit_days = newVal;
             this.$forceUpdate();
+        },
+        date_problem_end(newDate, oldDate){
+            if (this.date_problem_end != '' && this.date_book){
+                if (!this.checkDate(newDate,this.date_book)){
+                    this.$nextTick(() => {
+                        this.date_problem_end = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    let diff = this.diffDate(this.date_problem_end,this.date_book);
+                    console.log('diff :' + diff);
+                    if (diff > 15){
+                        this.$nextTick(() => {
+                            this.date_problem_end = oldDate;
+                            this.message = "โปรดตรวจสอบและทบทวนการอนุมัติขยายเวลา งดหรือลดค่าปรับดังกล่าวอีกครั้งให้เป็นไปตามระเบียบก่อนขอทาความตกลงกับกรมบัญชีกลาง"
+                        })
+                        
+                    }
+                }
+            }
+        },
+        date_book(newDate,oldDate){
+            if (this.date_book != '' && this.date_problem_end){
+                if (!this.checkDate(this.date_problem_end,newDate)){
+                    this.$nextTick(() => {
+                        this.date_book = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                   let diff = this.diffDate(this.date_problem_end,this.date_book);
+                    console.log('diff :' + diff);
+                    if (diff > 15){
+                        this.$nextTick(() => {
+                            this.date_book = oldDate;
+                            this.message = "โปรดตรวจสอบและทบทวนการอนุมัติขยายเวลา งดหรือลดค่าปรับดังกล่าวอีกครั้งให้เป็นไปตามระเบียบก่อนขอทาความตกลงกับกรมบัญชีกลาง"
+                        })
+                        
+                    }
+                }
+            }
         }
     },
     methods: {
-
+        clearMessage(){
+            this.message = ''
+        },
         fetchEditTimeList(){
             this.$emit('refund_update');
             this.time_edit_list = [];
@@ -528,5 +576,8 @@ export default {
     background-color: #1074b8;
     color: #fff;
     font-weight: normal!important;
+}
+.custom-select{
+    color: #000!important;
 }
 </style>
