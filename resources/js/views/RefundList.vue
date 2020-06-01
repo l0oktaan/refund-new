@@ -114,6 +114,12 @@
                         </tr>
                     </tbody>
                 </table>
+                <b-pagination
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                    aria-controls="my-table"
+                ></b-pagination>
             </b-col>
         </b-row>
         <b-row class="justify-content-md-center">
@@ -207,7 +213,10 @@ export default {
             //     },
             // ],
             user_type: '',
-            show: false
+            show: false,
+            currentPage: 1,            
+            perPage: 2,
+            fields: ['']
 
         }
     },
@@ -219,6 +228,9 @@ export default {
 
     },
     computed: {
+        rows(){
+            return this.refund_show.length;
+        },
         path(){
             return this.$route.path;
         },
@@ -358,7 +370,7 @@ export default {
 
             var refunds = [];
             var contracts = [];
-            console.log('path :' + path);
+            //console.log('path :' + path);
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
