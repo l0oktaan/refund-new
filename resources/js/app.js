@@ -478,6 +478,8 @@ const store = new Vuex.Store({
             {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (2)', value: 31},
             {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32}
         ],
+        current_page: null,
+        per_page: null
     },
     // plugins: [
     //     createPersistedState({
@@ -589,6 +591,12 @@ const store = new Vuex.Store({
         },
         arrApproveType (state) {
             return state.arrApproveType
+        },
+        current_page (state){
+            return state.current_page
+        },
+        per_page (state){
+            return state.per_page
         }
     },
     mutations: {
@@ -618,8 +626,13 @@ const store = new Vuex.Store({
         },
         refund_status (state,value){
             state.refund_status = value
+        },
+        current_page (state, value){
+            state.current_page = value
+        },
+        per_page (state, value){
+            state.per_page = value
         }
-
 
     },
     actions: {

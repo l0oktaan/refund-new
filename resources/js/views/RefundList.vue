@@ -121,10 +121,16 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col cols="4">
+            <b-col cols="3" >
+               <p style="text-align:right; margin-top:5px;">จำนวนต่อหน้า :</p>
+            </b-col>
+            <b-col cols="1">
+                <div style="text-align:right;">
+                    <b-form-select v-model="perPage" :options="arr_perPage"></b-form-select>
+                </div>
                
             </b-col>
-            <b-col cols="4">    
+            <b-col cols="3">    
                 <div style="text-align:center;">
                     <b-pagination
                         align="center"
@@ -133,9 +139,9 @@
                         :total-rows="rows"
                         :per-page="perPage"    
                     ></b-pagination>
-                    <p>
+                    <!-- <p>
                         รายการที่ {{beginRecord}} ถึง {{endRecord}} จากทั้งหมด {{rows}} รายการ
-                    </p>                
+                    </p>                 -->
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
                 
@@ -235,13 +241,17 @@ export default {
             // ],
             user_type: '',
             show: false,
-            currentPage: 1,            
-            perPage: 5,
+            currentPage: this.$store.getters.current_page,            
+            perPage: this.$store.getters.per_page,
+            arr_perPage: [5,10,15],
             fields: ['']
 
         }
     },
     async mounted(){
+        if (!this.perPage){
+            this.perPage = 5;
+        }
         this.user_type = this.$store.getters.user_type;
         await this.fetchData();
         //this.$store.state.refund_show = 'all';
@@ -297,9 +307,22 @@ export default {
             let end = await newVal * this.perPage;
             let begin = await end - this.perPage;
             this.refund_show_page = await this.refund_show.slice(begin, end);
+            //this.$store.commit('current_page',newVal);
         },
-        async refund_show(){
-            this.currentPage = 1;
+        async refund_show(){            
+            // let page =  this.$store.getters.current_page;
+            // if (!page || page > this.rows/this.perPage){
+            //     this.currentPage = 1
+                
+            // }else{
+            //     this.currentPage = page
+            // }            
+            let end = 1 * this.perPage;
+            let begin = await end - this.perPage;
+            this.refund_show_page = await this.refund_show.slice(begin, end);
+        },
+        async perPage(newVal,oldVal){
+            this.$store.commit('per_page',newVal);
             let end = 1 * this.perPage;
             let begin = await end - this.perPage;
             this.refund_show_page = await this.refund_show.slice(begin, end);
