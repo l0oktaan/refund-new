@@ -64,7 +64,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(refund,index) in refund_show" :key="index">
+                        <tr v-for="(refund,index) in refund_show_page" :key="index">
                             <td v-if="user_type == 'user'">{{getThaiDate(refund.create_date)}}</td>
                             <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
@@ -114,17 +114,37 @@
                         </tr>
                     </tbody>
                 </table>
-                <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    aria-controls="my-table"
-                ></b-pagination>
+                
+                
+                
+                
             </b-col>
         </b-row>
+        <b-row>
+            <b-col cols="4">
+               
+            </b-col>
+            <b-col cols="4">    
+                <div style="text-align:center;">
+                    <b-pagination
+                        align="center"
+                        v-model="currentPage"
+                        pills
+                        :total-rows="rows"
+                        :per-page="perPage"    
+                    ></b-pagination>
+                    <p>
+                        รายการที่ {{beginRecord}} ถึง {{endRecord}} จากทั้งหมด {{rows}} รายการ
+                    </p>                
+                    <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
+                </div>
+                
+            </b-col>
+            <b-col cols="4"></b-col>
+        </b-row>
         <b-row class="justify-content-md-center">
-            <b-col cols="2">
-                <b-button v-if="refund_filter" variant="outline-danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
+            <b-col cols>
+                
             </b-col>
         </b-row>
         <b-modal id="modalReport"
@@ -156,6 +176,7 @@ export default {
             refund_id: 0,
             refunds: [],
             refund_show: [],
+            refund_show_page: [],
             office_id: this.$store.getters.office_id,
             user: this.$store.getters.user,
             state: '',
@@ -215,7 +236,7 @@ export default {
             user_type: '',
             show: false,
             currentPage: 1,            
-            perPage: 2,
+            perPage: 5,
             fields: ['']
 
         }
@@ -228,6 +249,12 @@ export default {
 
     },
     computed: {
+        beginRecord(){
+            return this.currentPage == 1 ? 1 : ((this.currentPage * this.perPage) - this.perPage) + 1;
+        },
+        endRecord(){
+            return (this.currentPage * this.perPage) > this.rows ? this.rows : this.currentPage * this.perPage;
+        },
         rows(){
             return this.refund_show.length;
         },
@@ -265,6 +292,20 @@ export default {
         },
 
     },
+    watch: {
+        async currentPage(newVal, oldVal){            
+            let end = await newVal * this.perPage;
+            let begin = await end - this.perPage;
+            this.refund_show_page = await this.refund_show.slice(begin, end);
+        },
+        async refund_show(){
+            this.currentPage = 1;
+            let end = 1 * this.perPage;
+            let begin = await end - this.perPage;
+            this.refund_show_page = await this.refund_show.slice(begin, end);
+        }
+    },
+
     methods: {
         get_status_icon(status){
             return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
