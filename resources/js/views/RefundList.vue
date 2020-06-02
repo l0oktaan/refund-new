@@ -113,6 +113,15 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot class="tfoot">
+                        <tr>
+                            <td colspan="6">
+                                <span style="text-align:center">
+                                    รายการที่ {{beginRecord}} - {{endRecord}} จากทั้งหมด {{rows}} รายการ
+                                </span>    
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
                 
                 
@@ -120,17 +129,18 @@
                 
             </b-col>
         </b-row>
-        <b-row>
-            <b-col cols="3" >
-               <p style="text-align:right; margin-top:5px;">จำนวนต่อหน้า :</p>
-            </b-col>
+        <b-row class="foot">
             <b-col cols="1">
                 <div style="text-align:right;">
                     <b-form-select v-model="perPage" :options="arr_perPage"></b-form-select>
                 </div>
                
             </b-col>
-            <b-col cols="3">    
+            <b-col cols="3" >
+               <p style="text-align:left; margin-top:5px;">รายการต่อหน้า</p>
+            </b-col>
+            
+            <b-col cols="4">    
                 <div style="text-align:center;">
                     <b-pagination
                         align="center"
@@ -139,9 +149,7 @@
                         :total-rows="rows"
                         :per-page="perPage"    
                     ></b-pagination>
-                    <!-- <p>
-                        รายการที่ {{beginRecord}} ถึง {{endRecord}} จากทั้งหมด {{rows}} รายการ
-                    </p>                 -->
+                                
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
                 
@@ -723,9 +731,17 @@ td{
     color: #a03030;
 }
 
-.thead{
+.thead, .tfoot{
     background-color: #1074b8;
     color: #fff;
     font-weight: normal!important;
+}
+.tfoot{
+    text-align: center!important;
+}
+.foot{
+    border-top: 1px solid #000;
+    padding-top: 10px!important;
+    margin: 0 10px 0 10px;
 }
 </style>
