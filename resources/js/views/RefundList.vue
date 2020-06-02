@@ -115,7 +115,7 @@
                     </tbody>
                     <tfoot class="tfoot">
                         <tr>
-                            <td colspan="6">
+                            <td :colspan="user_type == 'user' ? 6 : 7">
                                 <span style="text-align:center">
                                     รายการที่ {{beginRecord}} - {{endRecord}} จากทั้งหมด {{rows}} รายการ
                                 </span>    
@@ -249,7 +249,7 @@ export default {
             // ],
             user_type: '',
             show: false,
-            currentPage: this.$store.getters.current_page,            
+            currentPage: this.$store.getters.current_page ? this.$store.getters.current_page : 1,
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
             fields: ['']
@@ -268,7 +268,7 @@ export default {
     },
     computed: {
         beginRecord(){
-            return this.currentPage == 1 ? 1 : ((this.currentPage * this.perPage) - this.perPage) + 1;
+            return this.currentPage <= 1 ? 1 : ((this.currentPage * this.perPage) - this.perPage) + 1;
         },
         endRecord(){
             return (this.currentPage * this.perPage) > this.rows ? this.rows : this.currentPage * this.perPage;
@@ -740,8 +740,8 @@ td{
     text-align: center!important;
 }
 .foot{
-    border-top: 1px solid #000;
-    padding-top: 10px!important;
-    margin: 0 10px 0 10px;
+    
+    
+    
 }
 </style>
