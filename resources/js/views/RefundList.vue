@@ -249,7 +249,7 @@ export default {
             // ],
             user_type: '',
             show: false,
-            currentPage: this.$store.getters.current_page ? this.$store.getters.current_page : 1,
+            currentPage: (this.$store.getters.current_page) ? this.$store.getters.current_page : 1,
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
             fields: ['']

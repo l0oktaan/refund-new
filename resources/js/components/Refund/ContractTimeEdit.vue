@@ -111,6 +111,18 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
+                                <b-col sm="8" v-if="time_edit.approve_type == 99">
+                                    <b-form-group>
+                                        <label for="approve_case">ข้อมูลเพิ่มเติม :</label>
+                                        <b-form-input type="text"
+                                            placeholder="บันทึกข้อมูลเพิ่มเติม"
+                                            name="approve_case"
+                                            v-model = "time_edit.approve_case"
+                                            id="txt_approve_case"
+                                        >
+                                        </b-form-input>
+                                    </b-form-group>
+                                </b-col>
                             </b-row>
                             <b-row>
                                 <b-col sm="4" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
@@ -332,6 +344,13 @@ export default {
         },
         onSubmitTimeEdit(e){
             e.preventDefault();
+            
+            if (this.time_edit.approve_type == 99){
+                if (!this.time_edit.approve_case || this.time_edit.approve_case == ''){
+                   this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
+                    return;
+                }
+            }
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
 
             if (this.state == 'new'){

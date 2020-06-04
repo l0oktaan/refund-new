@@ -17,6 +17,7 @@
                                 :details="refund_form.detail"
                                 :refresh="arr_rule_status[arr_rule_status.findIndex(x=>x.rule_id == rule.id)]['refresh']"
                                 @rule_passed="rule_passed"
+                                @reload="reload_check"
                             ></rule-check>
                         </b-tab>
                     </b-tabs>
@@ -43,6 +44,9 @@ export default {
         this.fetchData();
     },
     methods: {
+        reload_check(){
+            this.fetchData();
+        },
         async fetchData(){
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}`;
             let refund_form = await axios.get(`${path}`);

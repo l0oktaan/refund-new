@@ -34,6 +34,7 @@
                             ></b-form-input>
                             <my-date-picker
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
+                                
                                 :id="consider.id"
                                 :showDate="result_show[result_show.findIndex(x=>x.consider_id == consider.id)].value"
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
@@ -68,6 +69,7 @@
                                             ></b-form-input>
                                             <my-date-picker
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
+                                                
                                                 :id="consider.id"
                                                 :showDate="result_show[findResultIndex(consider.id)]['value']"
                                                 @update="value => results[findResultIndex(consider.id)]['value'] = value"
@@ -104,6 +106,7 @@
                                     ></b-form-input>
                                     <my-date-picker
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
+                                        
                                         :id="consider.id"
                                         :showDate="result_show[findResultIndex(consider.id)]['value']"
                                         @update="value => results[findResultIndex(consider.id)]['value'] = value"
@@ -204,12 +207,11 @@ export default {
             })
             .then(isConfirm =>{
                 if (isConfirm){
-                    this.rule_passed = false;
-
-                    this.$nextTick(()=>{
+                    this.rule_passed = false;                    
                         if (this.rule.sub_rules.length > 1 && this.rule.result_type == 1){
                             this.rule_select = 0;
                             for (let i=0; i<this.results.length; i++){
+                                console.log('type :' + this.results[i]['result_type']);
                                 this.results[i]['selected'] = 0;
                                 this.results[i]['status'] = 0;
                                 switch (this.results[i]['result_type']){
@@ -217,9 +219,13 @@ export default {
                                         this.results[i]['value'] = false;
                                         break;
                                     case 'value' :
+                                        this.results[i]['value'] = '';
+                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        break;
                                     case 'date' :
                                         this.results[i]['value'] = '';
                                         this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        this.$refs.d_check.date = null;
                                         break;
                                     case 'number' :
                                          this.results[i]['value'] = 0;
@@ -233,9 +239,14 @@ export default {
                                         this.results[i]['value'] = false;
                                         break;
                                     case 'value' :
+                                        this.results[i]['value'] = '';
+                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        break;
+                                        
                                     case 'date' :
                                         this.results[i]['value'] = '';
                                         this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                        this.$refs.d_check.date = null;
                                         break;
                                     case 'number' :
                                          this.results[i]['value'] = 0;
@@ -248,11 +259,8 @@ export default {
                         {
                             state: 'update-2',
                             detail: this.results
-                        })
-                    })
-
-
-                }})
+                        })         
+                 }})
 
 
             }
