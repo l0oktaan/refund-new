@@ -177,6 +177,22 @@ export default {
     },
     mounted(){
         //this.getOrderRule();
+        if (this.rule_id >= 0){
+            if (this.rule_id == 0){
+                //this.state = 'new';
+                this.clearData();
+                this.getMainRule();
+                if (this.main_rule != 0){
+                this.r_rule_type = 2;
+                this.r_sub_of = this.main_rule;
+            }
+            }else{
+                this.state = 'update';
+                this.r_id = this.rule_id;
+                this.getMainRule();
+                this.fetchData();
+            }
+        }
     },
     methods: {
         onSubmit(e){

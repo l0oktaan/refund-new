@@ -60,8 +60,11 @@ export default {
     methods: {
         showForm(id){
             console.log('show :' + id);
-            this.form_id = id;
-            this.$refs['modalForm'].show();
+            this.$nextTick(()=>{
+                this.form_id = id;
+                this.$refs['modalForm'].show();
+            })
+            
         },
         resetModalForm(){
             this.form_id = -1;

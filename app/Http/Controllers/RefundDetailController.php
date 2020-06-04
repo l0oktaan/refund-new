@@ -145,9 +145,18 @@ class RefundDetailController extends Controller
                             } catch (\Throwable $th) {
                                 $this->UpdateDetail(intval($detail->id),0);
                             }
-
-
-
+                        break;
+                        case 5:
+                            try {
+                                if (strpos($consider->var1,$detail->value) !== false){
+                                //if ($consider->var1 == $detail->value){
+                                    $this->UpdateDetail(intval($detail->id),1);
+                                }else{
+                                    $this->UpdateDetail(intval($detail->id),0);
+                                }
+                            } catch (\Throwable $th) {
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
                         break;
                         default :
                             $this->UpdateDetail(intval($detail->id),0);

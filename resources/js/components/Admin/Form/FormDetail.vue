@@ -7,44 +7,42 @@
                 <strong>รายละเอียดฟอร์ม</strong>
             </div>
             <b-form @submit="onSubmit">
-                <b-form-group :class="{'form-group-error': $v.name1.$error }">
+                <b-form-group>
                     <label for="name1">ชื่อแบบฟอร์ม</label>
                     <b-form-input type="text"
 
                         placeholder="ชื่อแบบฟอร์ม"
                         name="name1"
-                        v-model.trim="$v.name1.$model"
+                        v-model="name1"
                         >
                     </b-form-input>
-                    <div class="error" v-if="!$v.name1.required">กรุณากรอกข้อมูล{{$v.name1.require}}</div>
-                    <div class="error" v-if="!$v.name1.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name1.$params.minLength.min}} ตัวอักษร.</div>
+                    
                 </b-form-group>
-                <b-form-group :class="{'form-group-error': $v.name2.$error }">
+                <b-form-group >
                     <label for="name2">รายละเอียดแบบฟอร์ม</label>
                     <b-form-input type="text"
-                        v-model.trim="$v.name2.$model"
+                        v-model="name2"
 
                         placeholder="ชื่อแบบฟอร์ม เพิ่มเติม">
                     </b-form-input>
-                    <div class="error" v-if="!$v.name2.required">กรุณากรอกข้อมูล</div>
-                    <div class="error" v-if="!$v.name2.minLength">กรุณากรอกข้อมูลความยาวไม่น้อยกว่า {{$v.name2.$params.minLength.min}} ตัวอักษร.</div>
+                    
                 </b-form-group>
-                <b-form-group :class="{invalid: $v.name1.$error}">
+                <b-form-group>
                     <label for="formName3">ชื่อย่อแบบฟอร์ม</label>
                     <b-form-input type="text" v-model="name3" id="txtFormName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
                 </b-form-group>
                 <b-row>
                     <b-col sm="4">
-                         <b-form-group :class="{'form-group-error': $v.order.$error }">
+                         <b-form-group>
                             <label for="month1">ลำดับฟอร์ม</label>
-                            <b-form-select v-model="$v.order.$model"
+                            <b-form-select v-model="order"
 
                                 name="order"
                                 :plain="true"
                                 :options="form_order_list"
                                 >
                             </b-form-select>
-                            <div class="error" v-if="!$v.order.minValue">กรุณากรอกข้อมูล</div>
+                            
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -61,8 +59,7 @@
     </div>
 </template>
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, minLength, minValue } from 'vuelidate/lib/validators'
+
 export default {
     props: ['form_id','fCount'],
     data(){
@@ -80,26 +77,12 @@ export default {
             form_order_max: 0
         }
     },
-    mixins: [validationMixin],
-    validations: {
-        name1: {
-            required,
-            minLength: minLength(4)
-        },
-        name2: {
-            required,
-            minLength: minLength(4)
-        },
-        order:{
-            minValue: minValue(1)
-        }
-    },
+    
     created(){
 
     },
-    watch:{
-        form_id(){
-            if (this.form_id > 0){
+    mounted() {
+        if (this.form_id > 0){
                 this.fid = this.form_id;
                 this.fetchData();
             }else{
@@ -107,9 +90,21 @@ export default {
                 this.clearForm();
                 console.log("reset");
             }
-
             this.getFormOrderList();
-        }
+    },
+    watch: {
+        // form_id(){
+        //     console.log("show :" + this.form_id);
+        //     if (this.form_id > 0){
+        //         this.fid = this.form_id;
+        //         this.fetchData();
+        //     }else{
+        //         this.state = "new";
+        //         this.clearForm();
+        //         console.log("reset");
+        //     }
+        //     this.getFormOrderList();
+        // }
     },
     computed: {
 
@@ -117,7 +112,6 @@ export default {
     methods: {
 
         fetchData(){
-
             let path = `/api/forms/${this.fid}`;
             this.state = "update";
             console.log('path' + path);
@@ -171,63 +165,61 @@ export default {
             this.name2 = "";
             this.name3 = "";
             this.order = 0;
-            this.$v.$reset();
+            
         },
         onSubmit(e){
             e.preventDefault();
 
-            this.$v.$touch()
-            if (this.$v.$invalid) {
-                this.submitStatus = 'ERROR'
-            } else {
-                let path;
-                path = '/api/forms';
-                var form = {};
-                if (this.state == "new"){
-                    axios.post(path,{
-                        name1 : this.name1,
-                        name2 : this.name2,
-                        name3 : this.name3,
-                        order : this.order,
-                        create_by : 'Songwut',
-                        status : 1
-                    }).then((response)=>{
-                        this.alert = "success";
-                        this.state = "update";
-                        form = response.data.data;
-                        this.fid = form.id;
-                        this.name1 = form.name1;
-                        this.name2 = form.name2;
-                        this.name3 = form.name3;
-                        this.order = form.order;
-                        console.log(form);
-                    this
-                    })
-                }else if (this.state == "update"){
-                    axios.put(`${path}/${this.fid}`,{
-                        name1 : this.name1,
-                        name2 : this.name2,
-                        name3 : this.name3,
-                        order : this.order,
-                        create_by : 'Songwut',
-                        status : 1
-                    }).then((response)=>{
-                        this.alert = "success";
-                        form = response.data.data;
-                        this.name1 = form.name1;
-                        this.name2 = form.name2;
-                        this.name3 = form.name3;
-                        this.order = form.order;
-                    }).catch(error=>{
-                        console.log(error);
-                        this.alert = "error";
-                    })
-                }
-                this.submitStatus = 'PENDING'
-                setTimeout(() => {
-                this.submitStatus = 'OK'
-                }, 500)
+            
+           
+            let path;
+            path = '/api/forms';
+            var form = {};
+            if (this.state == "new"){
+                axios.post(path,{
+                    name1 : this.name1,
+                    name2 : this.name2,
+                    name3 : this.name3,
+                    order : this.order,
+                    create_by : 'Songwut',
+                    status : 1
+                }).then((response)=>{
+                    this.alert = "success";
+                    this.state = "update";
+                    form = response.data.data;
+                    this.fid = form.id;
+                    this.name1 = form.name1;
+                    this.name2 = form.name2;
+                    this.name3 = form.name3;
+                    this.order = form.order;
+                    console.log(form);
+                this
+                })
+            }else if (this.state == "update"){
+                axios.put(`${path}/${this.fid}`,{
+                    name1 : this.name1,
+                    name2 : this.name2,
+                    name3 : this.name3,
+                    order : this.order,
+                    create_by : 'Songwut',
+                    status : 1
+                }).then((response)=>{
+                    this.alert = "success";
+                    form = response.data.data;
+                    this.name1 = form.name1;
+                    this.name2 = form.name2;
+                    this.name3 = form.name3;
+                    this.order = form.order;
+                }).catch(error=>{
+                    console.log(error);
+                    this.alert = "error";
+                })
             }
+            this.submitStatus = 'PENDING'
+            setTimeout(() => {
+            this.submitStatus = 'OK'
+            }, 500)
+            
 
         }
 

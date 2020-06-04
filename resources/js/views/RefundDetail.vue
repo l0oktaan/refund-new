@@ -265,7 +265,5 @@ export default {
     padding-top: 10px!important;
     color: #000!important;
 }
-.tab-active{
-    background-color: rgb(151, 192, 253)!important;
-}
+
 </style>

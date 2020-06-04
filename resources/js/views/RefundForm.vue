@@ -167,6 +167,8 @@ export default {
             }else if (iType == 3){
                 if (oper == 1){
                     return "number"
+                }else if(oper == 5){
+                    return "value"
                 }else{
                     return "date"
                 }

@@ -739,9 +739,5 @@ td{
 .tfoot{
     text-align: center!important;
 }
-.foot{
-    
-    
-    
-}
+
 </style>

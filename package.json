@@ -27,7 +27,7 @@
     "dependencies": {
         "@coreui/coreui": "^2.1.9",
         "@coreui/vue": "^2.1.2",
-        "bootstrap-vue": "^2.0.0-rc.18",
+        "bootstrap-vue": "^2.15.0",
         "date-fns": "^2.0.1",
         "finalhandler": "^1.1.1",
         "js-cookie": "^2.2.1",

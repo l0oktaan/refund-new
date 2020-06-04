@@ -65,7 +65,7 @@
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper > 1)">
+                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper > 1 && consider_oper < 5)">
                         <b-form-group>
                             <label for="date1">ข้อมูลตรวจสอบ{{date1}}</label>
                             <my-date-picker ref="d11" :id="11" :showDate="date1" @update="value => consider_var1 = value"></my-date-picker>
@@ -76,6 +76,26 @@
 
 
                         </b-form-group>
+                    </b-col>
+                    <!-- อยู่ในชุดข้อมูล -->
+                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper==5)">
+                        <div>
+                            <label for="var1">ข้อมูลตรวจสอบ</label>
+                           <b-form-tags
+                                input-id="tags-pills"
+                                v-model="arr_consider_var"
+                                tag-variant="primary"
+                                tag-pills
+                                size="md"
+                                separator=" "
+                                placeholder="ใส่ข้อมูล โดยแยกข้อมูลด้วยช่องว่าง"
+                                class="mb-2"
+                                duplicate-tag-text="ข้อมูลซ้ำ"
+                                add-button-text="เพิ่ม"
+                                add-button-variant="outline-success"
+                            ></b-form-tags>
+                        </div>
+                        
                     </b-col>
 
                 </b-row>
@@ -129,6 +149,7 @@ export default {
             consider_oper: 0,
             consider_var1: '',
             consider_var2: '',
+            arr_consider_var: [],
             date1: null,
             showDate1: '',
             showDate2: '',
@@ -146,6 +167,7 @@ export default {
                 {value: 2, text: 'ไม่เกินวันที่'},
                 {value: 4, text: 'หลังจากวันที่'},
                 {value: 3, text: 'อยู่ในช่วงเวลา'},
+                {value: 5, text: 'อยู่ในชุดข้อมูล'}
 
             ],
             alert: '',
@@ -168,7 +190,8 @@ export default {
 
             dateFormat: "LL",
 
-            dateEdit: 0
+            dateEdit: 0,
+            
         }
     },
     watch: {
@@ -281,6 +304,9 @@ export default {
             var consider = {};
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_considers`;
             this.checkConsiderType();
+            if (this.consider_oper == 5){
+                this.consider_var1 = this.arr_consider_var.toString();
+            }
             if(this.state == 'new'){
                 axios.post(path,{
                     order: this.consider_order,
@@ -359,19 +385,15 @@ export default {
             this.consider_description = consider.description;
             this.consider_type = consider.type;
             this.consider_oper = consider.oper;
-            if (consider.oper >= 2){
+            if (consider.oper >= 2 && consider.oper < 5){
                 if (consider.var1 != '' || !consider.var1){
                     this.myDate1 = consider.var1;
                     this.$nextTick(() => {
                         this.$refs.d11.date = this.myDate1;
                     })
-
-
                     this.$forceUpdate();
-
-
                 }
-                if (consider)
+                
                 if (consider.oper == 3){
                     console.log('var 2 :' + consider.var2)
                     this.myDate2 = consider.var2;
@@ -381,6 +403,9 @@ export default {
                     })
                     this.$forceUpdate();
                 }
+            }
+            if (consider.oper == 5){
+                this.arr_consider_var = consider.var1.split(",");
             }
             this.consider_var1 = consider.var1;
             this.consider_var2 = consider.var2;
