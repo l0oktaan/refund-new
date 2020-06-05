@@ -155,9 +155,12 @@ export default {
                 }
             }else if (iType == 4){
                 return ""
+            }else if (iType == 5){
+                return "0"
             }
         },
         checkResultType(iType,oper){
+            
             if (iType == 1){
                 //0 or 1
                 return "boolean"
@@ -168,16 +171,21 @@ export default {
                 if (oper == 1){
                     return "number"
                 }else if(oper == 5){
-                    return "value"
+                    console.log('in array');
+                    return "inArray"
                 }else{
                     return "date"
                 }
             }else if (iType == 4){
                 return "date"
+            }else if (iType == 5){
+                return "number"
             }
         },
         createConsiderDetail(arr_consider,arrDetail){
+            
             for (let j=0; j < arr_consider.length; j++){
+                console.log('Type :' + arr_consider[j].type, ' Oper :' + arr_consider[j].oper);
                 arrDetail.push({
                     consider_id: arr_consider[j].id,
                     result_type : this.checkResultType(arr_consider[j].type ,arr_consider[j].oper),

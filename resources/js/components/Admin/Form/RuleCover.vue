@@ -105,7 +105,7 @@ export default {
         },
         result_type(){
             if (this.result_type != 0){
-                console.log('rule id: '+ this.rule.id + 'change to' + this.result_type);
+                //console.log('rule id: '+ this.rule.id + 'change to' + this.result_type);
                 this.updateResultType();
             }
         }

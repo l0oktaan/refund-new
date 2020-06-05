@@ -88,7 +88,7 @@ export default {
             }else{
                 this.state = "new";
                 this.clearForm();
-                console.log("reset");
+                //console.log("reset");
             }
             this.getFormOrderList();
     },
@@ -114,7 +114,7 @@ export default {
         fetchData(){
             let path = `/api/forms/${this.fid}`;
             this.state = "update";
-            console.log('path' + path);
+            //console.log('path' + path);
             axios.get(path)
             .then(response=>{
                 var form = {}
@@ -192,7 +192,7 @@ export default {
                     this.name2 = form.name2;
                     this.name3 = form.name3;
                     this.order = form.order;
-                    console.log(form);
+                    //console.log(form);
                 this
                 })
             }else if (this.state == "update"){
@@ -211,7 +211,7 @@ export default {
                     this.name3 = form.name3;
                     this.order = form.order;
                 }).catch(error=>{
-                    console.log(error);
+                    //console.log(error);
                     this.alert = "error";
                 })
             }

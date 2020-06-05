@@ -165,7 +165,7 @@ export default {
         },
 
         r_sub_of(){
-            console.log('change sub -of');
+            //console.log('change sub -of');
             this.getOrderRule(this.r_sub_of);
         },
         r_rule_type(){
@@ -199,7 +199,7 @@ export default {
             e.preventDefault();
             var path = `/api/forms/${this.form_id}/form_rules`;
             var rule = {};
-            console.log('name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
+            //console.log('name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
             if (this.state == 'new'){
                 axios.post(path,{
                     name: this.r_name,
@@ -240,7 +240,7 @@ export default {
                 })
             }else if (this.state == 'update'){
                 //console.log('update rule id:' + this.rule.id);
-                console.log('update name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
+                //console.log('update name rule : ' + this.r_name+' ' + this.r_order+ ' ' + this.r_sub_of+' ' + this.r_result_types+' ' + this.r_status);
                 path = `${path}/${this.r_id}`;
                 axios.put(`${path}`,{
                     name: this.r_name,
@@ -326,11 +326,11 @@ export default {
             var arr = [];
             var rules = [];
             var max = 0;
-            console.log('get order :' + path);
+            //console.log('get order :' + path);
             axios.get(path)
             .then(response=>{
                 rules = response.data.data;
-                console.log('rule length: '+ rules.length);
+                //console.log('rule length: '+ rules.length);
                 this.arr_rule_order = [];
                 max = rules.length;
                 if (this.state == 'new'){

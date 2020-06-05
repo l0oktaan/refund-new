@@ -28,10 +28,22 @@
                                 style="padding-top:4px; line-height:0px;"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             />
+                            <b-form-select 
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
+                                :options="getOptions(consider.var1)"
+                                v-model="results[findResultIndex(consider.id)]['value']"
+                                >
+                            </b-form-select>
+                            
                             <b-form-input type="text"
-                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             ></b-form-input>
+                            <b-input-group :append="(consider.type == 5) ? consider.var1 : 'วัน'"
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                            >
+                                <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
+                            </b-input-group>
                             <my-date-picker
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                 
@@ -63,10 +75,22 @@
                                                 style="padding-top:4px; line-height:0px;"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             />
+                                            <b-form-select 
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
+                                                :options="getOptions(consider.var1)"
+                                                v-model="results[findResultIndex(consider.id)]['value']"
+                                                >
+                                            </b-form-select>
+                                            
                                             <b-form-input type="text"
-                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             ></b-form-input>
+                                            <b-input-group :append="(consider.type == 5) ? consider.var1 : 'วัน'"
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                                            >
+                                                <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
+                                            </b-input-group>
                                             <my-date-picker
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                                 
@@ -100,10 +124,22 @@
                                         style="padding-top:4px; line-height:0px;"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     />
+                                    <b-form-select 
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
+                                        :options="getOptions(consider.var1)"
+                                        v-model="results[findResultIndex(consider.id)]['value']"
+                                        >
+                                    </b-form-select>
+                                    
                                     <b-form-input type="text"
-                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'value' || results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     ></b-form-input>
+                                    <b-input-group :append="(consider.type == 5) ? consider.var1 : 'วัน'"
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'number'"
+                                    >
+                                        <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
+                                    </b-input-group>
                                     <my-date-picker
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                         
@@ -121,7 +157,7 @@
                 <b-col>
                     <div class="text-center" style="margin-bottom:5px;">
                         <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
-                        <b-button variant="danger" @click="clearData" v-if="rule_passed && refund_status < 2">ยกเลิก</b-button>
+                        <b-button  variant="danger" @click="clearData" v-if="rule_passed && refund_status < 2">ยกเลิก</b-button>
                     </div>
                 </b-col>
             </b-row>
@@ -190,6 +226,18 @@ export default {
         await this.getRefundDetail();
     },
     methods: {
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();;
+            } else {
+                return true;
+            }
+        },
+        getOptions(value){
+            return value.split(",");          
+        },
         clearData(){
             if (this.rule_passed){
 
@@ -210,48 +258,57 @@ export default {
                     this.rule_passed = false;                    
                         if (this.rule.sub_rules.length > 1 && this.rule.result_type == 1){
                             this.rule_select = 0;
-                            for (let i=0; i<this.results.length; i++){
-                                console.log('type :' + this.results[i]['result_type']);
-                                this.results[i]['selected'] = 0;
-                                this.results[i]['status'] = 0;
-                                switch (this.results[i]['result_type']){
-                                    case 'boolean' :
-                                        this.results[i]['value'] = false;
-                                        break;
-                                    case 'value' :
-                                        this.results[i]['value'] = '';
-                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                        break;
-                                    case 'date' :
-                                        this.results[i]['value'] = '';
-                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                        this.$refs.d_check.date = null;
-                                        break;
-                                    case 'number' :
-                                         this.results[i]['value'] = 0;
+                            this.$nextTick(()=>{
+                                for (let i=0; i<this.results.length; i++){
+                                    console.log('type :' + this.results[i]['result_type']);
+                                    this.results[i]['selected'] = 0;
+                                    this.results[i]['status'] = 0;
+                                    switch (this.results[i]['result_type']){
+                                        case 'boolean' :
+                                            this.results[i]['value'] = false;
+                                            break;
+                                        case 'inArray' :
+                                        case 'value' :
+                                            this.results[i]['value'] = '';
+                                            this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                            break;
+                                        case 'date' :
+                                            this.results[i]['value'] = '';
+                                            this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                            
+                                            break;
+                                        case 'number' :
+                                            this.results[i]['value'] = 0;
+                                    }
                                 }
-                            }
+                            })
+                            
                         }else{
-                            for (let i=0; i<this.results.length; i++){
-                                this.results[i]['status'] = 0;
-                                switch (this.results[i]['result_type']){
-                                    case 'boolean' :
-                                        this.results[i]['value'] = false;
-                                        break;
-                                    case 'value' :
-                                        this.results[i]['value'] = '';
-                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                        break;
-                                        
-                                    case 'date' :
-                                        this.results[i]['value'] = '';
-                                        this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                        this.$refs.d_check.date = null;
-                                        break;
-                                    case 'number' :
-                                         this.results[i]['value'] = 0;
+                            console.log('result length :' + this.results.length);
+                            this.$nextTick(()=>{
+                                for (let i=0; i<this.results.length; i++){
+                                    this.results[i]['status'] = 0;
+                                    switch (this.results[i]['result_type']){
+                                        case 'boolean' :
+                                            this.results[i]['value'] = false;
+                                            break;
+                                        case 'inArray' :
+                                        case 'value' :
+                                            this.results[i]['value'] = '';
+                                            this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                            break;
+                                            
+                                        case 'date' :
+                                            this.results[i]['value'] = '';
+                                            this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
+                                            
+                                            break;
+                                        case 'number' :
+                                            this.results[i]['value'] = 0;
+                                    }
                                 }
-                            }
+                            })
+                            
                         }
                         //this.createResult();
                         let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;

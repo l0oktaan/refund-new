@@ -171,6 +171,17 @@ class RefundDetailController extends Controller
                         $this->UpdateDetail(intval($detail->id),0);
                     }
                 break;
+                case 5:  //ใส่ตัวเลข
+                    try {
+                        if ((strval($detail->value) == '') || (intval($detail->value == 0))){
+                            $this->UpdateDetail(intval($detail->id),0);
+                        }else{
+                            $this->UpdateDetail(intval($detail->id),1);
+                        }
+                    } catch (\Throwable $th) {
+                        $this->UpdateDetail(intval($detail->id),0);
+                    }
+                break;
                 default:
                     $this->UpdateDetail(intval($detail->id),0);
             }

@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         showForm(id){
-            console.log('show :' + id);
+            //console.log('show :' + id);
             this.$nextTick(()=>{
                 this.form_id = id;
                 this.$refs['modalForm'].show();
@@ -75,7 +75,7 @@ export default {
             .then(response=>{
                 this.forms = response.data.data;
                 this.fCount = this.forms.length;
-                console.log(this.forms);
+                //console.log(this.forms);
             })
         }
     },

@@ -123,7 +123,7 @@ export default {
     methods: {
         fetchData(){
             var path = `/api/forms/${this.form_id}/form_rules`;
-            console.log('path :' + path);
+            //console.log('path :' + path);
             var sub_rule = [];
             axios.get(path)
             .then(response=>{
@@ -132,7 +132,7 @@ export default {
                 this.$forceUpdate();
             })
             .catch(error=>{
-                console.log(error);
+                //console.log(error);
             })
             //
 
@@ -146,16 +146,16 @@ export default {
 
             this.showRule =[];
 
-            console.log('get sub rule' + this.rules.length);
+            //console.log('get sub rule' + this.rules.length);
             for (let i = 0 ; i < this.rules.length ; i++){
                 id = this.rules[i].id;
                 path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;
-                console.log('get sub rule path :' + path);
+                //console.log('get sub rule path :' + path);
                 Object.assign(this.rules[i],{sub_rules: sub_rule});
                 axios.get(path)
                 .then(response=>{
                     sub_rule = response.data.data;
-                    console.log('sub rule ' + id + ': ' + sub_rule.length);
+                    //console.log('sub rule ' + id + ': ' + sub_rule.length);
 
                     if (sub_rule.length > 0){
                         Object.assign(this.rules[i],{_showDetails: true});
@@ -213,7 +213,7 @@ export default {
                 rules = response.data.data;
 
                 if (rules.length == 0){
-                    console.log('rule id :' + id + 'is single');
+                    //console.log('rule id :' + id + 'is single');
                     return true;
                 }else{
                     return false;

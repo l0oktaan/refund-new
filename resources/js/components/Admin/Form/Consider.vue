@@ -43,6 +43,16 @@
                             ></b-form-select>
                         </b-form-group>
                     </b-col>
+                    <b-col cols="3" v-if="consider_type==5">
+                        <b-form-group label="หน่วยเป็น:">
+                            <b-form-input type="text"
+                                placeholder="เช่น วัน บาท"
+                                name="var1"
+                                v-model = "consider_var1"
+                                >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
                     <b-col cols="3" v-if="consider_type==3">
                         <b-form-group label="การตรวจสอบเงื่อนไข">
                             <b-form-select
@@ -149,6 +159,7 @@ export default {
             consider_oper: 0,
             consider_var1: '',
             consider_var2: '',
+            var_unit: '',
             arr_consider_var: [],
             date1: null,
             showDate1: '',
@@ -158,6 +169,7 @@ export default {
                 {value: 0, text: 'ประเภทเงื่อนไข'},
                 {value: 1, text: 'ใช่หรือไม่'},
                 {value: 2, text: 'ใส่ข้อความ'},
+                {value: 5, text: 'ใส่ตัวเลข'},
                 {value: 4, text: 'ใส่วันที่'},
                 {value: 3, text: 'ตรวจสอบข้อมูล'},
             ],
@@ -225,7 +237,7 @@ export default {
             }
         },
         consider_var1(newDate, oldDate){
-            //console.log('change date1' + this.consider_var1);
+            
              if (this.consider_oper > 1 && newDate != '' && !newDate){
                 this.myDate1 = this.consider_var1;
                 this.$nextTick(() => {
@@ -272,7 +284,7 @@ export default {
         //     return moment(myDate,"DD/MM/YYYY");
         // },
         checkDate(date1,date2){
-            console.log('check date : '+ date1 + ' and ' + date2);
+           
             var d1 = new Date(date1);
             var d2 = new Date(date2);
             if (d2 > d1){
@@ -284,7 +296,7 @@ export default {
 
         },
         getDate(value){
-            console.log(' value : ' + value);
+            //console.log(' value : ' + value);
             this.consider_var1 = value;
             this.$forceUpdate();
         },
@@ -307,6 +319,7 @@ export default {
             if (this.consider_oper == 5){
                 this.consider_var1 = this.arr_consider_var.toString();
             }
+            
             if(this.state == 'new'){
                 axios.post(path,{
                     order: this.consider_order,
@@ -377,7 +390,7 @@ export default {
 
             var arrDate = [];
             this.clearData();
-            console.log('to edit', consider);
+            //console.log('to edit', consider);
             this.state = "update";
             this.consider_id = consider.id;
             this.consider_order = consider.order;
@@ -395,7 +408,7 @@ export default {
                 }
                 
                 if (consider.oper == 3){
-                    console.log('var 2 :' + consider.var2)
+                    //console.log('var 2 :' + consider.var2)
                     this.myDate2 = consider.var2;
                      this.$nextTick(() => {
 

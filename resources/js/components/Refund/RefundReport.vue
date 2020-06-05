@@ -47,7 +47,7 @@
                                                         <p class="head">1. รายละเอียดสัญญา ราย <span class="show"> {{contract.contract_party}}</span></p>
                                                         <div class="sub_order">
                                                             <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
-                                                            <p class="head sub">วงเงินในสัญญาา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>บาท  ค่าปรับวันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>บาท ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน </p>
+                                                            <p class="head sub">วงเงินในสัญญา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>บาท  ค่าปรับ<span v-if="contract.penalty_type==1">วันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>บาท</span><span v-if="contract.penalty_type==2">ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน</span></p>
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
 
                                                             <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>
@@ -104,24 +104,8 @@
                                                                 </table>
                                                             </td>
                                                             <td v-if="rule.sub_rules.length == 0"  style="width: 270px">
-                                                                <!-- <p class="head" ><i :class="(1 == 1) ? icon_check : icon_uncheck"></i> {{refund.detail[find_detail_index(rule.considers[0]['id'])]['result_type']}}</p> -->
-
-                                                                <!-- <p>{{getDetail(rule.considers[0]['id']).result_type}}</p> -->
-
-                                                                <!--
-                                                                <div v-if="rule.considers[0]['type'] == 1">
-                                                                    <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}</p>
-                                                                </div>
-                                                                <div v-if="rule.considers[0]['type'] == 2">
-                                                                    <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}<span class="show">{{(getDetail(rule.considers[0]['id']).value) ? getDetail(rule.considers[0]['id']).value : ''}}</span></p>
-                                                                </div>
-                                                                <div v-if="rule.considers[0]['type'] == 3">
-                                                                    <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}} ({{(getDetail(rule.considers[0]['id']).value) ? ((getDetail(rule.considers[0]['id']).result_type == 'date') ? getThaiDate(getDetail(rule.considers[0]['id']).value) : getDetail(rule.considers[0]['id']).value) : ''}})</p>
-                                                                </div>
-                                                                <div v-if="rule.considers[0]['type'] == 4">
-                                                                    <p class="head" ><i :class="(getDetail(rule.considers[0]['id']).status == 1) ? icon_check : icon_uncheck"></i> {{rule.considers[0]['name']}}<span class="show" v-if="getDetail(rule.considers[0]['id']).status == 1">{{getThaiDate(getDetail(rule.considers[0]['id']).value)}}</span></p>
-                                                                </div>
-                                                                -->
+                                                               
+                                                               
                                                                 <div v-for="(sub_consider,index_z) in rule.considers" :key="index_z">
                                                                     <p class="head" v-if="sub_consider.type == 1"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}</p>
                                                                     <p class="head" v-if="sub_consider.type == 2"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}

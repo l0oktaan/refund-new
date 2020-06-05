@@ -71,7 +71,7 @@ export default {
     },
     watch: {
         rule_id(){
-            console.log(' watch rule id :' + this.rule_id);
+            //console.log(' watch rule id :' + this.rule_id);
             if (this.rule_id > 0 ){
                 this.fetchData();
 
@@ -108,11 +108,11 @@ export default {
 
             var condition = [];
             var path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_conditions`;
-            console.log('get con :' + path);
+            //console.log('get con :' + path);
             axios.get(path)
             .then(response=>{
                 condition = response.data.data;
-                console.log('show con :' + condition[0].name);
+                //console.log('show con :' + condition[0].name);
                 if (condition.length > 0){
 
                     this.state = 'update';
@@ -135,7 +135,7 @@ export default {
             e.preventDefault();
             var condition = {};
             var path = '';
-            console.log('state :' + this.state);
+            //console.log('state :' + this.state);
             if (this.state == 'new'){
                 path = `/api/forms/${this.form_id}/form_rules/${this.rule_id}/form_conditions`;
 
