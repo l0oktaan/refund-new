@@ -207,7 +207,7 @@ export default {
         }
     },
     watch: {
-
+        
         myDate1(newDate, oldDate){
 
             if (this.consider_oper == 3){
@@ -443,6 +443,7 @@ export default {
             this.consider_oper = 0;
             this.consider_var1 = '';
             this.consider_var2 = '';
+            this.arr_consider_var = [];
             this.myDate1 = '';
             this.myDate2 = '';
             this.showDate1 = null;
