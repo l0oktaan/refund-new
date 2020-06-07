@@ -94,9 +94,12 @@
                                                                                 <p class="head" v-if="sub_consider.type == 2"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
                                                                                     <span class="show" >{{(getDetail(sub_consider.id).value) ? getDetail(sub_consider.id).value : ''}}</span>
                                                                                 </p>
-                                                                                <p class="head" v-if="sub_consider.type == 3"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}} ({{((getDetail(sub_consider.id).value)) ? ((getDetail(sub_consider.id).result_type == 'date') ? getThaiDate((getDetail(sub_consider.id).value)) : getDetail(sub_consider.id).value) : ''}})</p>
+                                                                                <p class="head" v-if="sub_consider.type == 3"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}} ({{((getDetail(sub_consider.id).value)) ? ((getDetail(sub_consider.id).result_type == 'date') ? getThaiDate((getDetail(sub_consider.id).value)) : (sub_consider.oper == 1) ? getDetail(sub_consider.id).value + ' วัน' :getDetail(sub_consider.id).value) : ''}})</p>
                                                                                 <p class="head" v-if="sub_consider.type == 4"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
                                                                                     <span class="show" v-if="getDetail(sub_consider.id).value">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
+                                                                                </p>
+                                                                                <p class="head" v-if="sub_consider.type == 5"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
+                                                                                    <span class="show" >{{(getDetail(sub_consider.id).value) ? getDetail(sub_consider.id).value : ''}}</span> {{sub_consider.var1}}
                                                                                 </p>
                                                                             </div>
                                                                         </td>
@@ -114,6 +117,9 @@
                                                                     <p class="head" v-if="sub_consider.type == 3"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}} ({{((getDetail(sub_consider.id).value)) ? ((getDetail(sub_consider.id).result_type == 'date') ? getThaiDate((getDetail(sub_consider.id).value)) : getDetail(sub_consider.id).value) : ''}})</p>
                                                                     <p class="head" v-if="sub_consider.type == 4"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
                                                                         <span class="show" v-if="getDetail(sub_consider.id).value">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
+                                                                    </p>
+                                                                    <p class="head" v-if="sub_consider.type == 5"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
+                                                                        <span class="show" >{{(getDetail(sub_consider.id).value) ? getDetail(sub_consider.id).value : ''}}</span> {{sub_consider.var1}}
                                                                     </p>
                                                                 </div>
 
@@ -577,7 +583,8 @@ export default {
     margin-bottom: 0px;
     text-align: center;
     color: #000;
-    font-size: 10pt!important;
+    font-weight: normal!important;
+
 }
 p.head{
     font-weight: normal;
