@@ -17,6 +17,6 @@ class UserController extends Controller
         //     else
         //         echo "User " . $user->name . " is offline.";
         // }
-        return Cache::get('')
+        return Cache::get('');
     }
 }
