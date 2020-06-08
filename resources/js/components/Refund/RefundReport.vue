@@ -20,7 +20,10 @@
                 <div class="book" id="book" ref="book">
                     <div class="page" id="printThis" ref="printThis" >
                         <div class="subpage" v-if="isReady">
-                            <b-row align-h="end">
+                            <b-row>
+                                <b-col cols="3">
+                                    <p style="font-size:9pt">เลขที่ <span class="form_name3 pl-2 pr-2">63-0001-050012</span></p>
+                                </b-col>
                                 <b-col cols="6" class="form_name">
                                     <p class="topic">{{refund.form.name1}}</p>
                                     <p class="topic">{{refund.form.name2}}</p>
