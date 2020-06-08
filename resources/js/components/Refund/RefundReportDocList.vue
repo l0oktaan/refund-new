@@ -2,7 +2,7 @@
     <div>
         <b-row align-h="center">
             <b-col cols="12" class="form_name">
-                <h4 class="topic mt-4">รายการเอกสารที่ต้องจัดเตรียม</h4>
+                <h4 class="topic mt-4">รายการเอกสารส่งเพื่อประกอบการพิจารณา</h4>
             </b-col>
         </b-row>
         <b-row align-h="center">
@@ -46,11 +46,9 @@
                                     </div>
                                     <div v-if="count_group_1 == 0">
                                         <p  class="head pl-4">
-                                                <i class="fas fa-square fa-lg"></i> หนังสือผู้รับจ้างขอรับความช่วยเหลือ ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
-                                            </p>
-                                            <p  class="head pl-4">
-                                                <i class="fas fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ ที่ผู้มีอำนาจลงนามอนุมัติ
-                                            </p>
+                                            - ไม่มี-
+                                        </p>
+                                            
                                     </div>
                                     <p  class="head">
                                         3.2 กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ
@@ -61,7 +59,10 @@
                                     <div v-for="item2 in contract_time_edit" :key="item2.id*2">
                                         <div v-if="approveTypeGroup2.findIndex(x=>x == item2.approve_type) >= 0">
                                             <p  class="head  pl-4">
-                                                <i class="far fa-square fa-lg"></i> ({{group_2}}) หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item2.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item2.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                ({{group_2}}) กรณี <span class="show-list">{{item2.approve_type}}</span>
+                                            </p>
+                                            <p  class="head  pl-4">
+                                                <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item2.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item2.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                             </p>
                                         </div>
                                     </div>
@@ -75,8 +76,11 @@
                                     </p>
                                     <div v-for="item3 in contract_time_edit" :key="item3.id*3">
                                         <div v-if="approveTypeGroup3.findIndex(x=> x == item3.approve_type) >= 0">
+                                            <p  class="head  pl-4">
+                                                ({{group_3}})กรณี <span class="show-list">{{item3.approve_type}}</span>
+                                            </p>
                                             <p  class="head pl-4">
-                                                <i class="far fa-square fa-lg"></i> ({{group_3}}) หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item3.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item3.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ
+                                                <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item3.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item3.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ
                                             </p>
                                         </div>
                                     </div>
@@ -85,7 +89,7 @@
                                             <i class="far fa-square fa-lg"></i> เอกสารที่ระบุว่าเหตุหรือปัญหาอุปสรรคดังกล่าวสิ้นสุดลงวันที่เท่าใด
                                         </p>
                                         <p  class="head pl-4">
-                                            <i class="far fa-square fa-lg"></i> เหนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด
+                                            <i class="far fa-square fa-lg"></i> หนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด
                                         </p>
                                     </div>
                                     <div v-else>
@@ -93,20 +97,16 @@
                                             - ไม่มี -
                                         </p>
                                     </div>
-
-
-
-
                             </td>
                         </tr>
                         <tr>
-                            <td><p class="head">4. ข้อมูลการส่งมอบงาน/ส่งมอบของ</p></td>
+                            <td><p class="head">4. ข้อมูลการส่งมอบงาน/สิ่งของ</p></td>
                             <td>
                                 <div v-for="(item,index) in delivery" :key="index">
                                     <p class="head">
-                                        4.{{index+1}} การส่งมอบงาน/ส่งมอบของ <span class="show-list">{{item.delivery}}</span>
+                                        4.{{index+1}} การส่งมอบงาน/สิ่งของ <span class="show-list">{{item.delivery}}</span>
                                     </p>
-                                    <p class="head pl-4"><i class="far fa-square fa-lg"></i> หนังสือผู้รับจ้าง/ผู้ขาย ส่งมอบงาน/ส่งมอบของ <span class="show-list">{{item.delivery}}</span> เมื่อวันที่<span class="show-list"> {{getThaiDate(item.delivery_date)}} </span></p>
+                                    <p class="head pl-4"><i class="far fa-square fa-lg"></i> หนังสือผู้รับจ้าง/ผู้ขาย ส่งมอบงาน/สิ่งของ <span class="show-list">{{item.delivery}}</span> เมื่อวันที่<span class="show-list"> {{getThaiDate(item.delivery_date)}} </span></p>
                                     <p class="head pl-4"><i class="far fa-square fa-lg"></i> ใบตรวจการจ้างงาน/ใบตรวจรับของ <span class="show-list">{{item.delivery}}</span></p>
                                 </div >
 
@@ -124,21 +124,19 @@
                                 </p>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td colspan="2"><p class="head">6. กรอกข้อมูลขออนุมัติถอนคืนเงินค่าปรับ รายละเอียดที่ต้องแนบเหมือนกับข้อ 3 ทั้งนี้ จะเป็นตามข้อ 3.1 หรือ 3.2 ดูข้อมูลจากแบบฟอร์มถอนคืนที่เลือก</p></td>
-                        </tr>
+                        </tr> -->
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2">
-                                <p class="head"><b>หมายเหตุ :</b> เอกสารประกอบการพิจารณา ต้องมีการรับรองสาเนาถูกต้องทุกฉบับ</p>
-                            </td>
-                        </tr>
-                    </tfoot>
+                    
                 </table>
             </b-col>
         </b-row>
-
+        <b-row>
+            <b-col>
+                <p class="head pl-6"><b>หมายเหตุ :</b> เอกสารประกอบการพิจารณา ต้องมีการรับรองสาเนาถูกต้องทุกฉบับ</p>
+            </b-col>
+        </b-row>
     </div>
 </template>
 <script>
@@ -152,25 +150,26 @@ export default {
                 {text: 'งดหรือลดค่าปรับ', value : 2},
                 {text: 'คืนเงินค่าปรับ', value : 3}
             ],
-            arrApproveType : [
-                {text: 'มติ ครม. ว 63 ลว 2 พ.ค. 54', value: 11},
-                {text: 'มติ ครม. ว 66 ลว 6 พ.ค. 54', value: 12},
-                {text: 'มติ ครม. ว 72 ลว 8 มี.ค. 55', value: 13},
-                {text: 'มติ ครม. ว 204 ลว 15 ส.ค. 55', value: 14},
-                {text: 'มติ ครม. ว 208 ลว 27 พ.ย. 56', value: 15},
-                {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16},
-                {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17},
-                {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18},
-                {text: 'มติ ครม. ว 165 ลว 26 เม.ย. 62', value: 19},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (1)', value: 24},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
-                {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 23},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 97', value: 34},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (1)', value: 30},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (2)', value: 31},
-                {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32}
-            ],
+            // arrApproveType : [
+            //     {text: 'มติ ครม. ว 63 ลว 2 พ.ค. 54', value: 11},
+            //     {text: 'มติ ครม. ว 66 ลว 6 พ.ค. 54', value: 12},
+            //     {text: 'มติ ครม. ว 72 ลว 8 มี.ค. 55', value: 13},
+            //     {text: 'มติ ครม. ว 204 ลว 15 ส.ค. 55', value: 14},
+            //     {text: 'มติ ครม. ว 208 ลว 27 พ.ย. 56', value: 15},
+            //     {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16},
+            //     {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17},
+            //     {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18},
+            //     {text: 'มติ ครม. ว 165 ลว 26 เม.ย. 62', value: 19},
+            //     {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
+            //     {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (1)', value: 24},
+            //     {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
+            //     {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (3)', value: 23},
+            //     {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 97', value: 34},
+            //     {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (1)', value: 30},
+            //     {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (2)', value: 31},
+            //     {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32}
+            // ],
+            arrApproveType : this.$store.getters.arrApproveType,
             approveTypeGroup2 : [21,24,34,30],
             approveTypeGroup3 : [22,23,31,32],
             count_group_1: 0,
