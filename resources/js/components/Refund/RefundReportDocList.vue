@@ -2,7 +2,7 @@
     <div>
         <b-row align-h="center">
             <b-col cols="12" class="form_name">
-                <p class="topic mt-4">รายการเอกสารส่งเพื่อประกอบการพิจารณา</p>
+                <p class="topic">รายการเอกสารส่งเพื่อประกอบการพิจารณา</p>
             </b-col>
         </b-row>
         <b-row align-h="center">
