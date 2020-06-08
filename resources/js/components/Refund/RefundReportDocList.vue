@@ -2,7 +2,7 @@
     <div>
         <b-row align-h="center">
             <b-col cols="12" class="form_name">
-                <h4 class="topic mt-4">รายการเอกสารส่งเพื่อประกอบการพิจารณา</h4>
+                <p class="topic mt-4">รายการเอกสารส่งเพื่อประกอบการพิจารณา</p>
             </b-col>
         </b-row>
         <b-row align-h="center">
@@ -246,6 +246,8 @@ export default {
 .report_doc_list tr th{
     border: 1px #000 solid!important;
     background-color: rgb(148, 148, 148);
+    font-weight: normal!important;
+    font-size:10pt!important;
 }
 .report_doc_list{
     border: 1px #000 solid!important;
@@ -269,7 +271,7 @@ export default {
     margin-bottom: 0px;
     text-align: center;
     color: #000;
-
+    font-size:1rem!important;
 }
 p.head{
     font-weight: normal;

@@ -634,6 +634,7 @@ p.head.sub2{
 }
 th{
     padding: 5px;
+    font-size:10pt!important;
 }
 .page {
         width: 297mm;
