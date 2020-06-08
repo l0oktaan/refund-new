@@ -110,6 +110,7 @@
   }
   #printSection, #printSection * {
     visibility:visible;
+    -webkit-print-color-adjust: exact;
   }
   #printSection {
     position:absolute;

@@ -312,7 +312,7 @@ th{
     padding: 3mm;
     border: 0px rgb(0, 0, 0) solid;
     min-height: 195mm;
-    outline: 5mm #FFEAEA solid;
+    outline: 0mm #FFEAEA solid;
 }
 .show{
     border-bottom: 1px solid #000;

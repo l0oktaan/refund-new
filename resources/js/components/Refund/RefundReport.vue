@@ -169,7 +169,7 @@
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub2" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
                                                             <p class="head sub2" v-if="deliver.overdue_days">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty | numeral('0,0.00')}}</span> บาท</p>
-                                                            <p class="head sub2" v-if="deliver.overdue_days">ตั้งแตวันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
+                                                            <p class="head sub2" v-if="deliver.overdue_days">ตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -650,7 +650,7 @@ th{
     padding: 3mm;
     border: 0px rgb(0, 0, 0) solid;
     min-height: 195mm;
-    outline: 5mm #FFEAEA solid;
+    outline: 0mm #FFEAEA solid;
 }
 .show{
     border-bottom: 1px dashed #000;
@@ -678,6 +678,7 @@ table.report tr td,table.report th{
     border: 1px #000000 solid;
     vertical-align: top;
 }
+
 table.report>tbody>tr:first-child>td:last-child{
     padding-top: 0px!important;
     padding-bottom: 0px!important;
@@ -718,5 +719,9 @@ table.report>tbody>tr:first-child>td:last-child{
 }
 .sub_rule_tr> td{
     border: none!important;
+    margin-bottom: 3px!important;
+}
+.sub_rule_tr:nth-child(odd) > td{
+    background-color: rgb(216, 216, 216)!important;
 }
 </style>
