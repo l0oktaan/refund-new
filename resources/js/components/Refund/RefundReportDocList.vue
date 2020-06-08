@@ -59,7 +59,7 @@
                                     <div v-for="item2 in contract_time_edit" :key="item2.id*2">
                                         <div v-if="approveTypeGroup2.findIndex(x=>x == item2.approve_type) >= 0">
                                             <p  class="head  pl-4">
-                                                ({{group_2}}) กรณี <span class="show-list">{{item2.approve_type}}</span>
+                                                ({{group_2}}) กรณี <span class="show-list">{{item2.approve_case}}</span>
                                             </p>
                                             <p  class="head  pl-4">
                                                 <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item2.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item2.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
@@ -77,7 +77,7 @@
                                     <div v-for="item3 in contract_time_edit" :key="item3.id*3">
                                         <div v-if="approveTypeGroup3.findIndex(x=> x == item3.approve_type) >= 0">
                                             <p  class="head  pl-4">
-                                                ({{group_3}})กรณี <span class="show-list">{{item3.approve_type}}</span>
+                                                ({{group_3}}) กรณี <span class="show-list">{{item3.approve_case}}</span>
                                             </p>
                                             <p  class="head pl-4">
                                                 <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item3.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item3.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ
@@ -132,9 +132,9 @@
                 </table>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col>
-                <p class="head pl-6"><b>หมายเหตุ :</b> เอกสารประกอบการพิจารณา ต้องมีการรับรองสาเนาถูกต้องทุกฉบับ</p>
+        <b-row align-h="center">
+            <b-col cols="11">
+                <p class="head"><b>หมายเหตุ :</b> เอกสารประกอบการพิจารณา ต้องมีการรับรองสำเนาถูกต้องทุกฉบับ</p>
             </b-col>
         </b-row>
     </div>
