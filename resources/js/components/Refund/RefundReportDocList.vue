@@ -38,19 +38,19 @@
                                     <div v-for="item in contract_time_edit" :key="item.id">
                                         <div v-if="item.approve_type > 10 && item.approve_type <20 ">
                                             <p  class="head pl-4">
-                                                <i class="far fa-square fa-lg"></i> ({{group_2}})(1) หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
+                                                <i class="far fa-square fa-lg"></i> (1) หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
                                             </p>
                                             <p  class="head pl-4">
-                                                <i class="far fa-square fa-lg"></i> ({{group_2}})(2) หนังสือส่วนราชการอนุมัติ {{arrEditType[arrEditType.findIndex(x=>x.value == item.edit_type)]['text']}} ตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่ผู้มีอำนาจลงนามอนุมัติ
+                                                <i class="far fa-square fa-lg"></i> 2) หนังสือส่วนราชการอนุมัติ {{arrEditType[arrEditType.findIndex(x=>x.value == item.edit_type)]['text']}} ตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่ผู้มีอำนาจลงนามอนุมัติ
                                             </p>
                                         </div>
+                                        <div v-else>
+                                            <p class="head pl-4">
+                                                - ไม่มี-
+                                            </p>                                            
+                                        </div>
                                     </div>
-                                    <div v-if="count_group_1 == 0">
-                                        <p  class="head pl-4">
-                                            - ไม่มี-
-                                        </p>
-                                            
-                                    </div>
+                                    
                                     <p  class="head">
                                         3.2 กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ
                                     </p>
@@ -66,18 +66,19 @@
                                                 <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item2.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item2.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                             </p>
                                         </div>
+                                        <div v-else>
+                                            <p  class="head pl-4">
+                                                - ไม่มี -
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div v-if="count_group_2 == 0">
-                                        <p  class="head pl-4">
-                                            - ไม่มี -
-                                        </p>
-                                    </div>
+                                    
                                     <p  class="head  pl-2">
                                         3.2.2 ระเบียบพัสดุ ข้อ 139 (2) ,(3) พรบ. จัดซื้อจัดจ้าง มาตรา 102 (2) ,(3)
                                     </p>
                                     <div v-for="item3 in contract_time_edit" :key="item3.id*3">
                                         <div v-if="approveTypeGroup3.findIndex(x=> x == item3.approve_type) >= 0">
-                                            <p  class="head  pl-4">
+                                            <p  class="head pl-4">
                                                 ({{group_3}}) กรณี <span class="show-list">{{item3.approve_case}}</span>
                                             </p>
                                             <p  class="head pl-4">
