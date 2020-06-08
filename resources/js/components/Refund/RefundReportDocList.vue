@@ -7,11 +7,11 @@
         </b-row>
         <b-row align-h="center">
             <b-col cols="11">
-                <table class="table table-bordered" style="width: 100%">
+                <table class="report_doc_list" style="width: 100%">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 30%">ประเภทเอกสาร</th>
-                            <th scope="col" style="width: 70%">รายการเอกสาร</th>
+                            <th scope="col" style="width: 30%" class="topic">ประเภทเอกสาร</th>
+                            <th scope="col" style="width: 70%" class="topic">รายการเอกสาร</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,6 +22,7 @@
                         <tr>
                             <td><p class="head">2. เอกสารการแก้ไขสัญญา</p></td>
                             <td>
+                                <p class="head" v-if="!contract_edit || contract_edit.length == 0">- ไม่มี -</p>
                                 <div class="main_order" v-for="(item,index) in contract_edit" :key="index">
                                     <p class="head"><i class="far fa-square fa-lg"></i> หนังสือแก้ไขสัญญาลงวันที่ <span class="show-list">{{getThaiDate(item.contract_edit_date)}}</span></p>
                                 </div>
@@ -241,21 +242,21 @@ export default {
     text-align: center;
     color: #000;
 }
-table>thead>th{
-    border: 2px #000 solid!important;
+.report_doc_list tr th{
+    border: 1px #000 solid!important;
+    background-color: rgb(148, 148, 148);
 }
-table{
-    border-width: 0px!important;
+.report_doc_list{
+    border: 1px #000 solid!important;
     margin-top: 10px!important;
+    margin-bottom: 10px!important;
 }
-table>tr>td{
+.report_doc_list tr td{
     vertical-align: top!important;
-    padding: 1px!important;
-    border: 2px #000 solid!important;
+    padding: 5px 0 0 5px!important;
+    border: 1px #000 solid!important;
 }
-table>tfoot>td{
-    border-width: 0px!important;
-}
+
 .col, .col-6, .col-3{
     padding-left: 2px!important;
     padding-right: 2px!important;
