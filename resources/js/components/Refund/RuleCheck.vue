@@ -51,17 +51,9 @@
                                 :showDate="result_show[result_show.findIndex(x=>x.consider_id == consider.id)].value"
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker>
-                            <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
 
-                                        <b-form-group>
-                                                <label for="begin_date">วันเริ่ม :</label>
-                                                <my-date-picker ref="begin_date" :id="consider.id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
-                                        </b-form-group>
-                                        <b-form-group>
-                                                <label for="end_date">สิ้นสุด :</label>
-                                                <my-date-picker ref="end_date" :id="consider.id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
-                                            </b-form-group>
-                                    </div>
+                            <check-gap v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" check-date="2020-05-01|2020-05-15"></check-gap>
+
                         </div>
                     </consider-check>
                     <b-form-radio-group id="radio-group-1" v-model="rule_select" name="sub_rule" v-if="(rule && rule.sub_rules.length > 1 && rule.result_type == 1)">
@@ -110,14 +102,7 @@
                                                 @update="value => results[findResultIndex(consider.id)]['value'] = value"
                                             ></my-date-picker>
                                             <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
-                                                <b-form-group>
-                                                        <label for="begin_date">วันเริ่ม :</label>
-                                                        <my-date-picker ref="begin_date" :id="consider_id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
-                                                </b-form-group>
-                                                <b-form-group>
-                                                        <label for="end_date">สิ้นสุด :</label>
-                                                        <my-date-picker ref="end_date" :id="consider_id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
-                                                    </b-form-group>
+
                                             </div>
                                         </b-form-group>
                                     </b-form>

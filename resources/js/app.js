@@ -435,7 +435,8 @@ Vue.component('ConsiderCheck', ConsiderCheck).defaults;
 import MyDatePicker from './components/MyDatePicker.vue';
 Vue.component('MyDatePicker', MyDatePicker).defaults;
 
-
+import CheckGap from './components/CheckGap.vue';
+Vue.component('CheckGap', CheckGap).defaults;
 
 import RefundReport from './components/Refund/RefundReport.vue';
 Vue.component('RefundReport', RefundReport).defaults;
