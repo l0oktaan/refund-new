@@ -52,8 +52,7 @@
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker>
                             <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
-                                {{date_begin}}
-                                {{date_end}}
+
                                         <b-form-group>
                                                 <label for="begin_date">วันเริ่ม :</label>
                                                 <my-date-picker ref="begin_date" :id="consider.id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
