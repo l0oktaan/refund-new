@@ -160,7 +160,7 @@ export default {
             }
         },
         checkResultType(iType,oper){
-            
+
             if (iType == 1){
                 //0 or 1
                 return "boolean"
@@ -170,9 +170,10 @@ export default {
             }else if (iType == 3){
                 if (oper == 1){
                     return "number"
-                }else if(oper == 5){
-                    console.log('in array');
+                }else if (oper == 5){
                     return "inArray"
+                }else if (oper == 6){
+                    return "gap"
                 }else{
                     return "date"
                 }
@@ -183,7 +184,7 @@ export default {
             }
         },
         createConsiderDetail(arr_consider,arrDetail){
-            
+
             for (let j=0; j < arr_consider.length; j++){
                 console.log('Type :' + arr_consider[j].type, ' Oper :' + arr_consider[j].oper);
                 arrDetail.push({

@@ -5,7 +5,7 @@
             <b-row>
                 <b-col>
                     <!-- <p>{{rule}}</p> -->
-                    <!-- <p>{{results}}</p> -->
+                    <p>{{results}}</p>
                     <!--<p>{{arr_detail}}</p>
                     <p>{{rule_passed}}</p> -->
                     <!-- <p>{{result_show}}</p> -->
@@ -28,13 +28,13 @@
                                 style="padding-top:4px; line-height:0px;"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             />
-                            <b-form-select 
+                            <b-form-select
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
                                 :options="getOptions(consider.var1)"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                                 >
                             </b-form-select>
-                            
+
                             <b-form-input type="text"
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
@@ -46,11 +46,23 @@
                             </b-input-group>
                             <my-date-picker
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
-                                
+
                                 :id="consider.id"
                                 :showDate="result_show[result_show.findIndex(x=>x.consider_id == consider.id)].value"
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker>
+                            <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
+                                {{date_begin}}
+                                {{date_end}}
+                                        <b-form-group>
+                                                <label for="begin_date">วันเริ่ม :</label>
+                                                <my-date-picker ref="begin_date" :id="consider.id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
+                                        </b-form-group>
+                                        <b-form-group>
+                                                <label for="end_date">สิ้นสุด :</label>
+                                                <my-date-picker ref="end_date" :id="consider.id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
+                                            </b-form-group>
+                                    </div>
                         </div>
                     </consider-check>
                     <b-form-radio-group id="radio-group-1" v-model="rule_select" name="sub_rule" v-if="(rule && rule.sub_rules.length > 1 && rule.result_type == 1)">
@@ -75,13 +87,13 @@
                                                 style="padding-top:4px; line-height:0px;"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             />
-                                            <b-form-select 
+                                            <b-form-select
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
                                                 :options="getOptions(consider.var1)"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                                 >
                                             </b-form-select>
-                                            
+
                                             <b-form-input type="text"
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
@@ -93,11 +105,21 @@
                                             </b-input-group>
                                             <my-date-picker
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
-                                                
+
                                                 :id="consider.id"
                                                 :showDate="result_show[findResultIndex(consider.id)]['value']"
                                                 @update="value => results[findResultIndex(consider.id)]['value'] = value"
                                             ></my-date-picker>
+                                            <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
+                                                <b-form-group>
+                                                        <label for="begin_date">วันเริ่ม :</label>
+                                                        <my-date-picker ref="begin_date" :id="consider_id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
+                                                </b-form-group>
+                                                <b-form-group>
+                                                        <label for="end_date">สิ้นสุด :</label>
+                                                        <my-date-picker ref="end_date" :id="consider_id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
+                                                    </b-form-group>
+                                            </div>
                                         </b-form-group>
                                     </b-form>
 
@@ -124,13 +146,13 @@
                                         style="padding-top:4px; line-height:0px;"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     />
-                                    <b-form-select 
+                                    <b-form-select
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'inArray'"
                                         :options="getOptions(consider.var1)"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                         >
                                     </b-form-select>
-                                    
+
                                     <b-form-input type="text"
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'value'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
@@ -142,11 +164,21 @@
                                     </b-input-group>
                                     <my-date-picker
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
-                                        
+
                                         :id="consider.id"
                                         :showDate="result_show[findResultIndex(consider.id)]['value']"
                                         @update="value => results[findResultIndex(consider.id)]['value'] = value"
                                     ></my-date-picker>
+                                    <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
+                                        <b-form-group>
+                                                <label for="begin_date">วันเริ่ม :</label>
+                                                <my-date-picker ref="begin_date" :id="consider_id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
+                                        </b-form-group>
+                                        <b-form-group>
+                                                <label for="end_date">สิ้นสุด :</label>
+                                                <my-date-picker ref="end_date" :id="consider_id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
+                                            </b-form-group>
+                                    </div>
                                 </div>
                             </consider-check>
                         </b-card>
@@ -180,7 +212,9 @@ export default {
             arr_rule_select: [],
             arr_detail: [],
             rule_passed: false,
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            date_begin: null,
+            date_end: null
         }
     },
     watch: {
@@ -194,7 +228,7 @@ export default {
                 if (this.rule.result_type == 1){
                     this.select_rule(newVal);
                 }
-                
+
             }
         },
         async refresh(){
@@ -226,6 +260,22 @@ export default {
         await this.getRefundDetail();
     },
     methods: {
+        getBeginDate(val){
+            if(val){
+                let mydate = val.split("|");
+                return mydate[0];
+            }else{
+                return ''
+            }
+        },
+        getEndDate(val){
+            if(val){
+                let mydate = val.split("|");
+                return mydate[1];
+            }else{
+                return ''
+            }
+        },
         isNumber: function(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -236,7 +286,7 @@ export default {
             }
         },
         getOptions(value){
-            return value.split(",");          
+            return value.split(",");
         },
         clearData(){
             if (this.rule_passed){
@@ -255,7 +305,7 @@ export default {
             })
             .then(isConfirm =>{
                 if (isConfirm){
-                    this.rule_passed = false;                    
+                    this.rule_passed = false;
                         if (this.rule.sub_rules.length > 1 && this.rule.result_type == 1){
                             this.rule_select = 0;
                             this.$nextTick(()=>{
@@ -275,14 +325,14 @@ export default {
                                         case 'date' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                            
+
                                             break;
                                         case 'number' :
                                             this.results[i]['value'] = 0;
                                     }
                                 }
                             })
-                            
+
                         }else{
                             console.log('result length :' + this.results.length);
                             this.$nextTick(()=>{
@@ -297,18 +347,18 @@ export default {
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
                                             break;
-                                            
+
                                         case 'date' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
-                                            
+
                                             break;
                                         case 'number' :
                                             this.results[i]['value'] = 0;
                                     }
                                 }
                             })
-                            
+
                         }
                         //this.createResult();
                         let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
@@ -316,7 +366,7 @@ export default {
                         {
                             state: 'update-2',
                             detail: this.results
-                        })         
+                        })
                  }})
 
 

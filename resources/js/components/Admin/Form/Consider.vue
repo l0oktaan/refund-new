@@ -63,7 +63,7 @@
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="6" v-if="(consider_type==3) && (consider_oper==1)">
+                    <b-col cols="6" v-if="(consider_type==3) && ((consider_oper==1) || (consider_oper==6))">
                             <b-form-group>
                             <label for="var1">ข้อมูลตรวจสอบ</label>
                             <b-form-input type="text"
@@ -105,7 +105,7 @@
                                 add-button-variant="outline-success"
                             ></b-form-tags>
                         </div>
-                        
+
                     </b-col>
 
                 </b-row>
@@ -179,8 +179,8 @@ export default {
                 {value: 2, text: 'ไม่เกินวันที่'},
                 {value: 4, text: 'หลังจากวันที่'},
                 {value: 3, text: 'อยู่ในช่วงเวลา'},
-                {value: 5, text: 'อยู่ในชุดข้อมูล'}
-
+                {value: 5, text: 'อยู่ในชุดข้อมูล'},
+                {value: 6, text: 'ไม่เกินจำนวนวัน (เริ่มต้น-สิ้นสุด)'}
             ],
             alert: '',
             lang: 'th',
@@ -203,11 +203,11 @@ export default {
             dateFormat: "LL",
 
             dateEdit: 0,
-            
+
         }
     },
     watch: {
-        
+
         myDate1(newDate, oldDate){
 
             if (this.consider_oper == 3){
@@ -237,7 +237,7 @@ export default {
             }
         },
         consider_var1(newDate, oldDate){
-            
+
              if (this.consider_oper > 1 && newDate != '' && !newDate){
                 this.myDate1 = this.consider_var1;
                 this.$nextTick(() => {
@@ -284,7 +284,7 @@ export default {
         //     return moment(myDate,"DD/MM/YYYY");
         // },
         checkDate(date1,date2){
-           
+
             var d1 = new Date(date1);
             var d2 = new Date(date2);
             if (d2 > d1){
@@ -319,7 +319,7 @@ export default {
             if (this.consider_oper == 5){
                 this.consider_var1 = this.arr_consider_var.toString();
             }
-            
+
             if(this.state == 'new'){
                 axios.post(path,{
                     order: this.consider_order,
@@ -406,7 +406,7 @@ export default {
                     })
                     this.$forceUpdate();
                 }
-                
+
                 if (consider.oper == 3){
                     //console.log('var 2 :' + consider.var2)
                     this.myDate2 = consider.var2;
