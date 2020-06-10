@@ -17,7 +17,10 @@
                     <tbody>
                         <tr>
                             <td><p class="head">1. เอกสารสัญญา</p></td>
-                            <td><p class="head"><i class="far fa-square fa-lg"></i> สัญญาเลขที่ <span class="show-list">{{contract.contract_no}}</span>  ลงวันที่ <span class="show-list">{{getThaiDate(contract.contract_date)}}</span></p></td>
+                            <td>
+                                <p class="head"><i class="far fa-square fa-lg"></i> สัญญาเลขที่ <span class="show-list">{{contract.contract_no}}</span>  ลงวันที่ <span class="show-list">{{getThaiDate(contract.contract_date)}}</span></p>
+                                <p class="head">(*กรณีมีหนังสือแจ้งผู้รับจ้างให้เริ่มทำงาน หรือหนังสือส่งมอบสถานที่ ให้แนบมาประกอบการพิจารณาด้วย)</p>
+                            </td>
                         </tr>
                         <tr>
                             <td><p class="head">2. เอกสารการแก้ไขสัญญา</p></td>
@@ -47,10 +50,10 @@
                                         <div v-else>
                                             <p class="head pl-4">
                                                 - ไม่มี-
-                                            </p>                                            
+                                            </p>
                                         </div>
                                     </div>
-                                    
+
                                     <p  class="head">
                                         3.2 กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ
                                     </p>
@@ -72,7 +75,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    
+
                                     <p  class="head  pl-2">
                                         3.2.2 ระเบียบพัสดุ ข้อ 139 (2) ,(3) พรบ. จัดซื้อจัดจ้าง มาตรา 102 (2) ,(3)
                                     </p>
@@ -99,6 +102,11 @@
                                             - ไม่มี -
                                         </p>
                                     </div>
+                                    <div>
+                                        <p class="head">
+                                            (*กรณีผู้ลงนามอนุมัติ งด/ลด/ขยายเวลา เป็นผู้ได้รับมอบอานาจ ให้แนบคาสั่งมอบอานาจมาประกอบการพิจารณาด้วย)
+                                        </p>
+                                    </div>
                             </td>
                         </tr>
                         <tr>
@@ -122,7 +130,7 @@
                                      วันที่ผ่านรายการ <span class="show-list">{{getThaiDate(item.deposit_date)}}</span> จำนวนเงิน <span class="show-list">{{item.amount_in_contract | numeral('0,0.00')}}</span> บาท
                                 </p>
                                 <p class="head">
-                                    (กรณีนำส่งค่าปรับรวมหลายสัญญาในครั้งเดียวกัน ให้แนบรายละเอียดที่นำส่งเป็นสัญญาใด จำนวนเท่าไหร่ด้วย)
+                                    (*กรณีนำส่งค่าปรับรวมหลายสัญญาในครั้งเดียวกัน ให้แนบรายละเอียดที่นำส่งเป็นสัญญาใด จำนวนเท่าไหร่ด้วย)
                                 </p>
                             </td>
                         </tr>
@@ -130,13 +138,17 @@
                             <td colspan="2"><p class="head">6. กรอกข้อมูลขออนุมัติถอนคืนเงินค่าปรับ รายละเอียดที่ต้องแนบเหมือนกับข้อ 3 ทั้งนี้ จะเป็นตามข้อ 3.1 หรือ 3.2 ดูข้อมูลจากแบบฟอร์มถอนคืนที่เลือก</p></td>
                         </tr> -->
                     </tbody>
-                    
+
                 </table>
             </b-col>
         </b-row>
         <b-row align-h="center">
             <b-col cols="11">
-                <p class="head"><b>หมายเหตุ :</b> เอกสารประกอบการพิจารณา ต้องมีการรับรองสำเนาถูกต้องทุกฉบับ</p>
+                <p class="head"><b>หมายเหตุ :</b></p>
+                <p class="head pl-4">1. เอกสารประกอบการพิจารณา ต้องมีการรับรองสำเนาถูกต้องทุกฉบับ</p>
+                <p class="head pl-4">2. กรมบัญชีกลางอาจมีการขอเอกสารอื่นเพิ่มเติมนอกเหนือจากที่ระบุไว้ในรายละเอียดข้างต้น</p>
+                <p class="head pl-4">3. เอกสารประกอบการพิจารณาไม่ครบถ้วน กรมบัญชีกลางจะดาเนินการส่งเรื่องคืนตามหนังสือกรมบัญชีกลาง ที่ กค 0412.5/ว 29 ลงวันที่ 17 มกราคม 2561</p>
+
             </b-col>
         </b-row>
     </div>
@@ -196,10 +208,10 @@ export default {
         },
     },
     created(){
-        
+
     },
     methods: {
-        
+
         getApproveType(id){
             if (id){
                 return this.arrApproveType[this.arrApproveType.findIndex(x=>x.value == id)]['text']
@@ -245,7 +257,7 @@ export default {
 }
 .report_doc_list tr th{
     border: 1px #000 solid!important;
-    background-color: rgb(148, 148, 148);
+
     font-weight: normal!important;
     font-size:10pt!important;
 }
@@ -344,7 +356,7 @@ th{
     padding-bottom: 3px!important;
     border: 2px #000 solid!important;
     text-align: center!important;
-    background-color: rgb(29, 197, 219);
+
 }
 .table_rule td{
     padding: 0px 5px 0px 5px!important;

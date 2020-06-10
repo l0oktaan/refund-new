@@ -23,13 +23,15 @@
                     <b-col>
                         <b-form-group>
                             <label for="description">คำอธิบายเพิ่มเติม</label>
-                            <b-form-input type="text"
+                            <b-form-textarea
+                                id="description"
                                 placeholder="คำอธิบายเพิ่มเติม"
                                 name="description"
                                 v-model = "consider_description"
+                                rows="3"
+                                no-resize
+                            ></b-form-textarea>
 
-                                >
-                            </b-form-input>
                         </b-form-group>
                     </b-col>
                 </b-row>
