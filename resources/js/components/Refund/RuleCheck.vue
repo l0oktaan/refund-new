@@ -19,8 +19,11 @@
                     <consider-check
                         v-for="(consider,index) in rule.considers" :key="index"
                         :consider = "consider"
+                        :iClass="(details) ? (details.findIndex(x=>x.consider_id == consider.id) >= 0) ? details[details.findIndex(x=>x.consider_id == consider.id)].status : '' : ''"
                     >
+                        <p></p>
                         <div v-if="results && result_show">
+                            
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'boolean'"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
@@ -52,7 +55,10 @@
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker>
 
-                            <check-gap v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" check-date="2020-05-01|2020-05-15"></check-gap>
+                            <check-gap 
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                                v-model="results[findResultIndex(consider.id)]['value']"
+                            ></check-gap>
 
                         </div>
                     </consider-check>
@@ -66,6 +72,7 @@
                             <consider-check
                                 v-for="(consider,index) in sub_rule.considers" :key="index"
                                 :consider = "consider"
+                                :iClass="(details) ? (details.findIndex(x=>x.consider_id == consider.id) >= 0) ? details[details.findIndex(x=>x.consider_id == consider.id)].status : '' : ''"
                             >
 
                                 <div v-if="results && result_show">
@@ -120,6 +127,7 @@
                             <consider-check
                                 v-for="(consider,index) in sub_rule.considers" :key="index"
                                 :consider = "consider"
+                                :iClass="(details) ? (details.findIndex(x=>x.consider_id == consider.id) >= 0) ? details[details.findIndex(x=>x.consider_id == consider.id)].status : '' : ''"
                             >
 
                                 <div v-if="results && result_show">
@@ -175,6 +183,7 @@
                         <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
                         <b-button  variant="danger" @click="clearData" v-if="rule_passed && refund_status < 2">ยกเลิก</b-button>
                     </div>
+                    
                 </b-col>
             </b-row>
         </b-form>
@@ -184,7 +193,7 @@
 
 <script>
 export default {
-    props: ['refund_id','rule','refund_form_id','details','refresh'],
+    props: ['refund_id','rule','refund_form_id','detail','refresh'],
     data(){
         return {
             office_id: this.$store.getters.office_id,
@@ -198,7 +207,9 @@ export default {
             rule_passed: false,
             refund_status: this.$store.getters.refund_status,
             date_begin: null,
-            date_end: null
+            date_end: null,
+            send_prop: 'test',
+            details: []
         }
     },
     watch: {
@@ -232,6 +243,7 @@ export default {
         }
     },
     async mounted(){
+        this.details = await this.getDetail();
         this.results = await this.createResult();
         if (this.rule.result_type == 2 && this.rule.sub_rules.length>1){
             this.$nextTick(()=>{
@@ -302,6 +314,7 @@ export default {
                                             this.results[i]['value'] = false;
                                             break;
                                         case 'inArray' :
+                                        case 'gap' :
                                         case 'value' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
@@ -313,6 +326,7 @@ export default {
                                             break;
                                         case 'number' :
                                             this.results[i]['value'] = 0;
+                                        
                                     }
                                 }
                             })
@@ -327,6 +341,7 @@ export default {
                                             this.results[i]['value'] = false;
                                             break;
                                         case 'inArray' :
+                                        case 'gap' :
                                         case 'value' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
@@ -346,16 +361,29 @@ export default {
                         }
                         //this.createResult();
                         let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
-                        let tmp = axios.post(`${path}`,
+                        axios.post(`${path}`,
                         {
                             state: 'update-2',
                             detail: this.results
+                        })            
+                    this.$nextTick(()=>{
+                        let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+                        axios.get(`${path}`)
+                        .then(response=>{
+                            this.details = response.data.data;
                         })
-                 }})
-
+                        
+                    })
+                    
+                    
+                            
+                        
+                    
+                 }})               
 
             }
         },
+        
         async recheck_rule_pass(){
             let rule_pass = false;
             let status = 0;
@@ -463,6 +491,14 @@ export default {
             setTimeout(() => {
                 this.result_show = this.result_tmp;
             }, 500);
+        },
+        async getDetail(){
+            
+            let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
+            let response = await axios.get(`${path}`);
+            let details = await response.data.data;
+            return details;
+            
         },
         async createResult(){
             let tmp = [];
@@ -573,10 +609,13 @@ export default {
             }else{ //Main Rule
                 let result = await this.sentResult();
             }
+            this.details = await this.getDetail();        
+            this.results = await this.createResult();
             //let update = await this.$emit("update_detail");
             // let check = await this.recheck_rule_pass();
             // console.log("check :" + check);
             this.rule_passed = await this.recheck_rule_pass();
+            
             if (this.rule_passed){
                 this.alert = 'pass';
                 this.$emit("rule_passed", {
@@ -603,5 +642,8 @@ export default {
 }
 .card-body{
     padding: 10px!important;
+}
+.custom-select{
+    color: #000!important;
 }
 </style>

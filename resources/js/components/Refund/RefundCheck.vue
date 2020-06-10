@@ -14,7 +14,7 @@
                                 :refund_id="refund_id"
                                 :rule="rule"
                                 :refund_form_id="refund_form_id"
-                                :details="refund_form.detail"
+                                :detail="refund_form.detail"
                                 :refresh="arr_rule_status[arr_rule_status.findIndex(x=>x.rule_id == rule.id)]['refresh']"
                                 @rule_passed="rule_passed"
                                 @reload="reload_check"

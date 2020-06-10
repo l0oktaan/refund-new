@@ -4,9 +4,11 @@
     <b-row>
         <b-col cols="12">
             <div class="brand-card">
-                <div class="brand-card-body">
+                <div :class="iClass==1 ? 'brand-card-body success' : 'brand-card-body'">
                     <div class="p-2" style="max-width:15%" align-v="center">
-                        <span class="align-middle consider_head">เงื่อนไข </span>
+                        <i class="fas fa-check-circle fa-lg pass"  v-if="iClass==1"></i>
+                        <i class="fas fa-times-circle fa-lg no_pass" v-else></i>
+                        <span class="align-middle consider_head"> เงื่อนไข </span>
                     </div>
                     <div class="p-2 pl-4 mr-3 float-left text-left">
                         <span class="align-middle">{{consider.name}}</span>
@@ -89,7 +91,7 @@
 
 <script>
 export default {
-    props: ['rule','consider'],
+    props: ['rule','consider','iClass'],
     data(){
         return {
             iRule: {},
@@ -199,5 +201,14 @@ export default {
 .consider_head{
     font-size: 1.1em;
     font-weight: bold;
+}
+.success{
+    background-color: rgb(200, 255, 200)!important;
+}
+.pass{
+    color: rgb(24, 117, 21);
+}
+.no_pass{
+    color: rgb(255, 0, 0);
 }
 </style>

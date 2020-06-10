@@ -1,6 +1,6 @@
 <template>
     <div>
-        check : {{check_date}}
+        <my-alert :AlertType="alert"></my-alert>
         <b-form-group>
             <label for="begin_date">วันเริ่ม :</label>
             <my-date-picker ref="begin_date" :showDate="date_begin" @update="value => date_begin = value"></my-date-picker>
@@ -14,18 +14,33 @@
 
 <script>
 export default {
-    props: ['check_date'],
+    props: ['value'],
     data(){
         return {
             date_begin: null,
             date_end: null,
-            show: 'xxx'
+            alert: ''
         }
     },
     mounted(){
-
+        if (this.value){
+            let arr = this.value.split("|");
+            this.date_begin = arr[0];
+            this.date_end = arr[1];
+        }else{
+            this.date_begin = null;
+            this.date_end = null;
+        }
     },
     watch: {
+        value(){
+            if (!this.value || this.value == ''){
+                this.$nextTick(()=>{
+                    this.date_begin = null;
+                    this.date_end = null;
+                })
+            }
+        },
         show(){
             console.log('date show :' + this.show);
         },
@@ -36,8 +51,11 @@ export default {
                         this.date_begin = oldDate;
                         this.$forceUpdate();
                     })
+                }else{
+                    this.$emit('input',this.date_begin + '|' + this.date_end);
                 }
             }
+
         },
         date_end(newDate, oldDate){
             if (this.date_end != '' && this.date_begin){
@@ -46,24 +64,14 @@ export default {
                         this.date_end = oldDate;
                         this.$forceUpdate();
                     })
+                }else{
+                    this.$emit('input',this.date_begin + '|' + this.date_end);
                 }
             }
         },
     },
     methods: {
-        show_date(){
-
-
-            if (this.check_date){
-                let arr = this.check_date.split("|");
-                this.date_begin = arr[0];
-                this.date_end = arr[1];
-            }else{
-                this.date_begin = null;
-                this.date_end = null;
-            }
-
-        },
+        
         check_gap(){
             if (this.date_begin && this.date_end){
 
@@ -88,7 +96,7 @@ export default {
                 //console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
                 return true;
             }else{
-                this.alert = "error";
+                this.alert = "require";
                 return false;
             }
 

@@ -12,42 +12,88 @@ export default {
   watch: {
     AlertType(){
       if (this.AlertType != ""){
-        if (this.AlertType == "success"){
-          this.$swal({
+        switch (this.AlertType){
+          case "success":
+            this.$swal({
               title: "ทำรายการสำเร็จ",
               icon: "success",
               timer: 1200,
               button: false,
-          });
-        }else if (this.AlertType == "error"){
-          this.$swal({
+            });
+            break;
+          case "error":
+            this.$swal({
               title: "เกิดข้อผิดพลาด",
               icon: "error",
               timer: 1200,
               button: false,
-          });
-        }else if (this.AlertType == "require"){
-          this.$swal({
+            });
+            break;
+          case "require":
+            this.$swal({
               title: "กรุณาตรวจสอบข้อมูล",
               icon: "error",
               timer: 1200,
               button: false,
-          });
-        }else if (this.AlertType == "pass"){
-          this.$swal({
+            });
+            break;
+          case "pass":
+            this.$swal({
               title: "เงื่อนไขถูกต้อง",
               icon: "success",
               timer: 1200,
               button: false,
-          });
-        }else if (this.AlertType == "notpass"){
-          this.$swal({
+            });
+            break;
+          case "notpass":
+            this.$swal({
               title: "เงื่อนไขไม่ถูกต้อง",
               icon: "error",
               timer: 1200,
               button: false,
-          });
+            });
+            break;
+
+          default:
         }
+        
+
+        // if (this.AlertType == "success"){
+        //   this.$swal({
+        //       title: "ทำรายการสำเร็จ",
+        //       icon: "success",
+        //       timer: 1200,
+        //       button: false,
+        //   });
+        // }else if (this.AlertType == "error"){
+        //   this.$swal({
+        //       title: "เกิดข้อผิดพลาด",
+        //       icon: "error",
+        //       timer: 1200,
+        //       button: false,
+        //   });
+        // }else if (this.AlertType == "require"){
+        //   this.$swal({
+        //       title: "กรุณาตรวจสอบข้อมูล",
+        //       icon: "error",
+        //       timer: 1200,
+        //       button: false,
+        //   });
+        // }else if (this.AlertType == "pass"){
+        //   this.$swal({
+        //       title: "เงื่อนไขถูกต้อง",
+        //       icon: "success",
+        //       timer: 1200,
+        //       button: false,
+        //   });
+        // }else if (this.AlertType == "notpass"){
+        //   this.$swal({
+        //       title: "เงื่อนไขไม่ถูกต้อง",
+        //       icon: "error",
+        //       timer: 1200,
+        //       button: false,
+        //   });
+        // }
 
         this.$parent.alert = "";
       }

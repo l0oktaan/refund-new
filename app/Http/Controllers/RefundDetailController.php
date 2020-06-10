@@ -72,7 +72,7 @@ class RefundDetailController extends Controller
                     switch (intval($consider->oper))
                     {
                         case 1:
-                            if (intval($detail->value) <= intval($consider->var1)){
+                            if ((intval($detail->value) <= intval($consider->var1)) && (intval($detail->value) > 0)){
                                 $this->UpdateDetail(intval($detail->id),1);
                             }else{
                                 $this->UpdateDetail(intval($detail->id),0);
@@ -154,6 +154,27 @@ class RefundDetailController extends Controller
                                 }else{
                                     $this->UpdateDetail(intval($detail->id),0);
                                 }
+                            } catch (\Throwable $th) {
+                                $this->UpdateDetail(intval($detail->id),0);
+                            }
+                        break;
+                        case 6:
+                            try {
+                                $var = intval($consider->var1);
+                                $value = explode("|",$detail->value);
+                                $day1 = explode("-",$value[0]);
+                                $day2 = explode("-",$value[1]);
+                                $dateBegin = Carbon::create($day1[0],$day1[1],$day1[2]);
+                                $dateEnd = Carbon::create($day2[0],$day2[1],$day2[2]);
+                                $gap = $dateEnd->diffInDays($dateBegin);
+                                
+                                if ($gap > $var){
+                                    $this->UpdateDetail(intval($detail->id),0);
+                                }else{
+                                    $this->UpdateDetail(intval($detail->id),1);
+                                }
+
+
                             } catch (\Throwable $th) {
                                 $this->UpdateDetail(intval($detail->id),0);
                             }

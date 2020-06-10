@@ -17,8 +17,15 @@
                         </li>
                     </ul>
                 </div>
-                <b-form @submit="onSubmitTimeEdit">
-
+                <span class="edit_contract" v-if="!isEdit">
+                    <span style="color:#000;">รายการอนุมัติ งด / ลด / ขยายเวลา : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                        :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
+                        :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                        style="padding-top:4px; line-height:0px;"                        
+                        v-model="isEdit"
+                    />
+                </span>
+                <b-form @submit="onSubmitTimeEdit" v-if="isEdit">
                             <b-row>
                                 <b-col sm="3">
                                     <b-form-group>
@@ -155,7 +162,7 @@
                 </b-form>
             </b-card>
             <!-- ======================= Contract Edit List ========================================-->
-            <table class="table table-hover">
+            <table class="table table-hover" v-if="time_edit_list && time_edit_list.length > 0">
                 <thead class="thead">
                     <tr>
                         <th scope="col" style="width: 15%">วันที่อนุมัติ</th>
@@ -239,8 +246,9 @@ export default {
             state: 'new',
             alert: '',
             refund_status: this.$store.getters.refund_status,
-            message: ''
-
+            message: '',
+            isEdit: false,
+            
         }
     },
     mounted(){
@@ -332,19 +340,19 @@ export default {
             this.$emit('refund_update');
             this.time_edit_list = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
-
             axios.get(`${path}`)
             .then(response=>{
                 this.time_edit_list = response.data.data;
+                if (this.time_edit_list.length > 0){
+                    this.isEdit = true;
+                }
             })
             .catch(error=>{
                 console.log("error : " + error);
             })
-
         },
         onSubmitTimeEdit(e){
-            e.preventDefault();
-            
+            e.preventDefault();            
             if (this.time_edit.approve_type == 99){
                 if (!this.time_edit.approve_case || this.time_edit.approve_case == ''){
                    this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
@@ -510,7 +518,9 @@ export default {
                 approve_type: null,
                 edit_detail: '-'
             };
-
+            if (this.time_edit_list.length == 0){
+                this.isEdit = false
+            }
             this.state = 'new';
             this.date_approve = '';
             this.date_contract_end = '';
@@ -598,5 +608,13 @@ export default {
 }
 .custom-select{
     color: #000!important;
+}
+.edit_contract{
+    
+    
+    margin-bottom: 10px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: rgb(255, 175, 83);
 }
 </style>
