@@ -203,10 +203,10 @@ export default {
     font-weight: bold;
 }
 .success{
-    background-color: rgb(200, 255, 200)!important;
+    background-color: rgb(228, 255, 228)!important;
 }
 .pass{
-    color: rgb(24, 117, 21);
+    color: rgb(153, 224, 151);
 }
 .no_pass{
     color: rgb(255, 0, 0);

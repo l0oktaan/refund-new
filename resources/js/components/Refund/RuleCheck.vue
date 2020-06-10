@@ -5,7 +5,7 @@
             <b-row>
                 <b-col>
                     <!-- <p>{{rule}}</p> -->
-                    <p>{{results}}</p>
+                    <!-- <p>{{results}}</p> -->
                     <!--<p>{{arr_detail}}</p>
                     <p>{{rule_passed}}</p> -->
                     <!-- <p>{{result_show}}</p> -->
