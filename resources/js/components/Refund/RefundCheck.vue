@@ -29,7 +29,7 @@
             hide-header hideFooter
             no-close-on-backdrop
             no-close-on-esc
-            
+
         >
             <b-card>
                 <div slot="header">
@@ -74,11 +74,11 @@
                         </validation-provider>
 
                     <div class="text-center">
-                        <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>                        
+                        <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                     </div>
 
                 </b-form>
-                </validation-observer>                
+                </validation-observer>
             </b-card>
         </b-modal>
     </div>
@@ -103,20 +103,26 @@ export default {
     mounted(){
         this.checkContract();
         this.fetchData();
-                
     },
+
     methods: {
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
         async saveContract(){
             let path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/contracts`;
+            console.log('path :' + path);
             let response = await axios.post(`${path}`,
-                { 
+                {
                     contract_party : this.contract_party,
-                    contract_no : this.contract_no                
+                    contract_no : this.contract_no
                 }
-            )
+            );
+
+            if (response.data.data){
+                this.$bvModal.hide('contract_form');
+            }
+
         },
         async checkContract(){
             let path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/contracts`;

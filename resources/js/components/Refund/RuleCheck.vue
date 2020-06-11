@@ -20,9 +20,9 @@
                         v-for="(consider,index) in rule.considers" :key="index"
                         :consider = "consider"
                         :iClass="(details) ? (details.findIndex(x=>x.consider_id == consider.id) >= 0) ? details[details.findIndex(x=>x.consider_id == consider.id)].status : '' : ''"
-                    >                        
+                    >
                         <div v-if="results && result_show">
-                            
+
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'boolean'"
                                 :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
@@ -46,8 +46,8 @@
                             >
                                 <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
                             </b-input-group>
-                            <thai-date 
-                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                            <thai-date
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             ></thai-date>
                             <!-- <my-date-picker
@@ -58,8 +58,8 @@
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
                             ></my-date-picker> -->
 
-                            <check-gap 
-                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                            <check-gap
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             ></check-gap>
 
@@ -104,8 +104,8 @@
                                             >
                                                 <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
                                             </b-input-group>
-                                            <thai-date 
-                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                                            <thai-date
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             ></thai-date>
                                             <!-- <my-date-picker
@@ -115,8 +115,8 @@
                                                 :showDate="result_show[findResultIndex(consider.id)]['value']"
                                                 @update="value => results[findResultIndex(consider.id)]['value'] = value"
                                             ></my-date-picker> -->
-                                            <check-gap 
-                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                                            <check-gap
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             ></check-gap>
                                         </b-form-group>
@@ -169,12 +169,12 @@
                                         :showDate="result_show[findResultIndex(consider.id)]['value']"
                                         @update="value => results[findResultIndex(consider.id)]['value'] = value"
                                     ></my-date-picker> -->
-                                    <thai-date 
-                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                                    <thai-date
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     ></thai-date>
-                                    <check-gap 
-                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                                    <check-gap
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     ></check-gap>
                                 </div>
@@ -189,7 +189,7 @@
                         <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
                         <b-button  variant="danger" @click="clearData" v-if="rule_passed">ยกเลิก</b-button>
                     </div>
-                    
+
                 </b-col>
             </b-row>
         </b-form>
@@ -332,7 +332,7 @@ export default {
                                             break;
                                         case 'number' :
                                             this.results[i]['value'] = 0;
-                                        
+
                                     }
                                 }
                             })
@@ -371,25 +371,25 @@ export default {
                         {
                             state: 'update-2',
                             detail: this.results
-                        })            
+                        })
                     this.$nextTick(()=>{
                         let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
                         axios.get(`${path}`)
                         .then(response=>{
                             this.details = response.data.data;
                         })
-                        
+
                     })
-                    
-                    
-                            
-                        
-                    
-                 }})               
+
+
+
+
+
+                 }})
 
             }
         },
-        
+
         async recheck_rule_pass(){
             let rule_pass = false;
             let status = 0;
@@ -403,7 +403,7 @@ export default {
                     let tmp = await results.filter(x=>x.rule_id == this.arr_rule_select[i]);
                     result_tmp = details;
                     details = result_tmp.concat(tmp);
-                    console.log('id "' + this.arr_rule_select[i] + 'result concat :' + details.length);
+                    // console.log('id "' + this.arr_rule_select[i] + 'result concat :' + details.length);
                 }
             }else{
                 details = await results.filter(x=>x.rule_id == this.rule_select);
@@ -412,12 +412,14 @@ export default {
             for (let i=0; i<details.length; i++){
                 status = await status + parseInt(details[i]['status']);
             }
-            console.log('detail length :' + details.length + 'pass :' + status);
+            // console.log('detail length :' + details.length + 'pass :' + status);
             if (status != 0 && details.length == status){
-                console.log('rule passed !!')
+                this.alert = 'pass';
+                //console.log('rule passed !!')
                 return  true;
             }else{
-                console.log('rule not passed !!')
+                this.alert = 'notpass';
+                // console.log('rule not passed !!')
                 return  false;
             }
 
@@ -470,12 +472,12 @@ export default {
                             case 'gap' :
                             case 'value' :
                             case 'date' :
-                                this.results[i]['value'] = '';                            
+                                this.results[i]['value'] = '';
                                 break;
-                            
+
                             case 'number' :
                                 this.results[i]['value'] = 0;
-                            
+
                         }
                     }
                 });
@@ -516,12 +518,12 @@ export default {
             }, 500);
         },
         async getDetail(){
-            
+
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let response = await axios.get(`${path}`);
             let details = await response.data.data;
             return details;
-            
+
         },
         async createResult(){
             let tmp = [];
@@ -632,22 +634,22 @@ export default {
             }else{ //Main Rule
                 let result = await this.sentResult();
             }
-            this.details = await this.getDetail();        
+            this.details = await this.getDetail();
             this.results = await this.createResult();
             await this.getRefundDetail();
             //let update = await this.$emit("update_detail");
             // let check = await this.recheck_rule_pass();
             // console.log("check :" + check);
             this.rule_passed = await this.recheck_rule_pass();
-            
+
             if (this.rule_passed){
-                this.alert = 'pass';
+                // this.alert = 'pass';
                 this.$emit("rule_passed", {
                     id:this.rule.id,
                     value : 1
                 });
             }else{
-                this.alert = 'notpass';
+                // this.alert = 'notpass';
                 this.$emit("rule_passed", {
                     id:this.rule.id,
                     value : 0
