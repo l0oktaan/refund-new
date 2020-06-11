@@ -49,7 +49,7 @@
                                                     <div class="main_order" v-for="contract in refund.refund.contracts" :key="contract.id">
                                                         <p class="head">1. รายละเอียดสัญญา ราย <span class="show"> {{contract.contract_party}}</span></p>
                                                         <div class="sub_order">
-                                                            <p class="head">1.1 สัญญาเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
+                                                            <p class="head">1.1 สัญญา/ใบสั่งจ้างเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
                                                             <p class="head sub">วงเงินในสัญญา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>บาท  ค่าปรับ<span v-if="contract.penalty_type==1">วันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>บาท</span><span v-if="contract.penalty_type==2">ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน</span></p>
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
 
@@ -201,8 +201,9 @@
                                                     <div class="main_order">
                                                             <p class="head">5. การขอถอนคืนเงินค่าปรับแก้ผู้มีสิทธิ</p>
                                                             <div v-for="(approve,index) in approves" :key="index">
-                                                                <p class="head sub">หน่วยงานอนุมัติให้งด ลดค่าปรับ คืนเงินค่าปรับ </p>
-                                                                <p class="head sub">จำนวน <span class="show">{{approve.refund_days}} </span>วัน เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
+                                                                <p class="head sub" v-if="approve.refund_days != approve.refund_money">หน่วยงานอนุมัติให้งด ลดค่าปรับ จำนวน <span class="show">{{approve.refund_days}} </span>วัน </p>
+                                                                <p class="head sub"><span>หน่วยงานอนุมัติให้คืนเงินค่าปรับ จำนวน <span class="show">{{approve.refund_money}} </span> วัน</span> เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
+                                                                <p class="head sub"></p>
                                                                 <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
                                                             </div>
                                                         </div>

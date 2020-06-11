@@ -45,7 +45,7 @@
                             v-slot="validationContext"
                         >
                         <b-form-group>
-                            <label for="contract_no">สัญญาเลขที่ :<span class="require">*</span></label>
+                            <label for="contract_no">สัญญา/ใบสั่งจ้างเลขที่ :<span class="require">*</span></label>
                             <b-form-input type="text"
                                 placeholder="ใส่เลขที่สัญญา"
                                 name="contract_no"
@@ -192,7 +192,7 @@ export default {
             contract_no: '',
             contract_date: '',
             budget: '',
-            penalty_type: 0,
+            penalty_type: 1,
             icon_check: 'far fa-check-square fa-lg',
             icon_uncheck: 'far fa-square fa-lg',
             penalty_per_day: '',

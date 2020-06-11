@@ -60,7 +60,7 @@
                                 v-slot="validationContext"
                             >
                             <b-form-group>
-                                <label for="contract_no">สัญญาเลขที่ :<span class="require">*</span></label>
+                                <label for="contract_no">สัญญา/ใบสั่งจ้างเลขที่ :<span class="require">*</span></label>
                                 <b-form-input type="text"
                                     placeholder="ใส่เลขที่สัญญา"
                                     name="contract_no"

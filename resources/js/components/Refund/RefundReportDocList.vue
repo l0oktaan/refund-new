@@ -18,7 +18,7 @@
                         <tr>
                             <td><p class="head">1. เอกสารสัญญา</p></td>
                             <td>
-                                <p class="head"><i class="far fa-square fa-lg"></i> สัญญาเลขที่ <span class="show-list">{{contract.contract_no}}</span>  ลงวันที่ <span class="show-list">{{getThaiDate(contract.contract_date)}}</span></p>
+                                <p class="head"><i class="far fa-square fa-lg"></i> สัญญา/ใบสั่งจ้างเลขที่ <span class="show-list">{{contract.contract_no}}</span>  ลงวันที่ <span class="show-list">{{getThaiDate(contract.contract_date)}}</span></p>
                                 <p class="head">(*กรณีมีหนังสือแจ้งผู้รับจ้างให้เริ่มทำงาน หรือหนังสือส่งมอบสถานที่ ให้แนบมาประกอบการพิจารณาด้วย)</p>
                             </td>
                         </tr>
