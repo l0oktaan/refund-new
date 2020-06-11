@@ -75,6 +75,7 @@
 
                     <div class="text-center">
                         <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                        <b-button type="reset" variant="danger" @click="deleteRefund" >ยกเลิก</b-button>
                     </div>
 
                 </b-form>
@@ -109,6 +110,9 @@ export default {
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
+        deleteRefund(){
+            this.$router.replace('/refund/refunds');
+        },
         async saveContract(){
             let path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/contracts`;
             console.log('path :' + path);
@@ -120,6 +124,7 @@ export default {
             );
 
             if (response.data.data){
+                this.$store.commit('refund_contract_no',this.contract_no)
                 this.$bvModal.hide('contract_form');
             }
 
@@ -129,11 +134,12 @@ export default {
             console.log('path :' + path);
             let response = await axios.get(`${path}`);
             let contracts = await response.data.data;
-            console.log('contract :' + contracts.length);
+            //console.log('contract :' + contracts.length);
             if (!contracts || contracts.length == 0){
                 this.$bvModal.show('contract_form');
+            }else{
+                this.$store.commit('refund_contract_no',contracts[0].contract_no);
             }
-
         },
         reload_check(){
             this.fetchData();

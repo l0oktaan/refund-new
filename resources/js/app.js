@@ -484,7 +484,8 @@ const store = new Vuex.Store({
             {text: 'ระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงานนั้นๆ', value: 99}
         ],
         current_page: null,
-        per_page: null
+        per_page: null,
+        refund_contract_no: null
     },
     // plugins: [
     //     createPersistedState({
@@ -602,6 +603,9 @@ const store = new Vuex.Store({
         },
         per_page (state){
             return state.per_page
+        },
+        refund_contract_no (state){
+            return state.refund_contract_no
         }
     },
     mutations: {
@@ -637,6 +641,9 @@ const store = new Vuex.Store({
         },
         per_page (state, value){
             state.per_page = value
+        },
+        refund_contract_no (state, value){
+            state.refund_contract_no = value
         }
 
     },

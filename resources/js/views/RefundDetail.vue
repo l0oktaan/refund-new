@@ -123,13 +123,41 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-        if (this.refund_s == 1){
-            let deleted = this.deleteRefund();
-            console.log('deleted :' + deleted);
-            if (deleted){
-                next();
-            }
+        
+        if (!this.$store.getters.refund_contract_no){
+            this.$swal({
+                title: "กรุณายืนยัน",
+                text: "การบันทึกข้อมูลยังไม่สมบูรณ์ รายการถอนคืนจะถูกลบ",
+                icon: "warning",
+                closeOnClickOutside: false,
+                buttons: [
+                    'ยกเลิก',
+                    'ยืนยัน'
+                ],
+            }).then(isConfirm =>{
+                if (isConfirm){
+                    let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
+                    console.log('path : ' + path);
+                    // axios.put(`${path}`,{
+                    //     status : '0'
+                    // })
+                    
+                        axios.delete(`${path}`)
+                        .then(response=>{
+                            next()
+                        })
+                        .catch(error=>{
+                            console.log('error : ' + error);
+                            return false;
+                        })
+                    
+                    
+                }else{
+                    return false;
+                }
+            });
         }else{
+            this.$store.commit('refund_contract_no',null)
             next();
         }
         // console.log('refund id :' + this.refund_id + ' status :' + this.refund_s);
@@ -188,15 +216,18 @@ export default {
                     // axios.put(`${path}`,{
                     //     status : '0'
                     // })
-                    axios.delete(`${path}`)
-                    .then(response=>{
-                        console.log('deleted :');
-                        return true;
+                    this.$nextTick(()=>{
+                        axios.delete(`${path}`)
+                        .then(response=>{
+                            console.log('deleted :');
+                            return true;
+                        })
+                        .catch(error=>{
+                            console.log('error : ' + error);
+                            return false;
+                        })
                     })
-                    .catch(error=>{
-                        console.log('error : ' + error);
-                        return false;
-                    })
+                    
                 }else{
                     return false;
                 }
