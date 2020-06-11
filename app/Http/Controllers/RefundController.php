@@ -151,9 +151,14 @@ class RefundController extends Controller
      * @param  \App\Refund  $refund
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Refund $refund)
+    public function destroy(Office $office,Refund $refund)
     {
-        $refund->delete();
-        return response(null,Response::HTTP_NO_CONTENT);
+        if ($refund->office_id == $office->id){
+            $refund->delete();
+            return response(null,Response::HTTP_CREATED);
+        }else{
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+        
     }
 }

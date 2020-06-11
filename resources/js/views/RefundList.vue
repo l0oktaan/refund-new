@@ -555,11 +555,11 @@ export default {
                 if (isConfirm){
                     let path = `/api/offices/${this.office_id}/refunds/${id}`;
                     console.log('path : ' + path);
-                    axios.put(`${path}`,{
-                        status : '0'
-                    })
-                    .then(response=>{
-                        console.log('OK : ');
+                    // axios.put(`${path}`,{
+                    //     status : '0'
+                    // })
+                    axios.delete(`${path}`)
+                    .then(response=>{                        
                         this.fetchData();
                     })
                     .catch(error=>{

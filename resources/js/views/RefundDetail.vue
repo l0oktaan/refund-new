@@ -6,9 +6,9 @@
             <!--================================= Tab Form ==================================-->
             <b-tab v-for="(tab,index) in tab_forms" :key="index" :disable="'disabled'">
                 <template slot="title">
-                <h6>แบบฟอร์ม :<i :class="refund_s > 1 ? icon_check : icon_uncheck"></i></h6>
-                <span>หลักเกณฑ์และเงื่อนไข</span>
-              </template>
+                    <h6>แบบฟอร์ม :<i :class="refund_s > 1 ? icon_check : icon_uncheck"></i></h6>
+                    <span>หลักเกณฑ์และเงื่อนไข</span>
+                </template>
                   <refund-check :form_id="refund_forms[index].form_id"
                     :refund_id="refund_id"
                     :refund_form_id="refund_forms[index].id"
@@ -29,38 +29,38 @@
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 3">
                 <template slot="title">
-                    <h6>ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h6>
-                    <span>{{tabs[2].title}}</span>
+                    <h6 :class="refund_s < 3 ? 'mute' : ''">ขั้นตอนที่ 2 : <i :class="refund_s > 3 ? icon_check : icon_uncheck"></i></h6>
+                    <span :class="refund_s < 3 ? 'mute' : ''">{{tabs[2].title}}</span>
                 </template>
                 <contract-time-edit @refund_update="checkRefundStatus" :office_id = "office_id"></contract-time-edit>
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 3">
                 <template slot="title">
-                    <h6>ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h6>
-                    <span>ข้อมูลการส่งมอบงาน</span>
+                    <h6 :class="refund_s < 3 ? 'mute' : ''">ขั้นตอนที่ 3 : <i :class="refund_s > 4 ? icon_check : icon_uncheck"></i></h6>
+                    <span :class="refund_s < 3 ? 'mute' : ''">ข้อมูลการส่งมอบงาน</span>
                 </template>
                 <delivery :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></delivery>
 
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 5">
                 <template slot="title">
-                    <h6>ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h6>
-                    <span>การนำส่งเงินค่าปรับ</span>
+                    <h6 :class="refund_s < 5 ? 'mute' : ''">ขั้นตอนที่ 4 : <i :class="refund_s > 5 ? icon_check : icon_uncheck"></i></h6>
+                    <span :class="refund_s < 5 ? 'mute' : ''">การนำส่งเงินค่าปรับ</span>
                 </template>
 
                 <deposit-penalty :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></deposit-penalty>
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 6">
                 <template slot="title">
-                    <h6>สรุปข้อมูล : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h6>
-                    <span>การขออนุมัติ</span>
+                    <h6 :class="refund_s < 6 ? 'mute' : ''">สรุปข้อมูล : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h6>
+                    <span :class="refund_s < 6 ? 'mute' : ''">การขออนุมัติ</span>
                 </template>
                 <refund-summary :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></refund-summary>
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 7">
                 <template slot="title">
-                    <h6>การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h6>
-                    <span>พิมพ์รายงานและส่งข้อมูล</span>
+                    <h6 :class="refund_s < 7 ? 'mute' : ''">การส่งข้อมูล : <i :class="refund_s > 7 ? icon_check : icon_uncheck"></i></h6>
+                    <span :class="refund_s < 7 ? 'mute' : ''">พิมพ์รายงานและส่งข้อมูล</span>
                 </template>
                 <sent-refund :refund_status="refund_s" :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></sent-refund>
             </b-tab>
@@ -265,5 +265,7 @@ export default {
     padding-top: 10px!important;
     color: #000!important;
 }
-
+.mute{
+    color: rgb(122, 122, 122)!important;
+}
 </style>

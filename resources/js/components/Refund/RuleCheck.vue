@@ -187,7 +187,7 @@
                 <b-col>
                     <div class="text-center" style="margin-bottom:5px;">
                         <b-button type="submit" variant="primary" v-if="!rule_passed">ตรวจสอบเงื่อนไข</b-button>
-                        <b-button  variant="danger" @click="clearData" v-if="rule_passed && refund_status < 2">ยกเลิก</b-button>
+                        <b-button  variant="danger" @click="clearData" v-if="rule_passed">ยกเลิก</b-button>
                     </div>
                     
                 </b-col>
