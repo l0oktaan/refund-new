@@ -26,12 +26,12 @@ class ContractRequest extends FormRequest
         return [
             'contract_party' => 'required',
             'contract_no' => 'required',
-            'contract_date' => 'required',
-            'budget' => 'required',
-            'penalty_type' => 'required',            
+            // 'contract_date' => 'required',
+            // 'budget' => 'required',
+            // 'penalty_type' => 'required',            
             
-            'contract_start' => 'required',
-            'contract_end' => 'required'
+            // 'contract_start' => 'required',
+            // 'contract_end' => 'required'
 
         ];
     }

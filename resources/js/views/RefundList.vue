@@ -1,5 +1,6 @@
 <template>
     <div class="animated fadeIn">
+        <my-alert :AlertType="alert"></my-alert>
         <b-row>
             <b-col>
                 <div class="topHead float-right">
@@ -208,51 +209,14 @@ export default {
             count_complete: 0,
             count_reject: 0,
             refund_filter: false,
-            arr_refund_status: this.$store.getters.arr_refund_status,
-            // arr_refund_status: [
-            //     {
-            //         name : 'new',
-            //         text : 'ตรวจสอบหลักเกณฑ์',
-            //         status : [1],
-            //         icon: 'icon-magic-wand'
-            //     },
-            //     {
-            //         name : 'info',
-            //         text : 'กำลังบันทึกข้อมูล',
-            //         status : [2,3,4,5,6,7],
-            //         icon: 'icon-magic-wand'
-            //     },
-            //     {
-            //         name : 'success',
-            //         text : 'ส่งข้อมูลแล้ว',
-            //         status : [8],
-            //         icon: 'icon-magic-wand'
-            //     },
-            //     {
-            //         name : 'consider',
-            //         text : 'อยู่ระหว่างพิจารณา',
-            //         status : [9],
-            //         icon: 'icon-magic-wand'
-            //     },
-            //     {
-            //         name : 'complete',
-            //         text : 'ข้อมูลอนุมัติแล้ว',
-            //         status : [99],
-            //         icon: 'icon-magic-wand'
-            //     },
-            //     {
-            //         name : 'reject',
-            //         text : 'ไม่ผ่านการอนุมัติ',
-            //         status : [88],
-            //         icon: 'icon-magic-wand'
-            //     },
-            // ],
+            arr_refund_status: this.$store.getters.arr_refund_status,            
             user_type: '',
             show: false,
             currentPage: (this.$store.getters.current_page) ? this.$store.getters.current_page : 1,
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
-            fields: ['']
+            fields: [''],
+            alert: ''
 
         }
     },
@@ -544,7 +508,7 @@ export default {
         delRefund(id){
             this.$swal({
                 title: "กรุณายืนยันการลบรายการถอนคืน",
-                text: "หากยืนยันการลบ หลักเกณฑ์และเงื่อนไขจะถูกลบไปด้วย",
+                
                 icon: "warning",
                 closeOnClickOutside: false,
                 buttons: [
@@ -559,7 +523,8 @@ export default {
                     //     status : '0'
                     // })
                     axios.delete(`${path}`)
-                    .then(response=>{                        
+                    .then(response=>{      
+                        this.alert = 'success';
                         this.fetchData();
                     })
                     .catch(error=>{
