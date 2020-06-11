@@ -20,8 +20,7 @@
                         v-for="(consider,index) in rule.considers" :key="index"
                         :consider = "consider"
                         :iClass="(details) ? (details.findIndex(x=>x.consider_id == consider.id) >= 0) ? details[details.findIndex(x=>x.consider_id == consider.id)].status : '' : ''"
-                    >
-                        <p></p>
+                    >                        
                         <div v-if="results && result_show">
                             
                             <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
@@ -47,13 +46,17 @@
                             >
                                 <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
                             </b-input-group>
-                            <my-date-picker
+                            <thai-date 
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                                v-model="results[findResultIndex(consider.id)]['value']"
+                            ></thai-date>
+                            <!-- <my-date-picker
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
 
                                 :id="consider.id"
                                 :showDate="result_show[result_show.findIndex(x=>x.consider_id == consider.id)].value"
                                 @update="value => results[results.findIndex(x=>x.consider_id == consider.id)].value = value"
-                            ></my-date-picker>
+                            ></my-date-picker> -->
 
                             <check-gap 
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
@@ -101,16 +104,21 @@
                                             >
                                                 <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
                                             </b-input-group>
-                                            <my-date-picker
+                                            <thai-date 
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                                                v-model="results[findResultIndex(consider.id)]['value']"
+                                            ></thai-date>
+                                            <!-- <my-date-picker
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
 
                                                 :id="consider.id"
                                                 :showDate="result_show[findResultIndex(consider.id)]['value']"
                                                 @update="value => results[findResultIndex(consider.id)]['value'] = value"
-                                            ></my-date-picker>
-                                            <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
-
-                                            </div>
+                                            ></my-date-picker> -->
+                                            <check-gap 
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                                                v-model="results[findResultIndex(consider.id)]['value']"
+                                            ></check-gap>
                                         </b-form-group>
                                     </b-form>
 
@@ -154,23 +162,21 @@
                                     >
                                         <b-form-input v-model="results[findResultIndex(consider.id)]['value']" @keypress="isNumber($event)"></b-form-input>
                                     </b-input-group>
-                                    <my-date-picker
+                                    <!-- <my-date-picker
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'"
 
                                         :id="consider.id"
                                         :showDate="result_show[findResultIndex(consider.id)]['value']"
                                         @update="value => results[findResultIndex(consider.id)]['value'] = value"
-                                    ></my-date-picker>
-                                    <div v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'">
-                                        <b-form-group>
-                                                <label for="begin_date">วันเริ่ม :</label>
-                                                <my-date-picker ref="begin_date" :id="consider_id + 'begin'" :showDate="getBeginDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_begin = value"></my-date-picker>
-                                        </b-form-group>
-                                        <b-form-group>
-                                                <label for="end_date">สิ้นสุด :</label>
-                                                <my-date-picker ref="end_date" :id="consider_id + 'end'" :showDate="getEndDate(result_show[findResultIndex(consider.id)]['value'])" @update="value => date_end = value"></my-date-picker>
-                                            </b-form-group>
-                                    </div>
+                                    ></my-date-picker> -->
+                                    <thai-date 
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'date'" 
+                                        v-model="results[findResultIndex(consider.id)]['value']"
+                                    ></thai-date>
+                                    <check-gap 
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'" 
+                                        v-model="results[findResultIndex(consider.id)]['value']"
+                                    ></check-gap>
                                 </div>
                             </consider-check>
                         </b-card>
@@ -454,6 +460,23 @@ export default {
                         this.results[i]['selected'] = 1
                     }else{
                         this.results[i]['selected'] = 0
+                        this.results[i]['status'] = 0
+                        this.details[this.details.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['status'] = 0;
+                        switch (this.results[i]['result_type']){
+                            case 'boolean' :
+                                this.results[i]['value'] = false;
+                                break;
+                            case 'inArray' :
+                            case 'gap' :
+                            case 'value' :
+                            case 'date' :
+                                this.results[i]['value'] = '';                            
+                                break;
+                            
+                            case 'number' :
+                                this.results[i]['value'] = 0;
+                            
+                        }
                     }
                 });
             }
@@ -563,7 +586,7 @@ export default {
                     result_detail = result_tmp.concat(tmp);
                 }
             }else{
-                result_detail = await this.results.filter(x=>x.rule_id == this.rule_select);
+                result_detail = await this.results;
             }
 
 
@@ -611,6 +634,7 @@ export default {
             }
             this.details = await this.getDetail();        
             this.results = await this.createResult();
+            await this.getRefundDetail();
             //let update = await this.$emit("update_detail");
             // let check = await this.recheck_rule_pass();
             // console.log("check :" + check);
