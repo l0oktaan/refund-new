@@ -4,12 +4,18 @@
         <b-row>
             <b-col>
                 <div class="topHead float-right">
-                    <b-button v-if="user_type=='user'" class="pt-2 pb-2" variant="outline-success" @click="createRefund">
+                    <b-input-group>
+                        <template v-slot:append>
+                        <b-input-group-text><b-icon icon="search"></b-icon></b-input-group-text>
+                        </template>
+                        <b-form-input placeholder="ค้นหา..."></b-form-input>
+                    </b-input-group>
+                    <b-button v-if="user_type=='user'" class="mt-3 pt-2" variant="outline-success" @click="createRefund">
                         <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
                     </b-button>
-                    <b-button class="pt-2 pb-2" variant="outline-primary">
+                    <!-- <b-button class="pt-2 pb-2" variant="outline-primary">
                         <i class="fas fa-search fa-2x"></i>&nbsp;<span>ค้นหา</span>
-                    </b-button>
+                    </b-button> -->
                 </div>
                 <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
             </b-col>
@@ -119,15 +125,15 @@
                             <td :colspan="user_type == 'user' ? 6 : 7">
                                 <span style="text-align:center">
                                     รายการที่ {{beginRecord}} - {{endRecord}} จากทั้งหมด {{rows}} รายการ
-                                </span>    
+                                </span>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
-                
-                
-                
-                
+
+
+
+
             </b-col>
         </b-row>
         <b-row class="foot">
@@ -135,31 +141,31 @@
                 <div style="text-align:right;">
                     <b-form-select v-model="perPage" :options="arr_perPage"></b-form-select>
                 </div>
-               
+
             </b-col>
             <b-col cols="3" >
                <p style="text-align:left; margin-top:5px;">รายการต่อหน้า</p>
             </b-col>
-            
-            <b-col cols="4">    
+
+            <b-col cols="4">
                 <div style="text-align:center;">
                     <b-pagination
                         align="center"
                         v-model="currentPage"
                         pills
                         :total-rows="rows"
-                        :per-page="perPage"    
+                        :per-page="perPage"
                     ></b-pagination>
-                                
+
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
-                
+
             </b-col>
             <b-col cols="4"></b-col>
         </b-row>
         <b-row class="justify-content-md-center">
             <b-col cols>
-                
+
             </b-col>
         </b-row>
         <b-modal id="modalReport"
@@ -172,7 +178,7 @@
 
                 <refund-report v-if="refund_id != 0"
                     :refund_id="refund_id"
-                    :office_id="office_id"                    
+                    :office_id="office_id"
                 ></refund-report>
 
         </b-modal>
@@ -209,7 +215,7 @@ export default {
             count_complete: 0,
             count_reject: 0,
             refund_filter: false,
-            arr_refund_status: this.$store.getters.arr_refund_status,            
+            arr_refund_status: this.$store.getters.arr_refund_status,
             user_type: '',
             show: false,
             currentPage: (this.$store.getters.current_page) ? this.$store.getters.current_page : 1,
@@ -275,20 +281,20 @@ export default {
 
     },
     watch: {
-        async currentPage(newVal, oldVal){            
+        async currentPage(newVal, oldVal){
             let end = await newVal * this.perPage;
             let begin = await end - this.perPage;
             this.refund_show_page = await this.refund_show.slice(begin, end);
             //this.$store.commit('current_page',newVal);
         },
-        async refund_show(){            
+        async refund_show(){
             // let page =  this.$store.getters.current_page;
             // if (!page || page > this.rows/this.perPage){
             //     this.currentPage = 1
-                
+
             // }else{
             //     this.currentPage = page
-            // }            
+            // }
             let end = 1 * this.perPage;
             let begin = await end - this.perPage;
             this.refund_show_page = await this.refund_show.slice(begin, end);
@@ -508,7 +514,7 @@ export default {
         delRefund(id){
             this.$swal({
                 title: "กรุณายืนยันการลบรายการถอนคืน",
-                
+
                 icon: "warning",
                 closeOnClickOutside: false,
                 buttons: [
@@ -523,7 +529,7 @@ export default {
                     //     status : '0'
                     // })
                     axios.delete(`${path}`)
-                    .then(response=>{      
+                    .then(response=>{
                         this.alert = 'success';
                         this.fetchData();
                     })
@@ -704,5 +710,12 @@ td{
 .tfoot{
     text-align: center!important;
 }
-
+.form-control{
+    border-color: #1074b8!important;
+}
+.input-group-text{
+    background-color: #1074b8!important;
+    border-color: #1074b8!important;
+    color: #fff;
+}
 </style>
