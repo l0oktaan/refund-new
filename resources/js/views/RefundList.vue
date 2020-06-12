@@ -157,7 +157,7 @@
 
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
-
+                {{refunds}}
             </b-col>
             <b-col cols="4"></b-col>
         </b-row>
@@ -321,7 +321,12 @@ export default {
         onFilter(){
             
             if (this.filter != ''){
-                this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                if (this.user_type == 'user'){
+                    this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                }else if (this.user_type == 'admin'){
+                    this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                }
+                
                 
                 this.$store.commit('refund_filter',this.refund_filter)
                 this.set_refund_show('filter');
