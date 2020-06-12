@@ -486,7 +486,8 @@ const store = new Vuex.Store({
         ],
         current_page: null,
         per_page: null,
-        refund_contract_no: null
+        refund_contract_no: null,
+        refund_filter: []
     },
     // plugins: [
     //     createPersistedState({
@@ -607,6 +608,9 @@ const store = new Vuex.Store({
         },
         refund_contract_no (state){
             return state.refund_contract_no
+        },
+        refund_filter (state){
+            return state.refund_filter
         }
     },
     mutations: {
@@ -645,6 +649,9 @@ const store = new Vuex.Store({
         },
         refund_contract_no (state, value){
             state.refund_contract_no = value
+        },
+        refund_filter (state, value){
+            state.refund_filter = value
         }
 
     },

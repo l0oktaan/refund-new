@@ -2,25 +2,23 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <b-row>
-            <b-col>
-                <div class="topHead float-right">
-                    <b-input-group>
-                        <template v-slot:append>
-                        <b-input-group-text><b-icon icon="search"></b-icon></b-input-group-text>
-                        </template>
-                        <b-form-input placeholder="ค้นหา..."></b-form-input>
-                    </b-input-group>
-                    <b-button v-if="user_type=='user'" class="mt-3 pt-2" variant="outline-success" @click="createRefund">
-                        <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
-                    </b-button>
-                    <!-- <b-button class="pt-2 pb-2" variant="outline-primary">
-                        <i class="fas fa-search fa-2x"></i>&nbsp;<span>ค้นหา</span>
-                    </b-button> -->
-                </div>
-                <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
+            <b-col cols="auto" class="mr-auto">
+                <span class="h4">ข้อมูลการถอนคืนเงินรายได้</span>
+                <b-button v-if="user_type=='user'" class="pt-2 pb-2 ml-5" variant="outline-success" @click="createRefund">
+                    <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
+                </b-button>
             </b-col>
+            <b-col cols="auto" class="text-right">                       
+                <b-input-group size="lg" >
+                    <template v-slot:append>
+                        <b-input-group-text class="clearFilter" @click="filter=''; set_refund_show('all')" v-if="filter!=''"><b-icon icon="x"></b-icon></b-input-group-text>
+                        <b-input-group-text @click="onFilter"><b-icon icon="funnel"></b-icon></b-input-group-text>
+                    </template>
+                    <b-form-input placeholder="ค้นหา..." @keyup.enter.native="onFilter" v-model="filter"></b-form-input>
+                </b-input-group>                    
+            </b-col>                
         </b-row>
-        <b-row class="justify-content-md-center">
+        <b-row class="justify-content-md-center mt-5">
             <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(0,4).filter(x=>x.show.includes(user_type))" :key="index">
                 <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
                     <b-row>
@@ -163,6 +161,7 @@
             </b-col>
             <b-col cols="4"></b-col>
         </b-row>
+        
         <b-row class="justify-content-md-center">
             <b-col cols>
 
@@ -208,6 +207,7 @@ export default {
             refund_wait: [],
             refund_complete: [],
             refund_reject: [],
+            refund_filter: [],
             count_new: 0,
             count_info: 0,
             count_success: 0,
@@ -222,7 +222,8 @@ export default {
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
             fields: [''],
-            alert: ''
+            alert: '',
+            filter: ''
 
         }
     },
@@ -282,10 +283,13 @@ export default {
     },
     watch: {
         async currentPage(newVal, oldVal){
-            let end = await newVal * this.perPage;
-            let begin = await end - this.perPage;
-            this.refund_show_page = await this.refund_show.slice(begin, end);
-            //this.$store.commit('current_page',newVal);
+            
+                let end = await newVal * this.perPage;
+                let begin = await end - this.perPage;
+                this.refund_show_page = await this.refund_show.slice(begin, end);
+                //this.$store.commit('current_page',newVal);
+            
+            
         },
         async refund_show(){
             // let page =  this.$store.getters.current_page;
@@ -295,9 +299,14 @@ export default {
             // }else{
             //     this.currentPage = page
             // }
-            let end = 1 * this.perPage;
-            let begin = await end - this.perPage;
-            this.refund_show_page = await this.refund_show.slice(begin, end);
+            if (this.refund_show.length > this.perPage){
+                let end = 1 * this.perPage;
+                let begin = await end - this.perPage;
+                this.refund_show_page = await this.refund_show.slice(begin, end);
+            }else{
+                this.refund_show_page = await this.refund_show;
+            }
+            
         },
         async perPage(newVal,oldVal){
             this.$store.commit('per_page',newVal);
@@ -308,6 +317,16 @@ export default {
     },
 
     methods: {
+        
+        onFilter(){
+            
+            if (this.filter != ''){
+                this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                
+                this.$store.commit('refund_filter',this.refund_filter)
+                this.set_refund_show('filter');
+            }
+        },
         get_status_icon(status){
             return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
         },
@@ -360,8 +379,13 @@ export default {
                 case 'reject' :
                     this.refund_show = this.refund_reject;
                     break;
-                case 'all' :
+                case 'filter' :
+                    this.refund_show = this.$store.getters.refund_filter;
+                    break;
+                case 'all' :                    
                     this.refund_show = this.refunds;
+                    this.filter = '';
+                    this.$store.commit('refund_filter',null);
                     break;
                 default :
                     this.refund_show = this.refunds;
@@ -412,7 +436,7 @@ export default {
 
             var refunds = [];
             var contracts = [];
-            //console.log('path :' + path);
+            console.log('path :' + path);
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
@@ -714,8 +738,16 @@ td{
     border-color: #1074b8!important;
 }
 .input-group-text{
+    cursor: pointer;
     background-color: #1074b8!important;
     border-color: #1074b8!important;
     color: #fff;
 }
+.clearFilter{
+    background-color: rgb(255, 0, 0)!important;
+}
+.clearFilter:hover{
+    box-shadow: 0 0 0 0.2rem rgb(255, 0, 0, 0.25);
+}
+ 
 </style>

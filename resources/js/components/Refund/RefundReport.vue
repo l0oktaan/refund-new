@@ -22,12 +22,21 @@
                         <div class="subpage" v-if="isReady">
                             <b-row>
                                 <b-col cols="3">
-                                    <p style="font-size:9pt">เลขที่ <span class="form_name3 pl-2 pr-2">63-0001-050012</span></p>
+                                    <table class="report">
+                                        <tr>
+                                            <td style="width: 25%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่เอกสาร :</p></td>
+                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">63-0001-050012</p></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 25%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">ส่วนราชการ :</p></td>
+                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.office.code + ' : ' + refund.refund.office.name}}</p></td>
+                                        </tr>
+                                    </table>                                   
+                                    
                                 </b-col>
                                 <b-col cols="6" class="form_name">
                                     <p class="topic">{{refund.form.name1}}</p>
                                     <p class="topic">{{refund.form.name2}}</p>
-
                                 </b-col>
                                 <b-col cols="3">
                                     <p class="form_name3">{{refund.form.name3}}</p>
@@ -599,6 +608,7 @@ export default {
     text-align: center;
     color: #000;
     font-weight: normal!important;
+    font-size: 9pt!important;   
 
 }
 p.head{
@@ -724,5 +734,8 @@ table.report>tbody>tr:first-child>td:last-child{
 }
 .sub_rule_tr:nth-child(even) > td{
     background-color: rgb(245, 245, 245)!important;
+}
+.office{
+    border: 0px!important;
 }
 </style>
