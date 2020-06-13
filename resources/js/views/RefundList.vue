@@ -325,7 +325,8 @@ export default {
                     // this.refund_filter = this.refunds.filter(function(x){
                     //     return x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0
                     // })
-                    this.refund_filter = this.refunds.filter((x)=> x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                    //this.refund_filter = this.refunds.filter((x)=> x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                    console.log('refund length: ' + this.refunds.length);
                 }else if (this.user_type == 'admin'){
                     this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
                 }
