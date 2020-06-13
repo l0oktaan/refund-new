@@ -8,15 +8,15 @@
                     <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
                 </b-button>
             </b-col>
-            <b-col cols="auto" class="text-right">                       
+            <b-col cols="auto" class="text-right">
                 <b-input-group size="lg" >
                     <template v-slot:append>
                         <b-input-group-text class="clearFilter" @click="filter=''; set_refund_show('all')" v-if="filter!=''"><b-icon icon="x"></b-icon></b-input-group-text>
                         <b-input-group-text @click="onFilter"><b-icon icon="funnel"></b-icon></b-input-group-text>
                     </template>
                     <b-form-input placeholder="ค้นหา..." @keyup.enter.native="onFilter" v-model="filter"></b-form-input>
-                </b-input-group>                    
-            </b-col>                
+                </b-input-group>
+            </b-col>
         </b-row>
         <b-row class="justify-content-md-center mt-5">
             <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(0,4).filter(x=>x.show.includes(user_type))" :key="index">
@@ -161,7 +161,7 @@
             </b-col>
             <b-col cols="4"></b-col>
         </b-row>
-        
+
         <b-row class="justify-content-md-center">
             <b-col cols>
 
@@ -283,13 +283,13 @@ export default {
     },
     watch: {
         async currentPage(newVal, oldVal){
-            
+
                 let end = await newVal * this.perPage;
                 let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
                 //this.$store.commit('current_page',newVal);
-            
-            
+
+
         },
         async refund_show(){
             // let page =  this.$store.getters.current_page;
@@ -306,7 +306,7 @@ export default {
             }else{
                 this.refund_show_page = await this.refund_show;
             }
-            
+
         },
         async perPage(newVal,oldVal){
             this.$store.commit('per_page',newVal);
@@ -317,17 +317,17 @@ export default {
     },
 
     methods: {
-        
+
         onFilter(){
-            
+
             if (this.filter != ''){
                 if (this.user_type == 'user'){
-                    this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
+                    this.refund_filter = this.refunds.filter(x=> x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
                 }else if (this.user_type == 'admin'){
                     this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
                 }
-                
-                
+
+
                 this.$store.commit('refund_filter',this.refund_filter)
                 this.set_refund_show('filter');
             }
@@ -387,7 +387,7 @@ export default {
                 case 'filter' :
                     this.refund_show = this.$store.getters.refund_filter;
                     break;
-                case 'all' :                    
+                case 'all' :
                     this.refund_show = this.refunds;
                     this.filter = '';
                     this.$store.commit('refund_filter',null);
@@ -754,5 +754,5 @@ td{
 .clearFilter:hover{
     box-shadow: 0 0 0 0.2rem rgb(255, 0, 0, 0.25);
 }
- 
+
 </style>
