@@ -157,7 +157,7 @@
 
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
-                {{refunds}}
+
             </b-col>
             <b-col cols="4"></b-col>
         </b-row>

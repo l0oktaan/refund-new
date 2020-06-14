@@ -553,7 +553,7 @@ const store = new Vuex.Store({
                     status : [8],
                     class_name: {'user':'success','admin':'stanby'},
                     show: ['user','admin'],
-                    text : { 'user':'ส่งข้อมูลแล้ว','admin':'ระหว่างรอรับเรื่อง'},
+                    text : { 'user':'ส่งข้อมูลแล้ว','admin':'อยู่ระหว่างรอรับเรื่อง'},
                     icon: {'user':'fas fa-paper-plane icon_success','admin':'fas fa-paper-plane icon_warning'},
                     color: {'user':'icon_success','admin':'icon_warning'},
                     count: 0

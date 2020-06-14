@@ -12,6 +12,9 @@ class Form extends Model
         'name1',
         'name2',
         'name3',
+        'type',
+        'book_no',
+        'book_date',
         'order',
         'create_by',
         'status'

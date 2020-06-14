@@ -28,6 +28,7 @@ class iFormRequest extends FormRequest
             'name2' => 'required',
             'name3' => 'required',
             'order' => 'required',
+            'type' => 'required',
             'create_by' => 'required',
             'status' => 'required'
         ];

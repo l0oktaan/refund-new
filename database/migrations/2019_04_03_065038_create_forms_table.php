@@ -18,6 +18,10 @@ class CreateFormsTable extends Migration
             $table->string("name1");
             $table->string("name2");
             $table->string("name3");
+            $table->tinyInteger("type")->nullable();
+            $table->date("minutes_date");
+            $table->string("book_no");
+            $table->date("book_date");
             $table->tinyInteger("order");
             $table->string("create_by");
             $table->tinyInteger("status");

@@ -7,30 +7,63 @@
                 <strong>รายละเอียดฟอร์ม</strong>
             </div>
             <b-form @submit="onSubmit">
-                <b-form-group>
-                    <label for="name1">ชื่อแบบฟอร์ม</label>
-                    <b-form-input type="text"
+                <b-row>
+                    <b-col>
+                        <b-form-group>
+                            <label for="name1">ชื่อแบบฟอร์ม</label>
+                            <b-form-input type="text"
 
-                        placeholder="ชื่อแบบฟอร์ม"
-                        name="name1"
-                        v-model="name1"
-                        >
-                    </b-form-input>
-                    
-                </b-form-group>
-                <b-form-group >
-                    <label for="name2">รายละเอียดแบบฟอร์ม</label>
-                    <b-form-input type="text"
-                        v-model="name2"
+                                placeholder="ชื่อแบบฟอร์ม"
+                                name="name1"
+                                v-model="name1"
+                                >
+                            </b-form-input>
 
-                        placeholder="ชื่อแบบฟอร์ม เพิ่มเติม">
-                    </b-form-input>
-                    
-                </b-form-group>
-                <b-form-group>
-                    <label for="formName3">ชื่อย่อแบบฟอร์ม</label>
-                    <b-form-input type="text" v-model="name3" id="txtFormName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
-                </b-form-group>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group>
+                            <label for="minutes_date">ชื่อแบบฟอร์ม</label>
+                            <thai-date name="minutes_date" v-model="minutes_date"></thai-date>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <b-form-group >
+                            <label for="name2">รายละเอียดแบบฟอร์ม</label>
+                            <b-form-input type="text"
+                                v-model="name2"
+
+                                placeholder="ชื่อแบบฟอร์ม เพิ่มเติม">
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group >
+                            <label for="book_no">เลขที่หนังสือ</label>
+                            <b-form-input type="text"
+                                v-model="book_no"
+                                placeholder="ใส่เลขที่หนังสือ">
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group>
+                            <label for="book_date">ลงวันที่</label>
+                            <thai-date name="book_date" v-model="book_date"></thai-date>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <b-form-group>
+                            <label for="formName3">ชื่อย่อแบบฟอร์ม</label>
+                            <b-form-input type="text" v-model="name3" id="txtFormName3" placeholder="ชื่อแบบฟอร์ม เพิ่มเติม"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
                 <b-row>
                     <b-col sm="4">
                          <b-form-group>
@@ -42,7 +75,7 @@
                                 :options="form_order_list"
                                 >
                             </b-form-select>
-                            
+
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -72,12 +105,18 @@ export default {
             name1: '',
             name2: '',
             name3: '',
+            type: [
+
+            ],
+            minutes_date: '',
+            book_no: '',
+            book_date: '',
             order: 0,
             form_order_list: [],
             form_order_max: 0
         }
     },
-    
+
     created(){
 
     },
@@ -165,13 +204,13 @@ export default {
             this.name2 = "";
             this.name3 = "";
             this.order = 0;
-            
+
         },
         onSubmit(e){
             e.preventDefault();
 
-            
-           
+
+
             let path;
             path = '/api/forms';
             var form = {};
@@ -219,7 +258,7 @@ export default {
             setTimeout(() => {
             this.submitStatus = 'OK'
             }, 500)
-            
+
 
         }
 
