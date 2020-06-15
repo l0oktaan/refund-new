@@ -302,6 +302,8 @@
                     <div class="page" id="attach">
                         <div class="subpage" v-if="isReady">
                             <refund-report-doc-list
+                                :form = "refund.form"
+                                :detail = "refund.detail"
                                 :contract = "refund.refund.contracts[0]"
                                 :contract_edit = "refund.refund.contract_edits"
                                 :contract_time_edit = "time_edits"

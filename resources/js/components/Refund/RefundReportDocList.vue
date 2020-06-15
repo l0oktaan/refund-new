@@ -10,8 +10,8 @@
                 <table class="report_doc_list" style="width: 100%">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 30%" class="topic">ประเภทเอกสาร</th>
-                            <th scope="col" style="width: 70%" class="topic">รายการเอกสาร</th>
+                            <th scope="col" style="width: 25%" class="topic">ประเภทเอกสาร</th>
+                            <th scope="col" style="width: 75%" class="topic">รายการเอกสาร</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,77 +34,106 @@
                         <tr>
                             <td><p class="head">3. ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา</p></td>
                             <td>
-
-                                    <p  class="head">
-                                        3.1 กรณีอนุมัติให้ตามมติ ครม.
-                                    </p>
-                                    <div v-for="item in contract_time_edit" :key="item.id">
-                                        <div v-if="item.approve_type > 10 && item.approve_type <20 ">
+                                <!-- <p>{{contract_time_edit}}</p>
+                                <p>{{edit_type_1}}</p>
+                                <p>{{edit_type_2}}</p>
+                                <p>{{edit_type_3}}</p> -->
+                                <!-- <div v-for="item in contract_time_edit" :key="item.id"> -->
+                                    <div v-if="edit_type_1.length > 0">
+                                        <p class="head">
+                                            <b>กรณีอนุมัติให้ตามมติ ครม.</b>
+                                        </p>
+                                        <div v-for="(item,index) in edit_type_1" :key="index">
                                             <p  class="head pl-4">
-                                                <i class="far fa-square fa-lg"></i> (1) หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
+                                                <i class="far fa-square fa-lg"></i> 1) หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
                                             </p>
                                             <p  class="head pl-4">
                                                 <i class="far fa-square fa-lg"></i> 2) หนังสือส่วนราชการอนุมัติ {{arrEditType[arrEditType.findIndex(x=>x.value == item.edit_type)]['text']}} ตาม <span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่ผู้มีอำนาจลงนามอนุมัติ
                                             </p>
                                         </div>
-                                        <div v-else>
-                                            <p class="head pl-4">
-                                                - ไม่มี-
-                                            </p>
-                                        </div>
+                                        
                                     </div>
-
-                                    <p  class="head">
-                                        3.2 กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ
-                                    </p>
-                                    <p class="head  pl-2">
-                                        3.2.1 ระเบียบพัสดุ ข้อ 136 ,ข้อ 139 (1) พรบ. จัดซื้อจัดจ้าง มาตรา 97 ,102 (1)
-                                    </p>
-                                    <div v-for="item2 in contract_time_edit" :key="item2.id*2">
-                                        <div v-if="approveTypeGroup2.findIndex(x=>x == item2.approve_type) >= 0">
+                                    <div v-if="edit_type_2.length > 0 || edit_type_3.length > 0">
+                                        <p  class="head">
+                                            <b>กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ</b>
+                                        </p>
+                                    </div>
+                                    <div v-if="edit_type_2.length > 0">                                        
+                                        <p class="head  pl-2">
+                                            <b>ระเบียบพัสดุ ข้อ 136 ,ข้อ 139 (1) พรบ. จัดซื้อจัดจ้าง มาตรา 97 ,102 (1)</b>
+                                        </p>
+                                        <div v-for="(item2,index) in edit_type_2" :key="index">
                                             <p  class="head  pl-4">
-                                                ({{group_2}}) กรณี <span class="show-list">{{item2.approve_case}}</span>
+                                                กรณี <span class="show-list">{{item2.approve_case}}</span>
                                             </p>
                                             <p  class="head  pl-4">
                                                 <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item2.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item2.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                             </p>
-                                        </div>
-                                        <div v-else>
-                                            <p  class="head pl-4">
-                                                - ไม่มี -
-                                            </p>
-                                        </div>
+                                        </div>                                        
                                     </div>
-
-                                    <p  class="head  pl-2">
-                                        3.2.2 ระเบียบพัสดุ ข้อ 139 (2) ,(3) พรบ. จัดซื้อจัดจ้าง มาตรา 102 (2) ,(3)
-                                    </p>
-                                    <div v-for="item3 in contract_time_edit" :key="item3.id*3">
-                                        <div v-if="approveTypeGroup3.findIndex(x=> x == item3.approve_type) >= 0">
-                                            <p  class="head pl-4">
-                                                ({{group_3}}) กรณี <span class="show-list">{{item3.approve_case}}</span>
+                                <!-- </div> -->
+                                    <div v-if="edit_type_3.length > 0">
+                                        <p  class="head  pl-2">
+                                            <b>ระเบียบพัสดุ ข้อ 139 (2) ,(3) พรบ. จัดซื้อจัดจ้าง มาตรา 102 (2) ,(3)</b>
+                                        </p>
+                                        <div v-for="(item3,index) in edit_type_3" :key="index">                                            
+                                            <p class="head pl-4">
+                                                กรณี <span class="show-list">{{item3.approve_case}}</span>
                                             </p>
                                             <p  class="head pl-4">
                                                 <i class="far fa-square fa-lg"></i> หนังสือส่วนราชการอนุมัติ <span class="show-list">{{arrEditType[arrEditType.findIndex(x=>x.value == item3.edit_type)]['text']}}</span> จำนวน <span class="show-list">{{item3.edit_days}}</span>วัน ที่ผู้มีอำนาจลงนามอนุมัติ
-                                            </p>
+                                            </p>                                            
                                         </div>
-                                    </div>
-                                    <div v-if="count_group_3 > 0">
                                         <p  class="head pl-4">
                                             <i class="far fa-square fa-lg"></i> เอกสารที่ระบุว่าเหตุหรือปัญหาอุปสรรคดังกล่าวสิ้นสุดลงวันที่เท่าใด
                                         </p>
                                         <p  class="head pl-4">
                                             <i class="far fa-square fa-lg"></i> หนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด
                                         </p>
-                                    </div>
-                                    <div v-else>
-                                        <p class="head pl-4">
-                                            - ไม่มี -
-                                        </p>
-                                    </div>
+                                    </div>                 
+
+                                    
+                                    
+                                    
                                     <div>
                                         <p class="head">
                                             (*กรณีผู้ลงนามอนุมัติ งด/ลด/ขยายเวลา เป็นผู้ได้รับมอบอานาจ ให้แนบคาสั่งมอบอานาจมาประกอบการพิจารณาด้วย)
+                                        </p>
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p class="head"></p></td>
+                            <td>
+                                    <p  class="head">
+                                        ครั้งนี้
+                                    </p>
+                                    <div v-if="form.type==1">
+                                        <p  class="head">
+                                            กรณีอนุมัติให้ตามมติ ครม.
+                                        </p>
+                                        <p  class="head pl-4">
+                                            <i class="far fa-square fa-lg"></i> (1) หนังสืออนุมัติงดหรือลดค่าปรับ หรือคืนค่าปรับตาม<span class="show-list">มติ ครม. เมื่อวันที่ {{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span>ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        </p>
+                                        <p  class="head pl-4">
+                                            <i class="far fa-square fa-lg"></i> 2) หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม<span class="show-list">มติ ครม. เมื่อวันที่  {{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
+                                        </p>
+                                    </div>
+                                    <div v-else-if="form.type==2">
+                                        <p class="head">
+                                            กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ
+                                        </p>
+                                        <p  class="head pl-2">
+                                            <i class="far fa-square fa-lg"></i> หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม {{detail[detail.findIndex(x=>x.consider_id == 59)]['value'] + ' ข้อ ' + detail[detail.findIndex(x=>x.consider_id == 103)]['value']}} ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        </p>
+                                        <p  class="head pl-2">
+                                            <i class="far fa-square fa-lg"></i> กรณีอนุมัติให้ตาม (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย ให้แนบ
+                                        </p>
+                                        <p  class="head  pl-4">
+                                            1. เอกสารที่ระบุว่าเหตุหรือปัญหาอุปสรรคดังกล่าวสิ้นสุดลงวันที่เท่าใด 
+                                        </p>
+                                         <p  class="head  pl-4">
+                                            2. หนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
                                         </p>
                                     </div>
                             </td>
@@ -156,7 +185,7 @@
 <script>
 
 export default {
-    props: ["contract","contract_edit","contract_time_edit","delivery","deposit_penalty"],
+    props: ["form","detail","contract","contract_edit","contract_time_edit","delivery","deposit_penalty"],
     data(){
         return {
             arrEditType : [
@@ -206,17 +235,31 @@ export default {
             this.count_group_3 = this.count_group_3 + 1;
             return this.count_group_3;
         },
+        edit_type_1(){
+            return this.contract_time_edit.filter(x=>x.approve_type > 10 && x.approve_type <20);
+            // this.refund_filter = this.refunds.filter(x=>x.contracts.findIndex(y=>y.contract_party.search(this.filter)>=0)>=0 || x.contracts.findIndex(z=>z.contract_no.search(this.filter)>=0)>=0 || x.approve_code.search(this.filter)>=0);
+        },
+        edit_type_2(){
+            return this.contract_time_edit.filter(x=>this.approveTypeGroup2.findIndex(y=>y == x.approve_type)>=0);
+        },
+        edit_type_3(){
+            return this.contract_time_edit.filter(x=>this.approveTypeGroup3.findIndex(y=>y == x.approve_type)>=0);
+        }
     },
     created(){
 
     },
     methods: {
-
+        getBookNo(value){
+            let index = value.search('/');
+            return value.substring(index+1,value.length);
+        },
         getApproveType(id){
             if (id){
                 return this.arrApproveType[this.arrApproveType.findIndex(x=>x.value == id)]['text']
             }
         },
+        
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });

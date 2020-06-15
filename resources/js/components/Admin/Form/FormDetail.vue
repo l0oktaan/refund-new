@@ -329,5 +329,6 @@ export default {
 <style scoped>
 .form-control, .custom-select, .time-input{
     border-color: rgb(2, 74, 182)!important;
+    color: #000!important;
 }
 </style>
