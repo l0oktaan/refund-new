@@ -29,7 +29,7 @@ class iFormRequest extends FormRequest
             'name3' => 'required',
             'order' => 'required',
             'type' => 'required',
-            'create_by' => 'required',
+            
             'status' => 'required'
         ];
     }

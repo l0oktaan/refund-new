@@ -9,7 +9,7 @@
             :week-start = "7"
             :phrases="{ok: 'ตกลง', cancel: 'ยกเลิก'}"
             :input-id="'myDate' + id"
-            input-class="time-input"
+            input-class="time-input blue"
             class="theme-blue"
         ></datetime>
     </b-col>
@@ -72,5 +72,7 @@ export default {
 .ext{
     color: #000!important;
 }
-
+.blue{
+    border-color: rgb(2, 74, 182)!important;
+}
 </style>

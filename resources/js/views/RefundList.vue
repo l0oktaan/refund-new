@@ -174,7 +174,6 @@
             no-close-on-backdrop
             no-close-on-esc
             >
-
                 <refund-report v-if="refund_id != 0"
                     :refund_id="refund_id"
                     :office_id="office_id"

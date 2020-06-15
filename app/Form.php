@@ -13,6 +13,7 @@ class Form extends Model
         'name2',
         'name3',
         'type',
+        'minutes_date',
         'book_no',
         'book_date',
         'order',

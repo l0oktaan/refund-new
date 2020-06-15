@@ -26,7 +26,10 @@ export default {
                 this.$nextTick(()=>{
                     this.iDate = null;                    
                 })
+            }else{
+                this.iDate = this.value;
             }
+            //console.log('date :' + this.value);
         },
         iDate(newDate, oldDate){            
             this.$emit('input',this.iDate);             
@@ -35,6 +38,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.time-input{
+    border-color: rgb(2, 74, 182)!important;
+}
 </style>

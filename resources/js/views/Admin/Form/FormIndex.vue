@@ -10,7 +10,7 @@
 
         </div>
         <h2>รายการแบบฟอร์ม</h2>
-        <p>{{fCount}}</p>
+        <!-- <p>{{fCount}}</p> -->
         <b-row>
             <form-cover @onShowForm = "showForm"
                 v-for = "form in forms"
