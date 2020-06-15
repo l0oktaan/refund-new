@@ -2,7 +2,7 @@
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <b-row class="justify-content-md-center">
-            <b-col cols="10">
+            <b-col cols="12">
                 <b-tabs class="tab" card pills vertical nav-wrapper-class="w-40" v-model="tabIndex[1]">
                     <b-tab v-for="(rule,x_index) in rules" :key="x_index">
                         <template slot="title">

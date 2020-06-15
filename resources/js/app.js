@@ -439,6 +439,9 @@ Vue.component('MyDatePicker', MyDatePicker).defaults;
 import CheckGap from './components/CheckGap.vue';
 Vue.component('CheckGap', CheckGap).defaults;
 
+import CheckGap2 from './components/CheckGap2.vue';
+Vue.component('CheckGap2', CheckGap2).defaults;
+
 import ThaiDate from './components/ThaiDate.vue';
 Vue.component('ThaiDate', ThaiDate).defaults;
 

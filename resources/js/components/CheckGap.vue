@@ -2,12 +2,12 @@
     <div>
         <my-alert :AlertType="alert"></my-alert>
         <b-form-group>
-            <label for="begin_date">วันเริ่ม :</label>
+            <label for="begin_date" style="text-align:left">วันที่ปัญหาอุปสรรคสิ้นสุด :</label>
             <my-date-picker ref="begin_date" :showDate="date_begin" @update="value => date_begin = value"></my-date-picker>
         </b-form-group>
         <b-form-group>
-            <label for="end_date">สิ้นสุด :</label>
-            <my-date-picker ref="end_date"  :showDate="date_end" @update="value => date_end = value"></my-date-picker>
+            <label for="end_date">วันที่ผู้รับจ้างแจ้งเหตุสิ้นสุด :</label>
+            <my-date-picker ref="end_date" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
         </b-form-group>
     </div>
 </template>

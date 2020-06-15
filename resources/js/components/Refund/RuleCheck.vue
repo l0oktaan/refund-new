@@ -62,6 +62,10 @@
                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                 v-model="results[findResultIndex(consider.id)]['value']"
                             ></check-gap>
+                            <check-gap-2
+                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap2'"
+                                v-model="results[findResultIndex(consider.id)]['value']"
+                            ></check-gap-2>
 
                         </div>
                     </consider-check>
@@ -119,6 +123,10 @@
                                                 v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                                 v-model="results[findResultIndex(consider.id)]['value']"
                                             ></check-gap>
+                                            <check-gap-2
+                                                v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap2'"
+                                                v-model="results[findResultIndex(consider.id)]['value']"
+                                            ></check-gap-2>
                                         </b-form-group>
                                     </b-form>
 
@@ -177,6 +185,10 @@
                                         v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap'"
                                         v-model="results[findResultIndex(consider.id)]['value']"
                                     ></check-gap>
+                                    <check-gap-2
+                                        v-if="results[findResultIndex(consider.id)]['result_type'] == 'gap2'"
+                                        v-model="results[findResultIndex(consider.id)]['value']"
+                                    ></check-gap-2>
                                 </div>
                             </consider-check>
                         </b-card>

@@ -38,7 +38,7 @@
                             <span>{{consider.description}}</span>
                         </b-alert>
                     </div>
-                    <div class="p-2" style="max-width:30%">
+                    <div class="p-2 text-left" style="max-width:30%">
                             <slot></slot>
                     </div>
                 </div>

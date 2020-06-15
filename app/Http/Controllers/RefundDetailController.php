@@ -159,6 +159,7 @@ class RefundDetailController extends Controller
                             }
                         break;
                         case 6:
+                        case 7:
                             try {
                                 $var = intval($consider->var1);
                                 $value = explode("|",$detail->value);

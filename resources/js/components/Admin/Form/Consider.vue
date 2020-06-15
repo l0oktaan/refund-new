@@ -65,7 +65,7 @@
                         </b-form-group>
                     </b-col>
 
-                    <b-col cols="6" v-if="(consider_type==3) && ((consider_oper==1) || (consider_oper==6))">
+                    <b-col cols="6" v-if="(consider_type==3) && ((consider_oper==1) || (consider_oper==6) || (consider_oper==7))">
                             <b-form-group>
                             <label for="var1">ข้อมูลตรวจสอบ</label>
                             <b-form-input type="text"
@@ -182,7 +182,8 @@ export default {
                 {value: 4, text: 'หลังจากวันที่'},
                 {value: 3, text: 'อยู่ในช่วงเวลา'},
                 {value: 5, text: 'อยู่ในชุดข้อมูล'},
-                {value: 6, text: 'ไม่เกินจำนวนวัน (เริ่มต้น-สิ้นสุด)'}
+                {value: 6, text: 'ไม่เกินจำนวนวัน (เริ่มต้น-สิ้นสุด)(พัสดุ)'},
+                {value: 7, text: 'ไม่เกินจำนวนวัน (เริ่มต้น-สิ้นสุด)(ว 141)'}
             ],
             alert: '',
             lang: 'th',

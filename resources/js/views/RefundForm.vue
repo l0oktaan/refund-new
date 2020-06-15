@@ -174,6 +174,8 @@ export default {
                     return "inArray"
                 }else if (oper == 6){
                     return "gap"
+                }else if (oper == 7){
+                    return "gap2"
                 }else{
                     return "date"
                 }
