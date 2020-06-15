@@ -25,7 +25,7 @@
                                     <table class="report">
                                         <tr>
                                             <td style="width: 25%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่เอกสาร :</p></td>
-                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">63-0001-050012</p></td>
+                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">63-0001</p></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 25%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">ส่วนราชการ :</p></td>
@@ -35,8 +35,8 @@
                                     
                                 </b-col>
                                 <b-col cols="6" class="form_name">
-                                    <p class="topic">{{refund.form.name1}}</p>
-                                    <p class="topic">{{refund.form.name2}}</p>
+                                    <p class="topic">{{refund.form.name1}}<span v-if="refund.form.type==1">{{' เมื่อวันที่ ' + getThaiFullDate(refund.form.minutes_date)}}</span></p>
+                                    <p class="topic">{{refund.form.name2}}<span v-if="refund.form.type==1">{{' ' + refund.form.book_no + ' ลงวันที่ ' + getThaiFullDate(refund.form.book_date)}}</span></p>
                                 </b-col>
                                 <b-col cols="3">
                                     <p class="form_name3">{{refund.form.name3}}</p>
@@ -500,6 +500,11 @@ export default {
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+            //return moment(String(value)).format('LL')
+        },
+        getThaiFullDate(item){
+            var d = new Date(item);
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             //return moment(String(value)).format('LL')
         },
         getEditType(value){

@@ -20,7 +20,6 @@
                 :name3 = "form.name3"
                 :order = "form.order"
                 @fetchForm = "fetchData"
-
             ></form-cover>
         </b-row>
         <b-modal id="modalForm"
