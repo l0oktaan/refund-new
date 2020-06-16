@@ -426,7 +426,7 @@ th{
 
     width: 100%;
     font-weight: normal!important;
-    padding: 0 10px 0 10px!important;
+    padding: 0 5px 0 5px!important;
     text-align: left;
     font-size: 0.8rem!important;
     vertical-align: bottom;
