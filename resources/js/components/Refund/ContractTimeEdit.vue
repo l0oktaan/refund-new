@@ -109,9 +109,9 @@
                                 </b-col>
                                 <b-col sm="8" v-if="time_edit.approve_type == 99">
                                     <b-form-group>
-                                        <label for="approve_case">ข้อมูลเพิ่มเติม :</label>
+                                        <label for="approve_case">ข้อมูลเพิ่มเติม :<span class="require">*</span></label>
                                         <b-form-input type="text"
-                                            placeholder="บันทึกข้อมูลเพิ่มเติม"
+                                            placeholder="เช่น ระเบียบกระทรวงมหาดไทยว่าด้วยการพัสดุฯ พ.ศ. 2535 และที่แก้ไขเพิ่มเติม ข้อ 132"
                                             name="approve_case"
                                             v-model = "time_edit.approve_other_desc"
                                             id="txt_approve_other_desc"
@@ -123,7 +123,7 @@
                                     <b-form-group>
                                         <label for="approve_type">เข้าตามกรณี :<span class="require">*</span></label>
                                         <b-form-select
-                                            :options="arrApproveTypeOther"
+                                            :options="arrApproveOtherType"
                                             v-model = "time_edit.approve_other_type"
                                         >
                                         </b-form-select>
@@ -158,7 +158,7 @@
                             </b-row>
                             <b-row align-h="center">
                                 <b-col cols="7">
-                                    <show-alert :message="message" @clearMessage="clearMessage"></show-alert>
+                                    <show-alert :message="message" delay="2" @clearMessage="clearMessage"></show-alert>
                                 </b-col>
                             </b-row>
                             <b-row>
@@ -222,7 +222,7 @@ export default {
                 {text: 'งดหรือลดค่าปรับ', value : 2},
                 {text: 'คืนเงินค่าปรับ', value : 3}
             ],
-            arrApproveTypeOther: [
+            arrApproveOtherType: [
                 {text: 'ตัวเลือก', value : null},
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
                 {text: '(2) เหตุสุดวิสัย', value : 2},
@@ -342,7 +342,7 @@ export default {
                     if (diff > 15){
                         this.$nextTick(() => {
                             this.date_book = oldDate;
-                            this.message = "โปรดตรวจสอบและทบทวนการอนุมัติขยายเวลา งดหรือลดค่าปรับดังกล่าวอีกครั้งให้เป็นไปตามระเบียบก่อนขอทาความตกลงกับกรมบัญชีกลาง"
+                            this.message = "กรณี (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย คู่สัญญาต้องแจ้งเหตุดังกล่าวให้ส่วนราชการทราบภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง หากข้อเท็จจริงปรากฏว่าคู่สัญญาไม่มีการแจ้งภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง โปรดดำเนินการตรวจสอบและทบทวนการอนุมัติงดหรือลดค่าปรับ หรือขยายเวลาดังกล่าวให้ถูกต้องตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติของหน่วยงานก่อนขอทำความตกลงกับกรมบัญชีกลาง"
                         })
                         
                     }
@@ -372,7 +372,7 @@ export default {
         onSubmitTimeEdit(e){
             e.preventDefault();            
             if (this.time_edit.approve_type == 99){
-                if (!this.time_edit.approve_case || this.time_edit.approve_case == ''){
+                if (!this.time_edit.approve_case || this.time_edit.approve_case == '' || this.time_edit.approve_other_desc == '' || !this.time_edit.approve_other_type){
                    this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
                     return;
                 }

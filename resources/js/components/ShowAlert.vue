@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    props: ['message'],
+    props: ['message','delay'],
     data() {
       return {
         dismissSecs: 7,
@@ -23,15 +23,14 @@ export default {
         message_show: ''
       }
     },
-    watch : {
-        message(newVal, oldVal){
-            console.log('alert message : ' + newVal);
-            if (newVal != ''){
-
-                //this.message_show = newVal;
-                this.dismissCountDown = this.dismissSecs;
-            }
-        }
+    watch : {      
+      message(newVal, oldVal){
+          console.log('alert message : ' + newVal);
+          if (newVal != ''){
+              //this.message_show = newVal;
+              this.dismissCountDown = this.dismissSecs;
+          }
+      }
     },
     methods: {
       countDownChanged(dismissCountDown) {
