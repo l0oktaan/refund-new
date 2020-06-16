@@ -24,6 +24,8 @@ class CreateContractTimeEditsTable extends Migration
             $table->decimal('edit_budget',15,2);
             $table->date('contract_end_date');
             $table->string('approve_type');
+            $table->string('approve_other_desc')->nullable();
+            $table->tinyInteger('approve_other_type')->nullable();
             $table->string('approve_case')->nullable();
             $table->date('problem_end_date');
             $table->date('book_date');

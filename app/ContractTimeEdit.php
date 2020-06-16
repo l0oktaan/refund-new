@@ -18,6 +18,8 @@ class ContractTimeEdit extends Model
         'edit_start_date',
         'edit_end_date',
         'approve_type',
+        'approve_other_desc',
+        'approve_other_type',
         'approve_case',
         'problem_end_date',
         'book_date'

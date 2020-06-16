@@ -107,7 +107,29 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="8" v-if="time_edit.approve_type == 99">
+                                    <b-form-group>
+                                        <label for="approve_case">ข้อมูลเพิ่มเติม :</label>
+                                        <b-form-input type="text"
+                                            placeholder="บันทึกข้อมูลเพิ่มเติม"
+                                            name="approve_case"
+                                            v-model = "time_edit.approve_other_desc"
+                                            id="txt_approve_other_desc"
+                                        >
+                                        </b-form-input>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="4" v-if="time_edit.approve_type == 99">
+                                    <b-form-group>
+                                        <label for="approve_type">เข้าตามกรณี :<span class="require">*</span></label>
+                                        <b-form-select
+                                            :options="arrApproveTypeOther"
+                                            v-model = "time_edit.approve_other_type"
+                                        >
+                                        </b-form-select>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) || time_edit.approve_other_type">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -118,27 +140,16 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="8" v-if="time_edit.approve_type == 99">
-                                    <b-form-group>
-                                        <label for="approve_case">ข้อมูลเพิ่มเติม :</label>
-                                        <b-form-input type="text"
-                                            placeholder="บันทึกข้อมูลเพิ่มเติม"
-                                            name="approve_case"
-                                            v-model = "time_edit.approve_case"
-                                            id="txt_approve_case"
-                                        >
-                                        </b-form-input>
-                                    </b-form-group>
-                                </b-col>
+                                
                             </b-row>
-                            <b-row>
-                                <b-col sm="4" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
+                            <b-row v-if="(arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))) || (time_edit.approve_other_type && time_edit.approve_other_type > 1)">
+                                <b-col sm="4" >
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="4" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="4" >
                                     <b-form-group>
                                         <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
@@ -211,6 +222,12 @@ export default {
                 {text: 'งดหรือลดค่าปรับ', value : 2},
                 {text: 'คืนเงินค่าปรับ', value : 3}
             ],
+            arrApproveTypeOther: [
+                {text: 'ตัวเลือก', value : null},
+                {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
+                {text: '(2) เหตุสุดวิสัย', value : 2},
+                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
+            ],
             arrApproveType : this.$store.getters.arrApproveType,
             arrShowDetail1 : [
                 21,24,22,23,34,30,31,32
@@ -232,7 +249,8 @@ export default {
             time_edit : {
                 edit_type: null,
                 approve_type: null,
-                edit_detail: '-'
+                edit_detail: '-',
+                approve_other_type: null
             },
             time_edit_list: [],
             date_approve: '',
@@ -362,7 +380,7 @@ export default {
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
 
             if (this.state == 'new'){
-                console.log('Path : ' + path + ' data :'+this.time_edit);
+                
                 axios.post(`${path}`,{
                     approve_date: this.date_approve,
                     edit_type: this.time_edit.edit_type,
@@ -372,6 +390,8 @@ export default {
                     edit_start_date: this.date_edit_start,
                     edit_end_date: this.date_edit_end,
                     approve_type: this.time_edit.approve_type,
+                    approve_other_desc: this.time_edit.approve_other_desc,
+                    approve_other_type: this.time_edit.approve_other_type,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
                     book_date: this.date_book
@@ -401,6 +421,8 @@ export default {
                     edit_start_date: this.date_edit_start,
                     edit_end_date: this.date_edit_end,
                     approve_type: this.time_edit.approve_type,
+                    approve_other_desc: this.time_edit.approve_other_desc,
+                    approve_other_type: this.time_edit.approve_other_type,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
                     book_date: this.date_book
@@ -504,10 +526,10 @@ export default {
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
-            //return moment(String(value)).format('LL')
+            
         },
         getApproveType(value){
-            console.log('Get Approve Type :' + value);
+            
             var index = this.arrApproveType.findIndex(x => x.value == value);
             return this.arrApproveType[index].text;
         },
@@ -516,7 +538,8 @@ export default {
             this.time_edit = {
                 edit_type: null,
                 approve_type: null,
-                edit_detail: '-'
+                edit_detail: '-',
+                approve_other_type: null
             };
             if (this.time_edit_list.length == 0){
                 this.isEdit = false

@@ -343,6 +343,12 @@ export default {
                 {text: 'คืนเงินค่าปรับ', value : 3}
             ],
             arrApproveType : this.$store.getters.arrApproveType,
+            arrApproveOtherType: [
+                {text: 'ตัวเลือก', value : null},
+                {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
+                {text: '(2) เหตุสุดวิสัย', value : 2},
+                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
+            ],
             arrShowTimeEditDetail : [
                 22,23,31,32
             ],
