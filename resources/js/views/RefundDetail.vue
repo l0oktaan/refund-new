@@ -307,18 +307,14 @@ export default {
             this.refund_status = 'new';
         },
 
-        checkRefundStatus(){
+        async checkRefundStatus(){
             var refund = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
-            axios.get(`${path}`)
-            .then(response=>{
-                this.$nextTick(()=>{
-                    refund = response.data.data[0];
-                    this.refund_s = refund.status;
-                    this.$store.commit("refund_status",this.refund_s);
-                    console.log('refund status : ' + this.refund_s);
-                })
-            })
+            let response = await axios.get(`${path}`);
+            refund = await response.data.data[0];
+            this.refund_s =  await refund.status;
+            await this.$store.commit("refund_status",this.refund_s);
+            console.log('refund status : ' + this.refund_s);
         },
 
         onTabChange(value){
