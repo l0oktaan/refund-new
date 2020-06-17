@@ -81,12 +81,12 @@
                                 class="form-control"
                                 :options="cleave_options.number"
                                 >
-                            </cleave>                            
+                            </cleave>
 
                         </b-form-group>
 
                     </b-col>
-                    <!-- <b-col cols="6">                        
+                    <!-- <b-col cols="6">
                         <b-form-radio-group id="rbt_penalty_type" v-model="penalty_type" name="rbt_penalty_type">
                             <b-form-radio value="1">
                                 <b-form-group :disabled="penalty_type != 1">
@@ -97,7 +97,7 @@
                                         v-model="penalty_per_day"
                                         class="form-control"
                                         :options="cleave_options.number">
-                                    </cleave>                                    
+                                    </cleave>
                                 </b-form-group>
                             </b-form-radio>
                             <b-form-radio value="2">
@@ -110,7 +110,7 @@
                                         class="form-control"
                                         :options="cleave_options.number">
                                     </cleave>
-                                
+
                                 </b-form-group>
                             </b-form-radio>
                         </b-form-radio-group>
@@ -125,7 +125,7 @@
                                 class="form-control"
                                 :options="cleave_options.number">
                             </cleave>
-                            
+
                         </b-form-group>
                     </b-col>
                     <b-col sm="3">
@@ -138,7 +138,7 @@
                                 class="form-control"
                                 :options="cleave_options.percent">
                             </cleave>
-                           
+
                         </b-form-group>
                     </b-col>
                     <b-col sm="4">
@@ -285,7 +285,7 @@ export default {
             //e.preventDefault();
 
             if (!this.penalty_type || this.penalty_type == 0){
-                
+
                 this.message = "กรุณาบันทึกค่าปรับ";
                 return;
             }else{
@@ -293,12 +293,12 @@ export default {
                     if (this.penalty_per_day < 0 || this.penalty_per_day == ''){
                         this.message = "กรุณาบันทึกค่าปรับ";
                         return;
-                    }                    
+                    }
                 }else if (this.penalty_type == 2){
                     if (this.penalty_per_day_percent < 0 || this.penalty_per_day_percent == ''){
                         this.message = "กรุณาบันทึกค่าปรับ";
                         return;
-                    } 
+                    }
                 }
             }
             var contract = {};
@@ -414,6 +414,7 @@ export default {
 
 
             })
+            this.$emit("refund_update");
         },
         showDatePick(refName,value){
             this.$nextTick(() => {
@@ -453,7 +454,7 @@ export default {
                     this.penalty_type = 2
                 }
             }
-            
+
             //this.showDatePick('start',this.contract.contract_start);
             //this.showDatePick('end',this.contract.contract_end);
             this.contract_start = this.contract.contract_start;

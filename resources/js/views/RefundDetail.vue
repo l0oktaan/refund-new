@@ -318,7 +318,6 @@ export default {
                     this.$store.commit("refund_status",this.refund_s);
                     console.log('refund status : ' + this.refund_s);
                 })
-
             })
         },
 
