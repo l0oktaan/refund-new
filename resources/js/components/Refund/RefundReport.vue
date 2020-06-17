@@ -221,69 +221,14 @@
                                                 <td></td>
                                                 <td style="text-align: center;">
                                                     <p class="confirm">ขอรับรองว่าเป็นข้อมูลที่ถูกต้อง</p>
-                                                    <p class="head">ลงชื่อ ....................................................</p>
-                                                    <p class="head">(................................................................)</p>
-                                                    <p class="head">ตำแหน่ง ....................................................</p>
+                                                    <div class="head-sign">ลงชื่อ ..............................................................</div>
+                                                    <div class="head-sign">(...........................................................................)</div>
+                                                    <div class="head-sign">ตำแหน่ง ...............................................................</div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <table class="report" v-if="false">
-                                        <tr>
-                                            <td style="width: 435px">
-                                                <div class="main_order">
-                                                    <p class="head">3. รายละเอียดการส่งมอบงาน (เฉพาะที่มีค่าปรับ)</p>
-                                                    <div v-for="(deliver,index) in delivers" :key="index">
-                                                        <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
-                                                        <p class="head sub" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
-                                                        <p class="head sub" v-if="deliver.overdue_days">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty | numeral('0,0.00')}}</span> บาท</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width: 379px"></td>
-                                            <td style="width: 270px">
-                                                <p class="head">รวมส่งมอบงานล่าช้า <span class="show">{{getOverdueDays()}}</span> วัน</p>
-                                                <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> บาท</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="main_order">
-                                                        <p class="head">4. รายละเอียดการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดินหฟกฟกฟ</p>
-                                                        <div v-for="(deposit,index) in deposits" :key="index">
-                                                            <p class="head sub">{{'4.' + (index + 1)}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> วันที่ผ่านรายการ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
-                                                            <p class="head sub">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}}</span> บาท</p>
-                                                        </div>
-                                                    </div>
-
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                <p class="head">นำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
-                                                <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getDepositAll() | numeral('0,0.00')}}</span> บาท</p>
-                                                <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="main_order">
-                                                        <p class="head">5. การขอถอนคืนเงินค่าปรับแก้ผู้มีสิทธิ</p>
-                                                        <div v-for="(approve,index) in approves" :key="index">
-                                                            <p class="head sub">หน่วยงานอนุมัติให้งด ลดค่าปรับ คืนเงินค่าปรับ </p>
-                                                            <p class="head sub">จำนวน <span class="show">{{approve.refund_days}} </span>วัน เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
-                                                            <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
-                                                        </div>
-                                                    </div>
-                                            </td>
-                                            <td></td>
-                                            <td style="text-align: center;">
-                                                <div class="confirm">ขอรับรองว่าเป็นข้อมูลที่ถูกต้อง</div>
-                                                <div class="head-sign">ลงชื่อ ....................................................</div>
-                                                <div class="head-sign">(................................................................)</div>
-                                                <div class="head-sign">ตำแหน่ง ....................................................</div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    
                                 </b-col>
                             </b-row>
                         </div>
@@ -647,7 +592,7 @@ p.head{
     font-weight: normal;
     width: 100%;
     font-size: 8pt!important;
-    padding-top: 20pt!important;
+    padding-top: 10pt!important;
 
 }
 .head{
@@ -661,6 +606,7 @@ p.confirm{
     font-weight: normal;
     width: 100%;
     margin-bottom: 7px!important;
+    
     font-size: 8pt!important;
 
 }
