@@ -281,8 +281,7 @@ export default {
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
-        onContractSubmit(e){
-            //e.preventDefault();
+        async onContractSubmit(e){
 
             if (!this.penalty_type || this.penalty_type == 0){
 
@@ -302,87 +301,100 @@ export default {
                 }
             }
             var contract = {};
-            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
-            console.log('contract path : ' + path);
+
+            // console.log('contract path : ' + path);
             //return
             console.log('contract status : ' + this.contract_status);
             if (this.contract_status == 'new'){
-                axios.post(`${path}`,{
-                    contract_party: this.contract_party,
-                    contract_no:    this.contract_no,
-                    contract_date:  this.contract_date,
-                    budget:         this.budget,
-                    penalty_type:   this.penalty_type,
-                    penalty_per_day: this.penalty_per_day,
-                    penalty_per_day_percent: this.penalty_per_day_percent,
-                    contract_start: this.contract_start,
-                    contract_end:   this.contract_end,
-                })
-                .then(response=>{
-                    // contract = response.data.data;
-
-                    // this.contract_id = contract.id;
-                    // this.contract_party = contract.contract_party;
-                    // this.contract_no = contract.contract_no;
-                    // this.contract_date = contract.contract_date;
-                    // this.showDatePick('contract_date', contract.contract_date);
-                    // this.budget = contract.budget;
-                    // this.penalty_per_day = contract.penalty_per_day;
-                    // this.showDatePick('start',contract.contract_start);
-                    // this.showDatePick('end',contract.contract_end);
-
-                    // this.contract_start = contract.contract_start;
-                    // this.contract_end = contract.contract_end;
-
-                    this.contract_status = 'update';
-                    this.alert = 'success';
+                try {
+                    let path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
+                    let response = await axios.post(`${path}`,{
+                        contract_party: this.contract_party,
+                        contract_no:    this.contract_no,
+                        contract_date:  this.contract_date,
+                        budget:         this.budget,
+                        penalty_type:   this.penalty_type,
+                        penalty_per_day: this.penalty_per_day,
+                        penalty_per_day_percent: this.penalty_per_day_percent,
+                        contract_start: this.contract_start,
+                        contract_end:   this.contract_end,
+                    })
+                    this.contract_status = await 'update';
+                    this.alert = await 'success';
                     // this.contract = contract;
-                    this.$emit("refund_update");
-                    this.$forceUpdate();
-                })
-                .catch(error=>{
+                    await this.$emit("refund_update");
+                    await this.$forceUpdate();
+                } catch (error) {
                     console.log('error :' + error);
                     this.alert = 'error';
-                })
+                }
+                // let response = axios.post(`${path}`,{
+                //     contract_party: this.contract_party,
+                //     contract_no:    this.contract_no,
+                //     contract_date:  this.contract_date,
+                //     budget:         this.budget,
+                //     penalty_type:   this.penalty_type,
+                //     penalty_per_day: this.penalty_per_day,
+                //     penalty_per_day_percent: this.penalty_per_day_percent,
+                //     contract_start: this.contract_start,
+                //     contract_end:   this.contract_end,
+                // })
+                // .then(response=>{
+                //     this.contract_status = 'update';
+                //     this.alert = 'success';
+                //     // this.contract = contract;
+                //     this.$emit("refund_update");
+                //     this.$forceUpdate();
+                // })
+                // .catch(error=>{
+                //     console.log('error :' + error);
+                //     this.alert = 'error';
+                // })
             }else{
-                path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts/${this.contract_id}`;
-                axios.put(`${path}`,{
-                    contract_party: this.contract_party,
-                    contract_no:    this.contract_no,
-                    contract_date:  this.contract_date,
-                    budget:         this.budget,
-                    penalty_type:   this.penalty_type,
-                    penalty_per_day: this.penalty_per_day,
-                    penalty_per_day_percent: this.penalty_per_day_percent,
-                    contract_start: this.contract_start,
-                    contract_end:   this.contract_end,
-                })
-                .then(response=>{
-                    // contract = response.data.data;
-                    // this.contract_id = contract.id;
-                    // this.contract_party = contract.contract_party;
-                    // this.contract_no = contract.contract_no;
-                    // this.contract_date = contract.contract_date;
-                    // this.showDatePick('contract_date', contract.contract_date);
-                    // this.budget = contract.budget;
-                    // this.penalty_per_day = contract.penalty_per_day;
-                    // this.showDatePick('start',contract.contract_start);
-                    // this.showDatePick('end',contract.contract_end);
-
-                    // this.contract_start = contract.contract_start;
-                    // this.contract_end = contract.contract_end;
-
-                    this.contract_status = 'update';
-                    this.alert = 'success';
-                    // this.contract = contract;
+                try {
+                    let path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts/${this.contract_id}`;
+                    let response = await axios.put(`${path}`,{
+                        contract_party: this.contract_party,
+                        contract_no:    this.contract_no,
+                        contract_date:  this.contract_date,
+                        budget:         this.budget,
+                        penalty_type:   this.penalty_type,
+                        penalty_per_day: this.penalty_per_day,
+                        penalty_per_day_percent: this.penalty_per_day_percent,
+                        contract_start: this.contract_start,
+                        contract_end:   this.contract_end,
+                    });
+                    this.contract_status = await 'update';
+                    this.alert = await 'success';
+                    await this.$emit("refund_update");
                     this.$forceUpdate();
-                })
-                .catch(error=>{
+                } catch (error) {
                     console.log('error :' + error);
                     this.alert = 'error';
-                })
+                }
+                // let path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts/${this.contract_id}`;
+                // axios.put(`${path}`,{
+                //     contract_party: this.contract_party,
+                //     contract_no:    this.contract_no,
+                //     contract_date:  this.contract_date,
+                //     budget:         this.budget,
+                //     penalty_type:   this.penalty_type,
+                //     penalty_per_day: this.penalty_per_day,
+                //     penalty_per_day_percent: this.penalty_per_day_percent,
+                //     contract_start: this.contract_start,
+                //     contract_end:   this.contract_end,
+                // })
+                // .then(response=>{
+                //     this.contract_status = 'update';
+                //     this.alert = 'success';
+                //     this.$forceUpdate();
+                // })
+                // .catch(error=>{
+                //     console.log('error :' + error);
+                //     this.alert = 'error';
+                // })
             }
-            this.$emit("refund_update");
+
         },
         fetchContract(){
             var contract = {};
