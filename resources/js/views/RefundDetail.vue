@@ -123,7 +123,7 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-        
+
         if (!this.$store.getters.refund_contract_no){
             this.$swal({
                 title: "กรุณายืนยัน",
@@ -141,7 +141,7 @@ export default {
                     // axios.put(`${path}`,{
                     //     status : '0'
                     // })
-                    
+
                         axios.delete(`${path}`)
                         .then(response=>{
                             next()
@@ -150,8 +150,7 @@ export default {
                             console.log('error : ' + error);
                             return false;
                         })
-                    
-                    
+
                 }else{
                     return false;
                 }
@@ -227,7 +226,7 @@ export default {
                             return false;
                         })
                     })
-                    
+
                 }else{
                     return false;
                 }
@@ -313,10 +312,13 @@ export default {
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
             axios.get(`${path}`)
             .then(response=>{
-                refund = response.data.data[0];
-                this.refund_s = refund.status;
-                this.$store.commit("refund_status",this.refund_s);
-                console.log('refund status : ' + this.refund_s);
+                this.$nextTick(()=>{
+                    refund = response.data.data[0];
+                    this.refund_s = refund.status;
+                    this.$store.commit("refund_status",this.refund_s);
+                    console.log('refund status : ' + this.refund_s);
+                })
+
             })
         },
 
