@@ -202,6 +202,7 @@
                                                 <td></td>
                                                 <td>
                                                     <p class="head">นำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
+                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getDepositAll() | numeral('0,0.00')}}</span> บาท</p>
                                                     <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
                                                 </td>
                                             </tr>
@@ -248,7 +249,7 @@
                                         <tr>
                                             <td>
                                                 <div class="main_order">
-                                                        <p class="head">4. รายละเอียดการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
+                                                        <p class="head">4. รายละเอียดการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดินหฟกฟกฟ</p>
                                                         <div v-for="(deposit,index) in deposits" :key="index">
                                                             <p class="head sub">{{'4.' + (index + 1)}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> วันที่ผ่านรายการ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
                                                             <p class="head sub">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}}</span> บาท</p>
@@ -259,6 +260,7 @@
                                             <td></td>
                                             <td>
                                                 <p class="head">นำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
+                                                <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getDepositAll() | numeral('0,0.00')}}</span> บาท</p>
                                                 <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
                                             </td>
                                         </tr>
@@ -275,10 +277,10 @@
                                             </td>
                                             <td></td>
                                             <td style="text-align: center;">
-                                                <p class="confirm">ขอรับรองว่าเป็นข้อมูลที่ถูกต้อง</p>
-                                                <p class="head">ลงชื่อ ....................................................</p>
-                                                <p class="head">(................................................................)</p>
-                                                <p class="head">ตำแหน่ง ....................................................</p>
+                                                <div class="confirm">ขอรับรองว่าเป็นข้อมูลที่ถูกต้อง</div>
+                                                <div class="head-sign">ลงชื่อ ....................................................</div>
+                                                <div class="head-sign">(................................................................)</div>
+                                                <div class="head-sign">ตำแหน่ง ....................................................</div>
                                             </td>
                                         </tr>
                                     </table>
@@ -565,6 +567,13 @@ export default {
             }
             return penalty;
         },
+        getDepositAll(){
+            let sum = 0;
+            for (let i=0; i < this.deposits.length; i++){
+                sum = sum + this.deposits[i]['amount'];
+            }
+            return sum;
+        },
         getDepositYear(){
             var arrYear = [];
             var tmp = [];
@@ -624,11 +633,21 @@ export default {
     font-size: 9pt!important;   
 
 }
+.sign{
+    padding-top: 5px!important;
+}
 p.head{
     font-weight: normal;
     width: 100%;
 
     font-size: 8pt!important;
+
+}
+.head-sign{
+    font-weight: normal;
+    width: 100%;
+    font-size: 8pt!important;
+    padding-top: 20pt!important;
 
 }
 .head{
