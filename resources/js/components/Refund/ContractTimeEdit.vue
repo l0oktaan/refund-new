@@ -25,6 +25,7 @@
                         v-model="isEdit"
                     />
                 </span>
+                
                 <b-form @submit="onSubmitTimeEdit" v-if="isEdit">
                             <b-row>
                                 <b-col sm="3">
@@ -157,7 +158,16 @@
                                 </b-col>
                             </b-row>
                             <b-row align-h="center">
-                                <b-col cols="7">
+                                <b-col cols="10">
+                                    <b-alert
+                                        variant="danger"
+                                        dismissible
+                                        fade
+                                        :show="showRuleAlert"
+                                        @dismissed="showRuleAlert=false"
+                                    >
+                                        <p style="text-align:justify">{{messageRule}}</p>
+                                    </b-alert>
                                     <show-alert :message="message" delay="2" @clearMessage="clearMessage"></show-alert>
                                 </b-col>
                             </b-row>
@@ -266,6 +276,8 @@ export default {
             refund_status: this.$store.getters.refund_status,
             message: '',
             isEdit: false,
+            showRuleAlert: false,
+            messageRule: 'กรณี (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย คู่สัญญาต้องแจ้งเหตุดังกล่าวให้ส่วนราชการทราบภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง หากข้อเท็จจริงปรากฏว่าคู่สัญญาไม่มีการแจ้งภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง โปรดดำเนินการตรวจสอบและทบทวนการอนุมัติงดหรือลดค่าปรับ หรือขยายเวลาดังกล่าวให้ถูกต้องตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติของหน่วยงานก่อนขอทำความตกลงกับกรมบัญชีกลาง',
             
         }
     },
@@ -321,10 +333,11 @@ export default {
                     console.log('diff :' + diff);
                     if (diff > 15){
                         this.$nextTick(() => {
-                            this.date_problem_end = oldDate;
-                            this.message = "โปรดตรวจสอบและทบทวนการอนุมัติขยายเวลา งดหรือลดค่าปรับดังกล่าวอีกครั้งให้เป็นไปตามระเบียบก่อนขอทาความตกลงกับกรมบัญชีกลาง"
+                            // this.date_problem_end = oldDate;
+                            this.showRuleAlert = true;
                         })
-                        
+                    }else{                        
+                        this.showRuleAlert = false;
                     }
                 }
             }
@@ -341,16 +354,28 @@ export default {
                     console.log('diff :' + diff);
                     if (diff > 15){
                         this.$nextTick(() => {
-                            this.date_book = oldDate;
-                            this.message = "กรณี (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย คู่สัญญาต้องแจ้งเหตุดังกล่าวให้ส่วนราชการทราบภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง หากข้อเท็จจริงปรากฏว่าคู่สัญญาไม่มีการแจ้งภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง โปรดดำเนินการตรวจสอบและทบทวนการอนุมัติงดหรือลดค่าปรับ หรือขยายเวลาดังกล่าวให้ถูกต้องตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติของหน่วยงานก่อนขอทำความตกลงกับกรมบัญชีกลาง"
-                        })
-                        
+                            // this.date_book = oldDate;
+                            this.showRuleAlert = true;
+                        })                        
+                    }else{
+                        this.showRuleAlert = false;
                     }
                 }
             }
         }
     },
     methods: {
+        checkRule(){
+            let diff = this.diffDate(this.date_problem_end,this.date_book);
+            
+            if (diff > 15){
+                this.showRuleAlert = true;
+                return false;                      
+            }else{
+                this.showRuleAlert = false;
+                return true;
+            }
+        },
         clearMessage(){
             this.message = ''
         },
@@ -376,6 +401,14 @@ export default {
                    this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
                     return;
                 }
+            }
+            if ((this.arrShowDetail1.includes(parseInt(this.time_edit.approve_type)) || this.time_edit.approve_other_type) && (!this.time_edit.approve_case ||this.time_edit.approve_case == '')){
+                this.message = 'กรุณาใส่ข้อมูลในช่อง "กรณี"';
+                return;
+
+            }
+            if (!this.checkRule()){
+                return;
             }
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
 
