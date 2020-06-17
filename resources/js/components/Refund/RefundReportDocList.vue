@@ -39,7 +39,7 @@
                                 <!-- <p>{{approve_type_2}}</p> -->
                                 <!-- <p>{{approve_type_3}}</p> -->
                                 <!-- <p>{{approve_other_type}}</p> -->
-                                <div v-if="contract_time_edit || contract_time_edit.length > 0">
+                                <div v-if="contract_time_edit && contract_time_edit.length > 0">
                                     <div v-for="(item,index) in contract_time_edit" :key="index">
                                         
                                         <div v-if="approve_type_1.findIndex(x=>x.id == item.id)>=0">
@@ -67,7 +67,8 @@
                                         </div>
                                         
                                     </div>
-                                    <p  class="head">
+                                    
+                                    <p class="head">
                                         <b>กรณีอนุมัติให้ตาม (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย ให้แนบ</b>
                                     </p>
                                     <p  class="head  pl-4">
@@ -79,6 +80,7 @@
                                     <p class="head">
                                         (*กรณีผู้ลงนามอนุมัติ งด/ลด/ขยายเวลา เป็นผู้ได้รับมอบอำนาจ ให้แนบคำสั่งมอบอำนาจมาประกอบการพิจารณาด้วย)
                                     </p>
+                                                                        
                                     
                                 </div>
                                 <div v-if="!contract_time_edit || contract_time_edit.length == 0">
