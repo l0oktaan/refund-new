@@ -202,7 +202,7 @@
                                                 <td></td>
                                                 <td>
                                                     <p class="head">นำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
-                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getDepositAll() | numeral('0,0.00')}}</span> บาท</p>
+                                                    <p class="head">รวมเป็นเงิน <span class="show">{{getDepositAll() | numeral('0,0.00')}}</span> บาท</p>
                                                     <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
                                                 </td>
                                             </tr>
