@@ -217,7 +217,7 @@ export default {
             arr_refund_status: this.$store.getters.arr_refund_status,
             user_type: '',
             show: false,
-            currentPage: (this.$store.getters.current_page) ? this.$store.getters.current_page : 1,
+            currentPage: this.$store.getters.current_page,
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
             fields: [''],
@@ -286,18 +286,13 @@ export default {
                 let end = await newVal * this.perPage;
                 let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                //this.$store.commit('current_page',newVal);
+                this.$store.commit('current_page',this.currentPage);
+                console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
 
 
         },
         async refund_show(){
-            // let page =  this.$store.getters.current_page;
-            // if (!page || page > this.rows/this.perPage){
-            //     this.currentPage = 1
 
-            // }else{
-            //     this.currentPage = page
-            // }
             if (this.refund_show.length > this.perPage){
                 let end = 1 * this.perPage;
                 let begin = await end - this.perPage;
@@ -305,6 +300,16 @@ export default {
             }else{
                 this.refund_show_page = await this.refund_show;
             }
+
+            let page =  this.$store.getters.current_page;
+            if (!page && page > this.rows/this.perPage){
+                console.log('per page :' + this.perPage + ' rows :' + this.rows)
+                this.currentPage = 1
+
+            }else{
+                this.currentPage = page
+            }
+            console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
 
         },
         async perPage(newVal,oldVal){
@@ -351,63 +356,31 @@ export default {
         },
         set_refund_show(status){
             let show = null;
-            if (status){
-                
-            }
-        },
-        set_refund_show1(status){
-            //console.log('typeof :' + typeof status);
-
-            let show = null;
+            console.log('type of :' + typeof status);
             if (status){
                 if (typeof status == 'object'){
-                    show = 'success';
-                    this.refund_filter = true;
-                }else if (status == 'all'){
-                    this.refund_filter = false;
-                }else{
                     show = status;
                     this.refund_filter = true;
-                }
-            }else{
-                this.refund_filter = false;
-            }
-            this.$store.commit('SET_REFUND_SHOW',show)
-
-            switch (show){
-                case 'new' :
-                    this.refund_show = this.refund_new;
-                    break;
-                case 'info' :
-                    this.refund_show = this.refund_info;
-                    break;
-                case 'success' :
-                    this.refund_show = this.refund_success;
-                    break;
-                case 'consider' :
-                    this.refund_show = this.refund_consider;
-                    break;
-                case 'wait' :
-                    this.refund_show = this.refund_wait;
-                    break;
-                case 'complete' :
-                    this.refund_show = this.refund_complete;
-                    break;
-                // case 'reject' :
-                //     this.refund_show = this.refund_reject;
-                //     break;
-                case 'filter' :
+                    this.refund_show = this.refunds.filter(x=>status.includes(x.status));
+                }else if (status == 'filter'){
                     this.refund_show = this.$store.getters.refund_filter;
-                    break;
-                case 'all' :
-                    this.refund_show = this.refunds;
+                    this.refund_filter = true;
+                }else{
+                    this.refund_filter = false;
                     this.filter = '';
                     this.$store.commit('refund_filter',null);
-                    break;
-                default :
                     this.refund_show = this.refunds;
+                }
+            }else{
+                show = 'all';
+                this.refund_filter = false;
+                this.filter = '';
+                this.$store.commit('refund_filter',null);
+                this.refund_show = this.refunds;
             }
+            this.$store.commit('SET_REFUND_SHOW',show);
         },
+
         async refund_status(){
             if (this.user_type == 'user'){
                 this.refund_new = await this.refunds.filter(x=>x.status == 1);
@@ -427,7 +400,7 @@ export default {
             // this.arr_refund_status[3].count = this.refund_consider.length;
             // this.arr_refund_status[4].count = this.refund_wait.length;
             // this.arr_refund_status[5].count = this.refund_complete.length;
-            // this.arr_refund_status[5].count = this.refund_reject.length;         
+            // this.arr_refund_status[5].count = this.refund_reject.length;
             // this.$nextTick(()=>{
             //     for (let i = 0; i < this.arr_refund_status.length; i++){
             //         let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
@@ -435,8 +408,8 @@ export default {
             //             list : arr
             //         })
             //     }
-            // })   
-            
+            // })
+
         },
         async fetchData(){
             //console.log('refund show :' + this.$store.state.refund_show);
@@ -458,7 +431,7 @@ export default {
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
-            await this.refund_status();
+            // await this.refund_status();
             // this.$nextTick(()=>{
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
@@ -474,7 +447,7 @@ export default {
         createRefund(){
             this.$router.push({path: 'form'});
         },
-        
+
         getClass(status){
             if (status < 7){
                 return 'status1'

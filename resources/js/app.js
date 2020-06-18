@@ -558,7 +558,7 @@ const store = new Vuex.Store({
                     icon: 'fas fa-reply icon_wait',
                     color: 'icon_wait',
                     count: 0
-                },                
+                },
                 {
                     status : [12],
                     class_name: 'wait',
@@ -567,7 +567,7 @@ const store = new Vuex.Store({
                     icon: 'fas fa-reply icon_wait',
                     color: 'icon_wait',
                     count: 0
-                },                
+                },
                 {
                     status : [13],
                     class_name: 'wait',
@@ -576,7 +576,7 @@ const store = new Vuex.Store({
                     icon: 'fas fa-reply icon_wait',
                     color: 'icon_wait',
                     count: 0
-                },                
+                },
                 {
                     status : [14],
                     class_name: 'wait',
@@ -683,6 +683,7 @@ const store = new Vuex.Store({
         },
         current_page (state, value){
             state.current_page = value
+            console.log('cp :'+ value)
         },
         per_page (state, value){
             state.per_page = value
