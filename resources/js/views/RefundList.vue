@@ -19,21 +19,21 @@
             </b-col>
         </b-row>
         <b-row class="justify-content-md-center mt-5">
-            <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(0,4).filter(x=>x.show.includes(user_type))" :key="index">
-                <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
+            <b-col cols="3" v-for="(status,index) in arr_refund_status.filter(x=>x.show.includes(user_type))" :key="index">
+                <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.status)">
                     <b-row>
                         <b-col>
                             <div class="h3 icon text-right mb-2">
-                                <i :class="(status.status.includes(8)) ? get_icon : status.icon"></i>
+                                <i :class="typeof status.icon == 'object' ? user_type == 'admin' ? status.icon.admin : status.icon.user : status.icon"></i>
                             </div>
                         </b-col>
                     </b-row>
-                    <div><span><span class="h4">{{status.count}}</span> รายการ</span></div>
+                    <div><span><span class="h4" v-if="status.list">{{status.list.length}}</span> รายการ</span></div>
                     <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
         </b-row>
-        <b-row class="justify-content-md-center">
+        <!-- <b-row class="justify-content-md-center">
             <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(4,7)" :key="index">
                 <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
                     <b-row>
@@ -47,7 +47,7 @@
                     <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
-        </b-row>
+        </b-row> -->
 
         <b-row>
             <!-- <b-col>{{refunds}}</b-col> -->
@@ -63,7 +63,7 @@
                             <th scope="col" style="width: 25%" v-if="user_type == 'admin'">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
-                            <th scope="col" style=""></th>
+                            <!-- <th scope="col" style=""></th> -->
                             <th scope="col" style="width: 15%">สถานะ</th>
                             <th scope="col" style="width: 15%">การดำเนินการ</th>
                         </tr>
@@ -75,7 +75,7 @@
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
-                            <td class="text-right"><i :class="get_status_icon(refund.status)"></i></td>
+                            <!-- <td class="text-right"><i :class="get_status_icon(refund.status)"></i></td> -->
                             <td>{{get_status_text(refund.status)}}</td>
                             <td>
 
@@ -162,11 +162,11 @@
             <b-col cols="4"></b-col>
         </b-row>
 
-        <b-row class="justify-content-md-center">
+        <!-- <b-row class="justify-content-md-center">
             <b-col cols>
-
+                {{arr_refund_status}}
             </b-col>
-        </b-row>
+        </b-row> -->
         <b-modal id="modalReport"
             ref="modalReport"
             size="xl"
@@ -350,6 +350,12 @@ export default {
 
         },
         set_refund_show(status){
+            let show = null;
+            if (status){
+                
+            }
+        },
+        set_refund_show1(status){
             //console.log('typeof :' + typeof status);
 
             let show = null;
@@ -387,9 +393,9 @@ export default {
                 case 'complete' :
                     this.refund_show = this.refund_complete;
                     break;
-                case 'reject' :
-                    this.refund_show = this.refund_reject;
-                    break;
+                // case 'reject' :
+                //     this.refund_show = this.refund_reject;
+                //     break;
                 case 'filter' :
                     this.refund_show = this.$store.getters.refund_filter;
                     break;
@@ -406,30 +412,31 @@ export default {
             if (this.user_type == 'user'){
                 this.refund_new = await this.refunds.filter(x=>x.status == 1);
                 this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
-
+                // this.refund_consider = await this.refunds.filter(x=>x.status >= 9 && );
             }
 
             this.refund_success = await this.refunds.filter(x=>x.status == 8);
             this.refund_consider = await this.refunds.filter(x=>x.status == 9);
             this.refund_wait = await this.refunds.filter(x=>x.status == 11);
-            this.refund_complete = await this.refunds.filter(x=>x.status == 99);
-            this.refund_reject = await this.refunds.filter(x=>x.status == 88);
+            this.refund_complete = await this.refunds.filter(x=>x.status == 99 || x.status == 88);
+            // this.refund_reject = await this.refunds.filter(x=>x.status == 88);
 
-            this.arr_refund_status[0].count = this.refund_new.length;
-            this.arr_refund_status[1].count = this.refund_info.length;
-            this.arr_refund_status[2].count = this.refund_success.length;
-            this.arr_refund_status[3].count = this.refund_consider.length;
-            this.arr_refund_status[4].count = this.refund_wait.length;
-            this.arr_refund_status[5].count = this.refund_reject.length;
-            this.arr_refund_status[6].count = this.refund_complete.length;
-
-            // this.count_new = await this.refund_new.length;
-            // this.count_info = await this.refund_info.length;
-            // this.count_success = await this.refund_success.length;
-            // this.count_consider = await this.refund_consider.length;
-            // this.count_wait = await this.refund_wait.length;
-            // this.count_complete = await this.refund_complete.length;
-            // this.count_reject = await this.refund_reject.length;
+            // this.arr_refund_status[0].count = this.refund_new.length;
+            // this.arr_refund_status[1].count = this.refund_info.length;
+            // this.arr_refund_status[2].count = this.refund_success.length;
+            // this.arr_refund_status[3].count = this.refund_consider.length;
+            // this.arr_refund_status[4].count = this.refund_wait.length;
+            // this.arr_refund_status[5].count = this.refund_complete.length;
+            // this.arr_refund_status[5].count = this.refund_reject.length;         
+            // this.$nextTick(()=>{
+            //     for (let i = 0; i < this.arr_refund_status.length; i++){
+            //         let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
+            //         Object.assign(this.arr_refund_status[i],{
+            //             list : arr
+            //         })
+            //     }
+            // })   
+            
         },
         async fetchData(){
             //console.log('refund show :' + this.$store.state.refund_show);
@@ -452,6 +459,14 @@ export default {
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
             await this.refund_status();
+            // this.$nextTick(()=>{
+            for (let i = 0; i < this.arr_refund_status.length; i++){
+                let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
+                Object.assign(this.arr_refund_status[i],{
+                    list : arr
+                })
+            }
+            // })
             await this.set_refund_show(this.$store.getters.refund_show);
             //this.state = 'show';
             this.$forceUpdate();
@@ -459,71 +474,7 @@ export default {
         createRefund(){
             this.$router.push({path: 'form'});
         },
-        // getStatus(status){
-        //     switch(status){
-        //         case 0:
-        //         case 1:
-        //             return { status :'ตรวจสอบหลักเกณฑ์' , icon : 'icon-magic-wand icon_warning' ,color: 'icon_warning'}
-        //             break;
-        //         case 2:
-        //         case 3:
-        //         case 4:
-        //         case 5:
-        //         case 6:
-        //         case 7:
-        //             return { status :'บันทึกข้อมูล' , icon : 'icon-pencil icon_primary',color: 'icon_primary'}
-        //             break;
-        //         case 8:
-        //             if (this.user.type == 'admin'){
-        //                 return { status :'รอการพิจารณา' , icon : 'fas fa-paper-plane icon_warning',color: 'icon_warning'}
-        //             }else{
-        //                 return { status :'ส่งข้อมูลแล้ว' , icon : 'fas fa-paper-plane icon_success',color: 'icon_success'}
-        //             }
-
-        //             break;
-        //         case 9:
-        //             return { status :'กำลังพิจารณา' , icon : 'icon-note icon_consider',color: 'icon_consider'}
-        //             break;
-        //         case 88:
-        //             return { status :'ไม่อนุมัติ' , icon : 'fas fa-sign-out-alt icon_reject',color: 'icon_reject'}
-        //             break;
-        //         case 99:
-        //             return { status :'อนุมัติ' , icon : 'fas fa-check icon_complete',color: 'icon_complete'}
-        //             break;
-        //     }
-        // getStatus(status){
-        //     switch(status){
-        //         case 0:
-        //         case 1:
-        //             return 'ตรวจสอบหลักเกณฑ์'
-        //             break;
-        //         case 2:
-        //         case 3:
-        //         case 4:
-        //         case 5:
-        //         case 6:
-        //         case 7:
-        //             return 'บันทึกข้อมูล'
-        //             break;
-        //         case 8:
-        //             return 'ส่งข้อมูลแล้ว'
-        //             break;
-        //         case 9:
-        //             return 'กำลังพิจารณา'
-        //             break;
-        //         case 88:
-        //             return 'ไม่อนุมัติ'
-        //             break;
-        //         case 99:
-        //             return 'อนุมัติ'
-        //             break;
-        //     }
-            // if (status < 7){
-            //     return 'ยังไม่ส่งข้อมล'
-            // }else{
-            //     return 'ส่งข้อมูลแล้ว'
-            // }
-        // },
+        
         getClass(status){
             if (status < 7){
                 return 'status1'

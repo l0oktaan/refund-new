@@ -554,29 +554,65 @@ const store = new Vuex.Store({
                     status : [11],
                     class_name: 'wait',
                     show: ['user','admin'],
-                    text : 'รอเอกสารเพิ่มเติม',
+                    text : 'ขอให้ชี้แจง/ขอเอกสารเพิ่มเติม',
+                    icon: 'fas fa-reply icon_wait',
+                    color: 'icon_wait',
+                    count: 0
+                },                
+                {
+                    status : [12],
+                    class_name: 'wait',
+                    show: ['admin'],
+                    text : 'เสนอร่าง',
+                    icon: 'fas fa-reply icon_wait',
+                    color: 'icon_wait',
+                    count: 0
+                },                
+                {
+                    status : [13],
+                    class_name: 'wait',
+                    show: ['admin'],
+                    text : 'เสนออำนวยการกอง',
+                    icon: 'fas fa-reply icon_wait',
+                    color: 'icon_wait',
+                    count: 0
+                },                
+                {
+                    status : [14],
+                    class_name: 'wait',
+                    show: ['admin'],
+                    text : 'อยู่ระหว่างหารือหน่วยงานฯ',
                     icon: 'fas fa-reply icon_wait',
                     color: 'icon_wait',
                     count: 0
                 },
                 {
-                    status : [88],
-                    class_name: 'reject',
-                    show: ['user','admin'],
-                    text : 'ไม่อนุมัติ',
-                    icon: 'fas fa-sign-out-alt icon_reject',
-                    color: 'icon_reject',
-                    count: 0
-                },
-                {
-                    status : [99],
+                    status : [88,99],
                     class_name: 'complete',
                     show: ['user','admin'],
-                    text : 'อนุมัติ',
+                    text : 'แจ้งผลการพิจารณาแล้ว',
                     icon: 'fas fa-check icon_complete',
                     color: 'icon_complete',
                     count: 0
                 },
+                // {
+                //     status : [88],
+                //     class_name: 'reject',
+                //     show: ['user','admin'],
+                //     text : 'ไม่อนุมัติ',
+                //     icon: 'fas fa-sign-out-alt icon_reject',
+                //     color: 'icon_reject',
+                //     count: 0
+                // },
+                // {
+                //     status : [99],
+                //     class_name: 'complete',
+                //     show: ['user','admin'],
+                //     text : 'อนุมัติ',
+                //     icon: 'fas fa-check icon_complete',
+                //     color: 'icon_complete',
+                //     count: 0
+                // },
             ]
             return state.arr_refund_status
         },
