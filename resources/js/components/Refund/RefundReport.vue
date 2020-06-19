@@ -31,7 +31,7 @@
                                             <td style="width: 25%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">ส่วนราชการ :</p></td>
                                             <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.office.code + ' : ' + refund.refund.office.name}}</p></td>
                                         </tr>
-                                    </table>                                    
+                                    </table>
                                 </b-col>
                                 <b-col cols="6" class="form_name">
                                     <p class="topic">{{refund.form.name1}}<span v-if="refund.form.type==1">{{' เมื่อวันที่ ' + getThaiFullDate(refund.form.minutes_date)}}</span></p>
