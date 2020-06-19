@@ -587,7 +587,7 @@ const store = new Vuex.Store({
                     count: 0
                 },
                 {
-                    status : [88,99],
+                    status : [99],
                     class_name: 'complete',
                     show: ['user','admin'],
                     text : 'แจ้งผลการพิจารณาแล้ว',

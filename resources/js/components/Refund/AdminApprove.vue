@@ -143,9 +143,12 @@ export default {
             complete_status : false,
             arr_status : [
                 {value : 0 , text : 'ตัวเลือก'},
-                {value : 11 , text : 'ขอเอกสารเพิ่มเติม'},
-                {value : 99 , text : 'อนุมัติ'},
-                {value : 88 , text : 'ไม่อนุมัติ'},
+                {value : 11 , text : 'ขอให้ชี้แจง/ขอเอกสารเพิ่มเติม'},
+                {value : 12 , text : 'เสนอร่าง'},
+                {value : 11 , text : 'เสนอผู้อำนวยกอง'},
+                {value : 11 , text : 'อยู่ระหว่างหารือหน่วยงานฯ'},
+                {value : 99 , text : 'แจ้งผลการพิจารณา'},
+                
             ],
             status : 0
         }

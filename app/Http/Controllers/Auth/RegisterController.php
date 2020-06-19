@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Office;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -30,17 +30,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -65,13 +65,47 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        
+            // User::create([
+            //     'username' => $data['code'],            
+            //     'password' => Hash::make($data['code']),
+            //     'type' => 'user',
+            //     'office_id' => $data['office_id'],
+            //     'status' => 1
+            // ]);
+        
+        for ($i = 0; $i < count($data); $i++){
+            User::create([
+                'name' => $data[$i]['name'],
+                'username' => $data[$i]['code'],            
+                'password' => Hash::make($data[$i]['code']),
+                'type' => 'user',
+                'office_id' => $data[$i]['id'],
+                'status' => 1
+            ]);
+        }
+        // return User::create([
+        //     'username' => $data['code'],            
+        //     'password' => Hash::make($data['code']),
+        //     'type' => 'user',
+        //     'office_id' => $data['office_id'],
+        //     'status' => 1
+        // ]);
     }
-
+    protected function createUsers(){
+        // return 'create users';
+        $office = new Office;
+        $users = $office->all()->toArray();
+        
+        // try {
+            $this->create($users);
+            // return 'OK';
+        // } catch (\Throwable $th) {
+            // return 'error';
+        // }
+        
+        
+    }
     protected function guard()
     {
         return Auth::guard('guard-name');

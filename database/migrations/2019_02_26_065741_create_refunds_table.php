@@ -25,6 +25,15 @@ class CreateRefundsTable extends Migration
             $table->date('return_date')->nullable();
             $table->string('return_by',50)->nullable();
             $table->text('return_description')->nullable();
+            $table->date('draft_date')->nullable();
+            $table->string('draft_by',50)->nullable();
+            $table->text('draft_description')->nullable();
+            $table->date('director_date')->nullable();
+            $table->string('director_by',50)->nullable();
+            $table->text('director_description')->nullable();
+            $table->date('discuss_date')->nullable();
+            $table->string('discuss_by',50)->nullable();
+            $table->text('discuss_description')->nullable();
             $table->date('complete_date')->nullable();
             $table->string('complete_by',50)->nullable();
             $table->text('complete_description')->nullable();
