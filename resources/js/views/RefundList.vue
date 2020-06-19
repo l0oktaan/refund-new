@@ -58,9 +58,9 @@
                 <table class="table table-hover">
                     <thead class="thead">
                         <tr>
-                            <th scope="col" style="width: 15%" v-if="user_type == 'user'">วันที่สร้าง</th>
-                            <th scope="col" style="width: 15%" v-if="user_type == 'admin'">วันที่ส่ง</th>
-                            <th scope="col" style="width: 25%" v-if="user_type == 'admin'">หน่วยงาน</th>
+                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('create_date')">วันที่สร้าง<b-icon v-if="sort_by == 'create_date'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
+                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
+                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
                             <!-- <th scope="col" style=""></th> -->
@@ -222,8 +222,9 @@ export default {
             arr_perPage: [5,10,15],
             fields: [''],
             alert: '',
-            filter: ''
-
+            filter: '',
+            sort_by: this.$store.getters.user_type == 'user' ? 'create_date' : 'sent_date',
+            sort_type: 'asc'
         }
     },
     async mounted(){
@@ -300,6 +301,8 @@ export default {
             }else{
                 this.refund_show_page = await this.refund_show;
             }
+            this.refund_show_page = this.sortArrays(this.sort_by,this.sort_type);
+            
 
             let page =  this.$store.getters.current_page;
             if (!page && page > this.rows/this.perPage){
@@ -321,7 +324,22 @@ export default {
     },
 
     methods: {
-
+        onSort(sort_by){
+            this.$nextTick(()=>{
+                if (sort_by === this.sort_by){
+                    this.sort_type = this.sort_type == 'asc' ? 'desc' : 'asc'
+                }else{
+                    this.sort_by = sort_by;
+                    this.sort_type = 'desc';
+                }
+                console.log('sort by :' + sort_by + ' ' + this.sort_type);
+            
+                this.refund_show_page = this.sortArrays(sort_by, this.sort_type);
+            })
+        },
+        sortArrays(field,sortType) {
+            return _.orderBy(this.refund_show_page, field, sortType);
+        },
         onFilter(){
 
             if (this.filter != ''){
@@ -381,40 +399,9 @@ export default {
             this.$store.commit('SET_REFUND_SHOW',show);
         },
 
-        async refund_status(){
-            if (this.user_type == 'user'){
-                this.refund_new = await this.refunds.filter(x=>x.status == 1);
-                this.refund_info = await this.refunds.filter(x=>x.status >= 2 && x.status < 8);
-                // this.refund_consider = await this.refunds.filter(x=>x.status >= 9 && );
-            }
-
-            this.refund_success = await this.refunds.filter(x=>x.status == 8);
-            this.refund_consider = await this.refunds.filter(x=>x.status == 9);
-            this.refund_wait = await this.refunds.filter(x=>x.status == 11);
-            this.refund_complete = await this.refunds.filter(x=>x.status == 99 || x.status == 88);
-            // this.refund_reject = await this.refunds.filter(x=>x.status == 88);
-
-            // this.arr_refund_status[0].count = this.refund_new.length;
-            // this.arr_refund_status[1].count = this.refund_info.length;
-            // this.arr_refund_status[2].count = this.refund_success.length;
-            // this.arr_refund_status[3].count = this.refund_consider.length;
-            // this.arr_refund_status[4].count = this.refund_wait.length;
-            // this.arr_refund_status[5].count = this.refund_complete.length;
-            // this.arr_refund_status[5].count = this.refund_reject.length;
-            // this.$nextTick(()=>{
-            //     for (let i = 0; i < this.arr_refund_status.length; i++){
-            //         let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
-            //         Object.assign(this.arr_refund_status[i],{
-            //             list : arr
-            //         })
-            //     }
-            // })
-
-        },
+        
         async fetchData(){
-            //console.log('refund show :' + this.$store.state.refund_show);
-            //let user_type = await this.$store.getters.user_type;
-            //console.log('user :' + user_type);
+            
             let path = '';
             if (this.user_type == 'admin'){
                 path = await `/api/admin/0/refunds`;
@@ -431,17 +418,16 @@ export default {
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
-            // await this.refund_status();
-            // this.$nextTick(()=>{
+            
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
                 Object.assign(this.arr_refund_status[i],{
                     list : arr
                 })
             }
-            // })
+            
             await this.set_refund_show(this.$store.getters.refund_show);
-            //this.state = 'show';
+            
             this.$forceUpdate();
         },
         createRefund(){
