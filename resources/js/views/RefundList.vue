@@ -302,7 +302,7 @@ export default {
                 this.refund_show_page = await this.refund_show;
             }
             this.refund_show_page = this.sortArrays(this.sort_by,this.sort_type);
-            
+
 
             let page =  this.$store.getters.current_page;
             if (!page && page > this.rows/this.perPage){
@@ -333,7 +333,7 @@ export default {
                     this.sort_type = 'desc';
                 }
                 console.log('sort by :' + sort_by + ' ' + this.sort_type);
-            
+
                 this.refund_show_page = this.sortArrays(sort_by, this.sort_type);
             })
         },
@@ -365,11 +365,17 @@ export default {
             return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
         },
         get_status_text(status){
-            if (this.user_type == 'admin'){
-                return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.admin : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
-            }else{
-                return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.user : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
+            //return 'xxx';
+            try {
+                if (this.user_type == 'admin'){
+                    return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.admin : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
+                }else{
+                    return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.user : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
+                }
+            } catch (error) {
+                return '?';
             }
+
 
         },
         set_refund_show(status){
@@ -399,9 +405,9 @@ export default {
             this.$store.commit('SET_REFUND_SHOW',show);
         },
 
-        
+
         async fetchData(){
-            
+
             let path = '';
             if (this.user_type == 'admin'){
                 path = await `/api/admin/0/refunds`;
@@ -418,16 +424,16 @@ export default {
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             this.refund_show = await this.refunds;
-            
+
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
                 Object.assign(this.arr_refund_status[i],{
                     list : arr
                 })
             }
-            
+
             await this.set_refund_show(this.$store.getters.refund_show);
-            
+
             this.$forceUpdate();
         },
         createRefund(){

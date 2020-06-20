@@ -65,19 +65,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
+
             // User::create([
-            //     'username' => $data['code'],            
+            //     'username' => $data['code'],
             //     'password' => Hash::make($data['code']),
             //     'type' => 'user',
             //     'office_id' => $data['office_id'],
             //     'status' => 1
             // ]);
-        
+
         for ($i = 0; $i < count($data); $i++){
             User::create([
                 'name' => $data[$i]['name'],
-                'username' => $data[$i]['code'],            
+                'username' => $data[$i]['code'],
                 'password' => Hash::make($data[$i]['code']),
                 'type' => 'user',
                 'office_id' => $data[$i]['id'],
@@ -85,7 +85,7 @@ class RegisterController extends Controller
             ]);
         }
         // return User::create([
-        //     'username' => $data['code'],            
+        //     'username' => $data['code'],
         //     'password' => Hash::make($data['code']),
         //     'type' => 'user',
         //     'office_id' => $data['office_id'],
@@ -96,15 +96,15 @@ class RegisterController extends Controller
         // return 'create users';
         $office = new Office;
         $users = $office->all()->toArray();
-        
-        // try {
+
+        try {
             $this->create($users);
-            // return 'OK';
-        // } catch (\Throwable $th) {
-            // return 'error';
-        // }
-        
-        
+            return 'OK';
+        } catch (\Throwable $th) {
+            return 'error';
+        }
+
+
     }
     protected function guard()
     {

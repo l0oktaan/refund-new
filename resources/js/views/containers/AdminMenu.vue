@@ -47,6 +47,7 @@
                         </li>
                         <b-nav vertical v-if="user.type=='admin'">
                             <b-nav-item  to="/admin"><i class="fas fa-globe"></i>&nbsp;Dashboard</b-nav-item>
+                            <b-nav-item  to="/admin/users"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item>
                             <b-nav-item  to="/admin/form"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการแบบฟอร์ม</b-nav-item>
                             <b-nav-item  to="/admin/refunds"><i class="fas fa-flag" aria-hidden="true"></i>&nbsp;รายการขอถอนคืน</b-nav-item>
                         </b-nav>

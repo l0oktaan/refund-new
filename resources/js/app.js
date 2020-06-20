@@ -135,6 +135,8 @@ import RefundFormTest from './views/RefundFormTest.vue'
 import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
 
+import UserManage from './views/Admin/UserManage'
+
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
 
@@ -274,6 +276,13 @@ const router = new VueRouter({
                     component: AdminIndex,
                     meta: {
                         breadCrumb: 'Admin' //crumb
+                    }
+                },
+                {
+                    path: 'users',
+                    component: UserManage,
+                    meta: {
+                        breadCrumb: 'จัดการผู้ใช้' //crumb
                     }
                 },
                 {
