@@ -101,7 +101,7 @@ class RegisterController extends Controller
             $this->create($users);
             return 'OK';
         } catch (\Throwable $th) {
-            return 'error';
+            return $th;
         }
 
 
