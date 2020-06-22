@@ -90,40 +90,40 @@
                 </b-row>
             </b-card-body>
         </b-card>
-        <b-card :bg-variant="isApprove ? 'success' : 'danger'" class="p-1 pl-2" v-if="complete_status">
-                <b-row>
-                    <b-col>
-                        <p class="text-right">ผลการตรวจสอบ :</p>
-                    </b-col>
-                    <b-col>
-                        {{isApprove ? "อนุมัติ" : "ไม่อนุมัติ"}}
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <p class="text-right">คำอธิบายเพิ่มเติม :</p>
-                    </b-col>
-                    <b-col>
-                        {{description}}
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <p class="text-right">วันที่บันทึก :</p>
-                    </b-col>
-                    <b-col>
-                        {{getThaiDate(date_complete)}}
-                    </b-col>
-                </b-row>
-                <b-row v-if="user.type == 'admin'">
-                    <b-col>
-                        <p class="text-right">ผู้บันทึก :</p>
-                    </b-col>
-                    <b-col>
-                        {{refund.complete_by}}
-                    </b-col>
-                </b-row>
-            </b-card>
+        <b-card :bg-variant="'success'" class="p-1 pl-2" v-if="complete_status">
+            <b-row>
+                <b-col>
+                    <p class="text-right">ผลการตรวจสอบ :</p>
+                </b-col>
+                <b-col>
+                    แจ้งผลการพิจารณาแล้ว
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <p class="text-right">คำอธิบายเพิ่มเติม :</p>
+                </b-col>
+                <b-col>
+                    {{description}}
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <p class="text-right">วันที่บันทึก :</p>
+                </b-col>
+                <b-col>
+                    {{getThaiDate(date_complete)}}
+                </b-col>
+            </b-row>
+            <b-row v-if="user.type == 'admin'">
+                <b-col>
+                    <p class="text-right">ผู้บันทึก :</p>
+                </b-col>
+                <b-col>
+                    {{refund.complete_by}}
+                </b-col>
+            </b-row>
+        </b-card>
     </div>
 </template>
 
@@ -144,11 +144,10 @@ export default {
             arr_status : [
                 {value : 0 , text : 'ตัวเลือก'},
                 {value : 11 , text : 'ขอให้ชี้แจง/ขอเอกสารเพิ่มเติม'},
-                {value : 12 , text : 'เสนอร่าง'},
-                {value : 11 , text : 'เสนอผู้อำนวยกอง'},
-                {value : 11 , text : 'อยู่ระหว่างหารือหน่วยงานฯ'},
-                {value : 99 , text : 'แจ้งผลการพิจารณา'},
-                
+                {value : 12 , text : 'อยู่ระหว่างหารือหน่วยงานฯ'},
+                {value : 13 , text : 'เสนอร่าง'},
+                {value : 14 , text : 'เสนอผู้อำนวยกอง'},                
+                {value : 99 , text : 'แจ้งผลการพิจารณา'}                
             ],
             status : 0
         }
@@ -170,71 +169,76 @@ export default {
         },
     },
     methods: {
-        onSubmit(){
-            this.$swal({
-                title: "กรุณายืนยันการบันทึกผลการพิจารณา",
-                text: "",
-                icon: "info",
-                closeOnClickOutside: false,
-                buttons: [
-                    'ยกเลิก',
-                    'ยืนยัน'
-                ],
-            }).then(isConfirm =>{
-                if (isConfirm){
-                    let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
-                    // let today = new Date();
-                    // let str_today = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()
-                    //console.log(str_today);
-
-                    let user = this.$store.getters.user;
-                    let data = null;
-                    if (this.status == 11){
-                        data = {
-                            "status" : this.status,
-                            "return_date" : this.date_complete,
-                            "return_by" : this.user.username,
-                            "return_description" : this.description
-                        }
-                    }else{
-                        data = {
-                            "status" : this.status,
-                            "complete_date" : this.date_complete,
-                            "complete_by" : this.user.username,
-                            "complete_description" : this.description
-                        }
+        onSubmit(){           
+            let user = this.$store.getters.user;
+            let data = null;
+            switch (this.status){
+                case 11 :
+                    data = {
+                        "status" : this.status,
+                        "return_date" : this.date_complete,
+                        "return_by" : this.user.username,
+                        "return_description" : this.description
                     }
-                    axios.put(`${path}`,data)
-                    .then(response=>{
-                        this.alert = 'success';
-                        this.refund = response.data.data;
-                        this.$nextTick(()=>{
-
-                            if (this.refund.status == 99){
-                                this.isApprove = true;
-                                this.complete_status = true;
-                                this.description = this.refund.complete_description;
-                                this.date_complete = this.refund.complete_date;
-                            }else if (this.refund.status == 88){
-                                this.isApprove = false;
-                                this.complete_status = true;
-                                this.description = this.refund.complete_description;
-                                this.date_complete = this.refund.complete_date;
-                            }else if (this.refund.status == 11){
-                                this.isApprove = false;
-                                this.complete_status = false;
-                            }
-                            else{
-                                this.complete_status = false;
-                            }
-                        })
-                    })
-                    .catch(error=>{
-                        this.alert = 'error';
-                        console.log('error : ' + error);
-                    })
-                }
-            });
+                    break;
+                case 12 :
+                    data = {
+                        "status" : this.status,
+                        "discuss_date" : this.date_complete,
+                        "discuss_by" : this.user.username,
+                        "discuss_description" : this.description
+                    }
+                    break;
+                case 13 :
+                    data = {
+                        "status" : this.status,
+                        "draft_date" : this.date_complete,
+                        "draft_by" : this.user.username,
+                        "draft_description" : this.description
+                    }
+                    break;
+                case 14 :
+                    data = {
+                        "status" : this.status,
+                        "director_date" : this.date_complete,
+                        "director_by" : this.user.username,
+                        "director_description" : this.description
+                    }
+                    break;
+                case 99 :
+                    data = {
+                        "status" : this.status,
+                        "complete_date" : this.date_complete,
+                        "complete_by" : this.user.username,
+                        "complete_description" : this.description
+                    }
+                    break;
+                default :
+            }
+            
+            axios.put(`${path}`,data)
+            .then(response=>{
+                this.alert = 'success';
+                this.refund = response.data.data;
+                this.$nextTick(()=>{
+                    if (this.refund.status == 99){
+                        
+                        this.complete_status = true;
+                        this.description = this.refund.complete_description;
+                        this.date_complete = this.refund.complete_date;
+                    }else{
+                        
+                        this.complete_status = false;
+                    }  this.complete_status = false;
+                    
+                })
+            })
+            .catch(error=>{
+                this.alert = 'error';
+                this.complete_status = false;
+                console.log('error : ' + error);
+            })
+                
 
         },
 
@@ -242,24 +246,39 @@ export default {
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`
             let refund = await axios.get(`${path}`);
             this.refund = refund.data.data[0];
-            this.$nextTick(()=>{
-                this.description = this.refund.complete_description;
-                this.date_complete = this.refund.complete_date;
-                if (this.refund.status == 99){
-                    this.isApprove = true;
-                    this.complete_status = true;
-                }else if (this.refund.status == 88){
-                    this.isApprove = false;
-                    this.complete_status = true;
-                }else if (this.refund.status == 11){
-                    this.isApprove = false;
-                    this.complete_status = false;
-                    this.status = 11;
-                    this.description = this.refund.return_description;
-                    this.date_show = this.refund.return_date;
-                }else{
-                    this.complete_status = false;
-                    this.date_show = this.date_today;
+            this.$nextTick(()=>{                
+                switch (this.refund.status){
+                    case 11 :
+                        this.complete_status = false;
+                        this.status = this.refund.status;
+                        this.description = this.refund.return_description;
+                        this.date_show = this.refund.return_date;
+                        break;
+                    case 12 :
+                        this.complete_status = false;
+                        this.status = this.refund.status;
+                        this.description = this.refund.discuss_description;
+                        this.date_show = this.refund.discuss_date;
+                        break;                    
+                    case 13 :
+                        this.complete_status = false;
+                        this.status = this.refund.status;
+                        this.description = this.refund.draft_description;
+                        this.date_show = this.refund.draft_date;
+                        break;   
+                    case 14 :
+                        this.complete_status = false;
+                        this.status = this.refund.status;
+                        this.description = this.refund.director_description;
+                        this.date_show = this.refund.director_date;
+                        break;
+                    case 99 :                    
+                        this.complete_status = true;
+                        this.status = this.refund.status;
+                        this.description = this.refund.complete_description;
+                        this.date_show = this.refund.complete_date;
+                        break;
+                    default :
                 }
             })
 

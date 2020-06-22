@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
         <b-row align-h="center">
             <b-col cols="7">
-                <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 88)">
+                <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 99)">
                     <div slot="header" class="navbar ">
                         <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">
@@ -109,6 +109,11 @@
                 </b-card>
             </b-col>
         </b-row>
+        <b-row class="justify-content-md-center">
+            <b-col cols="4">
+                <time-line :refund_id="refund_id"></time-line>
+            </b-col>
+        </b-row>
         <b-row align-h="center" v-if="status=='success' && !isAdmin">
             <b-col cols="6">
                 <b-alert variant="success" show>
@@ -189,7 +194,8 @@ export default {
         isAdmin(){
             console.log('isAdmin :' + this.user.type);
             return this.user.type == 'admin' ? true : false;
-        }
+        },
+        
     },
     mounted(){
 

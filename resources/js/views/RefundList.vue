@@ -573,7 +573,7 @@ td{
     border: 1px solid #a88008;
 }
 
-.warning:hover,.stanby:hover,.new:hover,.info:hover,.success:hover,.consider:hover,.wait:hover,.complete:hover,.reject:hover{
+.warning:hover,.stanby:hover,.new:hover,.info:hover,.success:hover,.consider:hover,.wait:hover,.complete:hover,.reject:hover,.draft:hover,.discuss:hover,.director:hover{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .new{
@@ -612,6 +612,24 @@ td{
 }
 .wait{
     cursor: pointer;
+    background-color: #ff0000;
+    border: 1px solid #800707;
+    color: #ffffff;
+}
+.draft{
+    cursor: pointer;
+    background-color: #fffb00;
+    border: 1px solid #bdaa04;
+    color: #000000;
+}
+.director{
+    cursor: pointer;
+    background-color: #00bbc2;
+    border: 1px solid #04555f;
+    color: #ffffff;
+}
+.discuss{
+    cursor: pointer;
     background-color: #d13bca;
     border: 1px solid #8a218a;
     color: #ffffff;
@@ -644,7 +662,16 @@ td{
     color: #793e0e;
 }
 .icon_wait{
+    color: #c50505;
+}
+.icon_discuss{
     color: #83117f;
+}
+.icon_draft{
+    color: #868404;
+}
+.icon_director{
+    color: #095385;
 }
 .icon_complete{
     color: #1d4b10;

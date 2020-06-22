@@ -63,6 +63,9 @@ Vue.component('SidebarNav', SidebarNav).defaults;
 
 Vue.use(VueAxios, axios)
 
+import LightTimeline from 'vue-light-timeline';
+Vue.use(LightTimeline);
+
 import jsPDF from 'jspdf'
 Vue.use(jsPDF)
 
@@ -398,6 +401,9 @@ Vue.component('MyAlert', MyAlert).default;
 import ShowAlert from './components/ShowAlert.vue';
 Vue.component('ShowAlert', ShowAlert).default;
 
+import TimeLine from './components/TimeLine.vue';
+Vue.component('TimeLine', TimeLine).default;
+
 import MyLogin from './components/Login/Login.vue';
 Vue.component('MyLogin', MyLogin).default;
 
@@ -570,31 +576,32 @@ const store = new Vuex.Store({
                 },
                 {
                     status : [12],
-                    class_name: 'wait',
+                    class_name: 'discuss',
                     show: ['admin'],
-                    text : 'เสนอร่าง',
-                    icon: 'fas fa-reply icon_wait',
+                    text : 'อยู่ระหว่างหารือหน่วยงานฯ',
+                    icon: 'fas fa-comments icon_discuss',
                     color: 'icon_wait',
                     count: 0
                 },
                 {
                     status : [13],
-                    class_name: 'wait',
+                    class_name: 'draft',
                     show: ['admin'],
-                    text : 'เสนออำนวยการกอง',
-                    icon: 'fas fa-reply icon_wait',
+                    text : 'เสนอร่าง',
+                    icon: 'fas fa-paste icon_draft',
                     color: 'icon_wait',
                     count: 0
                 },
                 {
                     status : [14],
-                    class_name: 'wait',
+                    class_name: 'director',
                     show: ['admin'],
-                    text : 'อยู่ระหว่างหารือหน่วยงานฯ',
-                    icon: 'fas fa-reply icon_wait',
+                    text : 'เสนออำนวยการกอง',
+                    icon: 'fas fa-user-tie icon_director',
                     color: 'icon_wait',
                     count: 0
                 },
+                
                 {
                     status : [99],
                     class_name: 'complete',
