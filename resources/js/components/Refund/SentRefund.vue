@@ -272,7 +272,7 @@ export default {
         downloadForm(id,index){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files/${id}`;
             console.log('download file :' + path);
-            axios.get(`${path}`)
+            // axios.get(`${path}`)
             axios({
                 url : `${path}`,
                 methods : 'GET',
@@ -284,7 +284,7 @@ export default {
                 //return
                 var fileLink = document.createElement('a');
                 fileLink.href = fileURL;
-                let filename = 'form_refund_' + this.refund_id + '_' + index + '.pdf'
+                let filename = 'refund_' + this.refund_id + '_' + index + '.pdf'
                 fileLink.setAttribute('download', filename);
                 document.body.appendChild(fileLink);
 

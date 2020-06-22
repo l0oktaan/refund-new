@@ -5,6 +5,7 @@ use App\Office;
 use App\Refund;
 use Carbon\Carbon;
 use App\RefundFile;
+use App\RefundCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
@@ -45,6 +46,14 @@ class RefundFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    private function getCode(RefundCode $refund_code){
+        $y = Date('Y') + 543;
+        if (Date('m')>9) {
+            $y = $y + 1;
+        }
+        $code = substr($y,2) . '-' . sprintf('%04d', $refund_code->id);
+        return $code;
+    }
     public function store(Office $office, Refund $refund, Request $request)
     {
         //return $refund;
@@ -69,7 +78,12 @@ class RefundFileController extends Controller
             $refund->refund_files()->save($refund_file);
 
             if ($refund->status < 8){
+                $refund_code = new RefundCode;
+                $refund_code->refund_id = $refund->id;
+                $refund_code->create_date = date('Y-m-d');
+                $refund_code->save();
                 $refund->update([
+                    'approve_code' => $this->getCode($refund_code),
                     'status' => 8,
                     'sent_date' => date('Y-m-d')
                 ]);
@@ -107,10 +121,10 @@ class RefundFileController extends Controller
                 $path = storage_path('uploads') . "/" . $iRefundFile->file_path . "/" . $iRefundFile->file_name;
                 //$path = storage_path() . "/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
                 $headers = [
-                    'Content-Type' => 'application/pdf',
+                    'Content-Type' => 'application/pdf'                    
                 ];
-                $filename = $iRefundFile->file_name;
-                //return $path;
+                $filename = 'refund.pdf'; // $iRefundFile->file_name;
+                
                 return response()->download($path, $filename, $headers);
                 //return Storage::download($path, $iRefundFile->file_name, $headers);
                 //return Storage::download($path, $filename, $headers);

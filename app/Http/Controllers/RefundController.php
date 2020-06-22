@@ -10,6 +10,7 @@ use App\Http\Requests\RefundRequest;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Refunds as RefundResource;
+use App\Http\Resources\RefundCollection;
 use Illuminate\Support\Facades\Auth;
 
 class RefundController extends Controller
@@ -34,6 +35,7 @@ class RefundController extends Controller
             ->where('status','>=',1)
             ->orderBy('sent_date','DESC')
             ->get();
+            // return new RefundCollection($refund);
             return response([
                 'data' => RefundResource::collection($refund)
             ],Response::HTTP_CREATED);
@@ -98,7 +100,7 @@ class RefundController extends Controller
     {
         $refund = new Refund;
         //$refund->office_id = $office->id;
-        $refund->approve_code = $request->approve_code;
+        $refund->approve_code = '';
         $refund->create_date = date('Y-m-d');
         $refund->status = "1";
         $office->refunds()->save($refund);
