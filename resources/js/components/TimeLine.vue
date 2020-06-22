@@ -1,5 +1,5 @@
 <template>
-    <light-timeline :items='items'></light-timeline>
+    <light-timeline :items='time_line'></light-timeline>
 </template>
 
 <script>
@@ -27,18 +27,23 @@ export default {
                     htmlMode: true,
                     content: `<div style="color: ${theme};"> =v = </div>`
                 }
-            ]
+            ],
+            time_line: []
         }
     },
     mounted(){
         this.fetchData();
+    },
+    computed: {
+        
     },
     methods: {
         fetchData(){
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
             axios.get(`${path}`)
             .then(response=>{
-                
+                this.refund = response.data.data[0];
+
             })
         }
     }
