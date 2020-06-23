@@ -343,7 +343,7 @@ export default {
                     this.sort_type = 'desc';
                 }
                 
-                this.currentPage = 1;
+                this.c_page = 1;
                 this.$store.commit('current_page',1);
                 let end = 1 * this.perPage;
                 let begin = end - this.perPage;
