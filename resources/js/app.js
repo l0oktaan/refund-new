@@ -698,8 +698,7 @@ const store = new Vuex.Store({
             state.refund_status = value
         },
         current_page (state, value){
-            state.current_page = value
-            console.log('cp :'+ value)
+            state.current_page = value            
         },
         per_page (state, value){
             state.per_page = value

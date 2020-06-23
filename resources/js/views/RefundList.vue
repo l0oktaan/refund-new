@@ -149,10 +149,11 @@
                 <div style="text-align:center;">
                     <b-pagination
                         align="center"
-                        v-model="currentPage"
+                        v-model="c_page"
                         pills
                         :total-rows="rows"
                         :per-page="perPage"
+                        @change="change_page"
                     ></b-pagination>
 
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
@@ -218,6 +219,7 @@ export default {
             user_type: '',
             show: false,
             currentPage: this.$store.getters.current_page,
+            c_page: 1,
             perPage: this.$store.getters.per_page,
             arr_perPage: [5,10,15],
             fields: [''],
@@ -228,12 +230,13 @@ export default {
         }
     },
     async mounted(){
+        
         if (!this.perPage){
             this.perPage = 5;
         }
         this.user_type = this.$store.getters.user_type;
         await this.fetchData();
-        //this.$store.state.refund_show = 'all';
+        
 
 
     },
@@ -287,33 +290,32 @@ export default {
                 let end = await newVal * this.perPage;
                 let begin = await end - this.perPage;                
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                this.$store.commit('current_page',this.currentPage);
-                // console.log('length :' + this.refund_show_page.length + ' begin :' + begin + ' end :' + end);
-                // console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
-
+                
+                this.$store.commit('current_page',newVal);
+                
 
         },
         async refund_show(){
-            console.log('change show');
+            
+            if (this.$store.getters.current_page){
+                this.currentPage = this.$store.getters.current_page;
+            }else{
+                this.current_page = 1;
+            }
             if (this.refund_show.length > this.perPage){
-                let end = 1 * this.perPage;
+                let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
+                this.currentPage =  this.$store.getters.current_page;
             }else{
                 this.refund_show_page = await this.refund_show;
+                this.currentPage = 1;
+                
             }
             this.refund_show_page = _.orderBy(this.refund_show_page,this.sort_by,this.sort_type);//this.sortArrays(this.sort_by,this.sort_type);
 
-
-            this.currentPage =  this.$store.getters.current_page;
-            // if (!page && page > this.rows/this.perPage){
-            //     console.log('per page :' + this.perPage + ' rows :' + this.rows)
-            //     this.currentPage = 1
-
-            // }else{
-            //     this.currentPage = page
-            // }
-            // console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
+            
+            
 
         },
         async perPage(newVal,oldVal){
@@ -325,6 +327,13 @@ export default {
     },
 
     methods: {
+        change_page(){
+            this.$nextTick(()=>{
+                this.currentPage = this.c_page;
+                
+            })
+            
+        },
         onSort(sort_by){
             this.$nextTick(()=>{
                 if (sort_by === this.sort_by){
@@ -333,12 +342,13 @@ export default {
                     this.sort_by = sort_by;
                     this.sort_type = 'desc';
                 }
-                console.log('sort by :' + sort_by + ' ' + this.sort_type);
+                
                 this.currentPage = 1;
-                let end = this.currentPage * this.perPage;
+                this.$store.commit('current_page',1);
+                let end = 1 * this.perPage;
                 let begin = end - this.perPage;
-                this.refund_show_page = _.orderBy(this.refund_show, this.sort_by, this.sort_type);
-                this.refund_show_page = this.refund_show_page.slice(begin, end);
+                this.refund_show = _.orderBy(this.refund_show, this.sort_by, this.sort_type);
+                
             })
         },
         sortArrays(field,sortType) {
@@ -348,14 +358,9 @@ export default {
 
             if (this.filter != ''){
                 if (this.user_type == 'user'){
-                    // this.refund_filter = this.refunds.filter(function(x){
-                    //     return x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0
-                    // })
-                    //this.refund_filter = this.refunds.filter((x)=> x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
-
                     this.refund_filter = this.refunds.filter(x=>x.contracts.findIndex(y=>y.contract_party.search(this.filter)>=0)>=0 || x.contracts.findIndex(z=>z.contract_no.search(this.filter)>=0)>=0 || x.approve_code.search(this.filter)>=0);
 
-                    console.log('refund length: ' + this.refunds.length);
+                    
                 }else if (this.user_type == 'admin'){
                     this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
                 }
@@ -369,7 +374,7 @@ export default {
             return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
         },
         get_status_text(status){
-            //return 'xxx';
+            
             try {
                 if (this.user_type == 'admin'){
                     return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.admin : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
@@ -384,7 +389,7 @@ export default {
         },
         set_refund_show(status){
             let show = null;
-            console.log('type of :' + typeof status);
+            
             if (status){
                 if (typeof status == 'object'){
                     show = status;
@@ -406,8 +411,7 @@ export default {
                 this.$store.commit('refund_filter',null);
                 this.refund_show = this.refunds;
             }
-            this.currentPage = 1;
-            this.$store.commit('current_page',1);
+            
             this.$store.commit('SET_REFUND_SHOW',show);
         },
 
@@ -426,19 +430,20 @@ export default {
 
             var refunds = [];
             var contracts = [];
-            console.log('path :' + path);
+            
             let response = await axios.get(path);
             this.refunds = await response.data.data;
+            
             this.refund_show = await this.refunds;
-
+            
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
                 Object.assign(this.arr_refund_status[i],{
                     list : arr
                 })
             }
-
             await this.set_refund_show(this.$store.getters.refund_show);
+            this.c_page = this.currentPage;
 
             this.$forceUpdate();
         },
@@ -457,15 +462,14 @@ export default {
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
-            //return moment(String(value)).format('LL')
+            
         },
         async showRefund(id,office_id){
             if (this.$store.getters.user_type == 'admin'){
                 await this.$store.commit('office_id', office_id);
             }
 
-            // let route = this.$router.resolve({path: `refunds/${id}`});
-            // window.open(route.href, '_blank');
+            
             await this.$router.push(`refunds/${id}`);
         },
         delRefund(id){
@@ -481,10 +485,7 @@ export default {
             }).then(isConfirm =>{
                 if (isConfirm){
                     let path = `/api/offices/${this.office_id}/refunds/${id}`;
-                    console.log('path : ' + path);
-                    // axios.put(`${path}`,{
-                    //     status : '0'
-                    // })
+                    
                     axios.delete(`${path}`)
                     .then(response=>{
                         this.alert = 'success';
@@ -506,7 +507,7 @@ export default {
             this.$refs['modalReport'].show()
         },
         considerRefund(refund_id,office_id){
-            //console.log(today);
+            
             this.$swal({
                 title: "กรุณายืนยันการรับเรื่อง",
                 text: "",
