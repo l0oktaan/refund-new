@@ -284,11 +284,11 @@ export default {
     watch: {
         async currentPage(newVal, oldVal){
 
-                let end = await newVal * this.perPage;
-                let begin = await end - this.perPage;
-                this.refund_show_page = await this.refund_show.slice(begin, end);
-                this.$store.commit('current_page',this.currentPage);
-                console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
+                // let end = await newVal * this.perPage;
+                // let begin = await end - this.perPage;
+                // this.refund_show_page = await this.refund_show.slice(begin, end);
+                // this.$store.commit('current_page',this.currentPage);
+                // console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
 
 
         },
