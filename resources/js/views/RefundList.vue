@@ -294,7 +294,7 @@ export default {
 
         },
         async refund_show(){
-
+            console.log('change show');
             if (this.refund_show.length > this.perPage){
                 let end = 1 * this.perPage;
                 let begin = await end - this.perPage;
