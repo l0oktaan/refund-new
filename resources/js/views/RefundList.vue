@@ -335,6 +335,7 @@ export default {
                 console.log('sort by :' + sort_by + ' ' + this.sort_type);
 
                 this.refund_show_page = this.sortArrays(sort_by, this.sort_type);
+                this.currentPage = 1;
             })
         },
         sortArrays(field,sortType) {
