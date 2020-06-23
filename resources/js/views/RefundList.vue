@@ -58,7 +58,7 @@
                 <table class="table table-hover">
                     <thead class="thead">
                         <tr>
-                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('create_date')">วันที่สร้าง<b-icon v-if="sort_by == 'create_date'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
+                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('id')">วันที่สร้าง<b-icon v-if="sort_by == 'id'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
                             <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
                             <th scope="col" style="width: 23%">คู่สัญญา</th>
@@ -223,7 +223,7 @@ export default {
             fields: [''],
             alert: '',
             filter: '',
-            sort_by: this.$store.getters.user_type == 'user' ? 'create_date' : 'sent_date',
+            sort_by: this.$store.getters.user_type == 'user' ? 'id' : 'sent_date',
             sort_type: 'asc'
         }
     },
