@@ -333,6 +333,7 @@ export default {
                                             break;
                                         case 'inArray' :
                                         case 'gap' :
+                                        case 'gap2' :
                                         case 'value' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
@@ -360,6 +361,7 @@ export default {
                                             break;
                                         case 'inArray' :
                                         case 'gap' :
+                                        case 'gap2' :
                                         case 'value' :
                                             this.results[i]['value'] = '';
                                             this.result_show[this.result_show.findIndex(x=>x.consider_id == this.results[i]['consider_id'])]['value'] = '';
