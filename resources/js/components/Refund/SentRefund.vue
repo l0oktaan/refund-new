@@ -109,11 +109,7 @@
                 </b-card>
             </b-col>
         </b-row>
-        <b-row class="justify-content-md-center">
-            <b-col cols="4">
-                <time-line :refund_id="refund_id"></time-line>
-            </b-col>
-        </b-row>
+        
         <b-row align-h="center" v-if="status=='success' && !isAdmin">
             <b-col cols="6">
                 <b-alert variant="success" show>
@@ -129,6 +125,11 @@
                         >{{ file.upload_by == 'admin' ? 'ฟอร์มโดย Admin' : 'ดูแบบฟอร์มของท่าน'}}
                     </b-button>
                 </div> -->
+            </b-col>
+        </b-row>
+        <b-row align-h="center">
+            <b-col cols="5">
+                <time-line :refund_id="refund_id"></time-line>
             </b-col>
         </b-row>
         <b-row align-h="center" v-if="list_files.length > 0">

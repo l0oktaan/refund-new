@@ -169,7 +169,8 @@ export default {
         },
     },
     methods: {
-        onSubmit(){           
+        onSubmit(){       
+            let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`    
             let user = this.$store.getters.user;
             let data = null;
             switch (this.status){
@@ -276,7 +277,7 @@ export default {
                         this.complete_status = true;
                         this.status = this.refund.status;
                         this.description = this.refund.complete_description;
-                        this.date_show = this.refund.complete_date;
+                        this.date_complete = this.refund.complete_date;
                         break;
                     default :
                 }
