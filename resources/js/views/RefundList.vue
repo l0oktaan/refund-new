@@ -284,10 +284,11 @@ export default {
     watch: {
         async currentPage(newVal, oldVal){
 
-                // let end = await newVal * this.perPage;
-                // let begin = await end - this.perPage;
-                // this.refund_show_page = await this.refund_show.slice(begin, end);
-                // this.$store.commit('current_page',this.currentPage);
+                let end = await newVal * this.perPage;
+                let begin = await end - this.perPage;                
+                this.refund_show_page = await this.refund_show.slice(begin, end);
+                this.$store.commit('current_page',this.currentPage);
+                // console.log('length :' + this.refund_show_page.length + ' begin :' + begin + ' end :' + end);
                 // console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
 
 
@@ -301,18 +302,18 @@ export default {
             }else{
                 this.refund_show_page = await this.refund_show;
             }
-            this.refund_show_page = this.sortArrays(this.sort_by,this.sort_type);
+            this.refund_show_page = _.orderBy(this.refund_show_page,this.sort_by,this.sort_type);//this.sortArrays(this.sort_by,this.sort_type);
 
 
-            let page =  this.$store.getters.current_page;
-            if (!page && page > this.rows/this.perPage){
-                console.log('per page :' + this.perPage + ' rows :' + this.rows)
-                this.currentPage = 1
+            this.currentPage =  this.$store.getters.current_page;
+            // if (!page && page > this.rows/this.perPage){
+            //     console.log('per page :' + this.perPage + ' rows :' + this.rows)
+            //     this.currentPage = 1
 
-            }else{
-                this.currentPage = page
-            }
-            console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
+            // }else{
+            //     this.currentPage = page
+            // }
+            // console.log('c1 :' + this.currentPage + ' c2 :' + this.$store.getters.current_page);
 
         },
         async perPage(newVal,oldVal){
@@ -333,10 +334,11 @@ export default {
                     this.sort_type = 'desc';
                 }
                 console.log('sort by :' + sort_by + ' ' + this.sort_type);
-
-                this.refund_show_page = this.sortArrays(sort_by, this.sort_type);
                 this.currentPage = 1;
-                
+                let end = this.currentPage * this.perPage;
+                let begin = end - this.perPage;
+                this.refund_show_page = _.orderBy(this.refund_show, this.sort_by, this.sort_type);
+                this.refund_show_page = this.refund_show_page.slice(begin, end);
             })
         },
         sortArrays(field,sortType) {
@@ -404,6 +406,8 @@ export default {
                 this.$store.commit('refund_filter',null);
                 this.refund_show = this.refunds;
             }
+            this.currentPage = 1;
+            this.$store.commit('current_page',1);
             this.$store.commit('SET_REFUND_SHOW',show);
         },
 
