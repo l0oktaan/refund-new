@@ -338,7 +338,7 @@ export default {
             })
         },
         sortArrays(field,sortType) {
-            return _.orderBy(this.refund_show_page, field, sortType);
+            return _.orderBy(this.refund_show, field, sortType);
         },
         onFilter(){
 
