@@ -127,7 +127,7 @@
                 </div> -->
             </b-col>
         </b-row>
-        <b-row align-h="center">
+        <b-row align-h="center" v-if="status=='success'">
             <b-col cols="5">
                 <time-line :refund_id="refund_id"></time-line>
             </b-col>
