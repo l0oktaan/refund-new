@@ -485,7 +485,8 @@ const store = new Vuex.Store({
         current_page: null,
         per_page: null,
         refund_contract_no: null,
-        refund_filter: []
+        refund_filter: [],
+        edit_count: null
     },
     // plugins: [
     //     createPersistedState({
@@ -667,6 +668,10 @@ const store = new Vuex.Store({
         },
         refund_filter (state){
             return state.refund_filter
+        },
+        edit_count (state){
+            
+            return state.edit_count
         }
     },
     mutations: {
@@ -708,6 +713,13 @@ const store = new Vuex.Store({
         },
         refund_filter (state, value){
             state.refund_filter = value
+        },
+        edit_count (state,value){
+            state.edit_count = value
+        },
+        edit_count_inc(state){
+            state.edit_count++
+            console.log('add edit :' + state.edit_count);
         }
 
     },
@@ -756,6 +768,9 @@ const store = new Vuex.Store({
             localStorage.removeItem('token')
             router.push('/login')
         },
+        edit_count_inc ({commit}){
+            commit('edit_count_inc')
+        }
 
 
     }

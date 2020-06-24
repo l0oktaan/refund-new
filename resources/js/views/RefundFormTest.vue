@@ -12,6 +12,13 @@
             <my-date-picker :id="3" :showDate="xxx" @update = "value => date22 = value"></my-date-picker>
         </b-col>
     </b-row>
+    <b-row>
+        <b-col>
+            <p v-for="(n,index) in 10" :key="index">
+                {{counter + ' ' + count}}
+            </p>
+        </b-col>
+    </b-row>
 </div>
 
 </template>
@@ -33,12 +40,13 @@ export default {
             date11: '2019-10-25',
             date22 : '',
             xxx: '',
-            new_date: '2020-10-25'
+            new_date: '2020-10-25',
+            count: 0
         }
     },
     mounted(){
-        this.xxx = '2019-11-11'
-
+        this.xxx = '2019-11-11',
+        this.$store.commit('edit_count',0);
     },
     created(){
 
@@ -47,7 +55,14 @@ export default {
 
     },
     computed: {
-
+        counter(){
+            this.$nextTick(()=>{
+                this.$store.dispatch('edit_count_inc');
+                this.count = this.$store.getters.edit_count;
+                return this.count;
+            })
+            
+        }
     },
     methods: {
         myclick1(){
