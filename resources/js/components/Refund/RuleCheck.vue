@@ -324,7 +324,7 @@ export default {
                             this.rule_select = 0;
                             this.$nextTick(()=>{
                                 for (let i=0; i<this.results.length; i++){
-                                    console.log('type :' + this.results[i]['result_type']);
+                                    
                                     this.results[i]['selected'] = 0;
                                     this.results[i]['status'] = 0;
                                     switch (this.results[i]['result_type']){
@@ -351,7 +351,7 @@ export default {
                             })
 
                         }else{
-                            console.log('result length :' + this.results.length);
+                            
                             this.$nextTick(()=>{
                                 for (let i=0; i<this.results.length; i++){
                                     this.results[i]['status'] = 0;
@@ -417,7 +417,6 @@ export default {
                     let tmp = await results.filter(x=>x.rule_id == this.arr_rule_select[i]);
                     result_tmp = details;
                     details = result_tmp.concat(tmp);
-                    // console.log('id "' + this.arr_rule_select[i] + 'result concat :' + details.length);
                 }
             }else{
                 details = await results.filter(x=>x.rule_id == this.rule_select);
@@ -426,14 +425,11 @@ export default {
             for (let i=0; i<details.length; i++){
                 status = await status + parseInt(details[i]['status']);
             }
-            // console.log('detail length :' + details.length + 'pass :' + status);
             if (status != 0 && details.length == status){
                 this.alert = 'pass';
-                //console.log('rule passed !!')
                 return  true;
             }else{
                 this.alert = 'notpass';
-                // console.log('rule not passed !!')
                 return  false;
             }
 
@@ -569,7 +565,6 @@ export default {
             let index = this.details.findIndex(x=>x.consider_id == consider_id);
             detail = _.cloneDeep(this.details[index]);
             if (detail){
-                //console.log('find detail :' + consider_id + ' index : ' + index + ' type :' + detail.result_type);
                 if (detail.result_type == 'boolean'){
                     detail.value = (detail.value == 1) ? true : false;
                 }
@@ -594,7 +589,6 @@ export default {
         async sentResult(){
             let result_detail = [];
             let result_tmp = []
-            console.log('sent detail :');
             if (this.arr_rule_select.length > 0){
                 for (let i=0; i<this.arr_rule_select.length; i++){
                     let tmp = await this.results.filter(x=>x.rule_id == this.arr_rule_select[i]);
@@ -606,7 +600,6 @@ export default {
             }
 
 
-            console.log('sent detail :' + result_detail.length);
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${this.refund_form_id}/refund_details`;
             let tmp = await axios.post(`${path}`,
                 {
@@ -653,7 +646,6 @@ export default {
             await this.getRefundDetail();
             //let update = await this.$emit("update_detail");
             // let check = await this.recheck_rule_pass();
-            // console.log("check :" + check);
             this.rule_passed = await this.recheck_rule_pass();
 
             if (this.rule_passed){

@@ -164,7 +164,6 @@ export default {
         date_today(){
             let today = new Date();
             let str_today = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-            console.log('today :' + str_today);
             return str_today;
         },
     },
@@ -237,7 +236,6 @@ export default {
             .catch(error=>{
                 this.alert = 'error';
                 this.complete_status = false;
-                console.log('error : ' + error);
             })
                 
 

@@ -494,7 +494,6 @@ export default {
                         this.fetchData();
                     })
                     .catch(error=>{
-                        console.log('error : ' + error);
                     })
                 }
             });
@@ -524,7 +523,6 @@ export default {
                     let path = `/api/offices/${office_id}/refunds/${refund_id}`;
                     let today = new Date();
                     let str_today = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()
-                    //console.log(str_today);
 
                     let user = this.$store.getters.user;
                     axios.put(`${path}`,{
@@ -533,11 +531,9 @@ export default {
                         "consider_by" : user.username
                     })
                     .then(response=>{
-                        //console.log('OK : ');
                         this.fetchData();
                     })
                     .catch(error=>{
-                        console.log('error : ' + error);
                     })
                 }
             });

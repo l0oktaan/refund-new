@@ -137,7 +137,6 @@ export default {
             }).then(isConfirm =>{
                 if (isConfirm){
                     let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
-                    console.log('path : ' + path);
                     // axios.put(`${path}`,{
                     //     status : '0'
                     // })
@@ -147,7 +146,6 @@ export default {
                             next()
                         })
                         .catch(error=>{
-                            console.log('error : ' + error);
                             return false;
                         })
 
@@ -159,7 +157,6 @@ export default {
             this.$store.commit('refund_contract_no',null)
             next();
         }
-        // console.log('refund id :' + this.refund_id + ' status :' + this.refund_s);
         // next();
     },
     watch: {
@@ -171,7 +168,6 @@ export default {
             }
         },
         tabIndex(){
-            console.log('tab index :' + this.tabIndex);
         },
 
     },
@@ -211,18 +207,15 @@ export default {
             }).then(isConfirm =>{
                 if (isConfirm){
                     let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`;
-                    console.log('path : ' + path);
                     // axios.put(`${path}`,{
                     //     status : '0'
                     // })
                     this.$nextTick(()=>{
                         axios.delete(`${path}`)
                         .then(response=>{
-                            console.log('deleted :');
                             return true;
                         })
                         .catch(error=>{
-                            console.log('error : ' + error);
                             return false;
                         })
                     })
@@ -243,7 +236,6 @@ export default {
                 forms = response.data.data;
                 this.forms = forms;
                 this.createArray();
-                console.log('form :' + forms.length);
             })
         },
         getRefundForm(){
@@ -287,7 +279,6 @@ export default {
             return _.orderBy(arr,'order','asc');
         },
         createArray(){
-            console.log('create array');
             if (this.forms.length > 0){
                 for (let i = 0 ; i < this.forms.length ; i++){
                     this.isSelect.push(false);
@@ -314,11 +305,9 @@ export default {
             refund = await response.data.data[0];
             this.refund_s =  await refund.status;
             await this.$store.commit("refund_status",this.refund_s);
-            console.log('refund status : ' + this.refund_s);
         },
 
         onTabChange(value){
-            console.log('tab :' + value);
         },
         checkPass(val){
             if (val == 1){

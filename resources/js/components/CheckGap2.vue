@@ -42,7 +42,7 @@ export default {
             }
         },
         show(){
-            console.log('date show :' + this.show);
+            // console.log('date show :' + this.show);
         },
         date_begin(newDate, oldDate){
             if (this.date_begin != '' && this.date_end){

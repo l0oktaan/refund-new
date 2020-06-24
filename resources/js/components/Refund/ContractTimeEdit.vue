@@ -287,12 +287,13 @@ export default {
     },
     computed: {
         isDisable(){
-            console.log('status :' + this.refund_status);
+            
             return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     watch: {
         date_edit_start(newDate, oldDate){
+            
             if (this.date_edit_start != '' && this.date_edit_end){
                 if (!this.checkDate(newDate,this.date_edit_end)){
                     this.$nextTick(() => {
@@ -300,6 +301,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
+                    
                     this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
@@ -313,6 +315,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
+                    
                     this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
@@ -330,7 +333,7 @@ export default {
                     })
                 }else{
                     let diff = this.diffDate(this.date_problem_end,this.date_book);
-                    console.log('diff :' + diff);
+                    
                     if (diff > 15){
                         this.$nextTick(() => {
                             // this.date_problem_end = oldDate;
@@ -351,7 +354,7 @@ export default {
                     })
                 }else{
                    let diff = this.diffDate(this.date_problem_end,this.date_book);
-                    console.log('diff :' + diff);
+                    
                     if (diff > 15){
                         this.$nextTick(() => {
                             // this.date_book = oldDate;
@@ -539,7 +542,7 @@ export default {
                 diff = (d2.getTime() - d1.getTime())/(1000*60*60*24) + 1;
                 return diff;
             }else{
-                this.alert = "error";
+                // this.alert = "error";
                 return false;
             }
         },
@@ -578,12 +581,12 @@ export default {
                 this.isEdit = false
             }
             this.state = 'new';
-            this.date_approve = '';
-            this.date_contract_end = '';
-            this.date_problem_end = '';
-            this.date_book = '';
-            this.date_edit_start = '';
-            this.date_edit_end = '';
+            this.date_approve = null;
+            this.date_contract_end = null;
+            this.date_problem_end = null;
+            this.date_book = null;
+            this.date_edit_start = null;
+            this.date_edit_end = null;
             this.edit_days = null;
             this.cal_edit_days = null;
             this.$forceUpdate();

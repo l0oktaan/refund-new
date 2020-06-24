@@ -239,7 +239,6 @@ export default {
     },
     computed: {
         isDisable(){
-            console.log('status :' + this.refund_status);
             return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
         }
 
@@ -302,9 +301,7 @@ export default {
             }
             var contract = {};
 
-            // console.log('contract path : ' + path);
             //return
-            console.log('contract status : ' + this.contract_status);
             if (this.contract_status == 'new'){
                 try {
                     let path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
@@ -325,7 +322,6 @@ export default {
                     await this.$emit("refund_update");
                     await this.$forceUpdate();
                 } catch (error) {
-                    console.log('error :' + error);
                     this.alert = 'error';
                 }
                 // let response = axios.post(`${path}`,{
@@ -347,7 +343,6 @@ export default {
                 //     this.$forceUpdate();
                 // })
                 // .catch(error=>{
-                //     console.log('error :' + error);
                 //     this.alert = 'error';
                 // })
             }else{
@@ -369,7 +364,6 @@ export default {
                     await this.$emit("refund_update");
                     this.$forceUpdate();
                 } catch (error) {
-                    console.log('error :' + error);
                     this.alert = 'error';
                 }
                 // let path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts/${this.contract_id}`;
@@ -390,7 +384,6 @@ export default {
                 //     this.$forceUpdate();
                 // })
                 // .catch(error=>{
-                //     console.log('error :' + error);
                 //     this.alert = 'error';
                 // })
             }
@@ -399,12 +392,10 @@ export default {
         fetchContract(){
             var contract = {};
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
-            console.log('contract path: ' + path);
             axios.get(`${path}`)
             .then(response=>{
 
 
-                console.log('get contract: ' + response.data.data.length);
                 if (response.data.data.length > 0){
                     this.contract = response.data.data[0];
                     // this.contract_id = this.contract.id;
@@ -475,11 +466,9 @@ export default {
             this.$forceUpdate();
         },
         checkDate(date1,date2){
-            //console.log('check date : '+ date1 + ' and ' + date2);
             var d1 = new Date(date1);
             var d2 = new Date(date2);
             if (d2 > d1){
-                console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
                 return true;
             }else{
                 this.alert = "error";

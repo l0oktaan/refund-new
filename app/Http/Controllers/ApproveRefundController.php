@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Office;
 use App\Refund;
 use App\ApproveRefund;
+use App\RefundCode;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApproveRefundRequest;
 use App\Http\Resources\ApproveRefundResource;
@@ -42,14 +43,30 @@ class ApproveRefundController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    private function getCode(RefundCode $refund_code){
+        $y = Date('Y') + 543;
+        if (Date('m')>9) {
+            $y = $y + 1;
+        }
+        $code = substr($y,2) . '-' . sprintf('%04d', $refund_code->id);
+        return $code;
+    }
     public function store(Office $office, Refund $refund, ApproveRefundRequest $request)
     {
         if ($refund->office_id == $office->id){
 
             $approve = new ApproveRefund($request->all());
             $refund->approve_refunds()->save($approve);
+            $refund_code = new RefundCode;
+            $refund_code->refund_id = $refund->id;
+            $refund_code->create_date = date('Y-m-d');
+            $refund_code->save();
             if ($refund->status < 7){
-                $refund->update(['status' => 7]);
+                
+                $refund->update([
+                    'approve_code' => $this->getCode($refund_code),
+                    'status' => 7
+                ]);
             }
 
             return response([
