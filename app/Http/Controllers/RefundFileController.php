@@ -46,14 +46,7 @@ class RefundFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    private function getCode(RefundCode $refund_code){
-        $y = Date('Y') + 543;
-        if (Date('m')>9) {
-            $y = $y + 1;
-        }
-        $code = substr($y,2) . '-' . sprintf('%04d', $refund_code->id);
-        return $code;
-    }
+    
     public function store(Office $office, Refund $refund, Request $request)
     {
         //return $refund;
