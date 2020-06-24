@@ -125,6 +125,7 @@ Vue.use(Cleave,{
 import App from './views/App.vue'
  import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import PassChange from './views/PassChange.vue'
 import Refund from './views/Refund.vue'
 import RefundDashboard from './views/Dashboard.vue'
 import Office from './views/Office.vue'
@@ -164,6 +165,13 @@ const router = new VueRouter({
             component: Login,
             meta: {
                 breadCrumb: 'เข้าสู่ระบบ' //crumb
+            }
+        },
+        {
+            path: '/passchange',
+            component: PassChange,
+            meta: {
+                breadCrumb: 'เปลี่ยนรหัสผ่าน' //crumb
             }
         },
         {
@@ -406,6 +414,9 @@ Vue.component('TimeLine', TimeLine).default;
 
 import MyLogin from './components/Login/Login.vue';
 Vue.component('MyLogin', MyLogin).default;
+
+import PasswordChange from './components/Login/PasswordChange.vue';
+Vue.component('PasswordChange', PasswordChange).default;
 
 
 
@@ -738,7 +749,11 @@ const store = new Vuex.Store({
                         token: response.data.success
                     })
                     localStorage.setItem('token', response.data.success)
-                    if (userData.type == 'admin'){
+                    
+                    if (userData.status == 1){
+                        console.log('status :'+ userData.status)
+                        router.replace('/passchange')
+                    }else if (userData.type == 'admin'){
                         router.replace('/admin')
                     }else if (userData.type == 'user'){
                         commit('office_id', userData.office_id)
@@ -754,7 +769,9 @@ const store = new Vuex.Store({
         checkLogin({ state }){
             const userData = state.user
             if (userData){
-                if (userData.type == 'admin'){
+                if (userData.status == 1){
+                    router.replace('/passchange')
+                }else if (userData.type == 'admin'){
                     router.replace('/admin')
                 }else if (userData.type == 'user'){
                     router.replace('/refund')
