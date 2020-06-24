@@ -3,7 +3,7 @@
             <div class="sidebar">
                 <nav class="sidebar-nav">
                     <ul class="nav">
-                        <li class="nav-item  nav-dropdown  ">
+                        <!-- <li class="nav-item  nav-dropdown  ">
                             <a class="nav-link  nav-dropdown-toggle " href="#">
                                     เริ่มต้น
                                     </a>
@@ -44,7 +44,7 @@
                                             </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <b-nav vertical v-if="user.type=='admin'">
                             <b-nav-item  to="/admin"><i class="fas fa-globe"></i>&nbsp;Dashboard</b-nav-item>
                             <b-nav-item  to="/admin/users"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item>

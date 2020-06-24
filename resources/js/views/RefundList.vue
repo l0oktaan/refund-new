@@ -158,6 +158,7 @@
                         :total-rows="rows"
                         :per-page="perPage"
                         @change="change_page"
+                        limit="10"
                     ></b-pagination>
 
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
@@ -446,7 +447,7 @@ export default {
                     list : arr
                 })
             }
-            await this.set_refund_show(this.$store.getters.refund_show);
+            await this.set_refund_show(this.$store.getters.refund_show ? this.$store.getters.refund_show : 'all');
             this.c_page = this.currentPage;
 
             this.$forceUpdate();
