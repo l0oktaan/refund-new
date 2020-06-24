@@ -56,8 +56,10 @@ Route::group(['middleware' => 'auth:api'],function() {
     });
 
     Route::get('/user_online','UserController@UserOnlineStatus');
-    
+
     Route::get('/create_users','Auth\RegisterController@createUsers');
+
+    Route::post('/change_password','Auth\RegisterController@changePassword');
 
 
 });

@@ -1,9 +1,10 @@
 <template>
 <div>
+    <my-alert :AlertType="alert"></my-alert>
     <div class="app flex-row align-items-center">
     <div class="container">
       <b-row class="justify-content-center">
-        <b-col md="8">
+        <b-col md="6">
           <b-card-group>
             <b-card>
                 <div slot="header">
@@ -11,10 +12,11 @@
                 </div>
                 <validation-observer ref="observer" v-slot="{ passes }">
                 <b-form @submit.stop.prevent="passes(onSubmit)">
-                    <!-- <validation-provider
+                    <validation-provider
                             name="รหัสผ่านเดิม"
                             :rules="{ required: true, min: 5 }"
                             v-slot="validationContext"
+                            v-if="user_status && user_status == 2"
                         >
                         <b-form-group>
                             <label for="contract_party">รหัสผ่านเดิม : <span class="require">*</span></label>
@@ -27,7 +29,7 @@
                             </b-form-input>
                             <b-form-invalid-feedback id="current-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                         </b-form-group>
-                        </validation-provider> -->
+                        </validation-provider>
                         <validation-provider
                                 name="รหัสผ่านใหม่"
                                 :rules="{ required: true, min: 5 }"
@@ -76,7 +78,7 @@
       </b-row>
     </div>
   </div>
-    
+
 </div>
 </template>
 
@@ -87,14 +89,38 @@ export default {
             current_password: '',
             new_password: '',
             confirm_password: '',
+            alert: '',
+            user_status: ''
         }
+    },
+    mounted(){
+        this.user_status = this.$store.getters.user.status;
     },
     methods: {
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
         onSubmit(){
-            
+            let path = `/api/change_password`;
+            axios.post(`${path}`,{
+                username: this.$store.getters.username,
+                new_passwor: this.new_password
+            })
+            .then(response=>{
+                console.log('response :' + response.data);
+                if (response.data = 'ok'){
+                    this.alert = 'success';
+                    setTimeout(() => {
+                        this.$store.dispatch('logout');
+                        this.$router.push('/login');
+                    }, 2000);
+
+                }
+            })
+            .catch(error=>{
+                console.log(error);
+                this.alert = 'error';
+            })
         }
     }
 }

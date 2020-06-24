@@ -170,6 +170,13 @@ const router = new VueRouter({
         {
             path: '/passchange',
             component: PassChange,
+            beforeEnter (to, from, next) {
+                if (store.state.user) {
+                    next()
+                } else {
+                    next('/login')
+                }
+            },
             meta: {
                 breadCrumb: 'เปลี่ยนรหัสผ่าน' //crumb
             }
@@ -178,7 +185,7 @@ const router = new VueRouter({
             path: '/refund',
             component: Refund,
             beforeEnter (to, from, next) {
-                if (store.state.user.type == 'user') {
+                if (store.state.user && store.state.user.type == 'user') {
                     next()
                 } else {
                     next('/login')
@@ -305,6 +312,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds',
+                    name: 'refund-admin',
                     component: RefundShow,
                     meta: {
                         breadCrumb: 'การถอนคืนฯ' //crumb
@@ -613,7 +621,7 @@ const store = new Vuex.Store({
                     color: 'icon_wait',
                     count: 0
                 },
-                
+
                 {
                     status : [99],
                     class_name: 'complete',
@@ -681,7 +689,7 @@ const store = new Vuex.Store({
             return state.refund_filter
         },
         edit_count (state){
-            
+
             return state.edit_count
         }
     },
@@ -714,7 +722,7 @@ const store = new Vuex.Store({
             state.refund_status = value
         },
         current_page (state, value){
-            state.current_page = value            
+            state.current_page = value
         },
         per_page (state, value){
             state.per_page = value
@@ -749,7 +757,7 @@ const store = new Vuex.Store({
                         token: response.data.success
                     })
                     localStorage.setItem('token', response.data.success)
-                    
+
                     if (userData.status == 1){
                         console.log('status :'+ userData.status)
                         router.replace('/passchange')

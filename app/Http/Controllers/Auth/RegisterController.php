@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use App\Office;
 use App\User;
+use App\Office;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class RegisterController extends Controller
 {
@@ -63,6 +64,39 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+    public function changePassword(Request $request){
+        $this->validate($request, [
+            'username'   => 'required',
+            'new_password' => 'required',
+        ]);
+
+        // $user = Auth::user();
+        // if ($user->status == 1){
+        //     $user->password = Hash::make($request->new_password);
+        //     $user->status = 2;
+        //     $user->save();
+        //     return 'OK';
+        // }else if ($user->status == 2){
+
+        // }
+        // if ($user){
+        //     $user->password = Hash::make($request->new_password);
+        //     $user->status = 2;
+        //     $user->save();
+        //     return 'OK';
+        // }else{
+        //     $credentials = $request->only('username', 'current_password');
+        //     if (Auth::attempt($credentials)) {
+        //         $user = Auth::user();
+        //         $user->password = Hash::make($request->new_password);
+        //         $user->status = 2;
+        //         $user->save();
+        //         return 'OK';
+        //     }else{
+        //         return response(null,Response::HTTP_NOT_FOUND);
+        //     }
+        // }
+    }
     protected function create(array $data)
     {
 
@@ -106,8 +140,11 @@ class RegisterController extends Controller
 
 
     }
+
     protected function guard()
     {
         return Auth::guard('guard-name');
     }
+
+
 }
