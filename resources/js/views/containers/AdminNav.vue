@@ -52,7 +52,6 @@
                     <a class="dropdown-item" href="" @click="logout">
                         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                     </a>
-
                 </div>
             </li>
         </ul>
