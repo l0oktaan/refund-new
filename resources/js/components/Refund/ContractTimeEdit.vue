@@ -134,7 +134,7 @@
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
-                                            placeholder="กรณี"
+                                            placeholder="เช่น เหตุอุทกภัย"
                                             name="approve_case"
                                             v-model = "time_edit.approve_case"
                                         >

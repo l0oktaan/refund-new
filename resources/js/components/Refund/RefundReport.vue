@@ -76,7 +76,8 @@
                                                         <div v-if="time_edits.length > 0">
                                                             <div v-for="(time_edit,index) in time_edits" :key="index">
                                                                 <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> อนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span><span v-if="time_edit.edit_type > 1">จำนวนเงิน</span> <span v-if="time_edit.edit_type > 1"><span class="show">{{time_edit.edit_budget | numeral('0,0.00')}}</span> บาท</span></p>
-                                                                <p class="head sub2">ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span></p>
+                                                                <p class="head sub2">ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span><span class="show" v-if="time_edit.approve_type == 99">{{'( ' + time_edit.approve_other_desc + ' )'}}</span></p>
+                                                                <p class="head sub2" v-if="time_edit.approve_type == 99"> เข้าตามกรณี <span class="show">{{arrApproveOtherType[arrApproveOtherType.findIndex(x=>x.value == time_edit.approve_other_type)]['text']}}</span></p>
                                                                 <p class="head sub2"><span v-if="time_edit.approve_type > 20">กรณี</span> <span class="show" v-if="time_edit.approve_type > 20">{{time_edit.approve_case}}</span>จำนวนวัน<span class="show">{{time_edit.edit_days}}</span>วัน </p>
                                                                 <p class="head sub2">ตั้งแต่วันที่ <span class="show">{{getThaiDate(time_edit.edit_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(time_edit.edit_end_date)}}</span></p>
                                                                 <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type))">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
@@ -313,7 +314,7 @@ export default {
                 {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
             ],
             arrShowTimeEditDetail : [
-                22,23,31,32
+                22,23,31,32,99
             ],
 
             time_edits : [],
@@ -335,8 +336,6 @@ export default {
         await this.getDeliver();
         await this.getDeposit();
         await this.getApproveRefund();
-
-
     },
     created(){
 
