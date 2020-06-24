@@ -58,11 +58,12 @@
                 <table class="table table-hover">
                     <thead class="thead">
                         <tr>
-                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('id')">วันที่สร้าง<b-icon v-if="sort_by == 'id'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
-                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
-                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
+                            <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('id')">วันที่สร้าง<b-icon v-if="sort_by == 'id'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
+                            <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 10%">รหัสเอกสาร</th>
-                            <th scope="col" style="width: 23%">คู่สัญญา</th>
+                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
+                            
+                            <th scope="col" style="width: 20%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>
                             <!-- <th scope="col" style=""></th> -->
                             <th scope="col" style="width: 15%">สถานะ</th>
@@ -73,8 +74,9 @@
                         <tr v-for="(refund,index) in refund_show_page" :key="index">
                             <td v-if="user_type == 'user'">{{getThaiDate(refund.create_date)}}</td>
                             <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
-                            <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.approve_code  ? refund.approve_code : '-'}}</span></td>
+                            <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
+                            
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
                             <!-- <td class="text-right"><i :class="get_status_icon(refund.status)"></i></td> -->
@@ -463,7 +465,7 @@ export default {
 
         getThaiDate(item){
             var d = new Date(item);
-            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
             
         },
         async showRefund(id,office_id){
