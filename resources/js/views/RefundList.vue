@@ -312,7 +312,8 @@ export default {
                 let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                this.currentPage =  this.$store.getters.current_page;
+                console.log('show length :' + this.refund_show_page.length);
+                // this.currentPage =  this.$store.getters.current_page;
             }else{
                 this.refund_show_page = await this.refund_show;
                 this.currentPage = 1;
