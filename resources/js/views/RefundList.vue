@@ -307,6 +307,7 @@ export default {
             }else{
                 this.current_page = 1;
             }
+            console.log('cp :' + this.currentPage + ' per :' + this.perPage);
             if (this.refund_show.length > this.perPage){
                 let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
