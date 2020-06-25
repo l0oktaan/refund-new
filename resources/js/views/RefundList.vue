@@ -225,7 +225,7 @@ export default {
             show: false,
             currentPage: this.$store.getters.current_page,
             c_page: 1,
-            perPage: this.$store.getters.per_page,
+            perPage: this.$store.getters.per_page ? this.$store.getters.per_page : 5,
             arr_perPage: [5,10,15],
             fields: [''],
             alert: '',
@@ -405,6 +405,7 @@ export default {
                     this.refund_show = this.$store.getters.refund_filter;
                     this.refund_filter = true;
                 }else{
+                    show = 'all';
                     this.refund_filter = false;
                     this.filter = '';
                     this.$store.commit('refund_filter',null);
