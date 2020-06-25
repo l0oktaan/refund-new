@@ -3,76 +3,110 @@
     <my-alert :AlertType="alert"></my-alert>
     <div class="app flex-row align-items-center">
     <div class="container">
-      <b-row class="justify-content-center">
-        <b-col md="6">
+        <b-row class="justify-content-center">
+        <b-col md="8">
           <b-card-group>
-            <b-card>
-                <div slot="header">
-                    <strong>เปลี่ยนรหัสผ่าน</strong>
+            <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
+              <b-card-body class="text-center">
+                <div>
+                    <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img>
+                    <h4>ระบบถอนคืนเงินรายได้แผ่นดิน</h4>
                 </div>
+              </b-card-body>
+            </b-card>
+            <b-card>
+
+                
+                
                 <validation-observer ref="observer" v-slot="{ passes }">
-                <b-form @submit.stop.prevent="passes(onSubmit)">
-                    <validation-provider
-                            name="รหัสผ่านเดิม"
-                            :rules="{ required: true, min: 5 }"
-                            v-slot="validationContext"
-                            v-if="user_status && user_status == 2"
-                        >
-                        <b-form-group>
-                            <label for="contract_party">รหัสผ่านเดิม : <span class="require">*</span></label>
-                            <b-form-input type="text"
-                                placeholder="รหัสผ่านเดิม"
-                                v-model="current_password"
-                                :state="getValidationState(validationContext)"
-                                aria-describedby="current-password-live-feedback"
-                            >
-                            </b-form-input>
-                            <b-form-invalid-feedback id="current-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                        </validation-provider>
-                        <validation-provider
+                <b-form @submit.stop.prevent="passes(onSubmit)">                    
+                    <b-row v-if="user_status == 2">
+                        <b-col>                            
+                            <validation-provider
+                                name="รหัสผ่านเดิม"
+                                :rules="{ required: true, min: 5 }"
+                                v-slot="validationContext"
+                                v-if="user_status && user_status == 2"
+                            >                                
+                                <b-form-group>
+                                    <label for="time_edit_date">รหัสผ่านเดิม <span class="require">*</span></label>                                             
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input                                        
+                                            v-model="current_password" 
+                                            type="password" 
+                                            name="current-password"
+                                            placeholder="รหัสผ่านเดิม"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-password-live-feedback"
+                                        />                             
+                                    <b-form-invalid-feedback id="current-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                   <b-row>
+                        <b-col>                            
+                            <validation-provider
                                 name="รหัสผ่านใหม่"
-                                :rules="{ required: true, min: 5 }"
+                                rules="required|min: 5"
                                 v-slot="validationContext"
-                            >
-                            <b-form-group>
-                                <label for="contract_no">รหัสผ่านใหม่ :<span class="require">*</span></label>
-                                <b-form-input type="text"
-                                    placeholder="รหัสผ่านใหม่"
-                                    name="new_password"
-                                    v-model="new_password"
-                                    :state="getValidationState(validationContext)"
-                                    aria-describedby="new-password-live-feedback"
-                                >
-                                </b-form-input>
-                                <b-form-invalid-feedback id="new-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                        <validation-provider
+                                
+                            >                                
+                                <b-form-group>
+                                    <label for="time_edit_date">รหัสผ่านใหม่ <span class="require">*</span></label>                                             
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input                                        
+                                            v-model="new_password" 
+                                            type="password" 
+                                            name="new_password"
+                                            placeholder="รหัสผ่านใหม่"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="new-password-live-feedback"
+                                        />                             
+                                    <b-form-invalid-feedback id="new-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>                            
+                            <validation-provider
                                 name="ยืนยันรหัสผ่าน"
-                                :rules="{ required: true, min: 5 }"
+                                rules="required|min: 5|confirmed:รหัสผ่านใหม่"
                                 v-slot="validationContext"
-                            >
-                            <b-form-group>
-                                <label for="contract_no">ยืนยันรหัสผ่าน :<span class="require">*</span></label>
-                                <b-form-input type="text"
-                                    placeholder="ยืนยันรหัสผ่านอีกครั้ง"
-                                    name="confirm_password"
-                                    v-model="confirm_password"
-                                    :state="getValidationState(validationContext)"
-                                    aria-describedby="confirm-password-live-feedback"
-                                >
-                                </b-form-input>
-                                <b-form-invalid-feedback id="confirm-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
+                                
+                            >                                
+                                <b-form-group>
+                                    <label for="time_edit_date">ยืนยันรหัสผ่าน <span class="require">*</span></label>                                             
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input                                        
+                                            v-model="confirm_password" 
+                                            type="password" 
+                                            name="confirm_password"
+                                            placeholder="ยืนยันรหัสผ่าน"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="confirm-password-live-feedback"
+                                        />                             
+                                    <b-form-invalid-feedback id="confirm-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
 
                     <div class="text-center">
                         <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                        <b-button type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
                     </div>
                 </b-form>
                 </validation-observer>
             </b-card>
+          </b-card-group>
+        </b-col>
+      </b-row>
+      <b-row class="justify-content-center">
+        <b-col md="6">
+          <b-card-group>
+            
           </b-card-group>
         </b-col>
       </b-row>
@@ -104,7 +138,7 @@ export default {
             let path = `/api/change_password`;
             axios.post(`${path}`,{
                 username: this.$store.getters.username,
-                new_passwor: this.new_password
+                new_password: this.new_password
             })
             .then(response=>{
                 console.log('response :' + response.data);
@@ -114,18 +148,30 @@ export default {
                         this.$store.dispatch('logout');
                         this.$router.push('/login');
                     }, 2000);
-
                 }
             })
             .catch(error=>{
                 console.log(error);
                 this.alert = 'error';
             })
+        },
+        onCancel(){
+            this.$router.push('/');
         }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+img{
+    max-width: 150px;
+    margin-bottom: 15px!important;
+}
+.alertBox{
+    margin-top: 15px;
+}
+.txt{
+    margin-bottom: 5px;
+    padding-bottom: 0px!important;
+}
 </style>

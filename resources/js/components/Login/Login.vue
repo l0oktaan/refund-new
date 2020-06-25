@@ -16,7 +16,7 @@
               <b-card-body class="txt">
                     <b-row>
                         <b-col>
-                            <p class="text-muted txt">ใส่รหัสผู้ใช้งานระบบ</p>
+                            <p class="text-muted txt">ใส่ชื่อผู้ใช้งานระบบ</p>
                             <b-input-group class="mb-3">
                                 <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
                                 <b-form-input v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username email" />

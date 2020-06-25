@@ -312,7 +312,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'refunds',
-                    name: 'refund-admin',
+                    
                     component: RefundShow,
                     meta: {
                         breadCrumb: 'การถอนคืนฯ' //crumb
@@ -327,7 +327,7 @@ const router = new VueRouter({
                         },
                         {
                             path: ':id',
-                            name: 'refund',
+                            name: 'refund-admin',
                             component: RefundDetail,
                             //component: RefundFormCheck,
                             meta: {
@@ -616,7 +616,7 @@ const store = new Vuex.Store({
                     status : [14],
                     class_name: 'director',
                     show: ['admin'],
-                    text : 'เสนออำนวยการกอง',
+                    text : 'เสนอผู้อำนวยการกอง',
                     icon: 'fas fa-user-tie icon_director',
                     color: 'icon_wait',
                     count: 0

@@ -65,37 +65,37 @@ class RegisterController extends Controller
      * @return \App\User
      */
     public function changePassword(Request $request){
-        $this->validate($request, [
-            'username'   => 'required',
-            'new_password' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'username'   => 'required',
+        //     'new_password' => 'required',
+        // ]);
 
-        // $user = Auth::user();
-        // if ($user->status == 1){
-        //     $user->password = Hash::make($request->new_password);
-        //     $user->status = 2;
-        //     $user->save();
-        //     return 'OK';
-        // }else if ($user->status == 2){
+        $user = Auth::user();
+        if ($user->status == 1){
+            $user->password = Hash::make($request->new_password);
+            $user->status = 2;
+            $user->save();
+            return 'OK';
+        }else if ($user->status == 2){
 
-        // }
-        // if ($user){
-        //     $user->password = Hash::make($request->new_password);
-        //     $user->status = 2;
-        //     $user->save();
-        //     return 'OK';
-        // }else{
-        //     $credentials = $request->only('username', 'current_password');
-        //     if (Auth::attempt($credentials)) {
-        //         $user = Auth::user();
-        //         $user->password = Hash::make($request->new_password);
-        //         $user->status = 2;
-        //         $user->save();
-        //         return 'OK';
-        //     }else{
-        //         return response(null,Response::HTTP_NOT_FOUND);
-        //     }
-        // }
+        }
+        if ($user){
+            $user->password = Hash::make($request->new_password);
+            $user->status = 2;
+            $user->save();
+            return 'OK';
+        }else{
+            $credentials = $request->only('username', 'current_password');
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
+                $user->password = Hash::make($request->new_password);
+                $user->status = 2;
+                $user->save();
+                return 'OK';
+            }else{
+                return response(null,Response::HTTP_NOT_FOUND);
+            }
+        }
     }
     protected function create(array $data)
     {
