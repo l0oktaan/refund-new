@@ -305,7 +305,7 @@ export default {
             if (this.$store.getters.current_page){
                 this.currentPage = this.$store.getters.current_page;
             }else{
-                this.current_page = 1;
+                this.currentPage = 1;
             }
             console.log('cp :' + this.currentPage + ' per :' + this.perPage);
             if (this.refund_show.length > this.perPage){
