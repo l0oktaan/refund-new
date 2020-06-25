@@ -231,8 +231,7 @@ export default {
             alert: '',
             filter: '',
             sort_by: this.$store.getters.user_type == 'user' ? 'id' : 'sent_date',
-            sort_type: 'asc',
-            
+            sort_type: 'asc',            
         }
     },
     async mounted(){
@@ -312,6 +311,7 @@ export default {
             if (this.refund_show.length > this.perPage){
                 let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
+                
                 this.refund_show_page = await this.refund_show.slice(begin, end);
                 
                 // this.currentPage =  this.$store.getters.current_page;
