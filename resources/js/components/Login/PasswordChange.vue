@@ -8,85 +8,91 @@
           <b-card-group>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
-                <div>
-                    <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img>
+                <div class="text-center">
+                    <div class="logo"></div>
+                    <!-- <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img> -->
                     <h4>ระบบถอนคืนเงินรายได้แผ่นดิน</h4>
                 </div>
               </b-card-body>
             </b-card>
             <b-card>
 
-                
-                
+
+
                 <validation-observer ref="observer" v-slot="{ passes }">
-                <b-form @submit.stop.prevent="passes(onSubmit)">                    
+                <b-form @submit.stop.prevent="passes(onSubmit)">
+                    <b-row>
+                        <b-col>
+                            <p class="h4 text-center mb-4">เปลี่ยนรหัสผ่าน</p>
+                        </b-col>
+                    </b-row>
                     <b-row v-if="user_status == 2">
-                        <b-col>                            
+                        <b-col>
                             <validation-provider
                                 name="รหัสผ่านเดิม"
                                 :rules="{ required: true, min: 5 }"
                                 v-slot="validationContext"
                                 v-if="user_status && user_status == 2"
-                            >                                
+                            >
                                 <b-form-group>
-                                    <label for="time_edit_date">รหัสผ่านเดิม <span class="require">*</span></label>                                             
+                                    <label for="time_edit_date">รหัสผ่านเดิม <span class="require">*</span></label>
                                         <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                        <b-form-input                                        
-                                            v-model="current_password" 
-                                            type="password" 
+                                        <b-form-input
+                                            v-model="current_password"
+                                            type="password"
                                             name="current-password"
                                             placeholder="รหัสผ่านเดิม"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="current-password-live-feedback"
-                                        />                             
+                                        />
                                     <b-form-invalid-feedback id="current-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
                         </b-col>
                     </b-row>
                    <b-row>
-                        <b-col>                            
+                        <b-col>
                             <validation-provider
                                 name="รหัสผ่านใหม่"
                                 rules="required|min: 5"
                                 v-slot="validationContext"
-                                
-                            >                                
+
+                            >
                                 <b-form-group>
-                                    <label for="time_edit_date">รหัสผ่านใหม่ <span class="require">*</span></label>                                             
+                                    <label for="time_edit_date">รหัสผ่านใหม่ <span class="require">*</span></label>
                                         <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                        <b-form-input                                        
-                                            v-model="new_password" 
-                                            type="password" 
+                                        <b-form-input
+                                            v-model="new_password"
+                                            type="password"
                                             name="new_password"
                                             placeholder="รหัสผ่านใหม่"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="new-password-live-feedback"
-                                        />                             
+                                        />
                                     <b-form-invalid-feedback id="new-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-col>                            
+                        <b-col>
                             <validation-provider
                                 name="ยืนยันรหัสผ่าน"
                                 rules="required|min: 5|confirmed:รหัสผ่านใหม่"
                                 v-slot="validationContext"
-                                
-                            >                                
+
+                            >
                                 <b-form-group>
-                                    <label for="time_edit_date">ยืนยันรหัสผ่าน <span class="require">*</span></label>                                             
+                                    <label for="time_edit_date">ยืนยันรหัสผ่าน <span class="require">*</span></label>
                                         <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                        <b-form-input                                        
-                                            v-model="confirm_password" 
-                                            type="password" 
+                                        <b-form-input
+                                            v-model="confirm_password"
+                                            type="password"
                                             name="confirm_password"
                                             placeholder="ยืนยันรหัสผ่าน"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="confirm-password-live-feedback"
-                                        />                             
+                                        />
                                     <b-form-invalid-feedback id="confirm-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
@@ -106,7 +112,7 @@
       <b-row class="justify-content-center">
         <b-col md="6">
           <b-card-group>
-            
+
           </b-card-group>
         </b-col>
       </b-row>
@@ -141,7 +147,7 @@ export default {
                 new_password: this.new_password
             })
             .then(response=>{
-                console.log('response :' + response.data);
+
                 if (response.data = 'ok'){
                     this.alert = 'success';
                     setTimeout(() => {
@@ -173,5 +179,11 @@ img{
 .txt{
     margin-bottom: 5px;
     padding-bottom: 0px!important;
+}
+.logo{
+    margin: auto;
+    width: 150px;
+    height: 173px;
+    background-image: url('/images/cgd_white.png');
 }
 </style>

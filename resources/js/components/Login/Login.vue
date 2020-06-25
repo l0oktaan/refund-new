@@ -6,39 +6,46 @@
           <b-card-group>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
-                <div>
-                    <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img>
+                <div class="text-center">
+                    <div class="logo"></div>
+                    <!-- <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img> -->
                     <h4>ระบบถอนคืนเงินรายได้แผ่นดิน</h4>
                 </div>
               </b-card-body>
             </b-card>
             <b-card no-body class="p-4">
               <b-card-body class="txt">
-                    <b-row>
-                        <b-col>
-                            <p class="text-muted txt">ใส่ชื่อผู้ใช้งานระบบ</p>
-                            <b-input-group class="mb-3">
-                                <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                                <b-form-input v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username email" />
-                            </b-input-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <p class="text-muted txt">ใส่รหัสผ่าน</p>
-                            <b-input-group class="mb-3">
-                                <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
-                                <b-form-input v-model="password" type="password" class="form-control" placeholder="รหัสผ่าน" />
-                            </b-input-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="text-center align-bottom mb-2">
-                            <b-button variant="primary" @click="login">เข้าสู่ระบบ</b-button>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
+                  <b-row>
+                      <b-col>
+                          <p class="h4 text-center mb-4">เข้าสู่ระบบ</p>
+                      </b-col>
+                  </b-row>
+                <b-row>
+                    <b-col>
+                        <p class="text-muted txt">ใส่ชื่อผู้ใช้งานระบบ</p>
+                        <b-input-group class="mb-3">
+                            <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                            <b-form-input maxlength="15" ref="username" v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username" @keyup.enter="onEnter" />
+                        </b-input-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <p class="text-muted txt">ใส่รหัสผ่าน</p>
+                        <b-input-group class="mb-3">
+                            <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
+                            <b-form-input maxlength="12" ref="password" v-model="password" type="password" class="form-control" placeholder="รหัสผ่าน"  @keyup.enter="onEnter" />
+                        </b-input-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col class="text-center align-bottom mb-2">
+                        <b-button variant="primary" @click="login">เข้าสู่ระบบ</b-button>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <div class="alert">
                             <b-alert
                                 variant="danger"
                                 dismissible
@@ -48,12 +55,9 @@
                             >
                                 {{alertMessage}}
                             </b-alert>
-                        </b-col>
-                    </b-row>
-
-
-
-
+                        </div>
+                    </b-col>
+                </b-row>
               </b-card-body>
             </b-card>
           </b-card-group>
@@ -72,19 +76,53 @@ export default {
             alertMessage: '',
             dismissSecs: 5,
             dismissCountDown: 0,
-            username: 'admin',
-            password: 'secret'
+            username: 'user1',
+            password: 'secret',
+
         }
     },
     mounted(){
         this.$store.dispatch('checkLogin');
 
     },
+    watch: {
+        username(){
+
+        }
+    },
+    computed: {
+        isValid(){
+            if (this.username != '' && this.password != ''){
+                return true;
+            }else{
+                this.dismissCountDown = this.dismissSecs
+                this.alertMessage = 'กรุณาใส่ชื่อผู้ใช้ หรือรหัสผ่าน!!!'
+                return false;
+            }
+        }
+    },
     methods: {
+
+        onEnter(){
+            if (this.isValid){
+                this.login();
+            }else{
+                return;
+            }
+        },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown
         },
         login(){
+            if (!this.isValid){
+                if (this.username == ''){
+                    this.$refs.username.focus();
+                }else if (this.password == ''){
+                    this.$refs.password.focus();
+                }
+
+                return;
+            }
             this.$store.dispatch('login',{
                 username : this.username,
                 password : this.password
@@ -152,5 +190,14 @@ img{
 .txt{
     margin-bottom: 5px;
     padding-bottom: 0px!important;
+}
+.alert{
+    min-height: 50px;
+}
+.logo{
+    margin: auto;
+    width: 150px;
+    height: 173px;
+    background-image: url('/images/cgd_white.png');
 }
 </style>

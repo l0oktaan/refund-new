@@ -46,8 +46,8 @@
                             </ul>
                         </li> -->
                         <b-nav vertical v-if="user.type=='admin'">
-                            <b-nav-item  to="/admin"><i class="fas fa-globe"></i>&nbsp;Dashboard</b-nav-item>
-                            <b-nav-item  to="/admin/users"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item>
+                            <!-- <b-nav-item  to="/admin"><i class="fas fa-globe"></i>&nbsp;Dashboard</b-nav-item> -->
+                            <!-- <b-nav-item  to="/admin/users"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item> -->
                             <b-nav-item  to="/admin/form"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการแบบฟอร์ม</b-nav-item>
                             <b-nav-item  to="/admin/refunds"><i class="fas fa-flag" aria-hidden="true"></i>&nbsp;รายการขอถอนคืน</b-nav-item>
                         </b-nav>
@@ -78,15 +78,19 @@ export default {
         return {
             user: this.$store.getters.user,
             leftMenu: [
-                {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
-                {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},
+                // {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
                 {menu: 'การถอนคืนฯ', path: '/refund/refunds', icon: 'fa fa-align-justify'},
+                {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},
+
             ]
         }
     }
 }
 </script>
 <style scoped>
-
+.router-link-exact-active{
+    color : rgb(108, 159, 255)!important;
+    background-color: rgb(85, 85, 85)!important;
+}
 
 </style>
