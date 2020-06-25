@@ -307,12 +307,12 @@ export default {
             }else{
                 this.currentPage = 1;
             }
-            console.log('cp :' + this.currentPage + ' per :' + this.perPage);
+            
             if (this.refund_show.length > this.perPage){
                 let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                console.log('show length :' + this.refund_show_page.length);
+                
                 // this.currentPage =  this.$store.getters.current_page;
             }else{
                 this.refund_show_page = await this.refund_show;
