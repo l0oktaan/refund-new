@@ -51,17 +51,17 @@
                                             </p>                                       
                                         </div>
                                         <div v-else-if="approve_type_2.findIndex(x=>x.id == item.id)>=0">                                       
-                                        <p  class="head">
-                                                <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
-                                            </p>                                                                                
-                                        </div>
-                                        <div v-else-if="approve_type_3.findIndex(x=>x.id == item.id)>=0">                                       
-                                        <p  class="head">
-                                                <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
-                                            </p>                                                                                
-                                        </div>
-                                        <div v-else-if="approve_other_type.findIndex(x=>x.id == item.id)>=0">                                       
-                                        <p  class="head">
+                                            <p  class="head">
+                                                    <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                </p>                                                                                
+                                            </div>
+                                            <div v-else-if="approve_type_3.findIndex(x=>x.id == item.id)>=0">                                       
+                                            <p  class="head">
+                                                    <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                </p>                                                                                
+                                            </div>
+                                            <div v-else-if="approve_other_type.findIndex(x=>x.id == item.id)>=0">                                       
+                                            <p  class="head">
                                                 <i class="far fa-square fa-lg"></i>{{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{item.approve_other_desc + ' (' + item.approve_other_type + ')'}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                             </p>                                                                                
                                         </div>

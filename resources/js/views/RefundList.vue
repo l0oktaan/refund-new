@@ -393,6 +393,7 @@ export default {
 
         },
         set_refund_show(status){
+            console.log('status :' + status);
             let show = null;
             
             if (status){
@@ -439,7 +440,7 @@ export default {
             let response = await axios.get(path);
             this.refunds = await response.data.data;
             
-            this.refund_show = await this.refunds;
+            // this.refund_show = await this.refunds;
             
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));

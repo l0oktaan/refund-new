@@ -538,7 +538,7 @@ export default {
             var d1 = new Date(date1);
             var d2 = new Date(date2);
             var diff = null;
-            if (d2 > d1){
+            if (d2 >= d1){
                 diff = (d2.getTime() - d1.getTime())/(1000*60*60*24) + 1;
                 return diff;
             }else{
@@ -550,7 +550,7 @@ export default {
             //console.log('check date : '+ date1 + ' and ' + date2);
             var d1 = new Date(date1);
             var d2 = new Date(date2);
-            if (d2 > d1){
+            if (d2 >= d1){
                 console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
                 return true;
             }else{
