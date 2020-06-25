@@ -44,25 +44,25 @@
                                         
                                         <div v-if="approve_type_1.findIndex(x=>x.id == item.id)>=0">
                                             <p  class="head">
-                                                <i class="far fa-square fa-lg"></i>{{index+1}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
+                                                <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
                                             </p>
                                             <p  class="head">
-                                                <i class="far fa-square fa-lg mr-3"></i> หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่ผู้มีอำนาจลงนามอนุมัติ
+                                                <i class="far fa-square fa-lg"></i> {{index+2}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span>ที่ผู้มีอำนาจลงนามอนุมัติ
                                             </p>                                       
                                         </div>
                                         <div v-else-if="approve_type_2.findIndex(x=>x.id == item.id)>=0">                                       
                                             <p  class="head">
-                                                    <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                    <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                                 </p>                                                                                
                                             </div>
                                             <div v-else-if="approve_type_3.findIndex(x=>x.id == item.id)>=0">                                       
                                             <p  class="head">
-                                                    <i class="far fa-square fa-lg"></i> {{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                    <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                                 </p>                                                                                
                                             </div>
                                             <div v-else-if="approve_other_type.findIndex(x=>x.id == item.id)>=0">                                       
                                             <p  class="head">
-                                                <i class="far fa-square fa-lg"></i>{{index+1}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{item.approve_other_desc + ' (' + item.approve_other_type + ')'}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                                <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{item.approve_other_desc + ' (' + item.approve_other_type + ')'}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                             </p>                                                                                
                                         </div>
                                         
@@ -73,10 +73,10 @@
                                         <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1}}. กรณีอนุมัติให้ตามมติ ครม. เมื่อวันที่ <span class="show-list">{{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span>
                                     </p> -->
                                     <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือคืนค่าปรับตามมติ ครม. เมื่อวันที่ <span class="show-list">{{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span> ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1 + approve_type_1.length}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือคืนค่าปรับตามมติ ครม. เมื่อวันที่ <span class="show-list">{{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span> ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
                                     </p>
                                     <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตามมติ ครม. เมื่อวันที่ <span class="show-list">{{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2 + approve_type_1.length}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตามมติ ครม. เมื่อวันที่ <span class="show-list">{{getThaiDate(form.minutes_date) + ' (' + getBookNo(form.book_no) + ')'}}</span>ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน
                                     </p>
                                 </div>
                                 <div v-else-if="form.type==2">
@@ -84,7 +84,7 @@
                                         <i class="far fa-square fa-lg"></i><b> {{contract_time_edit.length + 1}}. กรณีอนุมัติตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติ ของส่วนราชการว่าด้วยการพัสดุ</b>
                                     </p> -->
                                     <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">{{detail[detail.findIndex(x=>x.consider_id == 59)]['value'] + ' ข้อ ' + detail[detail.findIndex(x=>x.consider_id == 170)]['value'] }}</span> ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1 + approve_type_1.length}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">{{detail[detail.findIndex(x=>x.consider_id == 59)]['value'] + ' ข้อ ' + detail[detail.findIndex(x=>x.consider_id == 170)]['value'] }}</span> ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
                                     </p>
                                     
                                 </div>
@@ -97,22 +97,25 @@
                                     </p>
                                      -->
                                     <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">ว 168 หรือ ว 291 </span>ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1 + approve_type_1.length}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">ว 168 หรือ ว 291 </span>ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
 
                                     </p>
                                         <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">ว 168 หรือ ว 291 </span> ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2 + approve_type_1.length}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">ว 168 หรือ ว 291 </span> ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
                                     </p>
                                 </div>
-                                <p class="head">
-                                    <b>กรณีอนุมัติให้ตาม (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย ให้แนบ</b>
-                                </p>
-                                <p  class="head  pl-4">
-                                    1. เอกสารที่ระบุว่าเหตุหรือปัญหาอุปสรรคดังกล่าวสิ้นสุดลงวันที่เท่าใด 
-                                </p>
+                                <div v-if="form.type > 1 || approve_type_2.length > 0 || approve_type_3.length > 0 || approve_other_type.filter(x=>x.approve_other_type > 1).length > 0">
+                                    <p class="head">
+                                        <b>กรณีอนุมัติให้ตาม (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย ให้แนบ</b>
+                                    </p>
                                     <p  class="head  pl-4">
-                                    2. หนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
-                                </p>
+                                        1. เอกสารที่ระบุว่าเหตุหรือปัญหาอุปสรรคดังกล่าวสิ้นสุดลงวันที่เท่าใด 
+                                    </p>
+                                        <p  class="head  pl-4">
+                                        2. หนังสือผู้รับจ้างแจ้งเหตุภายใน 15 วัน นับแต่เหตุสิ้นสุด ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
+                                    </p>
+                                </div>
+                                
                                 <p class="head">
                                     (*กรณีผู้ลงนามอนุมัติ งด/ลด/ขยายเวลา เป็นผู้ได้รับมอบอำนาจ ให้แนบคำสั่งมอบอำนาจมาประกอบการพิจารณาด้วย)
                                 </p>
@@ -192,8 +195,8 @@ export default {
             count_group_2: 0,
             count_group_3: 0,
             approve_order: 0,
-            edit_count: 0
-
+            edit_count: 0,    
+            has_type_1: false
         }
     },
     mounted(){
@@ -203,6 +206,8 @@ export default {
         this.$store.commit('edit_count',null);
     },
     computed: {
+
+        
         get_edit_count(){
             this.edit_count++;
             console.log('edit count :' + this.edit_count);
@@ -242,7 +247,17 @@ export default {
 
     },
     methods: {
-        
+        check_has_type_1(index){
+            if (index>0){
+                let arr = this.contract_time_edit.slice(0,index);
+                let count = arr.filter(x=>this.approve_type_1.findIndex(y=>y.id == x.id)>=0).length;
+                console.log('count 1: ' + count);
+                
+                return count;
+            }else{
+                return 0;
+            }
+        },
         getBookNo(value){
             let index = value.search('/');
             return value.substring(index+1,value.length);

@@ -231,7 +231,8 @@ export default {
             alert: '',
             filter: '',
             sort_by: this.$store.getters.user_type == 'user' ? 'id' : 'sent_date',
-            sort_type: 'asc'
+            sort_type: 'asc',
+            
         }
     },
     async mounted(){
