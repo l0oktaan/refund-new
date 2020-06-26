@@ -163,6 +163,18 @@ const router = new VueRouter({
         {
             path: '/login',
             component: Login,
+            beforeEnter (to, from, next) {
+                store.dispatch('checkLogin')
+                if (store.state.user) {
+                    if (store.state.user.type == 'user'){
+                        next('/refund')
+                    }else if (store.state.user.type == 'admin'){
+                        next('/admin')
+                    }
+                } else {
+                    next()
+                }
+            },
             meta: {
                 breadCrumb: 'เข้าสู่ระบบ' //crumb
             }
@@ -171,7 +183,8 @@ const router = new VueRouter({
             path: '/passchange',
             component: PassChange,
             beforeEnter (to, from, next) {
-                if (store.state.user) {
+                store.dispatch('checkLogin')
+                if (store.state.user && store.state.user.type == 'user') {
                     next()
                 } else {
                     next('/login')
@@ -185,6 +198,7 @@ const router = new VueRouter({
             path: '/refund',
             component: Refund,
             beforeEnter (to, from, next) {
+                store.dispatch('checkLogin')
                 if (store.state.user && store.state.user.type == 'user') {
                     next()
                 } else {
@@ -205,6 +219,7 @@ const router = new VueRouter({
                 {
                     path: 'refunds',
                     component: RefundShow,
+
                     meta: {
                         breadCrumb: 'การถอนคืนฯ' //crumb
                     },
@@ -704,7 +719,8 @@ const store = new Vuex.Store({
             state.userToken = null
             state.office_id = null
             state.refund_show = null
-
+            localStorage.removeItem('token')
+            localStorage.removeItem('expirationDate')
         },
         SET_USER:(state, value) => {
             state.user = value
@@ -752,7 +768,7 @@ const store = new Vuex.Store({
                 })
                 .then(response=>{
                     const now = new Date()
-                    const expirationDate = new Date(now.getTime() + 1000)
+                    const expirationDate = new Date(now.getTime() + 24*60*60*1000)
                     console.log('expire :' + expirationDate)
                     const userData = response.data.data
                     commit('authUser',{
@@ -761,10 +777,13 @@ const store = new Vuex.Store({
                     })
                     localStorage.setItem('token', response.data.success)
                     localStorage.setItem('expirationDate', expirationDate)
+
                     if (userData.status == 1){
                         console.log('status :'+ userData.status)
                         router.replace('/passchange')
-                    }else if (userData.type == 'admin'){
+                    }
+                    if (userData.type == 'admin'){
+                        console.log('type :' + userData.type)
                         router.replace('/admin')
                     }else if (userData.type == 'user'){
                         commit('office_id', userData.office_id)
@@ -777,29 +796,33 @@ const store = new Vuex.Store({
                 })
             })
         },
-        checkLogin({ state }){
-            // let expirationDate = localStorage.getItem('expirationDate')
-            
-            // let datenow = new Date()
-            // console.log('expire :' + typeof expirationDate)
-            // console.log('now :' + typeof datenow)
-            
-            const userData = state.user
-            if (userData){
-                if (userData.status == 1){
-                    router.replace('/passchange')
-                }else if (userData.type == 'admin'){
-                    router.replace('/admin')
-                }else if (userData.type == 'user'){
-                    router.replace('/refund')
-                }
-            }else{
+        checkLogin({ commit,state }){
+            let expirationDate = new Date(localStorage.getItem('expirationDate'))
+            let now = new Date()
+            console.log('expire :' + expirationDate)
+            console.log('now :' + now)
+            if (now >= expirationDate){
+                console.log('expire')
+                commit('clearAuthData')
                 return
             }
+            expirationDate = new Date(now.getTime() + 24*60*60*1000)
+            localStorage.setItem('expirationDate', expirationDate)
+            // const userData = state.user
+            // if (userData){
+            //     if (userData.status == 1){
+            //         router.replace('/passchange')
+            //     }else if (userData.type == 'admin'){
+            //         router.replace('/admin')
+            //     }else if (userData.type == 'user'){
+            //         router.replace('/refund')
+            //     }
+            // }else{
+            //     return
+            // }
         },
         logout({ commit }){
             commit('clearAuthData')
-            localStorage.removeItem('token')
             router.push('/login')
         },
         edit_count_inc ({commit}){

@@ -82,7 +82,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch('checkLogin');
+        // this.$store.dispatch('checkLogin');
     },
     watch: {
         username(){
