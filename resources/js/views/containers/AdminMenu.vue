@@ -89,7 +89,7 @@ export default {
 </script>
 <style scoped>
 .router-link-exact-active{
-    color : rgb(108, 159, 255)!important;
+    
     background-color: rgb(85, 85, 85)!important;
 }
 

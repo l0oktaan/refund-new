@@ -69,14 +69,8 @@ class RefundFileController extends Controller
             $refund_file->upload_by = $upload_by;
             $refund_file->status = 1;
             $refund->refund_files()->save($refund_file);
-
-            if ($refund->status < 8){
-                $refund_code = new RefundCode;
-                $refund_code->refund_id = $refund->id;
-                $refund_code->create_date = date('Y-m-d');
-                $refund_code->save();
-                $refund->update([
-                    'approve_code' => $this->getCode($refund_code),
+            if ($refund->status < 8){                
+                $refund->update([                    
                     'status' => 8,
                     'sent_date' => date('Y-m-d')
                 ]);
