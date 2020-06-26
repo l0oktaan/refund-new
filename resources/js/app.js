@@ -751,13 +751,16 @@ const store = new Vuex.Store({
                     password: authData.password
                 })
                 .then(response=>{
+                    const now = new Date()
+                    const expirationDate = new Date(now.getTime() + 1000)
+                    console.log('expire :' + expirationDate)
                     const userData = response.data.data
                     commit('authUser',{
                         user: userData,
                         token: response.data.success
                     })
                     localStorage.setItem('token', response.data.success)
-
+                    localStorage.setItem('expirationDate', expirationDate)
                     if (userData.status == 1){
                         console.log('status :'+ userData.status)
                         router.replace('/passchange')
@@ -775,6 +778,12 @@ const store = new Vuex.Store({
             })
         },
         checkLogin({ state }){
+            // let expirationDate = localStorage.getItem('expirationDate')
+            
+            // let datenow = new Date()
+            // console.log('expire :' + typeof expirationDate)
+            // console.log('now :' + typeof datenow)
+            
             const userData = state.user
             if (userData){
                 if (userData.status == 1){
@@ -796,10 +805,7 @@ const store = new Vuex.Store({
         edit_count_inc ({commit}){
             commit('edit_count_inc')
         }
-
-
     }
-
 })
 Vue.use(VueAxios, axios)
 

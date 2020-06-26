@@ -251,7 +251,6 @@ export default {
                     })
                     .then(response=>{
                         this.alert = "success";
-
                         this.fetchData();
                         this.$emit("refund_update");
                         this.$forceUpdate();
@@ -262,7 +261,6 @@ export default {
                 }
             })
         },
-
         fetchData(){
             this.list_files = [];
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files`;

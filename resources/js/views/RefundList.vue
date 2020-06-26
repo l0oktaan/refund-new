@@ -32,27 +32,10 @@
                     <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
-        </b-row>
-        <!-- <b-row class="justify-content-md-center">
-            <b-col cols="3" v-for="(status,index) in arr_refund_status.slice(4,7)" :key="index">
-                <b-card :class="(status.status.includes(8)) ? get_class : status.class_name" @click="set_refund_show(status.class_name)">
-                    <b-row>
-                        <b-col>
-                            <div class="h3 icon text-right mb-2">
-                                <i :class="(status.status.includes(8)) ? get_icon : status.icon"></i>
-                            </div>
-                        </b-col>
-                    </b-row>
-                    <div><span><span class="h4">{{status.count}}</span> รายการ</span></div>
-                    <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
-                </b-card>
-            </b-col>
-        </b-row> -->
-
+        </b-row>       
         <b-row>
             <!-- <b-col>{{refunds}}</b-col> -->
         </b-row>
-
         <b-row>
             <b-col cols="12">
                 <table class="table table-hover">
@@ -61,11 +44,9 @@
                             <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('id')">วันที่สร้าง<b-icon v-if="sort_by == 'id'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
                             <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 10%">รหัสเอกสาร</th>
-                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
-                            
+                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>                            
                             <th scope="col" style="width: 20%">คู่สัญญา</th>
-                            <th scope="col" style="width: 10%">เลขที่สัญญา</th>
-                            <!-- <th scope="col" style=""></th> -->
+                            <th scope="col" style="width: 10%">เลขที่สัญญา</th>                            
                             <th scope="col" style="width: 15%">สถานะ</th>
                             <th scope="col" style="width: 15%">การดำเนินการ</th>
                         </tr>
@@ -74,21 +55,17 @@
                         <tr v-for="(refund,index) in refund_show_page" :key="index">
                             <td v-if="user_type == 'user'">{{getThaiDate(refund.create_date)}}</td>
                             <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
-                            <td><span >{{refund.approve_code  ? refund.approve_code : '-'}}</span></td>
+                            <td><span>{{refund.approve_code  ? refund.approve_code : '-'}}</span></td>
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
-                            
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
-                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
-                            <!-- <td class="text-right"><i :class="get_status_icon(refund.status)"></i></td> -->
+                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>                            
                             <td>{{get_status_text(refund.status)}}</td>
                             <td>
-
                                 <div v-if="user_type == 'admin'">
                                     <b-button :id="'btnShow'+refund.id" class="tools" size="sm" variant="outline-primary" @click="showReport(refund.id,refund.office_id)"><i class="fas fa-eye fa-lg"></i></b-button>
                                     <b-tooltip :target="'btnShow'+refund.id" triggers="hover" placement="left">
                                         แสดงข้อมูล
                                     </b-tooltip>
-
                                     <b-button v-if="refund.status == 8" :id="'btnConsider'+refund.id" class="tools" size="sm" variant="outline-success" @click="considerRefund(refund.id,refund.office_id)"><i class="fas fa-user-check fa-lg"></i></b-button>
                                     <b-tooltip v-if="refund.status == 8" :target="'btnConsider'+refund.id" triggers="hover" placement="left">
                                         รับพิจารณา
@@ -98,7 +75,6 @@
                                         class="tools" size="sm"
                                         variant="outline-dark"
                                         @click="showRefund(refund.id,refund.office_id)"
-
                                     >
                                         <i class="fas fa-pencil-alt fa-lg"></i>
                                     </b-button>
@@ -117,8 +93,6 @@
                                         ลบข้อมูล
                                     </b-tooltip>
                                 </div>
-
-
                             </td>
                         </tr>
                     </tbody>
@@ -132,10 +106,6 @@
                         </tr>
                     </tfoot>
                 </table>
-
-
-
-
             </b-col>
         </b-row>
         <b-row class="foot">
@@ -143,12 +113,10 @@
                 <div style="text-align:right;">
                     <b-form-select v-model="perPage" :options="arr_perPage"></b-form-select>
                 </div>
-
             </b-col>
-            <b-col cols="3" >
+            <b-col cols="3">
                <p style="text-align:left; margin-top:5px;">รายการต่อหน้า</p>
             </b-col>
-
             <b-col cols="4">
                 <div style="text-align:center;">
                     <b-pagination
@@ -160,19 +128,11 @@
                         @change="change_page"
                         limit="10"
                     ></b-pagination>
-
                     <b-button v-if="refund_filter" variant="danger" @click="set_refund_show('all')">แสดงทั้งหมด</b-button>
                 </div>
-
             </b-col>
             <b-col cols="4"></b-col>
-        </b-row>
-
-        <!-- <b-row class="justify-content-md-center">
-            <b-col cols>
-                {{arr_refund_status}}
-            </b-col>
-        </b-row> -->
+        </b-row>        
         <b-modal id="modalReport"
             ref="modalReport"
             size="xl"
@@ -184,14 +144,7 @@
                     :refund_id="refund_id"
                     :office_id="office_id"
                 ></refund-report>
-
         </b-modal>
-        <!-- <refund-cover
-            :state="state" :refund="refund"
-             v-for="(refund,index) in refunds" :key="index"
-            @fetchRefund="fetchData"
-        ></refund-cover> -->
-
     </div>
 </template>
 <script>
@@ -425,13 +378,9 @@ export default {
                 this.refund_show = this.refunds;
                 this.refund_show = _.orderBy(this.refund_show,this.sort_by,this.sort_type);
             }
-            
             this.$store.commit('SET_REFUND_SHOW',show);
         },
-
-
         async fetchData(){
-
             let path = '';
             if (this.user_type == 'admin'){
                 path = await `/api/admin/0/refunds`;
@@ -440,16 +389,10 @@ export default {
             }else{
                 return;
             }
-
-
             var refunds = [];
-            var contracts = [];
-            
+            var contracts = [];            
             let response = await axios.get(path);
-            this.refunds = await response.data.data;
-            
-            // this.refund_show = await this.refunds;
-            
+            this.refunds = await response.data.data;            
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
                 Object.assign(this.arr_refund_status[i],{
@@ -458,13 +401,11 @@ export default {
             }
             await this.set_refund_show(this.$store.getters.refund_show ? this.$store.getters.refund_show : 'all');
             this.c_page = this.currentPage;
-
             this.$forceUpdate();
         },
         createRefund(){
             this.$router.push({path: 'form'});
         },
-
         getClass(status){
             if (status < 7){
                 return 'status1'
@@ -472,24 +413,19 @@ export default {
                 return 'status2'
             }
         },
-
         getThaiDate(item){
             var d = new Date(item);
-            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-            
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });            
         },
         async showRefund(id,office_id){
             if (this.$store.getters.user_type == 'admin'){
                 await this.$store.commit('office_id', office_id);
-            }
-
-            
+            }            
             await this.$router.push(`refunds/${id}`);
         },
         delRefund(id){
             this.$swal({
                 title: "กรุณายืนยันการลบรายการถอนคืน",
-
                 icon: "warning",
                 closeOnClickOutside: false,
                 buttons: [
@@ -498,8 +434,7 @@ export default {
                 ],
             }).then(isConfirm =>{
                 if (isConfirm){
-                    let path = `/api/offices/${this.office_id}/refunds/${id}`;
-                    
+                    let path = `/api/offices/${this.office_id}/refunds/${id}`;                    
                     axios.delete(`${path}`)
                     .then(response=>{
                         this.alert = 'success';
@@ -515,12 +450,9 @@ export default {
                 this.refund_id = refund_id;
                 this.office_id = office_id;
             })
-
-
             this.$refs['modalReport'].show()
         },
-        considerRefund(refund_id,office_id){
-            
+        considerRefund(refund_id,office_id){            
             this.$swal({
                 title: "กรุณายืนยันการรับเรื่อง",
                 text: "",
@@ -549,9 +481,7 @@ export default {
                     })
                 }
             });
-
         }
-
     }
 }
 </script>

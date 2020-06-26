@@ -81,9 +81,8 @@ export default {
 
         }
     },
-    mounted(){
+    created(){
         this.$store.dispatch('checkLogin');
-
     },
     watch: {
         username(){
