@@ -320,7 +320,7 @@ export default {
                 this.currentPage = 1;
                 
             }
-            this.refund_show_page = _.orderBy(this.refund_show_page,this.sort_by,this.sort_type);//this.sortArrays(this.sort_by,this.sort_type);
+            // this.refund_show_page = _.orderBy(this.refund_show_page,this.sort_by,this.sort_type);//this.sortArrays(this.sort_by,this.sort_type);
 
             
             
@@ -404,8 +404,10 @@ export default {
                     show = status;
                     this.refund_filter = true;
                     this.refund_show = this.refunds.filter(x=>status.includes(x.status));
+                    this.refund_show = _.orderBy(this.refund_show,this.sort_by,this.sort_type);
                 }else if (status == 'filter'){
                     this.refund_show = this.$store.getters.refund_filter;
+                    this.refund_show = _.orderBy(this.refund_show,this.sort_by,this.sort_type);
                     this.refund_filter = true;
                 }else{
                     show = 'all';
@@ -413,6 +415,7 @@ export default {
                     this.filter = '';
                     this.$store.commit('refund_filter',null);
                     this.refund_show = this.refunds;
+                    this.refund_show = _.orderBy(this.refund_show,this.sort_by,this.sort_type);
                 }
             }else{
                 show = 'all';
@@ -420,6 +423,7 @@ export default {
                 this.filter = '';
                 this.$store.commit('refund_filter',null);
                 this.refund_show = this.refunds;
+                this.refund_show = _.orderBy(this.refund_show,this.sort_by,this.sort_type);
             }
             
             this.$store.commit('SET_REFUND_SHOW',show);
