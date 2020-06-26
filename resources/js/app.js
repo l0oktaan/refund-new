@@ -769,7 +769,7 @@ const store = new Vuex.Store({
                 .then(response=>{
                     const now = new Date()
                     const expirationDate = new Date(now.getTime() + 24*60*60*1000)
-                    console.log('expire :' + expirationDate)
+
                     const userData = response.data.data
                     commit('authUser',{
                         user: userData,
@@ -799,8 +799,7 @@ const store = new Vuex.Store({
         checkLogin({ commit,state }){
             let expirationDate = new Date(localStorage.getItem('expirationDate'))
             let now = new Date()
-            console.log('expire :' + expirationDate)
-            console.log('now :' + now)
+
             if (now >= expirationDate){
                 console.log('expire')
                 commit('clearAuthData')
