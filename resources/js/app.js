@@ -255,7 +255,7 @@ const router = new VueRouter({
                     path: 'form',
                     component: RefundForm,
                     meta: {
-                        breadCrumb: `แบบถอนคืนเงินราย` //crumb
+                        breadCrumb: `แบบถอนคืนฯ` //crumb
                     }
 
                 },

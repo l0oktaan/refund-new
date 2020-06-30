@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
         <!-- {{arrFormSelected}}
         {{isSelect}} -->
-        <h4>ข้อมูลการถอนคืนเงินรายได้</h4>
+        <h4>ประเภทการถอนคืนฯ</h4>
         <b-row>
             <b-col cols="6" v-for="(form,index) in forms" :key="index">
             <div class="animated fadeIn">

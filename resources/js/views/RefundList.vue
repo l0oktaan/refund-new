@@ -5,7 +5,7 @@
             <b-col cols="auto" class="mr-auto">
                 <span class="h4">ข้อมูลการถอนคืนเงินรายได้</span>
                 <b-button v-if="user_type=='user'" class="pt-2 pb-2 ml-5" variant="outline-success" @click="createRefund">
-                    <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างรายการถอนคืนฯ</span>
+                    <i class="fas fa-plus-circle fa-2x"></i>&nbsp;<span>สร้างแบบถอนคืนฯ</span>
                 </b-button>
             </b-col>
             <b-col cols="auto" class="text-right">

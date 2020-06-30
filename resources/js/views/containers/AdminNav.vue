@@ -6,6 +6,7 @@
         <router-link to="/refund" class="navbar-brand">
             <img class="navbar-brand-full" src="/images/refund.png" width="135" alt="CGD Refund">
             <img class="navbar-brand-minimized" src="/images/refund.png" width="30" height="30" alt="CGD Refund">
+            <span>ระบบขอถอนคืนเงินรายได้แผ่นดิน</span>
         </router-link>
         <!-- <a  href="/refund">
             <img class="navbar-brand-full" src="/images/refund.png" width="135" alt="CGD Refund">
