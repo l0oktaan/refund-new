@@ -20,7 +20,8 @@ class ApproveRefundResource extends JsonResource
             'refund_days' => $this->refund_days,
             'refund_money' => $this->refund_money,
             'refund_amount' => $this->refund_amount,
-            'approve_amount' => $this->approve_amount
+            'approve_amount' => $this->approve_amount,
+            'approve_code' => $this->refund->approve_code
         ];
     }
 }

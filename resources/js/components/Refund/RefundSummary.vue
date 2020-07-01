@@ -80,15 +80,26 @@
                                     <b-input-group append="บาท">
                                        <cleave placeholder="จำนวนเงิน" name="approve_amount" v-model="approve.approve_amount" class="form-control" :options="cleave_options.number"></cleave>
                                     </b-input-group>
-
-                                </b-form-group>
+                                </b-form-group>                                
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="12">
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label="เลขที่เอกสาร :"
+                                    label-align-sm="right"
+                                    label-for="approve_code"
+                                >
+                                    <b-form-input v-model="approve.approve_code" :readonly="true" :state="approve.approve_code ? true : false"></b-form-input>
+                                </b-form-group>                                
                             </b-col>
                         </b-row>
 
                         <b-row>
                             <b-col>
                                 <div class="text-center" style="margin-bottom:5px;">
-                                    <b-button  type="submit" variant="dark">บันทึกข้อมูล</b-button>
+                                    <b-button  type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                 </div>
                             </b-col>
                         </b-row>
@@ -142,7 +153,6 @@ export default {
                 if (response.data.data.length > 0){
                     this.toEdit(response.data.data[0]);
                 }
-
             })
             this.$emit('refund_update');
         },
@@ -237,5 +247,9 @@ export default {
 }
 input{
     max-width: 150px!important;
+}
+.code{
+    margin-top: 10px!important;
+    vertical-align: middle!important;
 }
 </style>

@@ -62,13 +62,13 @@ class ApproveRefundController extends Controller
             $refund_code->create_date = date('Y-m-d');
             $refund_code->save();
             if ($refund->status < 7){
-                
+                $get_code = $this->getCode($refund_code);
                 $refund->update([
-                    'approve_code' => $this->getCode($refund_code),
+                    'approve_code' => $get_code,
                     'status' => 7
                 ]);
+                
             }
-
             return response([
                 'data' => new ApproveRefundResource($approve)
             ],Response::HTTP_CREATED);
@@ -97,7 +97,7 @@ class ApproveRefundController extends Controller
         if ($approve == null){
             return response(null,Response::HTTP_NOT_FOUND);
         }else{
-
+            
             return response([
                 'data' => new ApproveRefundResource($approve)
             ],Response::HTTP_CREATED);

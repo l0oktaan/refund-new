@@ -24,8 +24,8 @@
     </div>
 
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/jspdf.customfonts.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/defaultVFS.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('js/jspdf.customfonts.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/defaultVFS.js')}}"></script> -->
 
 </body>
 </html>

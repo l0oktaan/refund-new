@@ -4,9 +4,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <router-link to="/refund" class="navbar-brand">
-            <img class="navbar-brand-full" src="/images/refund.png" width="135" alt="CGD Refund">
-            <img class="navbar-brand-minimized" src="/images/refund.png" width="30" height="30" alt="CGD Refund">
-            <span>ระบบขอถอนคืนเงินรายได้แผ่นดิน</span>
+            <img class="navbar-brand-full" src="/images/logo.png" width="30px" alt="CGD Refund">
+            <img class="navbar-brand-minimized" src="/images/logo.png" width="30" height="30" alt="CGD Refund">
+            <span class="cgd">ระบบถอนคืนเงินรายได้แผ่นดิน</span>
         </router-link>
         <!-- <a  href="/refund">
             <img class="navbar-brand-full" src="/images/refund.png" width="135" alt="CGD Refund">
@@ -107,5 +107,15 @@ export default {
 .nav-item{
     display: inline-block;
     vertical-align: middle;
+}
+.navbar-brand {
+    width: 250px!important;
+}
+.navbar-brand > img{
+    margin-left: 10px!important;
+}
+.cgd{
+    color: #023e8f!important;
+    margin-left: 10px;
 }
 </style>
