@@ -53,7 +53,7 @@
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 6">
                 <template slot="title">
                     <h6 :class="refund_s < 6 ? 'mute' : ''">ขั้นตอนที่ 6 : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h6>
-                    <span :class="refund_s < 6 ? 'mute' : ''">การขออนุมัติ</span>
+                    <span :class="refund_s < 6 ? 'mute' : ''">การขอถอนคืนเงินค่าปรับ</span>
                 </template>
                 <refund-summary :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></refund-summary>
             </b-tab>
