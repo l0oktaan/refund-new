@@ -24,7 +24,7 @@
                                 <b-col cols="3">
                                     <table class="report">
                                         <tr>
-                                            <td style="width: 25%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่เอกสาร :</p></td>
+                                            <td style="width: 25%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่แบบถอนคืน :</p></td>
                                             <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.approve_code}}</p></td>
                                         </tr>
                                         <tr>

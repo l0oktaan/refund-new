@@ -130,7 +130,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) || time_edit.approve_other_type">
+                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_other_type && time_edit.approve_other_type < 4)">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -143,7 +143,7 @@
                                 </b-col>
                                 
                             </b-row>
-                            <b-row v-if="(arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))) || (time_edit.approve_other_type && time_edit.approve_other_type > 1)">
+                            <b-row v-if="(arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))) || (time_edit.approve_other_type && time_edit.approve_other_type > 1 && time_edit.approve_other_type < 4)">
                                 <b-col sm="4" >
                                     <b-form-group>
                                         <label for="problem_end_date">อุปสรรคสิ้นสุดวันที่ :</label>
@@ -152,7 +152,7 @@
                                 </b-col>
                                 <b-col sm="4" >
                                     <b-form-group>
-                                        <label for="book_date">หนังสือผู้รับจ้างแจ้งเหตุสิ้นสุดวันที่ :</label>
+                                        <label for="book_date">วันที่หน่วยงานได้รับหนังสือแจ้งเหตุสิ้นสุด :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
@@ -236,7 +236,8 @@ export default {
                 {text: 'ตัวเลือก', value : null},
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
                 {text: '(2) เหตุสุดวิสัย', value : 2},
-                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
+                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3},
+                {text: 'อื่น', value : 4}
             ],
             arrApproveType : this.$store.getters.arrApproveType,
             arrShowDetail1 : [
