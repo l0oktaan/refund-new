@@ -3,7 +3,7 @@
         <my-alert :AlertType="alert"></my-alert>
         <!-- {{arrFormSelected}}
         {{isSelect}} -->
-        <h4>ประเภทแบบถอนคืนฯ</h4>
+        <h4>ประเภทแบบถอนคืนเงินรายได้แผ่นดิน</h4>
         <b-row>
             <b-col cols="6" v-for="(form,index) in forms" :key="index">
             <div class="animated fadeIn">
