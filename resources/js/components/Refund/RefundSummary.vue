@@ -87,7 +87,7 @@
                             <b-col sm="12">
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="เลขที่เอกสาร :"
+                                    label="เลขที่แบบถอนคืน :"
                                     label-align-sm="right"
                                     label-for="approve_code"
                                 >
