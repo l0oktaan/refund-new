@@ -24,12 +24,12 @@
                                 <b-col cols="3">
                                     <table class="report">
                                         <tr>
-                                            <td style="width: 25%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่แบบถอนคืน :</p></td>
-                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.approve_code}}</p></td>
+                                            <td style="width: 30%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่แบบถอนคืน :</p></td>
+                                            <td style="width: 70%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.approve_code}}</p></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 25%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">ส่วนราชการ :</p></td>
-                                            <td style="width: 75%;verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.office.code + ' : ' + refund.refund.office.name}}</p></td>
+                                            <td style="verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">ส่วนราชการ :</p></td>
+                                            <td style="verical-align:top" class="office"><p class="head" style="margin-bottom:0px!important">{{refund.refund.office.code + ' : ' + refund.refund.office.name}}</p></td>
                                         </tr>
                                     </table>
                                 </b-col>

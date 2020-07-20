@@ -503,6 +503,9 @@ Vue.component('RefundReportDocList', RefundReportDocList).defaults;
 import SentRefund from './components/Refund/SentRefund.vue';
 Vue.component('SentRefund', SentRefund).defaults;
 
+import OfficeDetail from './components/OfficeDetail.vue';
+Vue.component('OfficeDetail', OfficeDetail).defaults;
+
 import AdminApprove from './components/Refund/AdminApprove.vue';
 //import state from 'sweetalert/typings/modules/state';
 Vue.component('AdminApprove', AdminApprove).defaults;

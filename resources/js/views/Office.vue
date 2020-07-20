@@ -1,3 +1,3 @@
 <template>
-    <h3>Office</h3>
+    <office-detail></office-detail>
 </template>

@@ -39,7 +39,7 @@
                 <b-form @submit.stop.prevent="passes(saveContract)">
                     <validation-provider
                             name="ชื่อคู่สัญญา"
-                            :rules="{ required: true, min: 5 }"
+                            :rules="{ required: true }"
                             v-slot="validationContext"
                         >
                         <b-form-group>
@@ -56,7 +56,7 @@
                         </validation-provider>
                         <validation-provider
                                 name="สัญญาเลขที่"
-                                :rules="{ required: true, min: 5 }"
+                                :rules="{ required: true }"
                                 v-slot="validationContext"
                             >
                             <b-form-group>
