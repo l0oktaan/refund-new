@@ -58,7 +58,7 @@
                                 </b-col>
                                  <b-col sm="3" v-if="time_edit.edit_type == 2 || time_edit.edit_type ==3">
                                     <b-form-group>
-                                        <label for="edit_budget">จำนวนเงิน :</label>
+                                        <label for="edit_budget">จำนวนเงิน :<span class="require">*</span></label>
                                         <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
 
                                     </b-form-group>
@@ -399,7 +399,13 @@ export default {
             })
         },
         onSubmitTimeEdit(e){
-            e.preventDefault();            
+            e.preventDefault();   
+            if (this.time_edit.edit_type == 2 || this.time_edit.edit_type == 3){
+                if (!this.time_edit.edit_budget || this.time_edit.edit_budget == ''){
+                    this.message = "กรุณาบันทึกข้อมูล จำนวนเงิน";
+                    return;
+                }
+            }
             if (this.time_edit.approve_type == 99){
                 if (!this.time_edit.approve_case || this.time_edit.approve_case == '' || this.time_edit.approve_other_desc == '' || !this.time_edit.approve_other_type){
                    this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
