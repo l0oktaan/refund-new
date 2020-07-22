@@ -21,11 +21,11 @@
                     <span style="color:#000;">รายการอนุมัติ งด / ลด / ขยายเวลา : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                         :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                         :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                        style="padding-top:4px; line-height:0px;"                        
+                        style="padding-top:4px; line-height:0px;"
                         v-model="isEdit"
                     />
                 </span>
-                
+
                 <b-form @submit="onSubmitTimeEdit" v-if="isEdit">
                             <b-row>
                                 <b-col sm="3">
@@ -56,9 +56,9 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
-                                 <b-col sm="3" v-if="time_edit.edit_type == 2 || time_edit.edit_type ==3">
+                                 <b-col sm="3" v-if="time_edit.edit_type == 2 || time_edit.edit_type == 3">
                                     <b-form-group>
-                                        <label for="edit_budget">จำนวนเงิน :<span class="require">*</span></label>
+                                        <label for="edit_budget">จำนวนเงิน :<span class="require" v-if="time_edit.edit_type == 3">*</span></label>
                                         <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
 
                                     </b-form-group>
@@ -141,7 +141,7 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
-                                
+
                             </b-row>
                             <b-row v-if="(arrShowDetail1.includes(parseInt(time_edit.approve_type)) && arrShowDetail2.includes(parseInt(time_edit.approve_type))) || (time_edit.approve_other_type && time_edit.approve_other_type > 1 && time_edit.approve_other_type < 4)">
                                 <b-col sm="4" >
@@ -279,7 +279,7 @@ export default {
             isEdit: false,
             showRuleAlert: false,
             messageRule: 'กรณี (2) เหตุสุดวิสัย หรือ (3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย คู่สัญญาต้องแจ้งเหตุดังกล่าวให้ส่วนราชการทราบภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง หากข้อเท็จจริงปรากฏว่าคู่สัญญาไม่มีการแจ้งภายใน 15 วัน นับแต่เหตุนั้นได้สิ้นสุดลง โปรดดำเนินการตรวจสอบและทบทวนการอนุมัติงดหรือลดค่าปรับ หรือขยายเวลาดังกล่าวให้ถูกต้องตาม พรบ. ระเบียบ ข้อบังคับ หรือข้อบัญญัติของหน่วยงานก่อนขอทำความตกลงกับกรมบัญชีกลาง',
-            
+
         }
     },
     mounted(){
@@ -288,13 +288,13 @@ export default {
     },
     computed: {
         isDisable(){
-            
+
             return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     watch: {
         date_edit_start(newDate, oldDate){
-            
+
             if (this.date_edit_start != '' && this.date_edit_end){
                 if (!this.checkDate(newDate,this.date_edit_end)){
                     this.$nextTick(() => {
@@ -302,7 +302,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    
+
                     this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
@@ -316,7 +316,7 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    
+
                     this.cal_edit_days = this.diffDate(this.date_edit_start,this.date_edit_end);
                 }
             }
@@ -334,13 +334,13 @@ export default {
                     })
                 }else{
                     let diff = this.diffDate(this.date_problem_end,this.date_book);
-                    
+
                     if (diff > 15){
                         this.$nextTick(() => {
                             // this.date_problem_end = oldDate;
                             this.showRuleAlert = true;
                         })
-                    }else{                        
+                    }else{
                         this.showRuleAlert = false;
                     }
                 }
@@ -355,12 +355,12 @@ export default {
                     })
                 }else{
                    let diff = this.diffDate(this.date_problem_end,this.date_book);
-                    
+
                     if (diff > 15){
                         this.$nextTick(() => {
                             // this.date_book = oldDate;
                             this.showRuleAlert = true;
-                        })                        
+                        })
                     }else{
                         this.showRuleAlert = false;
                     }
@@ -371,10 +371,10 @@ export default {
     methods: {
         checkRule(){
             let diff = this.diffDate(this.date_problem_end,this.date_book);
-            
+
             if (diff > 15){
                 this.showRuleAlert = true;
-                return false;                      
+                return false;
             }else{
                 this.showRuleAlert = false;
                 return true;
@@ -399,8 +399,8 @@ export default {
             })
         },
         onSubmitTimeEdit(e){
-            e.preventDefault();   
-            if (this.time_edit.edit_type == 2 || this.time_edit.edit_type == 3){
+            e.preventDefault();
+            if (this.time_edit.edit_type == 3){
                 if (!this.time_edit.edit_budget || this.time_edit.edit_budget == ''){
                     this.message = "กรุณาบันทึกข้อมูล จำนวนเงิน";
                     return;
@@ -408,7 +408,7 @@ export default {
             }
             if (this.time_edit.approve_type == 99){
                 if (!this.time_edit.approve_case || this.time_edit.approve_case == '' || this.time_edit.approve_other_desc == '' || !this.time_edit.approve_other_type){
-                   this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";                      
+                   this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";
                     return;
                 }
             }
@@ -423,7 +423,7 @@ export default {
             var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contract_time_edits`;
 
             if (this.state == 'new'){
-                
+
                 axios.post(`${path}`,{
                     approve_date: this.date_approve,
                     edit_type: this.time_edit.edit_type,
@@ -569,10 +569,10 @@ export default {
         getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
-            
+
         },
         getApproveType(value){
-            
+
             var index = this.arrApproveType.findIndex(x => x.value == value);
             return this.arrApproveType[index].text;
         },
@@ -676,8 +676,8 @@ export default {
     color: #000!important;
 }
 .edit_contract{
-    
-    
+
+
     margin-bottom: 10px;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
