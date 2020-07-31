@@ -123,7 +123,6 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-
         if (!this.$store.getters.refund_contract_no){
             this.$swal({
                 title: "กรุณายืนยัน",
@@ -148,7 +147,6 @@ export default {
                         .catch(error=>{
                             return false;
                         })
-
                 }else{
                     return false;
                 }
@@ -164,12 +162,10 @@ export default {
             if (this.refund_id != 0){
                 this.r_id = this.refund_id;
                 this.refund_status = "edit";
-
             }
         },
         tabIndex(){
         },
-
     },
     computed : {
         form_tabs(){
@@ -183,7 +179,6 @@ export default {
             var path = [];
             path = this.$route.path.split("/");
             return path.indexOf('admin') > -1 ? true : false;
-
         }
     },
     mounted(){
@@ -192,7 +187,6 @@ export default {
         //this.tabIndex = 3;
         this.$forceUpdate();
     },
-
     methods: {
         deleteRefund(){
             this.$swal({

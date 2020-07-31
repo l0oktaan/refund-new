@@ -29,7 +29,6 @@
             hide-header hideFooter
             no-close-on-backdrop
             no-close-on-esc
-
         >
             <b-card>
                 <div slot="header">
@@ -111,6 +110,7 @@ export default {
             return dirty || validated ? valid : null;
         },
         deleteRefund(){
+            console.log('delete');
             this.$router.replace('/refund/refunds');
         },
         async saveContract(){
@@ -122,12 +122,10 @@ export default {
                     contract_no : this.contract_no
                 }
             );
-
             if (response.data.data){
                 this.$store.commit('refund_contract_no',this.contract_no)
                 this.$bvModal.hide('contract_form');
             }
-
         },
         async checkContract(){
             let path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/contracts`;

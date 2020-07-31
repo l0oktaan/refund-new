@@ -16,7 +16,8 @@ class Deliver extends Model
         'overdue_start_date',
         'overdue_end_date',
         'overdue_days',
-        'penalty'
+        'penalty',
+        'penalty_accept'
     ];
 
     public function refund(){

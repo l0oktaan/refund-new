@@ -401,7 +401,7 @@ export default {
         onSubmitTimeEdit(e){
             e.preventDefault();
             if (this.time_edit.edit_type == 3){
-                if (!this.time_edit.edit_budget || this.time_edit.edit_budget == ''){
+                if (!this.time_edit.edit_budget || this.time_edit.edit_budget == '' || this.time_edit.edit_budget == 0){
                     this.message = "กรุณาบันทึกข้อมูล จำนวนเงิน";
                     return;
                 }

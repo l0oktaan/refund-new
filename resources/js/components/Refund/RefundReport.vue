@@ -75,7 +75,7 @@
                                                         <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
                                                         <div v-if="time_edits.length > 0">
                                                             <div v-for="(time_edit,index) in time_edits" :key="index">
-                                                                <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> อนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span><span v-if="time_edit.edit_type > 1">จำนวนเงิน</span> <span v-if="time_edit.edit_type > 1"><span class="show">{{time_edit.edit_budget | numeral('0,0.00')}}</span> บาท</span></p>
+                                                                <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> อนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span><span v-if="time_edit.edit_type > 1 && (time_edit.edit_budget && time_edit.edit_budget > 0)">จำนวนเงิน<span v-if="time_edit.edit_type > 1"><span class="show">{{time_edit.edit_budget | numeral('0,0.00')}}</span> บาท</span></span> </p>
                                                                 <p class="head sub2">ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span><span class="show" v-if="time_edit.approve_type == 99">{{'( ' + time_edit.approve_other_desc + ' )'}}</span></p>
                                                                 <p class="head sub2" v-if="time_edit.approve_type == 99"> เข้าตามกรณี <span class="show">{{arrApproveOtherType[arrApproveOtherType.findIndex(x=>x.value == time_edit.approve_other_type)]['text']}}</span></p>
                                                                 <p class="head sub2"><span v-if="time_edit.approve_type > 20">กรณี</span> <span class="show" v-if="time_edit.approve_type > 20">{{time_edit.approve_case}}</span>จำนวนวัน<span class="show">{{time_edit.edit_days}}</span>วัน </p>
@@ -203,6 +203,7 @@
                                                 <td style="width: 270px">
                                                     <p class="head">รวมส่งมอบงานล่าช้า <span class="show">{{getOverdueDays()}}</span> วัน</p>
                                                     <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> บาท</p>
+                                                    <p class="head" v-if="getPenaltyAll() != getPenaltyAcceptAll()">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> บาท</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -526,6 +527,13 @@ export default {
                 penalty = penalty + this.delivers[i]['penalty'];
             }
             return penalty;
+        },
+        getPenaltyAcceptAll(){
+            var penalty_accept = 0;
+            for (let i = 0; i < this.delivers.length; i++) {
+                penalty_accept = penalty_accept + this.delivers[i]['penalty_accept'];
+            }
+            return penalty_accept;
         },
         getDepositAll(){
             let sum = 0;

@@ -131,8 +131,14 @@
 
                             <b-col cols="3">
                                 <b-form-group>
-                                    <label for="penalty">ถูกปรับเป็นเงิน : (บาท) <span class="require">*</span></label>
+                                    <label for="penalty">จำนวนเงินที่ต้องปรับ : (บาท) <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
+                                </b-form-group>
+                            </b-col>
+                            <b-col cols="3">
+                                <b-form-group>
+                                    <label for="penalty">จำนวนเงินที่ปรับไว้ : (บาท) <span class="require">*</span></label>
+                                    <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty_accept" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -148,7 +154,7 @@
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
-                                </div>
+                                </div>                                
                             </b-col>
                         </b-row>
             </b-form>
@@ -265,9 +271,12 @@ export default {
             }
         },
         cal_overdue_days(newVal, oldVal){
-            if (this.state == 'new'){
-                this.overdue_days = newVal;
-            }
+            
+                if (this.state == 'new'){
+                    this.overdue_days = newVal;
+                }
+           
+            
 
         },
         hasPenalty(newVal, oldVal){
@@ -306,14 +315,13 @@ export default {
         },
         checkHasPenalty(){
             if (this.hasPenalty){
-                console.log('ค่าปรับ : ' + this.delivery.penalty);
-                if (!this.delivery.penalty || this.delivery.penalty == ''){
-                    this.message = 'กรุณากรอกข้อมูลให้ครบ';
+                
+                if (!this.delivery.penalty || this.delivery.penalty == '' || !this.delivery.penalty_accept || this.delivery.penalty_accept == '' || this.overdue_days == ''){
+                    this.message = 'กรุณากรอกข้อมูลให้ครบ-1';
                     setTimeout(function(){
                         this.message = '';
                         return false;
                     }, 3000);
-
                 }else{
                     this.message = '';
                     return true;
@@ -359,6 +367,7 @@ export default {
                             this.date_start = item.overdue_start_date;
                             this.date_end = item.overdue_end_date;
                             this.overdue_days = item.overdue_days;
+                            
                         })
 
 
@@ -448,7 +457,8 @@ export default {
                     overdue_start_date: this.date_start,
                     overdue_end_date: this.date_end,
                     overdue_days: this.overdue_days,
-                    penalty: this.delivery.penalty
+                    penalty: this.delivery.penalty,
+                    penalty_accept: this.delivery.penalty_accept
                 })
                 .then(response=>{
 
@@ -473,7 +483,8 @@ export default {
                     overdue_start_date: this.date_start,
                     overdue_end_date: this.date_end,
                     overdue_days: this.overdue_days,
-                    penalty: this.delivery.penalty
+                    penalty: this.delivery.penalty,
+                    penalty_accept: this.delivery.penalty_accept
                 })
                 .then(response=>{
 

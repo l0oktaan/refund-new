@@ -25,7 +25,8 @@ class DeliverResource extends Resource
             'overdue_start_date' => $this->overdue_start_date,
             'overdue_end_date' => $this->overdue_end_date,
             'overdue_days' => $this->overdue_days,
-            'penalty' => $this->penalty
+            'penalty' => $this->penalty,
+            'penalty_accept'=> $this->penalty_accept,
         ];
     }
 }
