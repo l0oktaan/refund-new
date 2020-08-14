@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['middleware' => ['XSS']], function () {
 Route::any('/{any?}', function (){
     return view('index');
 })->where('any', '[\/\w\.-]*')->name('app');
-
+});
 /* Route::any('/admin', function (){
     return view('admin');
 })->where('any', '[\/\w\.-]*')->name('app'); */
