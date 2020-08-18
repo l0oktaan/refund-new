@@ -230,7 +230,7 @@
                                                             <p class="head">5. การขอถอนคืนเงินค่าปรับแก้ผู้มีสิทธิ</p>
                                                             <div v-for="(approve,index) in approves" :key="index">
                                                                 <p class="head sub" v-if="approve.refund_days != approve.refund_money">หน่วยงานอนุมัติให้งด ลดค่าปรับ จำนวน <span class="show">{{approve.refund_days}} </span>วัน </p>
-                                                                <p class="head sub"><span>หน่วยงานอนุมัติให้คืนเงินค่าปรับ จำนวน <span class="show">{{approve.refund_money}} </span> วัน</span> เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
+                                                                <p class="head sub"><span>หน่วยงานอนุมัติให้งดหรือลดหรือคืนเงินค่าปรับ จำนวน <span class="show">{{approve.refund_money}} </span> วัน</span> เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
                                                                 <p class="head sub"></p>
                                                                 <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
                                                             </div>
