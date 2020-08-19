@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-
+header_remove("X-Powered-By");
 define('LARAVEL_START', microtime(true));
 
 /*
