@@ -34,7 +34,24 @@
                 <div slot="header">
                     <strong>ข้อมูลคู่สัญญา</strong>
                 </div>
-                <validation-observer ref="observer" v-slot="{ passes }">
+                <b-form @submit.stop.prevent="saveContract">
+                    <label for="contract_party_name">ชื่อคู่สัญญา :</label>
+                    <b-input v-model="contract_party" id="contract_party_name"></b-input>
+                    <b-form-invalid-feedback :state="validation_name">
+                        กรุณาระบุชื่อคู่สัญญา
+                    </b-form-invalid-feedback>
+
+                    <label for="contract_no" style="margin-top:10px;">สัญญา/ใบสั่งจ้างเลขที่ :</label>
+                    <b-input v-model="contract_no" id="contract_no"></b-input>
+                    <b-form-invalid-feedback :state="validation_no">
+                        กรุณาระบุเลขที่สัญญา/ใบสั่งจ้าง
+                    </b-form-invalid-feedback>
+                    <div class="text-center" style="margin-top:10px;">
+                        <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                        <b-button type="reset" variant="danger" @click="deleteRefund" >ยกเลิก</b-button>
+                    </div>
+                </b-form>
+                <!-- <validation-observer ref="observer" v-slot="{ passes }">
                 <b-form @submit.stop.prevent="passes(saveContract)">
                     <validation-provider
                             name="ชื่อคู่สัญญา"
@@ -78,7 +95,7 @@
                     </div>
 
                 </b-form>
-                </validation-observer>
+                </validation-observer> -->
             </b-card>
         </b-modal>
     </div>
@@ -100,6 +117,14 @@ export default {
             contract_no: ''
         }
     },
+    computed: {
+        validation_name(){
+            return this.contract_party.length >= 1 
+        },
+        validation_no(){
+            return this.contract_no.length >= 1 
+        }
+    },
     mounted(){
         this.checkContract();
         this.fetchData();
@@ -114,6 +139,9 @@ export default {
             this.$router.replace('/refund/refunds');
         },
         async saveContract(){
+            if (!this.validation_name || !this.validation_no){
+                return;
+            }
             let path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/contracts`;
             console.log('path :' + path);
             let response = await axios.post(`${path}`,
