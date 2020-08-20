@@ -76,8 +76,8 @@ export default {
             alertMessage: '',
             dismissSecs: 5,
             dismissCountDown: 0,
-            username: 'user1',
-            password: 'secret',
+            username: '',
+            password: '',
 
         }
     },
