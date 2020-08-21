@@ -91,6 +91,7 @@ class RefundFileController extends Controller
      */
     public function show(Office $office, Refund $refund, RefundFile $refundFile)
     {
+        
         $iRefundFile = new RefundFile;
 
         $iRefundFile = $office->refund_files()
@@ -98,23 +99,31 @@ class RefundFileController extends Controller
                                 ['refund_id',"=",$refund->id],
 
                             ])->findOrFail($refundFile->id);
-        // return $iRefundFile;
+        //return $iRefundFile;
         if ($iRefundFile == null){
             return response(null,Response::HTTP_NOT_FOUND);
         }else{
             $exists = Storage::disk('uploads')->exists($iRefundFile->file_path . '/' . $iRefundFile->file_name);
-
+            
             if($exists) {
                 $path = storage_path('uploads') . "/" . $iRefundFile->file_path . "/" . $iRefundFile->file_name;
-                //$path = storage_path() . "/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                // $path = storage_path() . "/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                // $path = storage_path('app/public/uploads/') . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
+                // $path = '../storage/uploads/'.  $iRefundFile->file_path . "/" . $iRefundFile->file_name;
                 $headers = [
-                    'Content-Type' => 'application/pdf'                    
+                    'Content-Type: application/*'                    
                 ];
-                $filename = 'refund.pdf'; // $iRefundFile->file_name;
+                $filename = 'withdraw.pdf'; // $iRefundFile->file_name;
                 
+                
+                // return response()->download($path);
                 return response()->download($path, $filename, $headers);
+
+
+
                 //return Storage::download($path, $iRefundFile->file_name, $headers);
-                //return Storage::download($path, $filename, $headers);
+                
+                // return Storage::download($path, $filename, $headers);
             }else{
                 return "NO";
             }
