@@ -202,8 +202,8 @@
                                                 <td style="width: 379px"></td>
                                                 <td style="width: 270px">
                                                     <p class="head">รวมส่งมอบงานล่าช้า <span class="show">{{getOverdueDays()}}</span> วัน</p>
-                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> บาท</p>
-                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAcceptAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> บาท</p>
+                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> บาท</p>
+                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> บาท</p>
                                                 </td>
                                             </tr>
                                             <tr>
