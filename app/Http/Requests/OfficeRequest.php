@@ -24,10 +24,10 @@ class OfficeRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'max:10',
-            'name' => 'max:255',
-            'contact_name' => 'max:120',
-            'phone' => 'max:50',
+            // 'code' => 'max:10',
+            // 'name' => 'max:255',
+            // 'contact_name' => 'max:120',
+            // 'phone' => 'max:50',
         ];
     }
 }

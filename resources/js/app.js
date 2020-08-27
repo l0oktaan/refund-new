@@ -200,7 +200,12 @@ const router = new VueRouter({
             beforeEnter (to, from, next) {
                 store.dispatch('checkLogin')
                 if (store.state.user && store.state.user.type == 'user') {
-                    next()
+                    if (store.state.user.status == 1){
+                        next('/passchange')
+                    }else{
+                        next()
+                    }
+                    
                 } else {
                     next('/login')
                 }
@@ -783,6 +788,7 @@ const store = new Vuex.Store({
 
                     if (userData.status == 1){
                         console.log('status :'+ userData.status)
+                        console.log('new user')
                         router.replace('/passchange')
                     }
                     if (userData.type == 'admin'){

@@ -69,7 +69,17 @@ class RegisterController extends Controller
         //     'username'   => 'required',
         //     'new_password' => 'required',
         // ]);
-
+        $this->validate($request,[
+            'new_password' => [
+                'required',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'max:16'
+            ]
+        ]);
+        
         $user = Auth::user();
         if ($user->status == 1){
             $user->password = Hash::make($request->new_password);

@@ -21,6 +21,7 @@ class Offices extends Resource
             'code' => $this->code,
             'name' => $this->name,
             'contact_name' => $this->contact_name,
+            'email' => $this->email,
             'phone' => $this->phone,
             'status' => $this->status
         ];

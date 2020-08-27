@@ -4,7 +4,7 @@
     <div class="app flex-row align-items-center">
     <div class="container">
         <b-row class="justify-content-center">
-        <b-col md="8">
+        <b-col md="9">
           <b-card-group>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
@@ -54,8 +54,9 @@
                         <b-col>
                             <validation-provider
                                 name="รหัสผ่านใหม่"
-                                rules="required|min: 5"
+                                :rules="{ regex: passRegex,required:true,min:8,max:16 }"
                                 v-slot="validationContext"
+                                pattern="yes"
 
                             >
                                 <b-form-group>
@@ -68,6 +69,7 @@
                                             placeholder="รหัสผ่านใหม่"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="new-password-live-feedback"
+                                            
                                         />
                                     <b-form-invalid-feedback id="new-password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
@@ -76,11 +78,13 @@
                     </b-row>
                     <b-row>
                         <b-col>
+                            <!-- rules="required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,16}/|confirmed:รหัสผ่านใหม่" -->
                             <validation-provider
                                 name="ยืนยันรหัสผ่าน"
-                                rules="required|min: 5|confirmed:รหัสผ่านใหม่"
+                                :rules="{regex: passRegex,required:true,min:8,max:16,confirmed:'รหัสผ่านใหม่'}"
+                                
                                 v-slot="validationContext"
-
+                                pattern="yes"
                             >
                                 <b-form-group>
                                     <label for="time_edit_date">ยืนยันรหัสผ่าน <span class="require">*</span></label>
@@ -98,11 +102,30 @@
                             </validation-provider>
                         </b-col>
                     </b-row>
+                    <b-row>
+                        <b-col>
+                            <div class="text-center">
+                                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                                <b-button v-if="user_status > 1" type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-alert variant="success" show class="alertBox">
+                                
+                                     <b>เงื่อนไขในการตั้งรหัสผ่าน</b>
+                                     <li>ความยาวไม่น้อยกว่า 8 ตัวอักษร</li>
+                                     <li>แต่ไม่เกิน 16 ตัวอักษร</li>
+                                     <li>มีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวอักษร</li>
+                                     <li>มีตัวอักษรภาษาอังกฤษพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวอักษร</li>
+                                     <li>มีตัวเลข (1-9) อย่างน้อย 1 ตัวอักษร</li>
+                                
+                            </b-alert>
+                        </b-col>
+                    </b-row>
 
-                    <div class="text-center">
-                        <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                        <b-button type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
-                    </div>
+                    
                 </b-form>
                 </validation-observer>
             </b-card>
@@ -130,7 +153,9 @@ export default {
             new_password: '',
             confirm_password: '',
             alert: '',
-            user_status: ''
+            user_status: '',
+            //passRegex: /^[0-9][A-Z][a-z]+$/,
+            passRegex: /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/
         }
     },
     mounted(){

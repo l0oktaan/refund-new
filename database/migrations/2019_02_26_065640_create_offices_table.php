@@ -18,6 +18,7 @@ class CreateOfficesTable extends Migration
             $table->string('code')->unique()->nullable();
             $table->string('name'); 
             $table->string('contact_name');
+            $table->string('email')->nullable();
             $table->string('phone');
             $table->tinyInteger('status');
             $table->timestamps();

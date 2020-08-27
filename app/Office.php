@@ -12,6 +12,7 @@ class Office extends Model
         'code',
         'name',
         'contact_name',
+        'email',
         'phone',
         'status'
     ];
