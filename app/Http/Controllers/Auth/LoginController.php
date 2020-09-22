@@ -43,8 +43,9 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-
+        sleep(3);
         $credentials = $request->only('username', 'password');
+
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
@@ -54,7 +55,7 @@ class LoginController extends Controller
                 'success' => $success
             ],Response::HTTP_CREATED);
         }else{
-            return "NO";
+            // return "NO";
         }
     }
 

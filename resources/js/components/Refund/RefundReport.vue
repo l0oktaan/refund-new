@@ -80,7 +80,7 @@
                                                                 <p class="head sub2" v-if="time_edit.approve_type == 99"> เข้าตามกรณี <span class="show">{{arrApproveOtherType[arrApproveOtherType.findIndex(x=>x.value == time_edit.approve_other_type)]['text']}}</span></p>
                                                                 <p class="head sub2"><span v-if="time_edit.approve_type > 20">กรณี</span> <span class="show" v-if="time_edit.approve_type > 20">{{time_edit.approve_case}}</span>จำนวนวัน<span class="show">{{time_edit.edit_days}}</span>วัน </p>
                                                                 <p class="head sub2">ตั้งแต่วันที่ <span class="show">{{getThaiDate(time_edit.edit_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(time_edit.edit_end_date)}}</span></p>
-                                                                <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type))">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
+                                                                <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_type == 99 && time_edit.approve_other_type != 1)">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                             </div>
                                                         </div>
                                                         <p class="head sub" v-else>-ไม่มี-</p>
@@ -212,7 +212,7 @@
                                                             <p class="head">4. รายละเอียดการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
                                                             <div v-for="(deposit,index) in deposits" :key="index">
                                                                 <p class="head sub">{{'4.' + (index + 1)}} เลขที่เอกสาร <span class="show">{{deposit.deposit_no}}</span> วันที่ผ่านรายการ <span class="show">{{getThaiDate(deposit.deposit_date)}}</span></p>
-                                                                <p class="head sub2">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}}</span> บาท</p>
+                                                                <p class="head sub2">เป็นเงิน <span class="show">{{deposit.amount | numeral('0,0.00')}}</span> บาท <span v-if="deposit.amount != deposit.amount_in_contract">เป็นค่าปรับของสัญญานี้ <span class="show">{{deposit.amount_in_contract | numeral('0,0.00')}}</span> บาท</span></p>
                                                             </div>
                                                         </div>
 
@@ -315,7 +315,7 @@ export default {
                 {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
             ],
             arrShowTimeEditDetail : [
-                22,23,31,32,99
+                22,23,31,32
             ],
 
             time_edits : [],
@@ -538,7 +538,7 @@ export default {
         getDepositAll(){
             let sum = 0;
             for (let i=0; i < this.deposits.length; i++){
-                sum = sum + this.deposits[i]['amount'];
+                sum = sum + this.deposits[i]['amount_in_contract'];
             }
             return sum;
         },

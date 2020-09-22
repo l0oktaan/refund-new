@@ -129,8 +129,7 @@ export default {
             .then(() => {
                 if (this.$store.getters.user.status == 1){
                     this.$router.push('/passchange')
-                }
-                console.log('OK')
+                }                
             })
             .catch(error=>{
                 this.dismissCountDown = this.dismissSecs
