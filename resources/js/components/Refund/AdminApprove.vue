@@ -236,9 +236,7 @@ export default {
             .catch(error=>{
                 this.alert = 'error';
                 this.complete_status = false;
-            })
-                
-
+            })           
         },
 
         async fetchData(){

@@ -3,9 +3,11 @@
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="8">
+        <b-form @submit.stop.prevent="onSubmit">
           <b-card-group>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
+
                 <div class="text-center">
                     <div class="logo"></div>
                     <!-- <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img> -->
@@ -58,9 +60,15 @@
                         </div>
                     </b-col>
                 </b-row>
+                <b-row>
+                      <b-col>
+                          <p class="text-right mb-4"><b-link @click="forgot">ลืมรหัสผ่าน</b-link></p>
+                      </b-col>
+                  </b-row>
               </b-card-body>
             </b-card>
           </b-card-group>
+        </b-form>
         </b-col>
       </b-row>
     </div>
@@ -101,7 +109,9 @@ export default {
         }
     },
     methods: {
-
+        forgot(){
+            this.$router.push('/forgot');
+        },
         onEnter(){
             if (this.isValid){
                 this.login();
@@ -129,7 +139,7 @@ export default {
             .then(() => {
                 if (this.$store.getters.user.status == 1){
                     this.$router.push('/passchange')
-                }                
+                }
             })
             .catch(error=>{
                 this.dismissCountDown = this.dismissSecs

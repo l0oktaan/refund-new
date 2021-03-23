@@ -102,6 +102,32 @@
                             </validation-provider>
                         </b-col>
                     </b-row>
+                    <b-row v-if="user_status == 1">
+                        <b-col>
+                            
+                            <validation-provider
+                                name="email"
+                                :rules="{required:true,email:true}"
+                                
+                                v-slot="validationContext"
+                                
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">อีเมล์ <span class="require">*</span></label>
+                                        
+                                        <b-form-input
+                                            v-model="email"
+                                            type="email"
+                                            name="email"
+                                            placeholder="ระบุอีเมล์"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="confirm-email-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="confirm-email-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
                     <b-row>
                         <b-col>
                             <div class="text-center">
@@ -149,6 +175,7 @@
 export default {
     data(){
         return {
+            email: '',
             current_password: '',
             new_password: '',
             confirm_password: '',
@@ -169,7 +196,8 @@ export default {
             let path = `/api/change_password`;
             axios.post(`${path}`,{
                 username: this.$store.getters.username,
-                new_password: this.new_password
+                new_password: this.new_password,
+                email: this.email
             })
             .then(response=>{
 

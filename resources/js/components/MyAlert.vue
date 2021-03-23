@@ -53,10 +53,25 @@ export default {
               button: false,
             });
             break;
-
+            case "sendemail":
+                this.$swal({
+                title: "ระบบส่งการตั้งรหัสผ่านใหม่ไปที่ e-mail ที่ลงทะเบียนไว้แล้ว",
+                icon: "success",
+                timer: 5000,
+                button: false,
+                });
+            break;
+            case "emailfail":
+                this.$swal({
+                title: "ไม่พบ email ที่ระบุ",
+                icon: "error",
+                timer: 3000,
+                button: false,
+                });
+            break;
           default:
         }
-        
+
 
         // if (this.AlertType == "success"){
         //   this.$swal({

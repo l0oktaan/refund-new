@@ -144,7 +144,8 @@ import UserManage from './views/Admin/UserManage'
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
 
-
+import ForgotPassword from './views/ForgotPassword'
+import ResetPassword from './views/ResetPassword'
 //const DefaultContainer = () => import('@/views/containers/DefaultContainer')
 
 const router = new VueRouter({
@@ -158,8 +159,28 @@ const router = new VueRouter({
             redirect: '/login',
             meta: {
                 breadCrumb: 'หน้าหลัก' //crumb
+            },
+
+        },
+
+        {
+            path: '/forgot',
+            name: 'forgot',
+            component: ForgotPassword,
+            meta: {
+              auth:false
             }
         },
+
+
+          {
+              path: '/reset-password',
+              name: 'reset-password',
+              component: ResetPassword,
+              meta: {
+                auth:false
+              }
+            },
         {
             path: '/login',
             component: Login,
@@ -205,7 +226,7 @@ const router = new VueRouter({
                     }else{
                         next()
                     }
-                    
+
                 } else {
                     next('/login')
                 }
@@ -515,6 +536,11 @@ import AdminApprove from './components/Refund/AdminApprove.vue';
 //import state from 'sweetalert/typings/modules/state';
 Vue.component('AdminApprove', AdminApprove).defaults;
 
+import Forgot from './components/Login/Forgot.vue'
+Vue.component('Forgot', Forgot).defaults;
+
+import Reset from './components/Login/Reset.vue'
+Vue.component('Reset', Reset).defaults;
 const store = new Vuex.Store({
     state: {
         user: null,

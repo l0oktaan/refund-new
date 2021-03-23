@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Mail\customMail;
 
 class RegisterController extends Controller
 {
@@ -84,7 +85,13 @@ class RegisterController extends Controller
         if ($user->status == 1){
             $user->password = Hash::make($request->new_password);
             $user->status = 2;
+            $user->email = $request->email;
             $user->save();
+
+            $office = Office::find($user->office_id);
+            $office->email = $user->email;
+            $office->save();
+            
             return 'OK';
         }else if ($user->status == 2){
 

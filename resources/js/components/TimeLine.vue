@@ -79,7 +79,7 @@ export default {
                     this.time_line.push({
                         date: this.getThaiDate(this.refund.consider_date),
                         icon: 'fas fa-check-circle',
-                        status: 'เจ้าหน้าที่รับเรื่อง',
+                        status: 'อยู่ระหว่างพิจารณา',
                         class: 'content'
                     })
                 }
@@ -88,6 +88,38 @@ export default {
                         date: this.getThaiDate(this.refund.return_date),
                         icon: 'fas fa-check-circle',
                         status: 'ขอให้ชี้แจง/ขอเอกสารเพิ่มเติม',
+                        class: 'content'
+                    })
+                }
+                if ((this.refund.return_date <= this.refund.consider_date) && !(this.refund.draft_date)){
+                    this.time_line.push({
+                        date: this.getThaiDate(this.refund.return_date),
+                        icon: 'fas fa-check-circle',
+                        status: 'อยู่ระหว่างพิจารณา',
+                        class: 'content'
+                    })
+                }
+                if (this.refund.disscuss_date){
+                    this.time_line.push({
+                        date: this.getThaiDate(this.refund.disscuss_date),
+                        icon: 'fas fa-check-circle',
+                        status: 'อยู่ระหว่างหารือหน่วยงานฯ',
+                        class: 'content'
+                    })
+                }
+                if (this.refund.draft_date){
+                    this.time_line.push({
+                        date: this.getThaiDate(this.refund.draft_date),
+                        icon: 'fas fa-check-circle',
+                        status: 'เสนอร่าง',
+                        class: 'content'
+                    })
+                }
+                if (this.refund.director_date){
+                    this.time_line.push({
+                        date: this.getThaiDate(this.refund.director_date),
+                        icon: 'fas fa-check-circle',
+                        status: 'เสนอผู้อำนวยกอง',
                         class: 'content'
                     })
                 }

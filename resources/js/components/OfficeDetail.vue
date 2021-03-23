@@ -24,7 +24,7 @@
             </b-row>
             <b-row>
                 <b-col cols="3" class="text-right"><label for="code">อีเมล์ :</label></b-col>
-                <b-col cols="4"><b-form-input id="email"  type="email" v-model="office.email"></b-form-input></b-col>
+                <b-col cols="4"><b-form-input id="email" :readonly="true"  type="email" v-model="office.email"></b-form-input></b-col>
             </b-row>
             <b-row align-h="center">                
                 <b-col cols="12">
@@ -67,8 +67,8 @@ export default {
             axios.put(`${path}`,
                 {
                     contact_name: this.office.contact_name,
-                    phone: this.office.phone,
-                    email: this.office.email
+                    phone: this.office.phone
+                    
                 }
             )
             .then(response=>{

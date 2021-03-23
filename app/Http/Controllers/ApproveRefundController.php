@@ -54,7 +54,6 @@ class ApproveRefundController extends Controller
     public function store(Office $office, Refund $refund, ApproveRefundRequest $request)
     {
         if ($refund->office_id == $office->id){
-
             $approve = new ApproveRefund($request->all());
             $refund->approve_refunds()->save($approve);
             $refund_code = new RefundCode;
@@ -66,8 +65,7 @@ class ApproveRefundController extends Controller
                 $refund->update([
                     'approve_code' => $get_code,
                     'status' => 7
-                ]);
-                
+                ]);                
             }
             return response([
                 'data' => new ApproveRefundResource($approve)
@@ -87,7 +85,6 @@ class ApproveRefundController extends Controller
     public function show(Office $office, Refund $refund,ApproveRefund $approveRefund)
     {
         $approve = new ApproveRefund;
-
         $approve = $office->approve_refunds()
                             ->where([
                                 ['refund_id',"=",$refund->id],
@@ -125,7 +122,6 @@ class ApproveRefundController extends Controller
     public function update(Office $office, Refund $refund,ApproveRefundRequest $request, ApproveRefund $approveRefund)
     {
         $approve = new ApproveRefund;
-
         $approve = $office->approve_refunds()
                             ->where([
                                 ['refund_id',"=",$refund->id],
@@ -151,13 +147,10 @@ class ApproveRefundController extends Controller
     public function destroy(Office $office, Refund $refund,ApproveRefund $approveRefund)
     {
         $approve = new ApproveRefund;
-
         $approve = $office->approve_refunds()
                             ->where([
                                 ['refund_id',"=",$refund->id],
-
                             ])->findOrFail($approveRefund->id);
-
         if ($approve == null){
             return response(null,Response::HTTP_NOT_FOUND);
         }else{

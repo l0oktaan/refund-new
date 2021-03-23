@@ -89,7 +89,11 @@ class OfficeController extends Controller
      */
     public function update(OfficeRequest $request, Office $office)
     {
-        $office->update($request->all());
+
+        // $office->update($request->all());
+        $office->contact_name = $request->contact_name;
+        $office->phone = $request->phone;
+        $office->save();
         return response([
             'data' => new OfficeResource($office)
         ],Response::HTTP_CREATED);

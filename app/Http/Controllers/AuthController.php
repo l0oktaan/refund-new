@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Hash;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 class AuthController extends Controller
 {
+    use SendsPasswordResetEmails, ResetsPasswords {
+        SendsPasswordResetEmails::broker insteadof ResetsPasswords;
+        ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+        }
     public function index()
     {
         if (Auth::check()){
@@ -58,5 +65,40 @@ class AuthController extends Controller
         });
         return response()->json('Logged out successfully', 200);
     }
+
+
+    public function sendPasswordResetLink(Request $request)
+    {
+        return $this->sendResetLinkEmail($request);
+        // return $this->sendsPasswordResetEmail($request);
+    }
+
+
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return response()->json([
+            'message' => 'OK'
+            // 'data' => $response
+        ]);
+    }
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'FAIL']);
+    }
+
+
+    public function callResetPassword(Request $request)
+    {
+        return $this->reset($request);
+    }
+
+
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+        $user->save();
+        event(new PasswordReset($user));
+    }
+
 
 }
