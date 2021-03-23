@@ -4,7 +4,7 @@
     <div class="app flex-row align-items-center">
     <div class="container">
         <b-row class="justify-content-center">
-        <b-col md="9">
+        <b-col md="8">
           <b-card-group>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
@@ -38,7 +38,7 @@
 
                             >
                                 <b-form-group>
-                                    <label for="time_edit_date">อีเมล์ <span class="require">*</span></label>
+                                    <label for="time_edit_date">กรอกอีเมล์ที่ลงทะเบียนไว้เพื่อรับวิธีเปลี่ยนรหัสผ่าน <span class="require">*</span></label>
 
                                         <b-form-input
                                             v-model="email"
@@ -57,15 +57,14 @@
                         <b-col>
                             <div class="text-center">
                                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                                <b-button v-if="user_status > 1" type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
+                                <b-button type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
                             </div>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <b-alert variant="success" show class="alertBox">
-                                     <b>เงื่อนไขในการยกเลิกรหัสผ่าน</b>
-                                     <li>ระบบจะส่งการยกเลิกรหัสผ่านไปที่อีเมล์ที่ลงทะเบียนไว้เท่านั้น</li>
+                                     <span>ระบบจะส่งวิธีการยกเลิกรหัสผ่านไปที่อีเมล์ที่ลงทะเบียนไว้เท่านั้น</span>
                             </b-alert>
                         </b-col>
                     </b-row>

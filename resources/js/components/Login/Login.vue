@@ -62,7 +62,7 @@
                 </b-row>
                 <b-row>
                       <b-col>
-                          <p class="text-right mb-4"><b-link @click="forgot">ลืมรหัสผ่าน</b-link></p>
+                          <p class="text-right forgot"><b-link @click="forgot">ลืมรหัสผ่าน</b-link></p>
                       </b-col>
                   </b-row>
               </b-card-body>
@@ -210,5 +210,13 @@ img{
     width: 150px;
     height: 173px;
     background-image: url('/images/cgd_white.png');
+}
+.forgot{
+    margin-bottom: 0!important;
+    color: rgb(173, 35, 0);
+}
+.forgot>a{
+    margin-bottom: 0!important;
+    color: rgb(173, 35, 0);
 }
 </style>

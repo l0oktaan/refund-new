@@ -21,7 +21,11 @@
 
                 <validation-observer ref="observer" v-slot="{ passes }">
                 <b-form @submit.stop.prevent="passes(onSubmit)">
-
+                    <b-row>
+                        <b-col>
+                            <p class="h4 text-center mb-4">เปลี่ยนรหัสผ่าน</p>
+                        </b-col>
+                    </b-row>
                     <b-row>
                         <b-col>
 
@@ -33,8 +37,7 @@
 
                             >
                                 <b-form-group>
-                                    <label for="time_edit_date">อีเมล์ <span class="require">*</span></label>
-
+                                    <label for="time_edit_date">กรอกอีเมล์ที่ลงทะเบียนไว้ในระบบ <span class="require">*</span></label>
                                         <b-form-input
                                             v-model="email"
                                             type="email"
