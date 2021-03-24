@@ -21,6 +21,7 @@
         <!-- <b-card class="bg-dark" v-if="status == 'new' || isAdmin"> -->
 
             <b-card-body class="bg-default" >
+                <b-form @submit.stop.prevent="onSubmit">
                 <b-row align-h="center">
                     <b-col>
                         <div>
@@ -81,13 +82,14 @@
                                         label-align-sm="right"
                                         label-for="description"
                                     >
-                                        <b-button variant="dark" size="md" @click="onSubmit()">บันทึกข้อมูล</b-button>
+                                        <b-button variant="dark" :disabled="refund && refund.status == 11" size="md" @click="onSubmit()">บันทึกข้อมูล</b-button>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
                         </div>
                     </b-col>
                 </b-row>
+                </b-form>
             </b-card-body>
         </b-card>
         <b-card :bg-variant="'success'" class="p-1 pl-2" v-if="complete_status">
@@ -143,13 +145,14 @@ export default {
             complete_status : false,
             arr_status : [
                 {value : 0 , text : 'ตัวเลือก'},
-                {value : 11 , text : 'ขอให้ชี้แจง/ขอเอกสารเพิ่มเติม'},
+                {value : 11 , text : 'ส่งเรื่องคืนให้แก้ไข'},
                 {value : 12 , text : 'อยู่ระหว่างหารือหน่วยงานฯ'},
                 {value : 13 , text : 'เสนอร่าง'},
-                {value : 14 , text : 'เสนอผู้อำนวยกอง'},                
-                {value : 99 , text : 'แจ้งผลการพิจารณา'}                
+                {value : 14 , text : 'เสนอผู้อำนวยกอง'},
+                {value : 99 , text : 'แจ้งผลการพิจารณา'}
             ],
-            status : 0
+            status : 0,
+
         }
     },
     mounted(){
@@ -168,8 +171,8 @@ export default {
         },
     },
     methods: {
-        onSubmit(){       
-            let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`    
+        onSubmit(){
+            let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`
             let user = this.$store.getters.user;
             let data = null;
             switch (this.status){
@@ -214,70 +217,79 @@ export default {
                     }
                     break;
                 default :
+
             }
-            
+
             axios.put(`${path}`,data)
             .then(response=>{
                 this.alert = 'success';
-                this.refund = response.data.data;
-                this.$nextTick(()=>{
-                    if (this.refund.status == 99){
-                        
-                        this.complete_status = true;
-                        this.description = this.refund.complete_description;
-                        this.date_complete = this.refund.complete_date;
-                    }else{
-                        
-                        this.complete_status = false;
-                    }  this.complete_status = false;
-                    
-                })
+                this.$emit("fetchTimeLine");
+                this.clearData();
+                // this.refund = response.data.data;
+                // this.$nextTick(()=>{
+                //     if (this.refund.status == 99){
+
+                //         this.complete_status = true;
+                //         this.description = this.refund.complete_description;
+                //         this.date_complete = this.refund.complete_date;
+                //     }else{
+
+                //         this.complete_status = false;
+                //     }
+                //     this.complete_status = false;
+
+                // })
             })
             .catch(error=>{
                 this.alert = 'error';
                 this.complete_status = false;
-            })           
+            })
         },
-
+        clearData(){
+            this.complete_status = false;
+            this.status = 0;
+            this.description = "";
+            this.date_show = null;
+        },
         async fetchData(){
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`
             let refund = await axios.get(`${path}`);
             this.refund = refund.data.data[0];
-            this.$nextTick(()=>{                
-                switch (this.refund.status){
-                    case 11 :
-                        this.complete_status = false;
-                        this.status = this.refund.status;
-                        this.description = this.refund.return_description;
-                        this.date_show = this.refund.return_date;
-                        break;
-                    case 12 :
-                        this.complete_status = false;
-                        this.status = this.refund.status;
-                        this.description = this.refund.discuss_description;
-                        this.date_show = this.refund.discuss_date;
-                        break;                    
-                    case 13 :
-                        this.complete_status = false;
-                        this.status = this.refund.status;
-                        this.description = this.refund.draft_description;
-                        this.date_show = this.refund.draft_date;
-                        break;   
-                    case 14 :
-                        this.complete_status = false;
-                        this.status = this.refund.status;
-                        this.description = this.refund.director_description;
-                        this.date_show = this.refund.director_date;
-                        break;
-                    case 99 :                    
-                        this.complete_status = true;
-                        this.status = this.refund.status;
-                        this.description = this.refund.complete_description;
-                        this.date_complete = this.refund.complete_date;
-                        break;
-                    default :
-                }
-            })
+            // this.$nextTick(()=>{
+            //     switch (this.refund.status){
+            //         case 11 :
+            //             this.complete_status = false;
+            //             this.status = this.refund.status;
+            //             this.description = this.refund.return_description;
+            //             this.date_show = this.refund.return_date;
+            //             break;
+            //         case 12 :
+            //             this.complete_status = false;
+            //             this.status = this.refund.status;
+            //             this.description = this.refund.discuss_description;
+            //             this.date_show = this.refund.discuss_date;
+            //             break;
+            //         case 13 :
+            //             this.complete_status = false;
+            //             this.status = this.refund.status;
+            //             this.description = this.refund.draft_description;
+            //             this.date_show = this.refund.draft_date;
+            //             break;
+            //         case 14 :
+            //             this.complete_status = false;
+            //             this.status = this.refund.status;
+            //             this.description = this.refund.director_description;
+            //             this.date_show = this.refund.director_date;
+            //             break;
+            //         case 99 :
+            //             this.complete_status = true;
+            //             this.status = this.refund.status;
+            //             this.description = this.refund.complete_description;
+            //             this.date_complete = this.refund.complete_date;
+            //             break;
+            //         default :
+            //     }
+            // })
 
         },
         getThaiDate(item){

@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('auth')->group(function () {
-    
+
     // Send reset password mail
     Route::post('reset-password', 'AuthController@sendPasswordResetLink');
-    
+
     // handle reset password form process
     //Route::post('reset/password', 'AuthController@callResetPassword');
-    
+
 });
 
 Route::group(['middleware' => 'auth:api'],function() {
@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth:api'],function() {
         Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_reports','ReportController');
+
+        Route::apiResource('/{office}/refunds/{refund}/refund_status','RefundStatusController');
 
         //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
     });

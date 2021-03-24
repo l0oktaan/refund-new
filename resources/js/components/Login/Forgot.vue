@@ -47,6 +47,7 @@
                                             placeholder="ระบุอีเมล์"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="confirm-email-live-feedback"
+                                            :disabled="waiting"
                                         />
                                     <b-form-invalid-feedback id="confirm-email-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
@@ -54,11 +55,15 @@
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-col>
-                            <div class="text-center">
-                                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                                <b-button type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
-                            </div>
+                        <b-col cols="2"></b-col>
+                        <b-col cols="4">
+                            <b-button type="submit" variant="primary" block>
+                                <b-icon icon="arrow-clockwise" animation="spin" font-scale="1" v-if="waiting" variant="warning"></b-icon>
+                                <span v-if="!waiting">ดำเนินการ</span>
+                            </b-button>
+                        </b-col>
+                        <b-col cols="4">
+                            <b-button type="reset" variant="danger" @click="onCancel" block>ยกเลิก</b-button>
                         </b-col>
                     </b-row>
                     <b-row>
@@ -68,8 +73,6 @@
                             </b-alert>
                         </b-col>
                     </b-row>
-
-
                 </b-form>
                 </validation-observer>
             </b-card>
@@ -100,7 +103,8 @@ export default {
             alert: '',
             user_status: '',
             //passRegex: /^[0-9][A-Z][a-z]+$/,
-            passRegex: /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/
+            passRegex: /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/,
+            waiting: false
         }
     },
     mounted(){
@@ -112,6 +116,7 @@ export default {
         },
         onSubmit(){
             let path = `/api/auth/reset-password`;
+            this.waiting=true;
             axios.post(`${path}`,{
                 email: this.email
             })
@@ -125,9 +130,11 @@ export default {
                     }, 5000);
                 }else{
                     this.alert = "emailfail";
+                    this.waiting=false;
                 }
             })
             .catch(error=>{
+                this.waiting=false;
                 console.log(error);
                 this.alert = 'error';
             })

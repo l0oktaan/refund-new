@@ -79,4 +79,8 @@ class Refund extends Model
     public function refund_code(){
         return $this->hasOne('App\RefundCode','refund_id','id');
     }
+
+    public function refund_status(){
+        return $this->hasMany('App\RefundStatus');
+    }
 }

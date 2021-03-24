@@ -6,13 +6,14 @@ use App\Refund;
 use Carbon\Carbon;
 use App\RefundFile;
 use App\RefundCode;
+use App\RefundStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\RefundFileResource;
 use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Auth;
 
 class RefundFileController extends Controller
 {
@@ -46,7 +47,7 @@ class RefundFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
     public function store(Office $office, Refund $refund, Request $request)
     {
         //return $refund;
@@ -69,11 +70,17 @@ class RefundFileController extends Controller
             $refund_file->upload_by = $upload_by;
             $refund_file->status = 1;
             $refund->refund_files()->save($refund_file);
-            if ($refund->status < 8){                
-                $refund->update([                    
+            if ($refund->status < 8 || $refund->status == 11){
+                $refund->update([
                     'status' => 8,
                     'sent_date' => date('Y-m-d')
                 ]);
+                $status = new RefundStatus;
+                $status->status_code = 8;
+                $status->status_date = date('Y-m-d H:i:s');
+                $status->status_by = Auth::user()->username;
+                $refund->refund_status()->save($status);
+
             }
 
             return response([
@@ -91,7 +98,7 @@ class RefundFileController extends Controller
      */
     public function show(Office $office, Refund $refund, RefundFile $refundFile)
     {
-        
+
         $iRefundFile = new RefundFile;
 
         $iRefundFile = $office->refund_files()
@@ -104,25 +111,25 @@ class RefundFileController extends Controller
             return response(null,Response::HTTP_NOT_FOUND);
         }else{
             $exists = Storage::disk('uploads')->exists($iRefundFile->file_path . '/' . $iRefundFile->file_name);
-            
+
             if($exists) {
                 $path = storage_path('uploads') . "/" . $iRefundFile->file_path . "/" . $iRefundFile->file_name;
                 // $path = storage_path() . "/uploads/" . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
                 // $path = storage_path('app/public/uploads/') . $iRefundFile->file_path . '/' . $iRefundFile->file_name;
                 // $path = '../storage/uploads/'.  $iRefundFile->file_path . "/" . $iRefundFile->file_name;
                 $headers = [
-                    'Content-Type: application/*'                    
+                    'Content-Type: application/*'
                 ];
                 $filename = 'withdraw.pdf'; // $iRefundFile->file_name;
-                
-                
+
+
                 // return response()->download($path);
                 return response()->download($path, $filename, $headers);
 
 
 
                 //return Storage::download($path, $iRefundFile->file_name, $headers);
-                
+
                 // return Storage::download($path, $filename, $headers);
             }else{
                 return "NO";

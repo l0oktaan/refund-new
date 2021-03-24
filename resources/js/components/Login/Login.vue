@@ -27,7 +27,7 @@
                         <p class="text-muted txt">ใส่ชื่อผู้ใช้งานระบบ</p>
                         <b-input-group class="mb-3">
                             <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                            <b-form-input maxlength="15" ref="username" v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username" @keyup.enter="onEnter" />
+                            <b-form-input :disabled="waiting" maxlength="15" ref="username" v-model="username" type="text" class="form-control" placeholder="รหัสผู้ใช้งาน" autocomplete="username" @keyup.enter="onEnter" />
                         </b-input-group>
                     </b-col>
                 </b-row>
@@ -36,13 +36,15 @@
                         <p class="text-muted txt">ใส่รหัสผ่าน</p>
                         <b-input-group class="mb-3">
                             <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
-                            <b-form-input maxlength="12" ref="password" v-model="password" type="password" class="form-control" placeholder="รหัสผ่าน"  @keyup.enter="onEnter" />
+                            <b-form-input :disabled="waiting" maxlength="12" ref="password" v-model="password" type="password" class="form-control" placeholder="รหัสผ่าน"  @keyup.enter="onEnter" />
                         </b-input-group>
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col class="text-center align-bottom mb-2">
-                        <b-button variant="primary" @click="login">เข้าสู่ระบบ</b-button>
+                    <b-col cols="3"></b-col>
+                    <b-col cols="6" class="text-center align-bottom mb-2">
+                        <b-button block variant="primary" @click="login">
+                            <b-icon icon="arrow-clockwise" animation="spin" font-scale="1" v-if="waiting" variant="warning"></b-icon><span v-if="!waiting">เข้าสู่ระบบ</span></b-button>
                     </b-col>
                 </b-row>
                 <b-row>
@@ -62,7 +64,7 @@
                 </b-row>
                 <b-row>
                       <b-col>
-                          <p class="text-right forgot"><b-link @click="forgot">ลืมรหัสผ่าน</b-link></p>
+                          <p class="text-right forgot"><b-link @click="forgot">ลืมรหัสผ่าน <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></b-link></p>
                       </b-col>
                   </b-row>
               </b-card-body>
@@ -86,7 +88,7 @@ export default {
             dismissCountDown: 0,
             username: '',
             password: '',
-
+            waiting: false
         }
     },
     created(){
@@ -132,18 +134,22 @@ export default {
 
                 return;
             }
+            this.waiting = true;
             this.$store.dispatch('login',{
                 username : this.username,
                 password : this.password
             })
             .then(() => {
+
                 if (this.$store.getters.user.status == 1){
                     this.$router.push('/passchange')
                 }
             })
             .catch(error=>{
+                this.waiting = false;
                 this.dismissCountDown = this.dismissSecs
                 this.alertMessage = 'ชื่อหรือรหัสผ่านไม่ถูกต้อง!!!'
+
             })
 
             // await console.log('user :' + this.$store.getters.user_type)

@@ -1,9 +1,9 @@
 <template>
     <div class="animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
-        <b-row align-h="center">
+        <b-row class="justify-content-md-center">
             <b-col cols="7">
-                <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 99)">
+                <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 99) || refund_status == 11">
                     <div slot="header" class="navbar ">
                         <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">
@@ -109,8 +109,8 @@
                 </b-card>
             </b-col>
         </b-row>
-        
-        <b-row align-h="center" v-if="status=='success' && !isAdmin">
+
+        <b-row align-h="center" v-if="status=='success' && !isAdmin && refund_status != 11">
             <b-col cols="6">
                 <b-alert variant="success" show>
                     <h4 class="alert-heading">ข้อมูลถูกจัดส่งแล้ว</h4>
@@ -127,9 +127,19 @@
                 </div> -->
             </b-col>
         </b-row>
-        <b-row align-h="center" v-if="status=='success'">
+        <b-row align-h="center" v-if="refund_status == 11 && !isAdmin">
+            <b-col cols="6">
+                <b-alert variant="danger" show>
+                    <h4 class="alert-heading">แนบเอกสาร</h4>
+                    <p>
+                        เพื่อส่งให้กรมบัญชีกลางอีกครั้ง
+                    </p>
+                </b-alert>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-center" v-if="status=='success'">
             <b-col cols="5">
-                <time-line :refund_id="refund_id"></time-line>
+                <time-line :refund_id="refund_id" ref="timeline"></time-line>
             </b-col>
         </b-row>
         <b-row align-h="center" v-if="list_files.length > 0">
@@ -165,10 +175,11 @@
                     :refund_status="refund_status"
                     :refund_id="refund_id"
                     :office_id = "office_id"
+                    @fetchTimeLine="fetchTimeLine"
                 ></admin-approve>
             </b-col>
         </b-row>
-        
+
     </div>
 </template>
 
@@ -196,7 +207,7 @@ export default {
             console.log('isAdmin :' + this.user.type);
             return this.user.type == 'admin' ? true : false;
         },
-        
+
     },
     mounted(){
 
@@ -204,7 +215,10 @@ export default {
 
     },
     methods: {
+        fetchTimeLine(){
 
+            this.$refs.timeline.fetchData();
+        },
         showReport(){
             this.show = true;
             this.$refs['modalReport'].show()

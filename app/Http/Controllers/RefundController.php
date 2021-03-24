@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Office;
 use App\Refund;
+use App\RefundStatus;
 use OfficeController;
 use Illuminate\Http\Request;
 use App\Http\Requests\RefundRequest;
@@ -104,6 +105,13 @@ class RefundController extends Controller
         $refund->create_date = date('Y-m-d');
         $refund->status = "1";
         $office->refunds()->save($refund);
+
+        $status = new RefundStatus;
+        $status->status_code = 1;
+        $status->status_date = date('Y-m-d H:i:s');
+        $status->status_by = Auth::user()->username;
+        $refund->refund_status()->save($status);
+
         return response([
             'data' => new RefundResource($refund)
         ],Response::HTTP_CREATED);
@@ -141,7 +149,20 @@ class RefundController extends Controller
      */
     public function update(RefundRequest $request,Office $office, Refund $refund)
     {
+
+        if ($request->has('status') && $request->status >= 8){
+            $new_status = $request->status;
+            $old_status = $refund->status;
+            if ($old_status != $new_status){
+                $status = new RefundStatus;
+                $status->status_code = $new_status;
+                $status->status_date = date('Y-m-d H:i:s');
+                $status->status_by = Auth::user()->username;
+                $refund->refund_status()->save($status);
+            }
+        }
         $refund->update($request->all());
+
         return response([
             'data' => new RefundResource($refund)
         ],Response::HTTP_CREATED);
@@ -161,6 +182,6 @@ class RefundController extends Controller
         }else{
             return response(null,Response::HTTP_NOT_FOUND);
         }
-        
+
     }
 }
