@@ -216,7 +216,6 @@ export default {
     },
     methods: {
         fetchTimeLine(){
-
             this.$refs.timeline.fetchData();
         },
         showReport(){
@@ -265,7 +264,9 @@ export default {
                     })
                     .then(response=>{
                         this.alert = "success";
+                        this.$refs.timeline.fetchData();
                         this.fetchData();
+
                         this.$emit("refund_update");
                         this.$forceUpdate();
                     })
@@ -287,6 +288,7 @@ export default {
             .catch(error=>{
                 console.log('error' + error);
             })
+
         },
         downloadForm(id,index){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_files/${id}`;

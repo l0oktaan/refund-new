@@ -14,11 +14,13 @@ class CreateRefundCodesTable extends Migration
     public function up()
     {
         Schema::create('15_refund_codes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('refund_id')->unsigned()->index();
-            $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
-            $table->date('create_date');
-            $table->timestamps();
+            // $table->increments('id');
+            // $table->integer('refund_id')->unsigned()->index();
+            // $table->foreign('refund_id')->references('id')->on('2_refunds')->onDelete('cascade');
+            // $table->smallInteger('year')->nullable();
+            // $table->smallInteger('code')->nullable();
+            // $table->date('create_date')->nullable();
+            // $table->timestamps();
         });
     }
 

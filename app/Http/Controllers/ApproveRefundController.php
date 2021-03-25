@@ -48,7 +48,7 @@ class ApproveRefundController extends Controller
         if (Date('m')>9) {
             $y = $y + 1;
         }
-        $code = substr($y,2) . '-' . sprintf('%04d', $refund_code->id);
+        $code = substr($y,2) . '-' . sprintf('%04d', $refund_code->code);
         return $code;
     }
     public function store(Office $office, Refund $refund, ApproveRefundRequest $request)
@@ -56,16 +56,26 @@ class ApproveRefundController extends Controller
         if ($refund->office_id == $office->id){
             $approve = new ApproveRefund($request->all());
             $refund->approve_refunds()->save($approve);
+
+            $y = Date('Y') + 543;
+            if (Date('m')>9) {
+                $y = $y + 1;
+            }
+            $get_code = RefundCode::where('year',$y)->get();
+            $count = ($get_code) ? count($get_code) : 0;
+
             $refund_code = new RefundCode;
             $refund_code->refund_id = $refund->id;
             $refund_code->create_date = date('Y-m-d');
+            $refund_code->year = $y;
+            $refund_code->code = $count + 1;
             $refund_code->save();
             if ($refund->status < 7){
-                $get_code = $this->getCode($refund_code);
+                $code = $this->getCode($refund_code);
                 $refund->update([
-                    'approve_code' => $get_code,
+                    'approve_code' => $code,
                     'status' => 7
-                ]);                
+                ]);
             }
             return response([
                 'data' => new ApproveRefundResource($approve)
@@ -94,7 +104,7 @@ class ApproveRefundController extends Controller
         if ($approve == null){
             return response(null,Response::HTTP_NOT_FOUND);
         }else{
-            
+
             return response([
                 'data' => new ApproveRefundResource($approve)
             ],Response::HTTP_CREATED);

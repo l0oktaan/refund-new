@@ -250,6 +250,7 @@ export default {
             this.status = 0;
             this.description = "";
             this.date_show = null;
+            this.date_complate = null;
         },
         async fetchData(){
             let path = `/api/offices/${this.office_id}/refunds/${this.refund_id}`

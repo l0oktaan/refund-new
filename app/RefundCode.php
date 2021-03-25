@@ -10,6 +10,8 @@ class RefundCode extends Model
     protected $fillable = [
         'id',
         'refund_id',
+        'year',
+        'code',
         'create_date'
     ];
 
