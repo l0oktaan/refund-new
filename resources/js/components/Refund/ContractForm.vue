@@ -239,7 +239,7 @@ export default {
     },
     computed: {
         isDisable(){
-            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+            return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
         }
 
     },

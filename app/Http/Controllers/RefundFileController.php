@@ -80,9 +80,7 @@ class RefundFileController extends Controller
                 $status->status_date = date('Y-m-d H:i:s');
                 $status->status_by = Auth::user()->username;
                 $refund->refund_status()->save($status);
-
             }
-
             return response([
                 'data' => new RefundFileResource($refund_file)
             ],Response::HTTP_CREATED);
