@@ -80,7 +80,7 @@
                                     <b-input-group append="บาท">
                                        <cleave placeholder="จำนวนเงิน" name="approve_amount" v-model="approve.approve_amount" class="form-control" :options="cleave_options.number"></cleave>
                                     </b-input-group>
-                                </b-form-group>                                
+                                </b-form-group>
                             </b-col>
                         </b-row>
                         <b-row>
@@ -92,7 +92,7 @@
                                     label-for="approve_code"
                                 >
                                     <b-form-input v-model="approve.approve_code" :readonly="true" :state="approve.approve_code ? true : false"></b-form-input>
-                                </b-form-group>                                
+                                </b-form-group>
                             </b-col>
                         </b-row>
 
@@ -141,7 +141,7 @@ export default {
     computed: {
         isDisable(){
             console.log('status :' + this.refund_status);
-            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+            return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     methods: {
@@ -182,7 +182,7 @@ export default {
                 .then(response=>{
                    this.alert = 'success';
                    this.$emit('refund_update');
-                   this.toEdit(response.data.data);                  
+                   this.toEdit(response.data.data);
 
                 })
                 .catch(error=>{
@@ -207,7 +207,7 @@ export default {
                     this.alert = 'error';
                 })
             }
-            
+
         },
     }
 }

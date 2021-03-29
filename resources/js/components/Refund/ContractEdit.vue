@@ -13,7 +13,7 @@
                             v-model="isEdit"
                         />
                     </span>
-                </div> 
+                </div>
             </b-col>
         </b-row>
         <b-row>
@@ -116,9 +116,9 @@
                 </table>
             </b-col>
         </b-row>
-         
-        
-        
+
+
+
     </div>
 </template>
 <script>
@@ -157,7 +157,7 @@ export default{
     computed: {
         isDisable(){
             console.log('status :' + this.refund_status);
-            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+            return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     watch: {
@@ -341,8 +341,8 @@ export default{
     margin-top: 10px!important;
 }
 .edit_contract{
-    
-    
+
+
     margin-bottom: 10px;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;

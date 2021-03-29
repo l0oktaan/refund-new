@@ -154,7 +154,7 @@
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                     <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
-                                </div>                                
+                                </div>
                             </b-col>
                         </b-row>
             </b-form>
@@ -236,7 +236,7 @@ export default {
     computed: {
         isDisable(){
             console.log('status :' + this.refund_status);
-            return this.refund_status > 7 && this.$store.getters.user.type != 'admin' ? true : false
+            return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
     watch: {
@@ -271,12 +271,12 @@ export default {
             }
         },
         cal_overdue_days(newVal, oldVal){
-            
+
                 if (this.state == 'new'){
                     this.overdue_days = newVal;
                 }
-           
-            
+
+
 
         },
         hasPenalty(newVal, oldVal){
@@ -315,7 +315,7 @@ export default {
         },
         checkHasPenalty(){
             if (this.hasPenalty){
-                
+
                 if (!this.delivery.penalty || this.delivery.penalty == '' || !this.delivery.penalty_accept || this.delivery.penalty_accept == '' || this.overdue_days == ''){
                     this.message = 'กรุณากรอกข้อมูลให้ครบ-1';
                     setTimeout(function(){
@@ -367,7 +367,7 @@ export default {
                             this.date_start = item.overdue_start_date;
                             this.date_end = item.overdue_end_date;
                             this.overdue_days = item.overdue_days;
-                            
+
                         })
 
 
@@ -441,8 +441,8 @@ export default {
             console.log('delivery status :' + this.state);
             if (!this.checkHasPenalty()){
                 return;
-            }            
-            
+            }
+
             if (this.state == 'new'){
                 axios
                 .post(`${path}`,{
@@ -500,7 +500,7 @@ export default {
                 })
 
             }
-                
+
 
         },
         diffDate(date1,date2){
