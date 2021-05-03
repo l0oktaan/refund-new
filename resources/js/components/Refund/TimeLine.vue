@@ -134,18 +134,24 @@ export default {
       }
     };
   },
-  mounted(){
+  computed:{
+
+  },
+  async mounted(){
       if (this.list){
 
-
-          this.chartOptions.series.push({
-              name: "Project 1",
-              data: this.list
+        //   let arr = this.list.sort((a,b)=> a.start-b.start);
+          await this.chartOptions.series.push({
+              name: await "Project 1",
+              data: await this.list
           })
-      }
+        }
+
+
 
   },
   methods:{
+
       getThaiDate(item){
             var d = new Date(item);
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });

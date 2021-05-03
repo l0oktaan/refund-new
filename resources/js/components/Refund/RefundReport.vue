@@ -256,7 +256,7 @@
 
                             <b-row>
                                 <b-col>
-                                    <my-schedule :list="time_line"></my-schedule>
+                                    <my-schedule :list="sort_timeline"></my-schedule>
                                 </b-col>
                             </b-row>
                         </div>
@@ -367,6 +367,11 @@ export default {
         }
     },
     computed: {
+        sort_timeline(){
+            return this.time_line.sort(function(a, b) {
+                return a.start - b.start;
+            });
+        }
 
     },
     methods: {
@@ -441,7 +446,7 @@ export default {
                     let end = await  new Date(time_edits[i].edit_end_date);
 
                      await this.createTimeLine({
-                        name: this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
+                        name: 'อนุมัติ' + this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
                         type: 'time_edit',
                         start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
                         end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
@@ -466,7 +471,7 @@ export default {
                 let end = await  new Date(this.delivers[i].overdue_end_date);
 
                 await this.createTimeLine({
-                    name : this.delivers[i].delivery,
+                    name : 'ค่าปรับงาน' + this.delivers[i].delivery,
                     type: 'delivery',
                     start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
