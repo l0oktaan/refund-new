@@ -496,16 +496,27 @@ export default {
 
             })
         },
-        getApproveRefund(){
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/approve_refunds`;
-            axios.get(`${path}`)
-            .then(response=>{
-                this.approves = response.data.data;
-                this.$forceUpdate();
-            })
-            .catch(error=>{
+        async getApproveRefund(){
+            var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/approve_refunds`;
+            let response = await axios.get(`${path}`)
 
-            })
+            this.approves = response.data.data;
+            for (let i=0;i<this.approves.length;i++){
+                let start = await  new Date(this.approves[i].start_date);
+                let end = await  new Date(this.approves[i].end_date);
+
+                await this.createTimeLine({
+                    name : 'อนุมัติงด ลด ค่าปรับ ' +this.refund.form.name3.replace('แบบถอนคืน',''),
+                    type: 'approve',
+                    start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                    end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
+                    color: "green"
+
+                })
+            }
+
+            this.$forceUpdate();
+
         },
         getThaiDate(item){
             var d = new Date(item);

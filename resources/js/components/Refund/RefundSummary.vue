@@ -21,21 +21,64 @@
                                     label-cols-sm="6"
                                     label="วันที่รับเรื่อง หนังสือขอความช่วยเหลือ :"
                                     label-align-sm="right"
-                                    label-for="receive_date"                                >
-                                    <my-date-picker ref="receive_date" :id="11" :showDate="date_receive" @update="value => approve.receive_date = value"></my-date-picker>
+                                    label-for="receive_date">
+                                    <b-row>
+                                        <b-col cols="6">
+                                            <my-date-picker ref="receive_date" :id="11" :showDate="date_receive" @update="value => approve.receive_date = value"></my-date-picker>
+                                        </b-col>
+                                    </b-row>
+
                                 </b-form-group>
                             </b-col>
                         </b-row>
                         <b-row>
                             <b-col sm="12">
+
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ :"
+                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ ตั้งแต่วันที่:"
+                                    label-align-sm="right"
+                                    label-for="approve_refund_days"
+                                >
+                                <b-row>
+                                    <b-col cols="12" md="6">
+
+                                        <my-date-picker ref="date_start" id="date_start" :showDate="date_start" @update="value => date_start = value"></my-date-picker>
+                                    </b-col>
+                                </b-row>
+
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="12">
+
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label="ถึงวันที่:"
+                                    label-align-sm="right"
+                                    label-for="approve_refund_days"
+                                >
+                                <b-row>
+                                    <b-col cols="12" md="6">
+                                        <my-date-picker ref="date_end" :id="13" :showDate="date_end" @update="value =>date_end = value"></my-date-picker>
+                                    </b-col>
+                                </b-row>
+
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="12">
+
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label="รวม"
                                     label-align-sm="right"
                                     label-for="approve_refund_days"
                                 >
                                     <b-input-group append="วัน">
-                                       <b-form-input id="approve_refund_days" v-model="approve.refund_days"></b-form-input>
+                                       <b-form-input readonly id="approve_refund_days" v-model="approve.refund_days"></b-form-input>
                                     </b-input-group>
                                 </b-form-group>
                             </b-col>
@@ -98,6 +141,7 @@
 
                         <b-row>
                             <b-col>
+
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button  type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
                                 </div>
@@ -119,6 +163,8 @@ export default {
             //office_id: this.$store.getters.office_id,
             approve: {},
             date_receive: '',
+            date_start: '',
+            date_end: '',
             alert: '',
             state: 'new',
             cleave_options:{
@@ -144,23 +190,53 @@ export default {
             return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
         }
     },
+    watch:{
+         date_start(newDate, oldDate){
+            if (this.date_start != '' && this.date_end){
+                if (!this.checkDate(newDate,this.date_end)){
+                    this.$nextTick(() => {
+                        this.date_start = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.approve.refund_days = this.diffDate(this.date_start,this.date_end);
+                }
+            }
+        },
+        date_end(newDate, oldDate){
+            if (this.date_end != '' && this.date_start){
+                if (!this.checkDate(this.date_start,newDate)){
+                    this.$nextTick(() => {
+                        this.date_end = oldDate;
+                        this.$forceUpdate();
+                    })
+                }else{
+                    this.approve.refund_days = this.diffDate(this.date_start,this.date_end);
+                    // this.checkEqualDate(newDate,this.date_delivery);
+                }
+            }
+        },
+    },
     methods: {
-        fetchData(){
-            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
-            axios
-            .get(`${path}`)
-            .then(response=>{
+        async fetchData(){
+            var path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
+            let response = await axios.get(`${path}`)
+
                 if (response.data.data.length > 0){
+                    this.approve = await response.data.data[0];
+
                     this.toEdit(response.data.data[0]);
                 }
-            })
-            this.$emit('refund_update');
+
+            await this.$emit('refund_update');
         },
         toEdit(item){
             this.approve = _.cloneDeep(item);
             if (item){
                 this.state = 'update';
                 this.date_receive = item.receive_date;
+                this.date_start = this.approve.start_date;
+                this.date_end = this.approve.end_date;
             }
             this.$forceUpdate();
         },
@@ -177,7 +253,9 @@ export default {
                     refund_days: this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
-                    approve_amount: this.approve.approve_amount
+                    approve_amount: this.approve.approve_amount,
+                    start_date: this.date_start,
+                    end_date: this.date_end,
                 })
                 .then(response=>{
                    this.alert = 'success';
@@ -196,7 +274,9 @@ export default {
                     refund_days: this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
-                    approve_amount: this.approve.approve_amount
+                    approve_amount: this.approve.approve_amount,
+                    start_date: this.date_start,
+                    end_date: this.date_end,
                 })
                 .then(response=>{
                     this.alert = 'success';
@@ -206,6 +286,31 @@ export default {
                 .catch(error=>{
                     this.alert = 'error';
                 })
+            }
+
+        },
+        diffDate(date1,date2){
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            var diff = null;
+            if (d2 >= d1){
+                diff = (d2.getTime() - d1.getTime())/(1000*60*60*24) + 1;
+                return diff;
+            }else{
+                this.alert = "error";
+                return false;
+            }
+        },
+        checkDate(date1,date2){
+            //console.log('check date : '+ date1 + ' and ' + date2);
+            var d1 = new Date(date1);
+            var d2 = new Date(date2);
+            if (d2 >= d1){
+                //console.log('dateDiff :' + (d2.getTime() - d1.getTime())/(1000*60*60*24));
+                return true;
+            }else{
+                this.alert = "error";
+                return false;
             }
 
         },

@@ -21,7 +21,9 @@ class ApproveRefundResource extends JsonResource
             'refund_money' => $this->refund_money,
             'refund_amount' => $this->refund_amount,
             'approve_amount' => $this->approve_amount,
-            'approve_code' => $this->refund->approve_code
+            'approve_code' => $this->refund->approve_code,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date
         ];
     }
 }

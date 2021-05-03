@@ -13,7 +13,9 @@ class ApproveRefund extends Model
         'refund_days',
         'refund_money',
         'refund_amount',
-        'approve_amount'
+        'approve_amount',
+        'start_date',
+        'end_date'
     ];
 
     public function refund(){

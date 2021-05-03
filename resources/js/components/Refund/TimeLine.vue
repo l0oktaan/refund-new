@@ -13,6 +13,9 @@ export default {
     data() {
     return {
       chartOptions: {
+        credits: {
+            enabled: false
+        },
         chart: {
             style: {
                 fontFamily: 'Trirong'
