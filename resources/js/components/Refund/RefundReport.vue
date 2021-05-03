@@ -441,7 +441,7 @@ export default {
                     let end = await  new Date(time_edits[i].edit_end_date);
 
                      await this.createTimeLine({
-                        name: this.getEditType(time_edits[0].edit_type) + ' ' + time_edits[0].edit_days + ' วัน',
+                        name: this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
                         type: 'time_edit',
                         start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
                         end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
