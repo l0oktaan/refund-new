@@ -421,8 +421,8 @@ export default {
                 await this.createTimeLine({
                     name: 'สัญญาเริ่มต้น และสิ้นสุด',
                     type: 'contract',
-                    start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
-                    end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                    start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                    end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
                     color: "navy",
                     style: {
                         fontFamily: 'Trirong'
@@ -448,8 +448,8 @@ export default {
                      await this.createTimeLine({
                         name: 'อนุมัติ' + this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
                         type: 'time_edit',
-                        start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
-                        end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                        start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                        end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
                         color: "purple",
                         style: {
                             fontFamily: 'Trirong'
@@ -473,8 +473,8 @@ export default {
                 await this.createTimeLine({
                     name : 'ค่าปรับงาน' + this.delivers[i].delivery,
                     type: 'delivery',
-                    start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
-                    end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                    start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                    end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
                     color: "maroon",
                     style: {
                         fontFamily: 'Trirong'
