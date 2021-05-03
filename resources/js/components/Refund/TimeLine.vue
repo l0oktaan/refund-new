@@ -1,6 +1,7 @@
 <template>
     <div>
         <highcharts :constructorType="'ganttChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
+        <highcharts class="hc" :options="chartOptions2" ref="chart"></highcharts>
 
     </div>
 
@@ -11,10 +12,36 @@
 export default {
     props: ['list'],
     data() {
-    return {
+        return {
+        chartOptions2:{
+
+            title: {
+                text: 'Exporting module is loaded but buttons are disabled'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+
+            series: [{
+                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+            }],
+
+            navigation: {
+                buttonOptions: {
+                    enabled: true
+                }
+            }
+        },
       chartOptions: {
+        navigation: {
+            buttonOptions: {
+                enabled: true
+            }
+        },
+
         credits: {
-            enabled: false
+            enabled: true
         },
         chart: {
             style: {
@@ -29,7 +56,7 @@ export default {
             },
         },
         xAxis: [{
-            visible: false,
+            visible: true,
 
         }],
         yAxis: {
@@ -92,6 +119,7 @@ export default {
         },
 
         tooltip: {
+            enabled: false,
             xDateFormat: '%a %b %d, %H:%M'
         },
         series:[],

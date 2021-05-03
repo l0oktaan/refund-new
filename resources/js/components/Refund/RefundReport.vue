@@ -5,9 +5,13 @@
             <b-col>
 
                 <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport('printThis')"><i class="fas fa-print fa-2x"></i></b-button>
+                <b-button ref="save_form" id="timeline" variant="outline-danger" size="md" @click="printReport('timeline')"><i class="fas fa-clock fa-2x"></i></b-button>
                 <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport('attach')"><i class="fas fa-clipboard-list fa-2x"></i></b-button>
                 <b-popover target="print_form" triggers="hover" placement="top">
                     พิมพ์แบบถอนคืน
+                </b-popover>
+                <b-popover target="print_form" triggers="hover" placement="top">
+                    พิมพ์ Timeline
                 </b-popover>
                 <b-popover target="save_form" triggers="hover" placement="top">
                     พิมพ์รายการเอกสาร
