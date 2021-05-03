@@ -504,9 +504,11 @@ export default {
             for (let i=0;i<this.approves.length;i++){
                 let start = await  new Date(this.approves[i].start_date);
                 let end = await  new Date(this.approves[i].end_date);
+                let approve = this.refund.form.name3.replace('แบบถอนคืน','');
+                approve = approve.replace('ตาม','');
 
                 await this.createTimeLine({
-                    name : 'อนุมัติงด ลด ค่าปรับ ' +this.refund.form.name3.replace('แบบถอนคืน',''),
+                    name : 'อนุมัติงด ลด ค่าปรับ (' + approve + ') ' + this.approves[i].refund_days + ' วัน',
                     type: 'approve',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
