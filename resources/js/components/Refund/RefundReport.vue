@@ -111,7 +111,7 @@
                                                                                     <span class="show" v-if="getDetail(sub_consider.id).value && getDetail(sub_consider.id).result_type == 'date'">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
                                                                                     <span class="show" v-else-if="getDetail(sub_consider.id).value && (getDetail(sub_consider.id).result_type == 'value' || getDetail(sub_consider.id).result_type == 'inArray')">{{getDetail(sub_consider.id).value}}</span>
                                                                                     <span v-else-if="getDetail(sub_consider.id).value && getDetail(sub_consider.id).result_type == 'number'"><span class="show">{{getDetail(sub_consider.id).value}}</span> วัน</span>
-                                                                                    
+
                                                                                 </p>
                                                                                 <div v-if="(sub_consider.type == 3 && getDetail(sub_consider.id).value && (getDetail(sub_consider.id).result_type == 'gap'))">
                                                                                     <p class="head sub">วันที่ปัญหาอุปสรรคสิ้นสุด <span class="show">{{getThaiDate(getDetail(sub_consider.id).value.split('|')[0])}}</span> </p>
@@ -121,7 +121,7 @@
                                                                                     <p class="head sub">ให้ความช่วยเหลือตามมติ ครม.ว 208 ถึงวันที่ <span class="show">{{getThaiDate(getDetail(sub_consider.id).value.split('|')[0])}}</span> </p>
                                                                                     <p class="head sub">ส่งมอบงานงวดสุดท้ายวันที่ <span class="show">{{getThaiDate(getDetail(sub_consider.id).value.split('|')[1])}}</span></p>
                                                                                 </div>
-                                                                                
+
                                                                                 <p class="head" v-if="sub_consider.type == 4"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
                                                                                     <span class="show" v-if="getDetail(sub_consider.id).value">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
                                                                                 </p>
@@ -145,7 +145,7 @@
                                                                     <p class="head" v-if="sub_consider.type == 3"><i :class="(getDetail(sub_consider.id).status == 1) ? icon_check : icon_uncheck"></i> {{sub_consider.name}}
                                                                         <span class="show" v-if="getDetail(sub_consider.id).value && getDetail(sub_consider.id).result_type == 'date'">{{getThaiDate(getDetail(sub_consider.id).value)}}</span>
                                                                         <span class="show" v-else-if="getDetail(sub_consider.id).value && (getDetail(sub_consider.id).result_type == 'value' || getDetail(sub_consider.id).result_type == 'inArray')">{{getDetail(sub_consider.id).value}}</span>
-                                                                        <span v-else-if="getDetail(sub_consider.id).value && getDetail(sub_consider.id).result_type == 'number'"><span class="show">{{getDetail(sub_consider.id).value}}</span> วัน</span>                                                                       
+                                                                        <span v-else-if="getDetail(sub_consider.id).value && getDetail(sub_consider.id).result_type == 'number'"><span class="show">{{getDetail(sub_consider.id).value}}</span> วัน</span>
                                                                     </p>
                                                                     <div v-if="(sub_consider.type == 3 && getDetail(sub_consider.id).value && (getDetail(sub_consider.id).result_type == 'gap'))">
                                                                         <p class="head">วันที่ปัญหาอุปสรรคสิ้นสุด <span class="show">{{getThaiDate(getDetail(sub_consider.id).value.split('|')[0])}}</span> </p>
@@ -246,20 +246,17 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    
+
                                 </b-col>
                             </b-row>
                         </div>
                     </div>
-                    <div class="page" id="timeline" v-if="false">
+                    <div class="page" id="timeline">
                         <div class="subpage" v-if="isReady">
-                            <b-row align-h="end">
-                                <b-col cols="6" class="form_name">
-                                    <p class="topic">{{refund.form.name1}}</p>
-                                    <p class="topic">{{refund.form.name2}}</p>
-                                </b-col>
-                                <b-col cols="3">
-                                    <p class="form_name3">{{refund.form.name3}}</p>
+
+                            <b-row>
+                                <b-col>
+                                    <my-schedule :list="time_line"></my-schedule>
                                 </b-col>
                             </b-row>
                         </div>
@@ -278,6 +275,7 @@
                         </div>
                     </div>
                 </div>
+
             </b-col>
         </b-row>
 
@@ -327,7 +325,8 @@ export default {
             icon_uncheck: 'far fa-square fa-lg',
             check: false,
             report_height: 0,
-            show: false
+            show: false,
+            time_line: []
         }
     },
    async mounted(){
@@ -399,52 +398,87 @@ export default {
             doc.text("ทดสอบ", 10, 10);
             doc.save(pdfName + '.pdf');
         },
-        getRefund(){
-            var refund_form_id = 0;
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
+        async getRefund(){
+            var refund_form_id = await 0;
+            var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
             //var refund_form_id = 0;
-            axios.get(`${path}`)
-            .then(response=>{
-                refund_form_id = response.data.data[0]['id'];
-                path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form_id}`;
-                axios.get(`${path}`)
-                .then(response=>{
-                    this.refund = _.cloneDeep(response.data.data);
-                    this.refund_status = this.refund.status;
-                    this.isReady = true;
-                    this.$forceUpdate();
-                })
-                .catch(error=>{
+            let res = await axios.get(`${path}`)
 
-                })
-            })
-            .catch(error=>{
+            refund_form_id = await res.data.data[0]['id'];
+            path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms/${refund_form_id}`;
+            let response = await axios.get(`${path}`)
 
-            })
+                this.refund = await _.cloneDeep(response.data.data);
+                this.refund_status = await this.refund.status;
+                this.isReady = await true;
+                let start = await new Date(this.refund.refund.contracts[0].contract_start);
+                let end = await new Date(this.refund.refund.contracts[0].contract_end)
+                await this.createTimeLine({
+                    name: 'สัญญาเริ่มต้น และสิ้นสุด',
+                    type: 'contract',
+                    start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
+                    end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                    color: "navy",
+                    style: {
+                        fontFamily: 'Trirong'
+                    },
+                })
+                await this.$forceUpdate();
+
+
+
+
 
         },
-        getContractTimeEdit(){
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
-            axios.get(`${path}`)
-            .then(response=>{
-                let time_edits = response.data.data;
-                this.time_edits = time_edits;
-                this.$forceUpdate();
-            })
-            .catch(error=>{
+        async getContractTimeEdit(){
+            var path = await  `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
+            let response = await axios.get(`${path}`)
 
-            })
+                let time_edits = await  response.data.data;
+                this.time_edits = await  time_edits;
+                for (let i=0;i<time_edits.length;i++){
+                    let start = await  new Date(time_edits[i].edit_start_date);
+                    let end = await  new Date(time_edits[i].edit_end_date);
+
+                     await this.createTimeLine({
+                        name: this.getEditType(time_edits[0].edit_type) + ' ' + time_edits[0].edit_days + ' วัน',
+                        type: 'time_edit',
+                        start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
+                        end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                        color: "purple",
+                        style: {
+                            fontFamily: 'Trirong'
+                        },
+                    });
+                }
+
+                 await this.$forceUpdate();
+
+
         },
-        getDeliver(){
-            var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/delivers`;
-            axios.get(`${path}`)
-            .then(response=>{
-                this.delivers = response.data.data;
-                this.$forceUpdate();
-            })
-            .catch(error=>{
+        async getDeliver(){
+            var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/delivers`;
+            let response = await axios.get(`${path}`)
 
-            })
+            this.delivers = await response.data.data;
+            for (let i=0;i<this.delivers.length;i++){
+                let start = await  new Date(this.delivers[i].overdue_start_date);
+                let end = await  new Date(this.delivers[i].overdue_end_date);
+
+                await this.createTimeLine({
+                    name : this.delivers[i].delivery,
+                    type: 'delivery',
+                    start: Date.UTC(start.getFullYear(),start.getMonth()+1,start.getDate()),
+                    end: Date.UTC(end.getFullYear(),end.getMonth()+1,end.getDate()),
+                    color: "maroon",
+                    style: {
+                        fontFamily: 'Trirong'
+                    },
+                })
+            }
+            this.$forceUpdate();
+
+
         },
         getDeposit(){
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/deposit_penalties`;
@@ -566,6 +600,14 @@ export default {
             }
             return strYear;
 
+        },
+
+        createTimeLine(item){
+            console.log('create :' + item.name)
+            this.$nextTick(()=>{
+                this.time_line.push(item)
+            })
+
         }
     }
 }
@@ -598,7 +640,7 @@ export default {
     text-align: center;
     color: #000;
     font-weight: normal!important;
-    font-size: 9pt!important;   
+    font-size: 9pt!important;
 
 }
 .sign{
@@ -629,7 +671,7 @@ p.confirm{
     font-weight: normal;
     width: 100%;
     margin-bottom: 7px!important;
-    
+
     font-size: 8pt!important;
 
 }

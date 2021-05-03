@@ -78,7 +78,7 @@ export default {
         return {
             user: this.$store.getters.user,
             leftMenu: [
-                // {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
+                {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
                 {menu: 'การถอนคืนฯ', path: '/refund/refunds', icon: 'fa fa-align-justify'},
                 {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},
 
@@ -89,7 +89,7 @@ export default {
 </script>
 <style scoped>
 .router-link-exact-active{
-    
+
     background-color: rgb(85, 85, 85)!important;
 }
 

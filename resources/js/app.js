@@ -72,6 +72,15 @@ Vue.use(jsPDF)
 import VueSwal from 'vue-swal'
 Vue.use(VueSwal)
 
+
+import HighchartsVue from 'highcharts-vue'
+import Highcharts from 'highcharts'
+import Gantt from "highcharts/modules/gantt";
+Gantt(Highcharts);
+Vue.use(HighchartsVue, {
+	highcharts: Highcharts
+})
+
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 //------------------- Validation
@@ -531,6 +540,9 @@ Vue.component('SentRefund', SentRefund).defaults;
 
 import OfficeDetail from './components/OfficeDetail.vue';
 Vue.component('OfficeDetail', OfficeDetail).defaults;
+
+import MySchedule from './components/Refund/TimeLine.vue';
+Vue.component('MySchedule', MySchedule).defaults;
 
 import AdminApprove from './components/Refund/AdminApprove.vue';
 //import state from 'sweetalert/typings/modules/state';
