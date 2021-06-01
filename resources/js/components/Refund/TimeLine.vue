@@ -1,7 +1,7 @@
 <template>
     <div>
-        <highcharts :constructorType="'ganttChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
-        <highcharts class="hc" :options="chartOptions2" ref="chart"></highcharts>
+        <highcharts :constructorType="'ganttChart'"  :options="chartOptions" ref="chart"></highcharts>
+        <!-- <highcharts class="hc" :options="chartOptions2" ref="chart"></highcharts> -->
 
     </div>
 
@@ -52,12 +52,12 @@ export default {
             text: "Timeline การดำเนินการตามสัญญา",
             style: {
                 fontFamily: 'Trirong',
-                fontSize: 16
+                fontSize: 16,
+                color: 'red'
             },
         },
         xAxis: [{
-            visible: true,
-
+            visible: false,
         }],
         yAxis: {
             title: {

@@ -5,12 +5,12 @@
             <b-col>
 
                 <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport('printThis')"><i class="fas fa-print fa-2x"></i></b-button>
-                <b-button ref="save_form" id="timeline" variant="outline-danger" size="md" @click="printReport('timeline')"><i class="fas fa-clock fa-2x"></i></b-button>
+                <b-button ref="timeline_form" id="timeline_form" variant="outline-danger" size="md" @click="printReport('timeline')"><i class="fas fa-clock fa-2x"></i></b-button>
                 <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport('attach')"><i class="fas fa-clipboard-list fa-2x"></i></b-button>
                 <b-popover target="print_form" triggers="hover" placement="top">
                     พิมพ์แบบถอนคืน
                 </b-popover>
-                <b-popover target="print_form" triggers="hover" placement="top">
+                <b-popover target="timeline_form" triggers="hover" placement="top">
                     พิมพ์ Timeline
                 </b-popover>
                 <b-popover target="save_form" triggers="hover" placement="top">
@@ -26,6 +26,7 @@
                         <div class="subpage" v-if="isReady">
                             <b-row>
                                 <b-col cols="3">
+
                                     <table class="report">
                                         <tr>
                                             <td style="width: 30%;verical-align:top" class="office" ><p class="head" style="margin-bottom:0px!important">เลขที่แบบถอนคืน :</p></td>
@@ -286,7 +287,9 @@
     </div>
 </template>
 <script>
+import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf'
+import domtoimage from 'dom-to-image-more'
 export default {
     props: ['refund_id','office_id','show_report'],
     data(){
@@ -547,23 +550,44 @@ export default {
         printReport(print_page){
 
             //console.log('print report');
+            if (print_page == "timeline"){
+                var node = document.getElementById(print_page);
+                domtoimage.toJpeg(node, { quality: 1 })
+                .then(function (dataUrl) {
+                    var link = document.createElement('a');
+                    link.download = 'my-image-name.jpeg';
+                    link.href = dataUrl;
+                    link.click();
+                });
+            }else{
+                this.printElement(document.getElementById(print_page));
+            }
+            //
 
-            this.printElement(document.getElementById(print_page));
 
+            // var printSection = document.getElementById("printSection");
+            // if (!printSection) {
+            //     printSection = document.createElement("div");
+            //     printSection.id = "printSection";
+            //     document.body.appendChild(printSection);
+            // }
+            // printSection.innerHTML = "";
+            // printSection.appendChild(domClone);
+            // window.print();
         },
         printElement(elem) {
 
             var domClone = elem.cloneNode(true);
 
-            var $printSection = document.getElementById("printSection");
-            console.log()
-            if (!$printSection) {
-                var $printSection = document.createElement("div");
-                $printSection.id = "printSection";
-                document.body.appendChild($printSection);
+            var printSection = document.getElementById("printSection");
+
+            if (!printSection) {
+                printSection = document.createElement("div");
+                printSection.id = "printSection";
+                document.body.appendChild(printSection);
             }
-            $printSection.innerHTML = "";
-            $printSection.appendChild(domClone);
+            printSection.innerHTML = "";
+            printSection.appendChild(domClone);
             window.print();
         },
         getDetail(id){

@@ -72,14 +72,18 @@ Vue.use(jsPDF)
 import VueSwal from 'vue-swal'
 Vue.use(VueSwal)
 
+import domtoimage from 'dom-to-image-more';
+Vue.use(domtoimage)
 
-import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import Gantt from "highcharts/modules/gantt";
+import HighchartsVue from 'highcharts-vue'
 Gantt(Highcharts);
-Vue.use(HighchartsVue, {
-	highcharts: Highcharts
-})
+Vue.use(HighchartsVue);
+// Vue.use(HighchartsVue, {
+// 	highcharts: Highcharts
+// })
+
 
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
