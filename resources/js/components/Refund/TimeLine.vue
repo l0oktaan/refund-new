@@ -52,8 +52,8 @@ export default {
             text: "Timeline การดำเนินการตามสัญญา",
             style: {
                 fontFamily: 'Trirong',
-                fontSize: 16,
-                color: 'red'
+                fontSize: 16
+
             },
         },
         xAxis: [{

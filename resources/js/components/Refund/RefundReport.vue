@@ -11,7 +11,7 @@
                     พิมพ์แบบถอนคืน
                 </b-popover>
                 <b-popover target="timeline_form" triggers="hover" placement="top">
-                    พิมพ์ Timeline
+                    บันทึก Timeline
                 </b-popover>
                 <b-popover target="save_form" triggers="hover" placement="top">
                     พิมพ์รายการเอกสาร
@@ -548,14 +548,14 @@ export default {
         },
 
         printReport(print_page){
-
+            let code = this.refund ? this.refund.refund.approve_code : ''
             //console.log('print report');
             if (print_page == "timeline"){
                 var node = document.getElementById(print_page);
-                domtoimage.toJpeg(node, { quality: 1 })
+                domtoimage.toJpeg(node, { quality: 1})
                 .then(function (dataUrl) {
                     var link = document.createElement('a');
-                    link.download = 'my-image-name.jpeg';
+                    link.download = code +'_timeline.jpeg';
                     link.href = dataUrl;
                     link.click();
                 });

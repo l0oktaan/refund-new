@@ -43,7 +43,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        sleep(3);
+        sleep(1);
         $credentials = $request->only('username', 'password');
 
 
