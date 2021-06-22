@@ -30,10 +30,12 @@
     </b-row>
     <b-row>
         <b-col>
+
         <div class="animated fadeIn text-center">
             <b-button variant="primary" @click="saveRefundForm" :disabled="refund_status === 'update'">บันทึกข้อมูล</b-button>
             <b-button variant="danger">ยกเลิก</b-button>
         </div>
+        {{arrFormSelected}}
         </b-col>
     </b-row>
 
@@ -56,7 +58,7 @@ export default {
             arrFormSelected: [],
             isSelect: [],
             form_id : this.$route.params.id,
-            form_id: 0,
+
             office_id: this.$store.getters.office_id,
             refund_id: 0,
             refund_status: 'new',
@@ -99,23 +101,25 @@ export default {
             })
         },
         confirmChange(form,index){
-            // let formIndex = this.arrFormSelected.findIndex(i => i.id === form.id);
-            // if (formIndex >= 0){
-            //     this.arrFormSelected.splice(formIndex,1);
-            // }else{
-            //     this.arrFormSelected.push(
-            //         {id: form.id, name: form.name1, order: form.order, selectIndex: index}
-            //     );
-            // }
-            // this.arrFormSelected = this.sortArrays(this.arrFormSelected);
-            if (this.arrFormSelected.length > 0){
-                let formIndex = this.arrFormSelected[0]['selectIndex'];
-                this.arrFormSelected = [];
-                this.isSelect[formIndex] = false
+            let formIndex = this.arrFormSelected.findIndex(i => i.id === form.id);
+            if (formIndex >= 0){
+                this.arrFormSelected.splice(formIndex,1);
+            }else{
+                this.arrFormSelected.push(
+                    {id: form.id, name: form.name1, order: form.order, selectIndex: index}
+                );
             }
-            this.arrFormSelected.push(
-                {id: form.id, name: form.name1, order: form.order, selectIndex: index}
-            );
+            this.arrFormSelected = this.sortArrays(this.arrFormSelected);
+
+
+            // if (this.arrFormSelected.length > 0){
+            //     let formIndex = this.arrFormSelected[0]['selectIndex'];
+            //     this.arrFormSelected = [];
+            //     this.isSelect[formIndex] = false
+            // }
+            // this.arrFormSelected.push(
+            //     {id: form.id, name: form.name1, order: form.order, selectIndex: index}
+            // );
         },
         sortArrays(arr){
             return _.orderBy(arr,'order','asc');

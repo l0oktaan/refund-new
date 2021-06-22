@@ -118,7 +118,11 @@ class RefundFormController extends Controller
         $refundForm->update($request->all());
         if ($request->input('result') == 1)
         {
-            if ($refund->status < 2){
+            $form = RefundForm::where('refund_id',$refund->id)
+                     ->where('result',0)
+                     ->get();
+
+            if (count($form) == 0 && $refund->status < 2){
                 $refund->update(['status' => 2]);
             }
 
