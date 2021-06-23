@@ -35,7 +35,6 @@
             <b-button variant="primary" @click="saveRefundForm" :disabled="refund_status === 'update'">บันทึกข้อมูล</b-button>
             <b-button variant="danger">ยกเลิก</b-button>
         </div>
-        {{arrFormSelected}}
         </b-col>
     </b-row>
 
