@@ -73,7 +73,7 @@
                                 </b-col>
                                 <b-col sm="3">
                                     <b-form-group>
-                                        <label for="edit_end_date">ถึงวันที่ :<span class="require">*</span></label>
+                                        <label for="edit_end_date">{{time_edit.edit_type == 1 ? 'เป็นสิ้นสุดสัญญาวันที่' : 'ถึงวันที่ :'}}<span class="require">*</span></label>
                                         <my-date-picker ref="edit_end_date" :id="12" :showDate="date_edit_end" @update="value => date_edit_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>

@@ -84,14 +84,12 @@
                                                                 <p class="head sub2">ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span><span class="show" v-if="time_edit.approve_type == 99">{{'( ' + time_edit.approve_other_desc + ' )'}}</span></p>
                                                                 <p class="head sub2" v-if="time_edit.approve_type == 99"> เข้าตามกรณี <span class="show">{{arrApproveOtherType[arrApproveOtherType.findIndex(x=>x.value == time_edit.approve_other_type)]['text']}}</span></p>
                                                                 <p class="head sub2"><span v-if="time_edit.approve_type > 20">กรณี</span> <span class="show" v-if="time_edit.approve_type > 20">{{time_edit.approve_case}}</span>จำนวนวัน<span class="show">{{time_edit.edit_days}}</span>วัน </p>
-                                                                <p class="head sub2">ตั้งแต่วันที่ <span class="show">{{getThaiDate(time_edit.edit_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(time_edit.edit_end_date)}}</span></p>
+                                                                <p class="head sub2">{{time_edit.edit_type == 1 ? 'โดยอนุมัติขยายเวลา' : time_edit.edit_type == 2 ? 'โดยอนุมัติงดหรือลดค่าปรับ' : ''}}ตั้งแต่วันที่ <span class="show">{{getThaiDate(time_edit.edit_start_date)}}</span> {{time_edit.edit_type == 1 ? 'เป็นสิ้นสุดสัญญาวันที่' : 'ถึงวันที่ :'}} <span class="show">{{getThaiDate(time_edit.edit_end_date)}}</span></p>
                                                                 <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_type == 99 && time_edit.approve_other_type != 1)">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                             </div>
                                                         </div>
                                                         <p class="head sub" v-else>-ไม่มี-</p>
                                                     </div>
-
-
                                                 </td>
                                                 <!-- หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี -->
                                                 <td colspan="2" style="padding-left: 0px; padding-right: 0px;">
@@ -199,7 +197,7 @@
                                                         <div v-for="(deliver,index) in delivers" :key="index">
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub2" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
-                                                            <p class="head sub2" v-if="deliver.overdue_days">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty | numeral('0,0.00')}}</span> บาท</p>
+                                                            <p class="head sub2" v-if="deliver.overdue_days">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span> บาท</p>
                                                             <p class="head sub2" v-if="deliver.overdue_days">ตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
                                                         </div>
                                                     </div>
