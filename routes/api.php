@@ -53,9 +53,11 @@ Route::group(['middleware' => 'auth:api'],function() {
     Route::Resource('/forms','FormController');
     Route::group(['prefix'=>'forms'],function(){
         Route::apiResource('/{form}/form_rules','FormRuleController');
+        
         Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
         Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
     });
+    Route::get('/forms/{form}/form_rules/{form_rule}/get_sub_rules','FormRuleController@GetSubRules');
 
     Route::group(['prefix' => 'admin'],function(){
         Route::apiResource('/{admin}/refunds','RefundController');

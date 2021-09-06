@@ -52,6 +52,7 @@
                         </b-form-select>
 
                     </b-form-group>
+                    
                 </b-col>
             </b-row>
             <!--
@@ -321,30 +322,62 @@ export default {
             })
 
         },
-        getOrderRule(sub_of){
-            var path = `/api/forms/${this.form_id}/form_rules?sub_of=${sub_of}`;
-            var arr = [];
-            var rules = [];
-            var max = 0;
-            //console.log('get order :' + path);
-            axios.get(path)
-            .then(response=>{
-                rules = response.data.data;
-                //console.log('rule length: '+ rules.length);
-                this.arr_rule_order = [];
-                max = rules.length;
-                if (this.state == 'new'){
-                    max = max + 1;
-                }
-                arr.push({value: 0,text: 'ลำดับ'});
+        async getOrderRule(sub_of){
+            await console.log("sub of : " + sub_of);
+            this.arr_rule_order = await [];
+            await this.$forceUpdate();
+            var path = '';
+            if (sub_of == 0){
+                path = await `/api/forms/${this.form_id}/form_rules?sub_of=${sub_of}`;
+            }else{
+                path = await `/api/forms/${this.form_id}/form_rules/${sub_of}/get_sub_rules`;
+            }
+            // 
+            
+            var arr = await [];
+            var rules = await [];
+            var max = await 0;
+            console.log('get order :' + path);
+            var response = await axios.get(`${path}`);
+            if (sub_of == 0){
+                rules = await response.data.data;
+            }else{
+                rules = await response.data;
+            }
+            
+            
+            max = await rules.length;
+            console.log('Max Rule : ' + max);
+            if (this.state == 'new'){
+                max = await max + 1;
+            }
+            await arr.push({value: 0,text: 'ลำดับ'});
 
-                for (let i=1 ; i <= max ; i++){
-                    arr.push({value: i, text: i});
-                }
+            for (let i=1 ; i <= max ; i++){
+                await arr.push({value: i, text: i});
+            }
 
-                this.arr_rule_order = arr;
-                this.$forceUpdate();
-            })
+            this.arr_rule_order = await arr;
+            this.$forceUpdate();
+            
+            // axios.get(path)
+            // .then(response=>{
+            //     rules = response.data.data;
+            //     //console.log('rule length: '+ rules.length);
+            //     this.arr_rule_order = [];
+            //     max = rules.length;
+            //     if (this.state == 'new'){
+            //         max = max + 1;
+            //     }
+            //     arr.push({value: 0,text: 'ลำดับ'});
+
+            //     for (let i=1 ; i <= max ; i++){
+            //         arr.push({value: i, text: i});
+            //     }
+
+            //     this.arr_rule_order = arr;
+            //     this.$forceUpdate();
+            // })
         },
         isSingleRule(id){
             var path = `/api/forms/${this.form_id}/form_rules?sub_of=${id}`;

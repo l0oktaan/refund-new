@@ -17,7 +17,15 @@ class FormRuleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function getSubRules(Form $form,FormRule $form_rule)
+    {
+        // return "Get Sub Rules";
+        
+        $sub_rules = $form->form_rules()
+                    ->where("sub_of","'" . $form_rule->id ."'")
+                    ->get();
+        return $sub_rules;
+    }
 
     public function index(Form $form)
     {
@@ -29,13 +37,17 @@ class FormRuleController extends Controller
 
         // if (Input::has('sub_of'))
         // {
+            
         //     $sub_of = Input::get('sub_of');
+        //     // return $sub_of;
         //     $form_rules = $form->form_rules()
-        //                 ->where('sub_of','=',$sub_of)
+        //                 ->where("sub_of","='",$sub_of . "'")
         //                 ->orderBy('order')
         //                 ->get();
+        //     return $form_rules;
         // } else {
         //     $form_rules = $form->form_rules()
+        //                 ->where('sub_of','=','0')
         //                 ->orderBy('order')
         //                 ->get();
         // }
