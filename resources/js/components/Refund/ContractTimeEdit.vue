@@ -157,6 +157,20 @@
                                     </b-form-group>
                                 </b-col>
                             </b-row>
+                            <b-row v-if="arrShowDetail4.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="4" >
+                                    <b-form-group>
+                                        <label for="problem_end_date">โดยได้รับผลกระทบจากเหตุความไม่สงบทางการเมือง ตั้งแต่วันที่ :</label>
+                                        <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="4" >
+                                    <b-form-group>
+                                        <label for="book_date">ถึงวันที่ :</label>
+                                        <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
+                            </b-row>
                             <b-row align-h="center">
                                 <b-col cols="10">
                                     <b-alert
@@ -166,7 +180,8 @@
                                         :show="showRuleAlert"
                                         @dismissed="showRuleAlert=false"
                                     >
-                                        <p style="text-align:justify">{{messageRule}}</p>
+                                        <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==44">ระบุเวลาให้อยู่ในช่วงเดือนพฤศจิกายน 2556 ถึง พฤษภาคม 2557 เท่านั้น</p>
+                                        <p style="text-align:justify" v-else>{{messageRule}}</p>
                                     </b-alert>
                                     <show-alert :message="message" delay="2" @clearMessage="clearMessage"></show-alert>
                                 </b-col>
@@ -246,6 +261,9 @@ export default {
             arrShowDetail2 : [
                 22,23,31,32
             ],
+            arrShowDetail4 : [
+                40
+            ],
             cleave_options:{
                 number: {
                     prefix: '',
@@ -293,6 +311,7 @@ export default {
         }
     },
     watch: {
+        
         date_edit_start(newDate, oldDate){
 
             if (this.date_edit_start != '' && this.date_edit_end){
@@ -333,13 +352,38 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                    let diff = this.diffDate(this.date_problem_end,this.date_book);
-
-                    if (diff > 15){
-                        this.$nextTick(() => {
-                            // this.date_problem_end = oldDate;
+                    if(parseInt(this.time_edit.approve_type) == 40){
+                        let checkDate = new Date(newDate);
+                        let effect_start_date = new Date(2013,10,1);
+                        let effect_end_date = new Date(2014,4,31);
+                        if (checkDate < effect_start_date || checkDate > effect_end_date){
                             this.showRuleAlert = true;
-                        })
+                        }else{
+                            this.showRuleAlert = false;
+                        }
+                    }else{
+                        let diff = this.diffDate(this.date_problem_end,this.date_book);
+
+                        if (diff > 15){
+                            this.$nextTick(() => {
+                                // this.date_problem_end = oldDate;
+                                this.showRuleAlert = true;
+                            })
+                        }else{
+                            this.showRuleAlert = false;
+                        }
+                    }
+                    
+                }
+            }else{
+                if(parseInt(this.time_edit.approve_type) == 40){
+                    let checkDate = new Date(newDate);
+                    console.log('check date : ' + checkDate);
+                    let effect_start_date = new Date(2013,10,1);
+                    let effect_end_date = new Date(2014,4,31);
+                    console.log('start :' + effect_start_date);
+                    if (checkDate < effect_start_date || checkDate > effect_end_date){
+                        this.showRuleAlert = true;
                     }else{
                         this.showRuleAlert = false;
                     }
@@ -354,13 +398,45 @@ export default {
                         this.$forceUpdate();
                     })
                 }else{
-                   let diff = this.diffDate(this.date_problem_end,this.date_book);
-
-                    if (diff > 15){
-                        this.$nextTick(() => {
-                            // this.date_book = oldDate;
+                    if(this.time_edit.approve_type == 40){
+                        let checkDate = new Date(newDate);
+                        // console.log('end : ' + checkDate);
+                        
+                        let effect_start_date = new Date(2013,10,1,7,0,0);
+                        let effect_end_date = new Date(2014,4,31,7,0,0);
+                        console.log('end : ' + checkDate);
+                        console.log('checkend : ' + effect_end_date);
+                        if (checkDate < effect_start_date || checkDate > effect_end_date){
                             this.showRuleAlert = true;
-                        })
+                        }else{
+                            this.showRuleAlert = false;
+                        }
+                    }else{
+                        let diff = this.diffDate(this.date_problem_end,this.date_book);
+
+                        if (diff > 15){
+                            this.$nextTick(() => {
+                                // this.date_book = oldDate;
+                                this.showRuleAlert = true;
+                            })
+                        }else{
+                            this.showRuleAlert = false;
+                        }
+                    }
+                   
+                }
+            }else{
+                if(parseInt(this.time_edit.approve_type) == 40){
+                    // console.log('date str :' + this.date_book);
+                    let checkDate = new Date(newDate);
+                    // console.log('end : ' + checkDate);
+                    
+                    let effect_start_date = new Date(2013,10,1,7,0,0);
+                    let effect_end_date = new Date(2014,4,31,7,0,0);
+                    console.log('end : ' + checkDate);
+                    console.log('checkend : ' + effect_end_date);
+                    if (checkDate < effect_start_date || checkDate > effect_end_date){
+                        this.showRuleAlert = true;
                     }else{
                         this.showRuleAlert = false;
                     }
@@ -370,6 +446,10 @@ export default {
     },
     methods: {
         checkRule(){
+            if (parseInt(this.time_edit.approve_type) == 40){
+                this.showRuleAlert = false;
+                return true;
+            }
             let diff = this.diffDate(this.date_problem_end,this.date_book);
 
             if (diff > 15){
@@ -552,6 +632,9 @@ export default {
                 // this.alert = "error";
                 return false;
             }
+        },
+        checkEffectDate(){
+
         },
         checkDate(date1,date2){
             //console.log('check date : '+ date1 + ' and ' + date2);
