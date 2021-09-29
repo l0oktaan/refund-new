@@ -62,6 +62,7 @@
 
                         <b-form-group>
                             <label for="contract_date">สัญญาลงวันที่ :<span class="require">*</span></label>
+                            
                             <my-date-picker ref="contract_date" :id="11" :showDate="contract_date" @update="value => contract_date = value"
 
                             ></my-date-picker>
@@ -74,6 +75,7 @@
 
                         <b-form-group>
                             <label for="budget">วงเงินในสัญญา :<span class="require">*</span></label>
+                            
                             <cleave
                                 placeholder="ใส่จำนวนวงเงินในสัญญา"
                                 name="budget_new"
@@ -85,6 +87,23 @@
 
                         </b-form-group>
 
+                    </b-col>
+                    <b-col cols="2">
+                        <b-form-group label="หน่วยสกุลเงิน :" v-slot="{ ariaDescribedby }">
+                            <b-form-radio-group
+                                
+                                v-model="currency_unit"
+                                :aria-describedby="ariaDescribedby"
+                                name="radio-inline"
+                                buttons
+                                size="sm"
+                                button-variant="outline-warning"
+                                
+                            >
+                                <b-form-radio value="THB">บาท</b-form-radio>
+                                <b-form-radio value="USD">ดอลลาร์สหรัฐ</b-form-radio>
+                            </b-form-radio-group>
+                        </b-form-group>
                     </b-col>
                     <!-- <b-col cols="6">
                         <b-form-radio-group id="rbt_penalty_type" v-model="penalty_type" name="rbt_penalty_type">
@@ -117,7 +136,7 @@
                     </b-col> -->
                     <b-col sm="3">
                         <b-form-group :disabled="penalty_type != 1">
-                            <label for="penalty_per_day"><i :class=" penalty_type == 1 ? icon_check : icon_uncheck" @click="penalty_type = 1"></i> ค่าปรับต่อวัน : (บาท)</label>
+                            <label for="penalty_per_day"><i :class=" penalty_type == 1 ? icon_check : icon_uncheck" @click="penalty_type = 1"></i> ค่าปรับต่อวัน : ({{currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}})</label>
                             <cleave
                                 placeholder="ใส่จำนวนค่าปรับวันละ"
                                 name="penalty_per_day"
@@ -226,7 +245,8 @@ export default {
                 },
             },
             refund_status: this.$store.getters.refund_status,
-            message: ''
+            message: '',
+            currency_unit: 'THB'
         }
     },
     validations: {
@@ -310,6 +330,7 @@ export default {
                         contract_no:    this.contract_no,
                         contract_date:  this.contract_date,
                         budget:         this.budget,
+                        currency_unit:  this.currency_unit,
                         penalty_type:   this.penalty_type,
                         penalty_per_day: this.penalty_per_day,
                         penalty_per_day_percent: this.penalty_per_day_percent,
@@ -353,6 +374,7 @@ export default {
                         contract_no:    this.contract_no,
                         contract_date:  this.contract_date,
                         budget:         this.budget,
+                        currency_unit:  this.currency_unit,
                         penalty_type:   this.penalty_type,
                         penalty_per_day: this.penalty_per_day,
                         penalty_per_day_percent: this.penalty_per_day_percent,
@@ -431,6 +453,7 @@ export default {
             this.contract_no = '';
             this.contract_date = '';
             this.budget = '';
+            this.currency_unit = 'THB';
             this.penalty_per_day = 0.00;
             this.penalty_per_day_percent = 0.00;
             this.contract_start = '';
@@ -447,6 +470,7 @@ export default {
             this.contract_date = this.contract.contract_date;
             //this.showDatePick('contract_date',this.contract.contract_date);
             this.budget = this.contract.budget;
+            this.currency_unit = this.contract.currency_unit;
             this.penalty_type = this.contract.penalty_type;
             this.penalty_per_day = this.contract.penalty_per_day;
             this.penalty_per_day_percent = this.contract.penalty_per_day_percent;
@@ -480,7 +504,9 @@ export default {
 }
 </script>
 <style scoped>
-
+.btn-group-toggle > .btn{
+    cursor: pointer!important;
+}
 .description{
     font-size: 0.8em!important;
     color: rgb(49, 49, 49);
