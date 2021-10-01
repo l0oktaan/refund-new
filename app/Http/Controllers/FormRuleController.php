@@ -21,9 +21,10 @@ class FormRuleController extends Controller
     {
         // return "Get Sub Rules";
         
-        $sub_rules = $form->form_rules()
-                    ->where("sub_of","'" . $form_rule->id ."'")
+        $sub_rules = $form_rule
+                    ->where("sub_of", $form_rule->id)
                     ->get();
+        // return $form_rule->id;
         return $sub_rules;
     }
 

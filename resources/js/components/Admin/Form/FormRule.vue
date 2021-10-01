@@ -41,13 +41,24 @@
             </b-row>
             <b-row>
                 <b-col sm="4">
-                    <b-form-group>
+                    <b-form-group v-if="r_rule_type == 1">
                         <label for="order">ลำดับหลักเกณฑ์</label>
                         <b-form-select
                             v-model="r_order"
                             name="order"
                             :plain="true"
                             :options="arr_rule_order"
+                        >
+                        </b-form-select>
+
+                    </b-form-group>
+                    <b-form-group v-else>
+                        <label for="order">ลำดับหลักเกณฑ์ย่อย</label>
+                        <b-form-select
+                            v-model="r_order"
+                            name="order"
+                            :plain="true"
+                            :options="arr_subrule_order"
                         >
                         </b-form-select>
 
@@ -117,6 +128,7 @@ export default {
             r_id: 0,
             r_name: '',
             r_order: 0,
+            r_sub_order: 0,
             r_rule_type: 0,
             r_sub_of: 0,
             r_result_type: 0,
@@ -131,6 +143,7 @@ export default {
             ],
             arr_main_rule: [],
             arr_rule_order: [],
+            arr_subrule_order: [],
             arr_result_type: [
                 {value: 0, text: 'ประเภทหลักเกณ์'},
                 {value: 1, text: 'ตรงทุกข้อ'},
@@ -173,6 +186,8 @@ export default {
             if (this.r_rule_type == 1){
                 this.getOrderRule(0);
                 this.$forceUpdate();
+            }else if (this.r_rule_type == 2){
+                this.get
             }
         }
     },
@@ -322,6 +337,7 @@ export default {
             })
 
         },
+        
         async getOrderRule(sub_of){
             await console.log("sub of : " + sub_of);
             this.arr_rule_order = await [];
@@ -356,8 +372,8 @@ export default {
             for (let i=1 ; i <= max ; i++){
                 await arr.push({value: i, text: i});
             }
-
-            this.arr_rule_order = await arr;
+            sub_of == 0 ? this.arr_rule_order = arr : this.arr_subrule_order = arr;
+            
             this.$forceUpdate();
             
             // axios.get(path)
