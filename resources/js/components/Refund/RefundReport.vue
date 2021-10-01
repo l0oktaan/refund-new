@@ -22,7 +22,7 @@
         <b-row>
             <b-col>
                 <div class="book" id="book" ref="book">
-                    <div class="page" id="printThis" ref="printThis" v-show="false" >
+                    <div class="page" id="printThis" ref="printThis">
                         <div class="subpage" v-if="isReady">
                             <b-row>
                                 <b-col cols="3">
