@@ -22,7 +22,7 @@
         <b-row>
             <b-col>
                 <div class="book" id="book" ref="book">
-                    <div class="page" id="printThis" ref="printThis" >
+                    <div class="page" id="printThis" ref="printThis" v-show="false" >
                         <div class="subpage" v-if="isReady">
                             <b-row>
                                 <b-col cols="3">
@@ -429,10 +429,10 @@ export default {
                     type: 'contract',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                    color: "navy",
-                    style: {
-                        fontFamily: 'Trirong'
-                    },
+                    color: "#ffe6e6",
+                    borderWidth: "1",
+                    borderColor: "gray",                   
+                    
                 })
                 await this.$forceUpdate();
 
@@ -456,10 +456,9 @@ export default {
                         type: 'time_edit',
                         start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                         end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                        color: "purple",
-                        style: {
-                            fontFamily: 'Trirong'
-                        },
+                        color: "#e6ffff",
+                        borderWidth: "1",
+                        borderColor: "gray",
                     });
                 }
 
@@ -481,10 +480,9 @@ export default {
                     type: 'delivery',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                    color: "maroon",
-                    style: {
-                        fontFamily: 'Trirong'
-                    },
+                    color: "#e6e6ff",
+                    borderWidth: "1",
+                    borderColor: "gray",
                 })
             }
             this.$forceUpdate();
@@ -518,7 +516,10 @@ export default {
                     type: 'approve',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                    color: "green"
+                    color: "#e6ffe6",
+                    borderWidth: "1",
+                    borderColor: "gray",
+                    
 
                 })
             }

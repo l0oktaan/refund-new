@@ -1,6 +1,6 @@
 <template>
     <div>
-        <highcharts :constructorType="'ganttChart'"  :options="chartOptions" ref="chart"></highcharts>
+        <highcharts :constructorType="'ganttChart'" :options="chartOptions" ref="chart"></highcharts>
         <!-- <highcharts class="hc" :options="chartOptions2" ref="chart"></highcharts> -->
 
     </div>
@@ -45,7 +45,9 @@ export default {
         },
         chart: {
             style: {
-                fontFamily: 'Trirong'
+                fontFamily: 'Trirong',     
+                fontSize: '20px'  ,
+                fill: 'black'         
             }
         },
         title: {
