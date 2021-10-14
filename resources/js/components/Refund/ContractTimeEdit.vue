@@ -160,7 +160,8 @@
                             <b-row v-if="arrShowDetail4.includes(parseInt(time_edit.approve_type))">
                                 <b-col sm="4" >
                                     <b-form-group>
-                                        <label for="problem_end_date">โดยได้รับผลกระทบจากเหตุความไม่สงบทางการเมือง ตั้งแต่วันที่ :</label>
+                                        <label for="problem_end_date" v-if="time_edit.approve_type == 40">โดยได้รับผลกระทบจากเหตุความไม่สงบทางการเมือง ตั้งแต่วันที่ :</label>
+                                        <label for="problem_end_date" v-if="time_edit.approve_type == 41">โดยได้รับผลกระทบจากกรณีโรคโควิด 19 ตั้งแต่วันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
@@ -180,7 +181,8 @@
                                         :show="showRuleAlert"
                                         @dismissed="showRuleAlert=false"
                                     >
-                                        <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==44">ระบุเวลาให้อยู่ในช่วงเดือนพฤศจิกายน 2556 ถึง พฤษภาคม 2557 เท่านั้น</p>
+                                        <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==40">ระบุเวลาให้อยู่ในช่วงเดือนพฤศจิกายน 2556 ถึง พฤษภาคม 2557 เท่านั้น</p>
+                                        <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==41">ระบุเวลาตั้งแต่ เดือนมีนาคม 2563 เป็นต้นไป</p>
                                         <p style="text-align:justify" v-else>{{messageRule}}</p>
                                     </b-alert>
                                     <show-alert :message="message" delay="2" @clearMessage="clearMessage"></show-alert>
@@ -262,7 +264,7 @@ export default {
                 22,23,31,32
             ],
             arrShowDetail4 : [
-                40
+                40,41
             ],
             cleave_options:{
                 number: {
@@ -345,6 +347,7 @@ export default {
             this.$forceUpdate();
         },
         date_problem_end(newDate, oldDate){
+            console.log('type :' + this.time_edit.approve_type);
             if (this.date_problem_end != '' && this.date_book){
                 if (!this.checkDate(newDate,this.date_book)){
                     this.$nextTick(() => {
@@ -359,6 +362,16 @@ export default {
                         if (checkDate < effect_start_date || checkDate > effect_end_date){
                             this.showRuleAlert = true;
                         }else{
+                            this.showRuleAlert = false;
+                        }
+                    }else if (this.time_edit.approve_type == 41){
+                        let checkDate = new Date(newDate);
+                        let effect_date = new Date(2020,2,1,7,0,0);
+                        if (checkDate < effect_date){
+                            console.log('False');
+                            this.showRuleAlert = true;
+                        }else{
+                            console.log('True');
                             this.showRuleAlert = false;
                         }
                     }else{
@@ -387,10 +400,19 @@ export default {
                     }else{
                         this.showRuleAlert = false;
                     }
+                }else if (this.time_edit.approve_type == 41){
+                    let checkDate = new Date(newDate);
+                    let effect_date = new Date(2020,2,1,7,0,0);
+                    if (checkDate < effect_date){
+                        this.showRuleAlert = true;
+                    }else{
+                        this.showRuleAlert = false;
+                    }
                 }
             }
         },
         date_book(newDate,oldDate){
+            
             if (this.date_book != '' && this.date_problem_end){
                 if (!this.checkDate(this.date_problem_end,newDate)){
                     this.$nextTick(() => {
@@ -407,6 +429,14 @@ export default {
                         console.log('end : ' + checkDate);
                         console.log('checkend : ' + effect_end_date);
                         if (checkDate < effect_start_date || checkDate > effect_end_date){
+                            this.showRuleAlert = true;
+                        }else{
+                            this.showRuleAlert = false;
+                        }
+                    }else if (this.time_edit.approve_type == 41){
+                        let checkDate = new Date(newDate);
+                        let effect_date = new Date(2020,2,1,7,0,0);
+                        if (checkDate < effect_date){
                             this.showRuleAlert = true;
                         }else{
                             this.showRuleAlert = false;
@@ -440,13 +470,21 @@ export default {
                     }else{
                         this.showRuleAlert = false;
                     }
+                }else if (this.time_edit.approve_type == 41){
+                    let checkDate = new Date(newDate);
+                    let effect_date = new Date(2020,2,1,7,0,0);
+                    if (checkDate < effect_date){
+                        this.showRuleAlert = true;
+                    }else{
+                        this.showRuleAlert = false;
+                    }
                 }
             }
         }
     },
     methods: {
         checkRule(){
-            if (parseInt(this.time_edit.approve_type) == 40){
+            if (parseInt(this.time_edit.approve_type) >= 40){
                 this.showRuleAlert = false;
                 return true;
             }
@@ -487,12 +525,17 @@ export default {
                 }
             }
             if (this.time_edit.approve_type == 99){
-                if (!this.time_edit.approve_case || this.time_edit.approve_case == '' || this.time_edit.approve_other_desc == '' || !this.time_edit.approve_other_type){
+                // console.log('type :' + this.time_edit.approve_type);
+                // console.log('case :' + this.time_edit.approve_case);
+                // console.log('description :' + this.time_edit.approve_other_desc);
+                // console.log('other type :' + this.time_edit.approve_other_type);
+                // return;
+                if (this.time_edit.approve_other_desc == '' || !this.time_edit.approve_other_type){
                    this.message = "กรุณาบันทึกข้อมูลเพิ่มเติมในการอนุมัติตามระเบียบ ข้อบังคับ ข้อบัญญัติ ว่าด้วยการพัสดุของหน่วยงาน";
                     return;
                 }
             }
-            if ((this.arrShowDetail1.includes(parseInt(this.time_edit.approve_type)) || this.time_edit.approve_other_type) && (!this.time_edit.approve_case ||this.time_edit.approve_case == '')){
+            if ((this.arrShowDetail1.includes(parseInt(this.time_edit.approve_type)) || this.time_edit.approve_other_type) && (!this.time_edit.approve_case ||this.time_edit.approve_case == '') && !this.time_edit.approve_other_type == 4){
                 this.message = 'กรุณาใส่ข้อมูลในช่อง "กรณี"';
                 return;
 

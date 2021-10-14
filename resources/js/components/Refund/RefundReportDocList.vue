@@ -96,12 +96,13 @@
                                         <b>กรณีเหตุการณ์ความไม่สงบทางการเมือง</b>
                                     </p>
                                      -->
+                                     
                                     <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1 + approve_type_1.length}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">ว 168 หรือ ว 291 </span>ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 1 + approve_type_1.length}}. หนังสืออนุมัติงดหรือลดค่าปรับ หรือขยายเวลาตาม <span class="show-list">{{get_doc_no(form.name3)}} </span>ตามที่ขอถอนคืนในครั้งนี้ ที่ผู้มีอำนาจลงนามอนุมัติ
 
                                     </p>
                                         <p  class="head">
-                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2 + approve_type_1.length}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">ว 168 หรือ ว 291 </span> ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
+                                        <i class="far fa-square fa-lg"></i> {{contract_time_edit.length + 2 + approve_type_1.length}}. หนังสือผู้รับจ้างขอรับความช่วยเหลือตาม <span class="show-list">{{get_doc_no(form.name3)}} </span> ที่แสดงวันที่หน่วยงานรับเรื่องไว้อย่างชัดเจน 
                                     </p>
                                 </div>
                                 <div v-if="form.type > 1 || approve_type_2.length > 0 || approve_type_3.length > 0 || approve_other_type.filter(x=>x.approve_other_type > 1).length > 0">
@@ -241,7 +242,8 @@ export default {
         },
         approve_other_type(){ //อื่นๆ
             return this.contract_time_edit.filter(x=>x.approve_type==99);
-        }
+        },
+        
     },
     created(){
 
@@ -299,6 +301,12 @@ export default {
             return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
             //return moment(String(value)).format('LL')
         },
+        get_doc_no(name){
+            let start = name.indexOf(" ว");
+            let stop = name.indexOf(" (");
+            return name.slice(start,stop < 0 ? name.length : stop);
+            // console.log("show : " + name.slice(start,stop < 0 ? name.length : stop));
+        }
     }
 }
 </script>

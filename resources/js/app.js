@@ -738,6 +738,7 @@ const store = new Vuex.Store({
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (2)', value: 31},
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32},
                 {text: 'หนังสือ กวพ. ว 168 / ว 291', value: 40},
+                {text: 'หนังสือ กวจ. ว 171 / ว 423', value: 41},
                 {text: 'อื่นๆ', value: 99}
             ]
             return state.arrApproveType
