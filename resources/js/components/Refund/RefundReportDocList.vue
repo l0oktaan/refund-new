@@ -55,11 +55,11 @@
                                                     <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
                                                 </p>                                                                                
                                             </div>
-                                            <div v-else-if="approve_type_3.findIndex(x=>x.id == item.id)>=0">                                       
+                                        <div v-else-if="approve_type_3.findIndex(x=>x.id == item.id)>=0">                                       
                                             <p  class="head">
-                                                    <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
-                                                </p>                                                                                
-                                            </div>
+                                                <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{getApproveType(item.approve_type)}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
+                                            </p>                                                                                
+                                        </div>
                                             <div v-else-if="approve_other_type.findIndex(x=>x.id == item.id)>=0">                                       
                                             <p  class="head">
                                                 <i class="far fa-square fa-lg"></i> {{index+1+check_has_type_1(index)}}. หนังสือส่วนราชการอนุมัติ<span class="show-list">{{getEditType(item.edit_type)}}</span> จำนวน<span class="show-list">{{item.edit_days}}</span>วัน ตาม<span class="show-list">{{item.approve_other_desc + ' (' + item.approve_other_type + ')'}}</span> กรณี<span class="show-list">{{item.approve_case}}</span> ที่ผู้มีอำนาจลงนามอนุมัติ และเอกสารอื่นที่เกี่ยวข้อง
@@ -192,6 +192,7 @@ export default {
             ],
             approveTypeGroup2 : [21,24,34,30],
             approveTypeGroup3 : [22,23,31,32],
+            approveTypeGroup4 : [41,42],
             count_group_1: 0,
             count_group_2: 0,
             count_group_3: 0,
@@ -231,7 +232,7 @@ export default {
             return this.count_group_3;
         },
         approve_type_1(){ //มติ ครม.
-            return this.contract_time_edit.filter(x=>x.approve_type > 10 && x.approve_type <20);
+            return this.contract_time_edit.filter(x=>(x.approve_type > 10 && x.approve_type <20) || (x.approve_type >= 40 && x.approve_type <50));
             // this.refund_filter = this.refunds.filter(x=>x.contracts.findIndex(y=>y.contract_party.search(this.filter)>=0)>=0 || x.contracts.findIndex(z=>z.contract_no.search(this.filter)>=0)>=0 || x.approve_code.search(this.filter)>=0);
         },
         approve_type_2(){ //ระเบียบพัสดุ (1)
