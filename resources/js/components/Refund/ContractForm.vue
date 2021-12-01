@@ -18,7 +18,7 @@
             <validation-observer ref="observer" v-slot="{ passes }">
             <b-form @submit.stop.prevent="passes(onContractSubmit)" >
                 <b-row>
-                    <b-col sm="8">
+                    <b-col sm="6">
                         <validation-provider
                             name="ชื่อคู่สัญญา"
                             :rules="{ required: true, min: 5 }"
@@ -38,7 +38,7 @@
                         </validation-provider>
                     </b-col>
 
-                    <b-col sm="4">
+                    <b-col sm="3">
                         <validation-provider
                             name="สัญญาเลขที่"
                             :rules="{ required: true, min: 5 }"
@@ -88,7 +88,7 @@
                         </b-form-group>
 
                     </b-col>
-                    <b-col cols="2">
+                    <b-col cols="3">
                         <b-form-group label="หน่วยสกุลเงิน :" v-slot="{ ariaDescribedby }">
                             <b-form-radio-group
                                 
