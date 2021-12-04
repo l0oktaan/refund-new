@@ -120,7 +120,7 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="4" v-if="time_edit.approve_type == 99">
+                                <b-col sm="6" v-if="time_edit.approve_type == 99">
                                     <b-form-group>
                                         <label for="approve_type">เข้าตามกรณี :<span class="require">*</span></label>
                                         <b-form-select
@@ -130,7 +130,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="8" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_other_type && time_edit.approve_other_type < 4)">
+                                <b-col sm="6" v-if="arrShowDetail1.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_other_type && (time_edit.approve_other_type < 4 || time_edit.approve_other_type == 10))">
                                     <b-form-group>
                                         <label for="approve_case">กรณี :</label>
                                         <b-form-input type="text"
@@ -252,6 +252,7 @@ export default {
             arrApproveOtherType: [
                 {text: 'ตัวเลือก', value : null},
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
+                {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยการบริหารราชการส่วนท้องถิ่น', value : 10},
                 {text: '(2) เหตุสุดวิสัย', value : 2},
                 {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3},
                 {text: 'อื่น', value : 4}

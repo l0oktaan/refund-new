@@ -277,6 +277,7 @@
                                 :contract_time_edit = "time_edits"
                                 :delivery = "delivers"
                                 :deposit_penalty = "deposits"
+                                :approve = "approves[0]"
                             ></refund-report-doc-list>
                         </div>
                     </div>
@@ -317,6 +318,7 @@ export default {
             arrApproveOtherType: [
                 {text: 'ตัวเลือก', value : null},
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
+                {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยการบริหารราชการส่วนท้องถิ่น', value : 10},
                 {text: '(2) เหตุสุดวิสัย', value : 2},
                 {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
             ],
