@@ -516,7 +516,7 @@ export default {
                 approve = approve.replace('ตาม','');
 
                 await this.createTimeLine({
-                    name : 'อนุมัติงด ลด ค่าปรับ (' + approve + ') ' + this.approves[i].refund_days + ' วัน',
+                    name : approve.includes('693') ? 'แก้ไขสัญญาโดยคิดค่าปรับในอัตราร้อยละ 0 (' + approve + ') ' + this.approves[i].refund_days + ' วัน' : 'อนุมัติงด ลด ค่าปรับ (' + approve + ') ' + this.approves[i].refund_days + ' วัน',
                     type: 'approve',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
@@ -653,7 +653,7 @@ export default {
         },
 
         createTimeLine(item){
-            console.log('create :' + item.name)
+            
             this.$nextTick(()=>{
                 this.time_line.push(item)
             })
