@@ -497,6 +497,9 @@ Vue.component('ContractForm', ContractForm).defaults;
 import ContractEdit from './components/Refund/ContractEdit.vue';
 Vue.component('ContractEdit', ContractEdit).defaults;
 
+import ContractScheduleEdit from './components/Refund/ContractScheduleEdit.vue';
+Vue.component('ContractScheduleEdit', ContractScheduleEdit).defaults;
+
 import ContractTimeEdit from './components/Refund/ContractTimeEdit.vue';
 Vue.component('ContractTimeEdit', ContractTimeEdit).defaults;
 

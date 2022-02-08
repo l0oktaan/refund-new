@@ -66,10 +66,17 @@
                                                             <p class="head sub">วงเงินในสัญญา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}  ค่าปรับ<span v-if="contract.penalty_type==1">วันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}</span><span v-if="contract.penalty_type==2">ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน</span></p>
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
 
-                                                            <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ</p>
+                                                            <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ {{refund.refund.contract_schedule_edits ? 'หรือมีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา' : ''}}</p>
+                                                            <div v-if="refund.refund.contract_schedule_edits.length > 0">
+                                                                <div v-for="(contract_edit,index) in refund.refund.contract_schedule_edits" :key="index">
+                                                                    <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                                    <p class="head sub2">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
+                                                                    
+                                                                </div>
+                                                            </div>
                                                             <div v-if="refund.refund.contract_edits.length > 0">
                                                                 <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
-                                                                    <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                                    <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits.length+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
                                                                 </div>
                                                             </div>

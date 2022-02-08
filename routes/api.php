@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:api'],function() {
         Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController');
         Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController');
         Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
+        Route::apiResource('/{office}/refunds/{refund}/contract_schedule_edits','ContractScheduleEditController');
         Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');
         Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
         Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
@@ -44,7 +45,6 @@ Route::group(['middleware' => 'auth:api'],function() {
         Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_reports','ReportController');
-
         Route::apiResource('/{office}/refunds/{refund}/refund_status','RefundStatusController');
 
         //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');

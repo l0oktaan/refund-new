@@ -192,9 +192,15 @@
         </b-row>
         <b-row class="justify-content-md-center">
             <b-col cols="12">
+                <contract-schedule-edit :refund_id="refund_id" :office_id="office_id"></contract-schedule-edit>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center">
+            <b-col cols="12">
                 <contract-edit :refund_id="refund_id" :office_id="office_id"></contract-edit>
             </b-col>
         </b-row>
+        
 
     </div>
 </template>

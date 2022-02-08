@@ -74,6 +74,7 @@ class Refunds extends Resource
                 'complete_description' => $this->complete_description,
                 'contracts' => ContractResource::collection($this->contracts),
                 'contract_edits' => ContractBudgetEditResource::collection($this->contract_budget_edits),
+                'contract_schedule_edits' => ContractScheduleEditResource::collection($this->contract_schedule_edits),
                 'delivers' => DeliverResource::collection($this->delivers),
                 'status' => $this->status,
             ];

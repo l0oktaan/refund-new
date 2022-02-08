@@ -1,18 +1,18 @@
 <template>
-    <div class="animated fadeIn">
+    <div class="card animated fadeIn">
         <my-alert :AlertType="alert"></my-alert>
         <b-row>
-            <b-col>
-                <div>
-                    <span class="edit_contract">
-                        <span style="color:#000;">มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+            <b-col sm="5">
+                <div class="edit_contract">                    
+                        <h5 style="color:#000;"><i class="fas fa-money-check-alt fa-2x"></i>  มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : </h5>
+                        <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                             :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                             :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
-                            style="padding-top:4px; line-height:0px;"
+                            style="padding-top:4px; line-height:0px; margin-left:auto"
                             :disabled="isDisable"
                             v-model="isEdit"
                         />
-                    </span>
+                    
                 </div>
             </b-col>
         </b-row>
@@ -23,7 +23,7 @@
                         <b-card-body class="pb-0 list ">
                         <b-row>
                                 <b-col>
-                                    <h5><i class='fas fa-edit'></i> รายละเอียดการแก้ไขสัญญา <span class="detail"> (เฉพาะที่เปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ)</span></h5>
+                                    <h5><i class='fas fa-money-check-alt fa-2x'></i> รายละเอียดการแก้ไขสัญญา <span class="detail"> (เฉพาะที่เปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ)</span></h5>
                                 </b-col>
                         </b-row>
                             <b-row>
@@ -116,7 +116,7 @@
                 </table>
             </b-col>
         </b-row>
-
+        
 
 
     </div>
@@ -148,7 +148,8 @@ export default{
                 },
             },
             isEdit: false,
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            isScheduleEdit: false
         }
     },
     mounted(){
@@ -340,15 +341,25 @@ export default{
 .frm{
     margin-top: 10px!important;
 }
+
 .edit_contract{
-
-
+    display: flex;
+    justify-content: space-between;
+    /* align-items: baseline; */
+    width: 100%;
     margin-bottom: 10px;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
     background-color: rgb(255, 175, 83);
 }
+.edit_contract span{
+    padding-top: 5px;
+}
 .table{
     margin-top: 10px;;
+}
+.card{
+    padding: 10px;
+    border-color: #000;
 }
 </style>

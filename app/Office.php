@@ -40,6 +40,16 @@ class Office extends Model
         );
     }
 
+    public function contract_schedule_edits(){
+        return $this->hasManyThrough(
+            'App\ContractScheduleEdit',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+
+        );
+    }
+
     public function contract_time_edits(){
         return $this->hasManyThrough(
             'App\ContractTimeEdit',
