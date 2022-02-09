@@ -76,7 +76,7 @@
                                                             </div>
                                                             <div v-if="refund.refund.contract_edits.length > 0">
                                                                 <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
-                                                                    <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits.length+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                                    <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
                                                                 </div>
                                                             </div>
