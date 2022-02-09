@@ -4,7 +4,7 @@
         <b-row>
             <b-col sm="5">
                 <div class="edit_contract">                    
-                        <h5 style="color:#000;"><i class="fas fa-money-check-alt fa-2x"></i>  มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : </h5>
+                        <h6 style="color:#000;"><i class="fas fa-money-check-alt fa-2x"></i>  มีการเปลี่ยนแปลงวงเงินค่าจ้างและอัตราค่าปรับ : </h6>
                         <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                             :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                             :color="{checked: '#41831b', unchecked: '#7c7c7c'}"

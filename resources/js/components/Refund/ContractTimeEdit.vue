@@ -108,6 +108,12 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
+                                <b-col sm="4" v-if="time_edit.approve_type > 10 && time_edit.approve_type < 20">                                    
+                                    <b-form-group>
+                                        <label for="receive_book_date">วันที่หน่วยงานได้รับหนังสือขอรับความช่วยเหลือ :</label>
+                                        <my-date-picker ref="receive_book_date" :id="14" :showDate="date_receive_book" @update="value => date_receive_book = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
                                 <b-col sm="8" v-if="time_edit.approve_type == 99">
                                     <b-form-group>
                                         <label for="approve_case">ข้อมูลเพิ่มเติม :<span class="require">*</span></label>
@@ -183,6 +189,7 @@
                                     >
                                         <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==40">ระบุเวลาให้อยู่ในช่วงเดือนพฤศจิกายน 2556 ถึง พฤษภาคม 2557 เท่านั้น</p>
                                         <p style="text-align:justify" v-if="parseInt(time_edit.approve_type)==41">ระบุเวลาตั้งแต่ เดือนมีนาคม 2563 เป็นต้นไป</p>
+                                        <p style="text-align:justify" v-if="(parseInt(time_edit.approve_type) > 10) && (parseInt(time_edit.approve_type) < 20)">วันที่หน่วยงานได้รับหนังสือขอรับความช่วยเหลือ ไม่อยู่ในกำหนดเวลาการยื่นขอรับความช่วยเหลือตามมติ ครม. ดังกล่าว</p>
                                         <p style="text-align:justify" v-else>{{messageRule}}</p>
                                     </b-alert>
                                     <show-alert :message="message" delay="2" @clearMessage="clearMessage"></show-alert>
@@ -289,6 +296,7 @@ export default {
             date_contract_end: '',
             date_problem_end: '',
             date_book: '',
+            date_receive_book: '',
             date_edit_start: '',
             date_edit_end: '',
             edit_days: null,
@@ -316,7 +324,7 @@ export default {
     watch: {
         
         date_edit_start(newDate, oldDate){
-
+            
             if (this.date_edit_start != '' && this.date_edit_end){
                 if (!this.checkDate(newDate,this.date_edit_end)){
                     this.$nextTick(() => {
@@ -330,7 +338,7 @@ export default {
             }
         },
         date_edit_end(newDate, oldDate){
-
+            
             if (this.date_edit_end != '' && this.date_edit_start){
                 if (!this.checkDate(this.date_edit_start,newDate)){
                     this.$nextTick(() => {
@@ -344,10 +352,14 @@ export default {
             }
         },
         cal_edit_days(newVal,oldVal){
+            
             this.edit_days = newVal;
             this.$forceUpdate();
         },
         date_problem_end(newDate, oldDate){
+            if (this.isCabinet){
+                return;
+            }
             console.log('type :' + this.time_edit.approve_type);
             if (this.date_problem_end != '' && this.date_book){
                 if (!this.checkDate(newDate,this.date_book)){
@@ -412,9 +424,33 @@ export default {
                 }
             }
         },
+        date_receive_book(newDate,oldDate){    
+                   
+            if (newDate != ''){
+                if (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20){
+                    const arr = this.arrApproveType.filter(x=>x.value == this.time_edit.approve_type)
+                    const approve = arr[0]
+                    const begin_date = new Date(approve.startDate);
+                    const end_date = new Date(approve.endDate);
+                    const checkDate = new Date(newDate);
+                    
+                    if (checkDate < begin_date || checkDate > end_date){
+                       
+                        this.showRuleAlert = true;
+                    }else{
+                        this.showRuleAlert = false;
+                    }
+                    return;
+                }
+            }
+        },
         date_book(newDate,oldDate){
             
+            if (this.isCabinet){
+                return;
+            }
             if (this.date_book != '' && this.date_problem_end){
+                
                 if (!this.checkDate(this.date_problem_end,newDate)){
                     this.$nextTick(() => {
                         this.date_book = oldDate;
@@ -427,8 +463,7 @@ export default {
                         
                         let effect_start_date = new Date(2013,10,1,7,0,0);
                         let effect_end_date = new Date(2014,4,31,7,0,0);
-                        console.log('end : ' + checkDate);
-                        console.log('checkend : ' + effect_end_date);
+                        
                         if (checkDate < effect_start_date || checkDate > effect_end_date){
                             this.showRuleAlert = true;
                         }else{
@@ -457,6 +492,7 @@ export default {
                    
                 }
             }else{
+                
                 if(parseInt(this.time_edit.approve_type) == 40){
                     // console.log('date str :' + this.date_book);
                     let checkDate = new Date(newDate);
@@ -485,7 +521,7 @@ export default {
     },
     methods: {
         checkRule(){
-            if (parseInt(this.time_edit.approve_type) >= 40){
+            if (parseInt(this.time_edit.approve_type) >= 40 || (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20)){
                 this.showRuleAlert = false;
                 return true;
             }
@@ -541,6 +577,12 @@ export default {
                 return;
 
             }
+            if (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20){
+                if (!this.date_receive_book || this.showRuleAlert){
+                    this.message = `กรุณาใส่ข้อมูลในช่อง "วันที่หน่วยงานได้รับหนังสือขอรับความช่วยเหลือ" ให้ถูกต้อง`;
+                    return;
+                }
+            }
             if (!this.checkRule()){
                 return;
             }
@@ -561,7 +603,8 @@ export default {
                     approve_other_type: this.time_edit.approve_other_type,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
-                    book_date: this.date_book
+                    book_date: (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? this.date_receive_book : this.date_book
+                    // book_date: this.date_book
                 })
                 .then(response=>{
 
@@ -592,7 +635,7 @@ export default {
                     approve_other_type: this.time_edit.approve_other_type,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
-                    book_date: this.date_book
+                    book_date: (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? this.date_receive_book : this.date_book
                 })
                 .then(response=>{
                     this.alert = 'success';
@@ -615,7 +658,11 @@ export default {
                 this.date_edit_start = value.edit_start_date;
                 this.date_edit_end = value.edit_end_date;
                 this.edit_days = value.edit_days;
+                
                 this.$nextTick(() => {
+                    if (value.approve_type > 10 && value.approve_type < 20){
+                        this.date_receive_book = value.book_date
+                    }
                     this.date_problem_end = value.problem_end_date;
                     this.date_book = value.book_date;
                 })
@@ -680,6 +727,9 @@ export default {
         checkEffectDate(){
 
         },
+        isCabinet(){
+            return (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? true : false;
+        },
         checkDate(date1,date2){
             //console.log('check date : '+ date1 + ' and ' + date2);
             var d1 = new Date(date1);
@@ -723,6 +773,7 @@ export default {
             this.date_edit_end = null;
             this.edit_days = null;
             this.cal_edit_days = null;
+            this.date_receive_book = null;
             this.$forceUpdate();
             //this.showCalendar();
         }

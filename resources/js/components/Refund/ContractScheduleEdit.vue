@@ -4,15 +4,14 @@
         <b-row>
             <b-col sm="5">
                 <div class="edit_schedule">                    
-                        <h5 style="color:#000;"><i class='far fa-calendar-alt fa-2x'></i>  มีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา : </h5>
+                        <h6 style="color:#000;"><i class='far fa-calendar-alt fa-2x'></i>  มีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา : </h6>
                         <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                             :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                             :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                             style="padding-top:4px; line-height:0px;"
                             :disabled="isDisable"
                             v-model="isEdit"
-                        />
-                    
+                        />                    
                 </div>
             </b-col>
         </b-row>

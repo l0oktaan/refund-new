@@ -386,6 +386,10 @@ export default {
     computed: {
         sort_timeline(){
             return this.time_line.sort(function(a, b) {
+                console.log(a.type + ' ' + b.type)
+                if (a.type == 'contract' || b.type == 'contract'){
+                    return
+                }
                 return a.start - b.start;
             });
         }
@@ -445,6 +449,32 @@ export default {
                     borderColor: "gray",                   
                     
                 })
+                if (this.refund.refund.contract_schedule_edits && this.refund.refund.contract_schedule_edits.length > 0){
+                    for (let i=0;i<this.refund.refund.contract_schedule_edits.length;i++){
+                        let edit_start = await null;
+                        let edit_end = await null;
+                        if (this.refund.refund.contract_schedule_edits[i].contract_new_start_date){
+                            edit_start = await new Date(this.refund.refund.contract_schedule_edits[i].contract_new_start_date)
+                        }else{
+                            edit_start = await start
+                        }
+                        if (this.refund.refund.contract_schedule_edits[i].contract_new_end_date){
+                            edit_end = await new Date(this.refund.refund.contract_schedule_edits[i].contract_new_end_date)
+                        }else{
+                            edit_end = await end
+                        }
+                        await this.createTimeLine({
+                            name: ' มีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา วันที่ ' + this.getThaiDate(this.refund.refund.contract_schedule_edits[i].contract_edit_date),
+                            type: 'schedule_edit',
+                            start: Date.UTC(edit_start.getFullYear(),edit_start.getMonth(),edit_start.getDate()),
+                            end: Date.UTC(edit_end.getFullYear(),edit_end.getMonth(),edit_end.getDate()),
+                            color: "#ffe6e6",
+                            borderWidth: "1",
+                            borderColor: "gray",                   
+                            
+                        })
+                    }
+                }
                 await this.$forceUpdate();
 
 
@@ -452,6 +482,7 @@ export default {
 
 
         },
+
         async getContractTimeEdit(){
             var path = await  `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
             let response = await axios.get(`${path}`)
@@ -553,7 +584,7 @@ export default {
             return this.arrEditType[index].text;
         },
         getApproveType(value){
-            console.log('Get Approve Type :' + value);
+            //console.log('Get Approve Type :' + value);
             var index = this.arrApproveType.findIndex(x => x.value == value);
             return this.arrApproveType[index].text;
         },
