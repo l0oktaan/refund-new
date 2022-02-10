@@ -55,7 +55,7 @@
                     <h6 :class="refund_s < 6 ? 'mute' : ''">ขั้นตอนที่ 6 : <i :class="refund_s > 6 ? icon_check : icon_uncheck"></i></h6>
                     <span :class="refund_s < 6 ? 'mute' : ''">สรุปข้อมูลการขออนุมัติ</span>
                 </template>
-                <refund-summary :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id"></refund-summary>
+                <refund-summary :refund_id="refund_id" @refund_update="checkRefundStatus" :office_id = "office_id" :forms="forms"></refund-summary>
             </b-tab>
             <b-tab v-if="refund_s >= 2" :disabled="refund_s < 7">
                 <template slot="title">

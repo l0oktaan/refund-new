@@ -36,7 +36,7 @@
 
                                 <b-form-group
                                     label-cols-sm="6"
-                                    label="หน่วยงานอนุมัติให้งด ลดค่าปรับ ตั้งแต่วันที่:"
+                                    :label = "forms[0].form.name3.includes('693') ? 'หน่วยงานอนุมัติให้แก้ไขอัตรค่าปรับเป็นร้อยละ 0 ตั้งแต่วันที่:' : 'หน่วยงานอนุมัติให้งด ลดค่าปรับ ตั้งแต่วันที่:'"
                                     label-align-sm="right"
                                     label-for="approve_refund_days"
                                 >
@@ -144,7 +144,7 @@
 
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button  type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
-                                </div>
+                                </div>                                
                             </b-col>
                         </b-row>
 
@@ -156,7 +156,7 @@
 </template>
 <script>
 export default {
-    props: ['refund_id','office_id'],
+    props: ['refund_id','office_id','forms'],
     data(){
         return {
             r_id: this.$route.params.id,
@@ -178,10 +178,12 @@ export default {
                     numeralDecimalScale: 2,
                 },
             },
+            form : [],
             refund_status: this.$store.getters.refund_status
         }
     },
     mounted(){
+
         this.fetchData();
     },
     computed: {
@@ -219,9 +221,12 @@ export default {
     },
     methods: {
         async fetchData(){
-            var path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
+            // var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
+            // //var refund_form_id = 0;
+            // var res = await axios.get(`${path}`)
+            // this.form = await res.data.data
+            const path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
             let response = await axios.get(`${path}`)
-
                 if (response.data.data.length > 0){
                     this.approve = await response.data.data[0];
 

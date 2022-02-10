@@ -241,9 +241,9 @@
                                                     <div class="main_order">
                                                             <p class="head">5. การขอถอนคืนเงินค่าปรับแก่ผู้มีสิทธิ</p>
                                                             <div v-for="(approve,index) in approves" :key="index">
-                                                                <p class="head sub" v-if="approve.refund_days != approve.refund_money">หน่วยงานอนุมัติงดหรือลดค่าปรับ จำนวน <span class="show">{{approve.refund_days}} </span>วัน </p>
+                                                                <p class="head sub" v-if="approve.refund_days != approve.refund_money">{{refund.form.name3.includes('693') ? 'หน่วยงานอนุมัติแก้ไขอัตราค่าปรับเป็นร้อยละ 0' : 'หน่วยงานอนุมัติ งดหรือลดค่าปรับ จำนวน '}}<span class="show">{{approve.refund_days}} </span>วัน </p>
                                                                 <p class="head sub" v-if="approve.refund_days != approve.refund_money"><span>และคืนค่าปรับ จำนวน <span class="show">{{approve.refund_money}} </span> วัน</span> เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
-                                                                <p class="head sub" v-if="approve.refund_days == approve.refund_money">หน่วยงานอนุมัติงดหรือลดค่าปรับหรือคืนค่าปรับ จำนวน <span class="show">{{approve.refund_days}} </span>วัน เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
+                                                                <p class="head sub" v-if="approve.refund_days == approve.refund_money">{{refund.form.name3.includes('693')? 'หน่วยงานคิดค่าปรับในอัตราร้อยละ 0' : 'หน่วยงานอนุมัติงดหรือลดค่าปรับหรือคืนค่าปรับ'}} จำนวน <span class="show">{{approve.refund_days}} </span>วัน เป็นเงิน <span class="show">{{approve.refund_amount | numeral('0,0.00')}}</span> บาท</p>
                                                                 <p class="head sub"></p>
                                                                 <p class="head sub">หน่วยงานขออนุมัติถอนคืน จำนวน <span class="show">{{approve.approve_amount | numeral('0,0.00')}} </span> บาท</p>
                                                             </div>
