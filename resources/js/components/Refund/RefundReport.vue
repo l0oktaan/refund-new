@@ -80,7 +80,7 @@
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
                                                                 </div>
                                                             </div>
-                                                            <p class="head sub" v-else>-ไม่มี-</p>
+                                                            <p class="head sub" v-if="refund.refund.contract_schedule_edits.length == 0 || refund.refund.contract_edits.length == 0">-ไม่มี-</p>
                                                         </div>
                                                     </div>
                                                     <div class="main_order">
