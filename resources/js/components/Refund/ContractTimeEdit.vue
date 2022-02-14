@@ -45,7 +45,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="3" v-if="time_edit && time_edit.edit_type == 4">
+                                <!-- <b-col sm="3" v-if="time_edit && time_edit.edit_type == 4">
                                     <b-form-group >
                                         <label for="edit_detail">ระบุ :</label>
                                         <b-form-input type="text"
@@ -55,8 +55,8 @@
                                         >
                                         </b-form-input>
                                     </b-form-group>
-                                </b-col>
-                                 <b-col sm="3" v-if="time_edit.edit_type == 2 || time_edit.edit_type == 3">
+                                </b-col> -->
+                                 <b-col sm="3" v-if="time_edit.edit_type > 1">
                                     <b-form-group>
                                         <label for="edit_budget">จำนวนเงิน :<span class="require" v-if="time_edit.edit_type == 3">*</span></label>
                                         <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
@@ -252,9 +252,11 @@ export default {
             r_id: this.$route.params.id,
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
-                {text: 'ขยายเวลา', value : 1},
+                {text: 'ขยายเวลา', value : 1},                
+                {text: 'งดค่าปรับ', value : 4},
+                {text: 'ลดค่าปรับ', value : 5},
                 {text: 'งดหรือลดค่าปรับ', value : 2},
-                {text: 'คืนเงินค่าปรับ', value : 3}
+                {text: 'คืนเงินค่าปรับ', value : 3}                
             ],
             arrApproveOtherType: [
                 {text: 'ตัวเลือก', value : null},

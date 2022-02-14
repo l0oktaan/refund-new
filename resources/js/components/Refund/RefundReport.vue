@@ -205,9 +205,9 @@
                                                         <p class="head">3. รายละเอียดการส่งมอบงาน (เฉพาะที่มีค่าปรับ)</p>
                                                         <div v-for="(deliver,index) in delivers" :key="index">
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
+                                                            <p class="head sub2" >เกินกำหนดสัญญาตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
                                                             <p class="head sub2" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
-                                                            <p class="head sub2" v-if="deliver.overdue_days">เกินกำหนด <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span> บาท</p>
-                                                            <p class="head sub2" v-if="deliver.overdue_days">ตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
+                                                            <p class="head sub2" v-if="deliver.overdue_days">คิดค่าปรับ <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span> บาท</p>                                                            
                                                         </div>
                                                     </div>
                                                 </td>
@@ -518,7 +518,7 @@ export default {
                 let end = await  new Date(this.delivers[i].overdue_end_date);
 
                 await this.createTimeLine({
-                    name : 'ค่าปรับงาน' + this.delivers[i].delivery,
+                    name : 'ค่าปรับงาน' + this.delivers[i].delivery + ((!this.delivers[i].penalty) ? ' (ไม่มีค่าปรับ)' : ''),
                     type: 'delivery',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),

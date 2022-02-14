@@ -94,6 +94,20 @@
                                 </div>
                             </b-col>
                         </b-row>
+                        <b-row v-if="!hasPenalty" class="animated fadeIn fadeOut">
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <label for="date_start">วันที่เริ่มหากต้องคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
+                                    <my-date-picker ref="date_start" id="'1' + date_start" :showDate="date_start" @update="value => date_start = value"></my-date-picker>
+                                </b-form-group>
+                            </b-col>
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <label for="date_end">วันที่สิ้นสุดหากต้องคิดค่าปรับ : <span class="require">*</span><span class="detail"></span></label>
+                                    <my-date-picker ref="date_end" id="'2' + date_end" :showDate="date_end" @update="value => date_end = value"></my-date-picker>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>    
                         <b-row v-if="hasPenalty" class="animated fadeIn fadeOut">
                             <b-col cols="3">
                                 <b-form-group>
@@ -373,6 +387,12 @@ export default {
 
                     }else{
                         this.hasPenalty = false;
+                        this.$nextTick(() => {
+                            this.date_start = item.overdue_start_date;
+                            this.date_end = item.overdue_end_date;
+                            
+
+                        })
                     }
 
                     this.$forceUpdate();
