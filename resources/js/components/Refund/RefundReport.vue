@@ -202,7 +202,7 @@
                                             <tr>
                                                 <td style="width: 435px">
                                                     <div class="main_order">
-                                                        <p class="head">3. รายละเอียดการส่งมอบงาน (เฉพาะที่มีค่าปรับ)</p>
+                                                        <p class="head">3. รายละเอียดการส่งมอบงานเกินกำหนดสัญญา</p>
                                                         <div v-for="(deliver,index) in delivers" :key="index">
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub2" >เกินกำหนดสัญญาตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
