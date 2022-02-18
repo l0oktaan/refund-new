@@ -207,15 +207,15 @@
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub2" >เกินกำหนดสัญญาตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
                                                             <p class="head sub2" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
-                                                            <p class="head sub2" v-if="deliver.overdue_days">คิดค่าปรับ <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span>{{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์'}}</p>                                                            
+                                                            <p class="head sub2" v-if="deliver.overdue_days">คิดค่าปรับ <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span>{{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์สหรัฐ'}}</p>                                                            
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="width: 379px"></td>
                                                 <td style="width: 270px">
                                                     <p class="head">รวมส่งมอบงานล่าช้า <span class="show">{{getOverdueDays()}}</span> วัน</p>
-                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์'}}</p>
-                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์'}}</p>
+                                                    <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์สหรัฐ'}}</p>
+                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currentcy_unt == 'THB' ? 'บาท' : 'ดอลลาห์สหรัฐ'}}</p>
                                                 </td>
                                             </tr>
                                             <tr>

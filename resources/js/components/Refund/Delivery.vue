@@ -145,13 +145,13 @@
 
                             <b-col cols="3">
                                 <b-form-group>
-                                    <label for="penalty">จำนวนเงินที่ต้องปรับ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์)'}} <span class="require">*</span></label>
+                                    <label for="penalty">จำนวนเงินที่ต้องปรับ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์สหรัฐ)'}} <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="3">
                                 <b-form-group>
-                                    <label for="penalty">จำนวนเงินที่ปรับไว้ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์)'}} <span class="require">*</span></label>
+                                    <label for="penalty">จำนวนเงินที่ปรับไว้ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์สหรัฐ)'}} <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty_accept" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
@@ -185,7 +185,7 @@
                     <th scope="col" style="width: 15%">วันที่ส่งมอบ</th>
                     <th scope="col" style="width: 30%">รายละเอียดส่งมอบ</th>
                     <th scope="col" style="width: 15%">เกินกำหนด (วัน)</th>
-                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน {{currency_unit == 'BHT' ? '(บาท)' : '(ดอลลาห์)'}}</th>
+                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน {{currency_unit == 'BHT' ? '(บาท)' : '(ดอลลาห์สหรัฐ)'}}</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
             </thead>
