@@ -145,13 +145,13 @@
 
                             <b-col cols="3">
                                 <b-form-group>
-                                    <label for="penalty">จำนวนเงินที่ต้องปรับ : (บาท) <span class="require">*</span></label>
+                                    <label for="penalty">จำนวนเงินที่ต้องปรับ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์)'}} <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="3">
                                 <b-form-group>
-                                    <label for="penalty">จำนวนเงินที่ปรับไว้ : (บาท) <span class="require">*</span></label>
+                                    <label for="penalty">จำนวนเงินที่ปรับไว้ : {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาห์)'}} <span class="require">*</span></label>
                                     <cleave placeholder="จำนวนเงิน" name="penalty" v-model="delivery.penalty_accept" class="form-control" :options="cleave_options.number"></cleave>
                                 </b-form-group>
                             </b-col>
@@ -185,7 +185,7 @@
                     <th scope="col" style="width: 15%">วันที่ส่งมอบ</th>
                     <th scope="col" style="width: 30%">รายละเอียดส่งมอบ</th>
                     <th scope="col" style="width: 15%">เกินกำหนด (วัน)</th>
-                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน (บาท)</th>
+                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน {{currency_unit == 'BHT' ? '(บาท)' : '(ดอลลาห์)'}}</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
             </thead>
@@ -244,6 +244,7 @@ export default {
             message: '',
             refund_status: this.$store.getters.refund_status,
             showAlert: false,
+            currency_unit: ''
 
         }
     },
@@ -305,10 +306,24 @@ export default {
             }
         }
     },
-    mounted(){
-        this.fetchData();
+    async mounted(){
+        await this.fetchData();
+        await this.fetchContract();
     },
     methods: {
+        fetchContract(){
+            var contract = {};
+            var path = `/api/offices/${this.office_id}/refunds/${this.r_id}/contracts`;
+            axios.get(`${path}`)
+            .then(response=>{
+                if (response.data.data.length > 0){
+                    const res = response.data.data[0];
+                    this.currency_unit = res[0].currency_unit;                   
+                    this.$forceUpdate();
+                }
+            })
+            
+        },
         clearMessage(){
             this.message = ''
         },
@@ -317,7 +332,6 @@ export default {
             // var d2 = new Date(d2);
             console.log('dateDiff :' + d1 + ' : ' + d2);
             if (d2.toString() != d1.toString()){
-
                 this.message = 'ข้อมูลวันที่สิ้นสุดค่าปรับ ไม่สอดคล้องกับวันที่ส่งมอบบงาน';
                 setTimeout(function(){
                     this.message = '';
