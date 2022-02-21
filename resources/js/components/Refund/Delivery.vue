@@ -318,7 +318,7 @@ export default {
             .then(response=>{
                 if (response.data.data.length > 0){
                     const res = response.data.data[0];
-                    this.currency_unit = res[0].currency_unit;                   
+                    this.currency_unit = res.currency_unit;                   
                     this.$forceUpdate();
                 }
             })
