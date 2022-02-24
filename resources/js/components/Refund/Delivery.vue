@@ -185,7 +185,7 @@
                     <th scope="col" style="width: 15%">วันที่ส่งมอบ</th>
                     <th scope="col" style="width: 30%">รายละเอียดส่งมอบ</th>
                     <th scope="col" style="width: 15%">เกินกำหนด (วัน)</th>
-                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน {{currency_unit == 'BHT' ? '(บาท)' : '(ดอลลาร์สหรัฐ)'}}</th>
+                    <th scope="col" style="width: 15%">ถูกปรับเป็นเงิน {{currency_unit == 'THB' ? '(บาท)' : '(ดอลลาร์สหรัฐ)'}}</th>
                     <th scope="col" style="width: 10%">การดำเนินการ</th>
                 </tr>
             </thead>
@@ -318,7 +318,8 @@ export default {
             .then(response=>{
                 if (response.data.data.length > 0){
                     const res = response.data.data[0];
-                    this.currency_unit = res.currency_unit;                   
+                    this.currency_unit = res.currency_unit; 
+                    console.log( this.currency_unit);                  
                     this.$forceUpdate();
                 }
             })
