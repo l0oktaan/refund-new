@@ -69,7 +69,13 @@ class AuthController extends Controller
 
     public function sendPasswordResetLink(Request $request)
     {
-        return $this->sendResetLinkEmail($request);
+        // try {
+            // return $request;
+            return $this->sendResetLinkEmail($request);
+        // } catch (\Throwable $th) {
+            // return $th;
+        // }
+        
         // return $this->sendsPasswordResetEmail($request);
     }
 

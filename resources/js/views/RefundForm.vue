@@ -33,7 +33,7 @@
 
         <div class="animated fadeIn text-center">
             <b-button variant="primary" @click="saveRefundForm" :disabled="refund_status === 'update'">บันทึกข้อมูล</b-button>
-            <b-button variant="danger">ยกเลิก</b-button>
+            <b-button variant="danger" @click="cancelClick">ยกเลิก</b-button>
         </div>
         </b-col>
     </b-row>
@@ -257,6 +257,9 @@ export default {
                 })
             }
             return [];
+        },
+        cancelClick(){
+            this.$router.push('/')
         },
         saveRefundForm(){
             if (this.arrFormSelected.length > 0 && this.refund_status == 'new'){
