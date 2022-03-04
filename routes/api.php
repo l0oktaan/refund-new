@@ -29,7 +29,7 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['middleware' => 'auth:api'],function() {
     Route::Resource('/offices', 'OfficeController');
-
+    Route::get('/logout','Auth\LoginController@logout');
 
     Route::group(['prefix'=>'offices'],function(){
 
@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth:api'],function() {
     Route::post('/change_password','Auth\RegisterController@changePassword');
 
 
+
 });
 
 
@@ -83,7 +84,7 @@ Route::group(['middleware' => 'auth:api'],function() {
     // Route::Resource('/forms','FormController');
 
 
-Auth::routes();
-
+//Auth::routes();
+Route::post('/login','Auth\LoginController@login');
 Route::get('/profile','AuthController@index');
 

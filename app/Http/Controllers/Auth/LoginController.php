@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Log;
 class LoginController extends Controller
 {
     /*
@@ -43,19 +43,28 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        
         sleep(1);
         $credentials = $request->only('username', 'password');
 
 
         if (Auth::attempt($credentials)) {
+            Log::channel('abuse')->info('LOGIN SUCCESS ',[
+                'username' => $request->username,
+                'ip' => $request->ip()
+            ]);
             $user = Auth::user();
             $success = $user->createToken(config('app.name'))->accessToken;
             return response([
                 'data' => $user,
-                'success' => $success
+                'success' => $success,
+                'status' => Auth::check()
             ],Response::HTTP_CREATED);
         }else{
-            // return "NO";
+            Log::channel('abuse')->error('LOGIN FAILED ',[
+                'username' => $request->username,
+                'ip' => $request->ip()
+            ]);
         }
     }
 
@@ -71,16 +80,25 @@ class LoginController extends Controller
 
 
     public function logout(Request $request){
-
-        // $value = $request->bearerToken();
-        // return $request->user()->token();
-        //return $value;
-        // if (Auth::check()) {
-            // $user = Auth::user()->token();
-            // $user->revoke();
-        //     return 'logout';
-        // }
-        // $this->guard()->logout();
-        // Auth::guard('api')->logout();
+        
+        
+        
+        try{
+            
+            Log::channel('abuse')->info('LOGOUT ',[
+                'username' => Auth::user()->username,
+                'ip' => $request->ip()
+            ]);
+            if (Auth::check()) {
+                $user = Auth::user()->token();
+                $user->revoke();
+                     
+            }
+        }catch (\Throwable $th) {
+            return $th;
+        }
+        
+        
+        
     }
 }

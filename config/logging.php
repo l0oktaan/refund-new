@@ -89,6 +89,11 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+        'abuse' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/abuse.log'),
+            'level' => 'debug'            
+        ],
     ],
 
 ];

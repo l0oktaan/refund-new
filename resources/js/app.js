@@ -876,9 +876,18 @@ const store = new Vuex.Store({
             //     return
             // }
         },
-        logout({ commit }){
-            commit('clearAuthData')
-            router.push('/login')
+        async logout({ commit,state }){
+            let path = await '/api/logout'
+            try {
+                await axios.get(path)
+                await commit('clearAuthData')
+                await router.push('/login')
+            } catch (error) {
+                
+            }
+            
+            
+            
         },
         edit_count_inc ({commit}){
             commit('edit_count_inc')

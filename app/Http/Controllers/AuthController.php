@@ -8,6 +8,8 @@ use Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Log;
+
 class AuthController extends Controller
 {
     use SendsPasswordResetEmails, ResetsPasswords {
@@ -24,6 +26,9 @@ class AuthController extends Controller
     }
     public function login(Request $request)
     {
+        Log::info('Login with user: ',[
+            'username' => $request->username
+        ]);
         $http = new \GuzzleHttp\Client;
         try {
             $response = $http->post(url('oauth/token'), [
@@ -60,6 +65,9 @@ class AuthController extends Controller
     }
     public function logout()
     {
+        Log::info('Lgout with user: ',[
+            'username' => auth()->user()->username
+        ]);
         auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
