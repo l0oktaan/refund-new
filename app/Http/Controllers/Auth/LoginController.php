@@ -92,10 +92,10 @@ class LoginController extends Controller
             if (Auth::check()) {
                 $user = Auth::user()->token();
                 $user->revoke();
-                     
+                return "success";     
             }
         }catch (\Throwable $th) {
-            return $th;
+            return "error";
         }
         
         

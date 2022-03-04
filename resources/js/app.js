@@ -879,9 +879,11 @@ const store = new Vuex.Store({
         async logout({ commit,state }){
             let path = await '/api/logout'
             try {
-                await axios.get(path)
-                await commit('clearAuthData')
-                await router.push('/login')
+                let res = await axios.get(path)
+                if (res.data == 'success'){
+                    await commit('clearAuthData')
+                    await router.push('/login')
+                }                
             } catch (error) {
                 
             }
