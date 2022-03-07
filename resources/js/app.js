@@ -13,7 +13,10 @@ window.Vue = require('vue');
 
 import Vue from 'vue'
 
-
+Vue.config.productionTip = false;
+Vue.config.devtools = false
+Vue.config.debug = false
+Vue.config.silent = true
 
 import $ from 'jquery';
 window.$ = window.jQuery = $;
@@ -770,6 +773,7 @@ const store = new Vuex.Store({
             state.userToken = userData.token
         },
         clearAuthData (state){
+           console.log('Clear .....')
             state.user = null
             state.userToken = null
             state.office_id = null
@@ -853,6 +857,12 @@ const store = new Vuex.Store({
             })
         },
         checkLogin({ commit,state }){
+
+            if (!localStorage.getItem('token')){
+                console.log('expire')
+                commit('clearAuthData')
+                return
+            }
             let expirationDate = new Date(localStorage.getItem('expirationDate'))
             let now = new Date()
 
@@ -877,21 +887,27 @@ const store = new Vuex.Store({
             // }
         },
         async logout({ commit }){
-            let path = await '/api/logout'
+
+            
             try {
+                let path = await '/api/logout'
                 let res = await axios.get(path)
-                console.log('logout :' + res.data)
+                await console.log('logout :' + res.data)
                 if (res.data == 'success'){
-                    
                     await commit('clearAuthData')
                     await router.push('/login')
-                }                
+                }else{
+                    await commit('clearAuthData')
+                    await router.push('/login')
+                }
             } catch (error) {
-                
+                // await console.log(error)
+                await commit('clearAuthData')
+                await router.push('/login')
             }
-            
-            
-            
+
+
+
         },
         edit_count_inc ({commit}){
             commit('edit_count_inc')

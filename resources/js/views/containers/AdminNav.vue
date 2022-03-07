@@ -44,15 +44,20 @@
             <li class="nav-item">
                 <span class="mr-3">{{user.name}}</span>
             </li> 
+            <li class="nav-item">
+                <a class="dropdown-item" href="#" @click="logout">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </a>
+            </li> 
             <li class="nav-item dropdown">                
                 <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user-circle fa-2x mr-2"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">     
-                    <a class="dropdown-item" href="" @click="passchange">
+                    <a class="dropdown-item" href="#" @click="passchange">
                         <i class="icon-key"></i> เปลี่ยนรหัสผ่าน
                     </a>               
-                    <a class="dropdown-item" href="" @click="logout">
+                    <a class="dropdown-item" href="#" @click="logout">
                         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                     </a>
                 </div>
@@ -89,9 +94,11 @@ export default {
 
     },
     methods: {
-        logout(){
-            this.$store.dispatch('logout');
-            // this.$router.push('/login');
+        async logout(){
+            
+            // return
+            await this.$store.dispatch('logout');
+            
         },
         passchange(){
             this.$router.push('/passchange');            
