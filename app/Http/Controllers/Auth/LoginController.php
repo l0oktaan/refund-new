@@ -51,7 +51,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             Log::channel('abuse')->info('LOGIN SUCCESS ',[
                 'username' => $request->username,
-                'ip' => $request->header('X-Forwarded-For')
+                'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
             ]);
             $user = Auth::user();
             $success = $user->createToken(config('app.name'))->accessToken;
@@ -63,7 +63,7 @@ class LoginController extends Controller
         }else{
             Log::channel('abuse')->error('LOGIN FAILED ',[
                 'username' => $request->username,
-                'ip' => $request->header('X-Forwarded-For')
+                'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
             ]);
         }
     }
@@ -87,7 +87,7 @@ class LoginController extends Controller
             
             Log::channel('abuse')->info('LOGOUT ',[
                 'username' => Auth::user()->username,
-                'ip' => $request->header('X-Forwarded-For')
+                'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
             ]);
             if (Auth::check()) {
                 $user = Auth::user()->token();
