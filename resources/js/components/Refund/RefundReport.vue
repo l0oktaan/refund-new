@@ -58,34 +58,34 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td >
                                                     <div class="main_order" v-for="contract in refund.refund.contracts" :key="contract.id">
                                                         <p class="head">1. รายละเอียดสัญญา ราย <span class="show"> {{contract.contract_party}}</span></p>
                                                         <div class="sub_order">
                                                             <p class="head">1.1 สัญญา/ใบสั่งจ้างเลขที่ <span class="show">{{contract.contract_no}}</span>  ลงวันที่ <span class="show">{{getThaiDate(contract.contract_date)}}</span></p>
-                                                            <p class="head sub">วงเงินในสัญญา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}  ค่าปรับ<span v-if="contract.penalty_type==1">วันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}</span><span v-if="contract.penalty_type==2">ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน</span></p>
+                                                             <p class="head sub">วงเงินในสัญญา <span class="show">{{contract.budget | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}  ค่าปรับ<span v-if="contract.penalty_type==1">วันละ <span class="show">{{contract.penalty_per_day | numeral('0,0.00')}} </span>{{contract.currency_unit=='USD' ? 'ดอลลาร์สหรัฐ' : 'บาท'}}</span><span v-if="contract.penalty_type==2">ร้อยละ<span class="show">{{contract.penalty_per_day_percent | numeral('0,0.00')}}</span>ต่อวัน</span></p>
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
 
                                                             <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ {{refund.refund.contract_schedule_edits ? 'หรือมีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา' : ''}}</p>
-                                                            <div v-if="refund.refund.contract_schedule_edits.length > 0">
+                                                            <div v-if="refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0">
                                                                 <div v-for="(contract_edit,index) in refund.refund.contract_schedule_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
                                                                     
                                                                 </div>
                                                             </div>
-                                                            <div v-if="refund.refund.contract_edits.length > 0">
+                                                            <div v-if="refund.refund.contract_edits && refund.refund.contract_edits.length > 0">
                                                                 <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
-                                                                    <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                                    <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
-                                                                </div>
-                                                            </div>
-                                                            <p class="head sub" v-if="refund.refund.contract_schedule_edits.length == 0 && refund.refund.contract_edits.length == 0">-ไม่มี-</p>
-                                                        </div>
+                                                                </div> 
+                                                            </div> 
+                                                            <p class="head sub" v-if="(!refund.refund.contract_schedule_edits || refund.refund.contract_schedule_edits.length == 0) && (!refund.refund.contract_edits || refund.refund.contract_edits.length == 0)">-ไม่มี-</p>
+                                                        </div> 
                                                     </div>
                                                     <div class="main_order">
                                                         <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
-                                                        <div v-if="time_edits.length > 0">
+                                                        <div v-if="time_edits && time_edits.length > 0">
                                                             <div v-for="(time_edit,index) in time_edits" :key="index">
                                                                 <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> อนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span><span v-if="time_edit.edit_type > 1 && (time_edit.edit_budget && time_edit.edit_budget > 0)">จำนวนเงิน<span v-if="time_edit.edit_type > 1"><span class="show">{{time_edit.edit_budget | numeral('0,0.00')}}</span> บาท</span></span> </p>
                                                                 <p class="head sub2">ตาม <span class="show">{{getApproveType(time_edit.approve_type)}}</span><span class="show" v-if="time_edit.approve_type == 99">{{'( ' + time_edit.approve_other_desc + ' )'}}</span></p>
@@ -101,8 +101,8 @@
                                                     </div>
                                                 </td>
                                                 <!-- หลักเกณฑ์/เงื่อนไขตามมติคณะรัฐมนตรี -->
-                                                <td colspan="2" style="padding-left: 0px; padding-right: 0px;">
-                                                    <table style="width: 100%;" class="table_rule">
+                                                <td colspan="2" style="padding-left: 0px; padding-right: 0px;" >
+                                                    <table style="width: 100%;" class="table_rule" >
                                                         <tr v-for="(rule,index) in refund.form.rules" :key="index">
                                                             <td :colspan="(rule.sub_rules.length > 0) ? 2 : 0 "  :class="(rule.sub_rules.length > 0) ? 'has_sub_rule' : 'non_sub_rule'">
                                                                 <p class="head">{{rule.order + '. ' + rule.name}}</p>
@@ -218,7 +218,7 @@
                                                     <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr >
                                                 <td>
                                                     <div class="main_order">
                                                             <p class="head">4. รายละเอียดการนำส่ง/เบิกหักผลักส่งค่าปรับเป็นรายได้แผ่นดิน</p>
@@ -236,7 +236,7 @@
                                                     <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr >
                                                 <td>
                                                     <div class="main_order">
                                                             <p class="head">5. การขอถอนคืนเงินค่าปรับแก่ผู้มีสิทธิ</p>
@@ -347,7 +347,7 @@ export default {
         }
     },
    async mounted(){
-        this.getRefundFormID();
+        await this.getRefundFormID();
         await this.getRefund();
         await this.getContractTimeEdit();
         await this.getDeliver();
@@ -375,6 +375,7 @@ export default {
         },
         async show_report(){
             if (this.show_report == true){
+                await this.getRefundFormID();
                 await this.getRefund();
                 await this.getContractTimeEdit();
                 await this.getDeliver();
@@ -425,7 +426,8 @@ export default {
             doc.save(pdfName + '.pdf');
         },
         async getRefund(){
-            var refund_form_id = await 0;
+            try {
+                var refund_form_id = await 0;
             var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/refund_forms`;
             //var refund_form_id = 0;
             let res = await axios.get(`${path}`)
@@ -476,6 +478,10 @@ export default {
                     }
                 }
                 await this.$forceUpdate();
+            } catch (error) {
+                console.log('Get Refund Error')
+            }
+            
 
 
 
@@ -484,50 +490,60 @@ export default {
         },
 
         async getContractTimeEdit(){
-            var path = await  `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
-            let response = await axios.get(`${path}`)
+            try {
+                var path = await  `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
+                let response = await axios.get(`${path}`)
 
-                let time_edits = await  response.data.data;
-                this.time_edits = await  time_edits;
-                for (let i=0;i<time_edits.length;i++){
-                    let start = await  new Date(time_edits[i].edit_start_date);
-                    let end = await  new Date(time_edits[i].edit_end_date);
+                    let time_edits = await  response.data.data;
+                    this.time_edits = await  time_edits;
+                    for (let i=0;i<time_edits.length;i++){
+                        let start = await  new Date(time_edits[i].edit_start_date);
+                        let end = await  new Date(time_edits[i].edit_end_date);
 
-                     await this.createTimeLine({
-                        name: 'อนุมัติ' + this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
-                        type: 'time_edit',
-                        start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
-                        end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                        color: "#e6ffff",
-                        borderWidth: "1",
-                        borderColor: "gray",
-                    });
-                }
+                        await this.createTimeLine({
+                            name: 'อนุมัติ' + this.getEditType(time_edits[i].edit_type) + ' ' + time_edits[i].edit_days + ' วัน',
+                            type: 'time_edit',
+                            start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                            end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
+                            color: "#e6ffff",
+                            borderWidth: "1",
+                            borderColor: "gray",
+                        });
+                    }
 
-                 await this.$forceUpdate();
+                    await this.$forceUpdate();
+            } catch (error) {
+                console.log('GetTimeEdit Error')
+            }
+            
 
 
         },
         async getDeliver(){
-            var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/delivers`;
-            let response = await axios.get(`${path}`)
+            try {
+                var path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/delivers`;
+                let response = await axios.get(`${path}`)
 
-            this.delivers = await response.data.data;
-            for (let i=0;i<this.delivers.length;i++){
-                let start = await  new Date(this.delivers[i].overdue_start_date);
-                let end = await  new Date(this.delivers[i].overdue_end_date);
+                this.delivers = await response.data.data;
+                for (let i=0;i<this.delivers.length;i++){
+                    let start = await  new Date(this.delivers[i].overdue_start_date);
+                    let end = await  new Date(this.delivers[i].overdue_end_date);
 
-                await this.createTimeLine({
-                    name : 'ค่าปรับงาน' + this.delivers[i].delivery + ((!this.delivers[i].penalty) ? ' (ไม่มีค่าปรับ)' : ''),
-                    type: 'delivery',
-                    start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
-                    end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
-                    color: "#e6e6ff",
-                    borderWidth: "1",
-                    borderColor: "gray",
-                })
+                    await this.createTimeLine({
+                        name : 'ค่าปรับงาน' + this.delivers[i].delivery + ((!this.delivers[i].penalty) ? ' (ไม่มีค่าปรับ)' : ''),
+                        type: 'delivery',
+                        start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
+                        end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
+                        color: "#e6e6ff",
+                        borderWidth: "1",
+                        borderColor: "gray",
+                    })
+                }
+                this.$forceUpdate();
+            } catch (error) {
+                console.log('delivery error')
             }
-            this.$forceUpdate();
+            
 
 
         },

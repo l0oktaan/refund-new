@@ -4,6 +4,7 @@
         <b-row class="justify-content-md-center">
             <b-col cols="7">
                 <b-card class="bg-primary " v-if="status == 'new' || (isAdmin && refund_status < 99) || refund_status == 11">
+                
                     <div slot="header" class="navbar ">
                         <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">
