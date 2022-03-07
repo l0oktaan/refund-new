@@ -28,7 +28,7 @@ class LogRoute
                 'REQUEST_BODY' => $request->all(),
                 'RESPONSE' => $response->getContent()
             ];            
-            Log::channel('log-route')->info(json_encode($log));
+            Log::channel('log-route')->info(json_encode($log, JSON_UNESCAPED_UNICODE));
         }
         if (app()->environment('local') && $request->getMethod() == 'GET') {
             $log = [
@@ -39,7 +39,7 @@ class LogRoute
                 'REQUEST_BODY' => $request->all(),
                 // 'RESPONSE' => $response->getContent()
             ];            
-            Log::channel('log-route')->info(json_encode($log));
+            Log::channel('log-route')->info(json_encode($log, JSON_UNESCAPED_UNICODE));
         }
 
         return $response;
