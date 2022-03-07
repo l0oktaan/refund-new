@@ -44,11 +44,11 @@
             <li class="nav-item">
                 <span class="mr-3">{{user.name}}</span>
             </li> 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="dropdown-item" href="#" @click="logout">
                     <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                 </a>
-            </li> 
+            </li>  -->
             <li class="nav-item dropdown">                
                 <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user-circle fa-2x mr-2"></i>
