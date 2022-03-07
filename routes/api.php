@@ -27,25 +27,25 @@ Route::prefix('auth')->group(function () {
 
 });
 
-Route::group(['middleware' => 'auth:api'],function() {
+Route::group(['middleware' => 'auth:api'],function($router) {
     Route::Resource('/offices', 'OfficeController');
     Route::get('/logout','Auth\LoginController@logout');
 
     Route::group(['prefix'=>'offices'],function(){
 
-        Route::apiResource('/{office}/refunds','RefundController');
-        Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController');
-        Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController');
-        Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController');
-        Route::apiResource('/{office}/refunds/{refund}/contract_schedule_edits','ContractScheduleEditController');
-        Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController');
-        Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController');
-        Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController');
-        Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController');
-        Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController');
-        Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController');
-        Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_reports','ReportController');
-        Route::apiResource('/{office}/refunds/{refund}/refund_status','RefundStatusController');
+        Route::apiResource('/{office}/refunds','RefundController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/refund_files','RefundFileController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/contracts','ContractController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/contract_budget_edits','ContractBudgetEditController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/contract_schedule_edits','ContractScheduleEditController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/contract_time_edits','ContractTimeEditController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_reports','ReportController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/refund_status','RefundStatusController')->middleware('log.route');
 
         //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
     });
