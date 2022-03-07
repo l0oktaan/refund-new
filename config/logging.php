@@ -89,9 +89,9 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
-        'abuse' => [
+        'auth' => [
             'driver' => 'single',
-            'path' => storage_path('logs/abuse.log'),
+            'path' => storage_path('logs/auth.log'),
             'level' => 'debug'            
         ],
     ],
