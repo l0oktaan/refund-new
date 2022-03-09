@@ -6,7 +6,7 @@
                     <ul class="nav navbar-nav d-md-down-none">
                         <li class="nav-item px-3">
                             <i class='fa fa-align-justify'></i>
-                                ข้อมูลการอนุมัติ งด / ลด / ขยายเวลา <span class="detail"> (ไม่รวม การขออนุมัติถอนคืนในครั้งนี้) </span><span class="require"> (*)</span> จำเป็นต้องกรอก
+                            ข้อมูลการอนุมัติ ขยาย/งด/ลด <span class="detail"> (ไม่รวม การขออนุมัติถอนคืนในครั้งนี้) </span><span class="require"> (*)</span> จำเป็นต้องกรอก
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
