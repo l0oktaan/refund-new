@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
 
     Route::get('/create_users','Auth\RegisterController@createUsers');
 
+
     Route::post('/change_password','Auth\RegisterController@changePassword');
 
 
@@ -84,7 +85,9 @@ Route::group(['middleware' => 'auth:api'],function($router) {
     // Route::Resource('/forms','FormController');
 
 
-//Auth::routes();
+Auth::routes();
 Route::post('/login','Auth\LoginController@login');
+// Route::post('/register','Auth\RegisterController@register');
 Route::get('/profile','AuthController@index');
+
 

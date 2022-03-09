@@ -114,6 +114,22 @@ class RegisterController extends Controller
             }
         }
     }
+    protected function register(Request $request)
+    {
+        try {
+            User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'type' => $request->type,
+                'office_id' => $request->office_id,
+                'status' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }
+        
+    }
     protected function create(array $data)
     {
 
