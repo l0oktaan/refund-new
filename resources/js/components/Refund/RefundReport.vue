@@ -84,7 +84,7 @@
                                                         </div> 
                                                     </div>
                                                     <div class="main_order">
-                                                        <p class="head">2. รายละเอียดการอนุมัติงด/ลด/ขยายเวลา</p>
+                                                        <p class="head">2. รายละเอียดการอนุมัติ ขยาย/งด/ลด</p>
                                                         <div v-if="time_edits && time_edits.length > 0">
                                                             <div v-for="(time_edit,index) in time_edits" :key="index">
                                                                 <p class="head sub">{{'2.' + (index + 1)}} วันที่อนุมัติ <span class="show">{{getThaiDate(time_edit.approve_date)}}</span> อนุมัติ <span class="show">{{getEditType(time_edit.edit_type)}}</span><span v-if="time_edit.edit_type > 1 && (time_edit.edit_budget && time_edit.edit_budget > 0)">จำนวนเงิน<span v-if="time_edit.edit_type > 1"><span class="show">{{time_edit.edit_budget | numeral('0,0.00')}}</span> บาท</span></span> </p>
