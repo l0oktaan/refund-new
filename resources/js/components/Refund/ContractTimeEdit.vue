@@ -18,7 +18,7 @@
                     </ul>
                 </div>
                 <span class="edit_contract" v-if="!isEdit">
-                    <span style="color:#000;">รายการอนุมัติ งด / ลด / ขยายเวลา : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                    <span style="color:#000;">รายการอนุมัติ ขยาย/งด/ลด : </span><toggle-button :value = "false" :sync = "true" :width="60" :height="25"
                         :labels="{checked: 'มี', unchecked: 'ไม่มี'}"
                         :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
                         style="padding-top:4px; line-height:0px;"
