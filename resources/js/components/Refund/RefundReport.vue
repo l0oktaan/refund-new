@@ -664,8 +664,9 @@ export default {
 
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty = penalty + (this.delivers[i]['penalty'] ? this.delivers[i]['penalty'] : 0);
+                console.log('penalty ' + penalty)
             }
-            console.log('penalty ' + penalty)
+            
             return penalty;
         },
         getPenaltyAcceptAll(){
