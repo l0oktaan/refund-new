@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
 
     Route::group(['prefix' => 'admin'],function(){
         Route::apiResource('/{admin}/refunds','RefundController');
+        Route::post('/{admin}/register','Auth\RegisterController@register');
     });
 
     Route::get('/user', function (Request $request) {
@@ -87,7 +88,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
 
 Auth::routes();
 Route::post('/login','Auth\LoginController@login');
-// Route::post('/register','Auth\RegisterController@register');
+
 Route::get('/profile','AuthController@index');
 
 
