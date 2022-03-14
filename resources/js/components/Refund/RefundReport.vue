@@ -215,7 +215,7 @@
                                                 <td style="width: 270px">
                                                     <p class="head">รวมส่งมอบงานล่าช้า <span class="show">{{getOverdueDays()}}</span> วัน</p>
                                                     <p class="head">รวมเป็นเงินค่าปรับ <span class="show">{{getPenaltyAcceptAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>
-                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && getPenaltyAll() > 0 ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>
+                                                    <p class="head" v-if="(getPenaltyAll() != getPenaltyAcceptAll()) && (getPenaltyAll() > 0) ">ตามข้อเท็จจริงต้องปรับไว้ <span class="show">{{getPenaltyAll() | numeral('0,0.00')}}</span> {{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>
                                                 </td>
                                             </tr>
                                             <tr >
@@ -662,14 +662,14 @@ export default {
             var penalty = 0;
 
             for (let i = 0; i < this.delivers.length; i++) {
-                penalty = penalty + this.delivers[i]['penalty'];
+                penalty = penalty + (this.delivers[i]['penalty'] ? this.delivers[i]['penalty'] : 0);
             }
             return penalty;
         },
         getPenaltyAcceptAll(){
             var penalty_accept = 0;
             for (let i = 0; i < this.delivers.length; i++) {
-                penalty_accept = penalty_accept + this.delivers[i]['penalty_accept'];
+                penalty_accept = penalty_accept + (this.delivers[i]['penalty_accept'] ? this.delivers[i]['penalty_accept'] : 0 );
             }
             return penalty_accept;
         },
