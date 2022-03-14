@@ -664,18 +664,18 @@ export default {
 
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty = penalty + (this.delivers[i]['penalty'] ? this.delivers[i]['penalty'] : 0);
-                console.log('penalty ' + penalty)
+                
             }
             
-            return penalty;
+            return penalty.toFixed(2);
         },
         getPenaltyAcceptAll(){
             var penalty_accept = 0;
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty_accept = penalty_accept + (this.delivers[i]['penalty_accept'] ? this.delivers[i]['penalty_accept'] : 0 );
             }
-            console.log('penalty_accept ' + penalty_accept)
-            return penalty_accept;
+            
+            return penalty_accept.toFixed(2);
         },
         getDepositAll(){
             let sum = 0;
