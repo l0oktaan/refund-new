@@ -658,12 +658,14 @@ export default {
             }
             return overDueDays;
         },
+
         getPenaltyAll(){
             var penalty = 0;
 
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty = penalty + (this.delivers[i]['penalty'] ? this.delivers[i]['penalty'] : 0);
             }
+            console.log('penalty ' + penalty)
             return penalty;
         },
         getPenaltyAcceptAll(){
@@ -671,6 +673,7 @@ export default {
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty_accept = penalty_accept + (this.delivers[i]['penalty_accept'] ? this.delivers[i]['penalty_accept'] : 0 );
             }
+            console.log('penalty_accept ' + penalty_accept)
             return penalty_accept;
         },
         getDepositAll(){
