@@ -654,7 +654,9 @@ export default {
         getOverdueDays(){
             var overDueDays = 0;
             for (let i = 0; i < this.delivers.length; i++) {
-                overDueDays = overDueDays + this.delivers[i]['overdue_days'];
+                if (this.delivers[i]['penalty_accept'] && this.delivers[i]['penalty_accept'] > 0){
+                    overDueDays = overDueDays + this.delivers[i]['overdue_days'];
+                }                
             }
             return overDueDays;
         },
