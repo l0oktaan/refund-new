@@ -317,9 +317,11 @@ export default {
             },
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
-                {text: 'ขยายเวลา', value : 1},
+                {text: 'ขยายเวลา', value : 1},                
+                {text: 'งดค่าปรับ', value : 4},
+                {text: 'ลดค่าปรับ', value : 5},
                 {text: 'งดหรือลดค่าปรับ', value : 2},
-                {text: 'คืนเงินค่าปรับ', value : 3}
+                {text: 'คืนเงินค่าปรับ', value : 3} 
             ],
             arrApproveType : this.$store.getters.arrApproveType,
             arrApproveOtherType: [
@@ -596,8 +598,21 @@ export default {
             //return moment(String(value)).format('LL')
         },
         getEditType(value){
-            var index = this.arrEditType.findIndex(x => x.value == value);
-            return this.arrEditType[index].text;
+            try {
+                var index = this.arrEditType.findIndex(x => x.value == value);
+                if (index >= 0){                
+                    let text = this.arrEditType[index]['text'];
+                    console.log('edit type index :' + index + ' text :' + text);
+                    return text;
+                }else{
+                    return '';
+                }
+            } catch (error) {
+                console.log(error)
+                return '';
+            }
+            
+            
         },
         getApproveType(value){
             //console.log('Get Approve Type :' + value);
@@ -675,8 +690,7 @@ export default {
             var penalty_accept = 0;
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty_accept = penalty_accept + (this.delivers[i]['penalty_accept'] ? this.delivers[i]['penalty_accept'] : 0 );
-            }
-            
+            }            
             return penalty_accept.toFixed(2);
         },
         getDepositAll(){

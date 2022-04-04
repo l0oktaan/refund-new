@@ -222,7 +222,7 @@
                 <tbody>
                     <tr v-for="(item,index) in time_edit_list" :key="index">
                         <td>{{getThaiDate(item.approve_date)}}</td>
-                        <td>{{arrEditType[item.edit_type].text}}</td>
+                        <td>{{getEditType(item.edit_type)}}</td>
                         <td>{{item.edit_days}}</td>
                         <td>{{getThaiDate(item.edit_start_date)}}</td>
                         <td>{{getThaiDate(item.edit_end_date)}}</td>
@@ -522,6 +522,19 @@ export default {
         }
     },
     methods: {
+        getEditType(value){
+            try {
+                let index = this.arrEditType.findIndex(x=>x.value == value)
+                if (index >=0 ){
+                    return this.arrEditType[index].text;
+                }else{
+                    return "";
+                }
+            } catch (error) {
+                return "";
+            }
+            
+        },
         checkRule(){
             if (parseInt(this.time_edit.approve_type) >= 40 || (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20)){
                 this.showRuleAlert = false;

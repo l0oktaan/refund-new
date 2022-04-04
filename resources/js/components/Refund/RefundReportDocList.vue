@@ -280,11 +280,26 @@ export default {
             let index = value.search('/');
             return value.substring(index+1,value.length);
         },
-        getEditType(value){               
-            return this.arrEditType[this.arrEditType.findIndex(x=>x.value == value)].text;            
+        getEditType(value){
+            try {
+                let index = this.arrEditType.findIndex(x=>x.value == value)
+                if (index >=0 ){
+                    return this.arrEditType[index].text;
+                }else{
+                    return "";
+                }
+            } catch (error) {
+                return "";
+            }
+            
         },
         getApproveOtherType(value){
-            return this.arrApproveOtherType[this.arrApproveOtherType.findIndex(x=>x.value == value)]['text'];
+            try {
+                return this.arrApproveOtherType[this.arrApproveOtherType.findIndex(x=>x.value == value)]['text'];
+            } catch (error) {
+                return '';
+            }
+            
         },
         getApproveType(id){
             if (id){
