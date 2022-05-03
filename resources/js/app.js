@@ -660,7 +660,7 @@ const store = new Vuex.Store({
                     status : [11],
                     class_name: 'wait',
                     show: ['user','admin'],
-                    text : 'ส่งเรื่องคืนให้แก้ไข',
+                    text : 'ส่งเรื่องให้แก้ไข',
                     icon: 'fas fa-reply icon_wait',
                     color: 'icon_wait',
                     count: 0
