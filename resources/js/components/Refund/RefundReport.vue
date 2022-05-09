@@ -4,9 +4,9 @@
         <b-row class="justify-content-md-center text-center">
             <b-col>
 
-                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport('printThis')"><i class="fas fa-print fa-2x"></i></b-button>
+                <b-button ref="print_form" id="print_form" variant="outline-dark" size="md" @click="printReport('printThis'+refund_id)"><i class="fas fa-print fa-2x"></i></b-button>
                 <b-button ref="timeline_form" id="timeline_form" variant="outline-danger" size="md" @click="printReport('timeline')"><i class="fas fa-clock fa-2x"></i></b-button>
-                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport('attach')"><i class="fas fa-clipboard-list fa-2x"></i></b-button>
+                <b-button ref="save_form" id="save_form" variant="outline-danger" size="md" @click="printReport('attach'+ refund_id)"><i class="fas fa-clipboard-list fa-2x"></i></b-button>
                 <b-popover target="print_form" triggers="hover" placement="top">
                     พิมพ์แบบถอนคืน
                 </b-popover>
@@ -22,7 +22,7 @@
         <b-row>
             <b-col>
                 <div class="book" id="book" ref="book">
-                    <div class="page" id="printThis" ref="printThis">
+                    <div class="page" :id="`printThis${refund_id}`" ref="printThis">
                         <div class="subpage" v-if="isReady">
                             <b-row>
                                 <b-col cols="3">
@@ -274,7 +274,7 @@
                             </b-row>
                         </div>
                     </div>
-                    <div class="page" id="attach">
+                    <div class="page" :id="`attach${refund_id}`">
                         <div class="subpage" v-if="isReady">
                             <refund-report-doc-list
                                 :form = "refund.form"
@@ -620,11 +620,12 @@ export default {
             return this.arrApproveType[index].text;
         },
 
-        printReport(print_page){
-            let code = this.refund ? this.refund.refund.approve_code : ''
+        async printReport(print_page){
+            let code = await this.refund ? this.refund.refund.approve_code : ''
+            
             //console.log('print report');
             if (print_page == "timeline"){
-                var node = document.getElementById(print_page);
+                var node = await document.getElementById(print_page);
                 domtoimage.toJpeg(node, { quality: 1})
                 .then(function (dataUrl) {
                     var link = document.createElement('a');
@@ -633,7 +634,7 @@ export default {
                     link.click();
                 });
             }else{
-                this.printElement(document.getElementById(print_page));
+                await this.printElement(document.getElementById(print_page));
             }
             //
 
@@ -648,20 +649,20 @@ export default {
             // printSection.appendChild(domClone);
             // window.print();
         },
-        printElement(elem) {
+        async printElement(elem) {
 
-            var domClone = elem.cloneNode(true);
+            var domClone = await elem.cloneNode(true);
 
-            var printSection = document.getElementById("printSection");
+            var printSection = await document.getElementById("printSection");
 
             if (!printSection) {
-                printSection = document.createElement("div");
-                printSection.id = "printSection";
-                document.body.appendChild(printSection);
+                printSection = await document.createElement("div");
+                printSection.id = await "printSection";
+                await document.body.appendChild(printSection);
             }
-            printSection.innerHTML = "";
-            printSection.appendChild(domClone);
-            window.print();
+            printSection.innerHTML = await "";
+            await printSection.appendChild(domClone);
+            await window.print();
         },
         getDetail(id){
             return this.refund.detail[this.refund.detail.findIndex(i => i.consider_id == id)];
