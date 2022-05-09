@@ -12,6 +12,7 @@
                     <div class="logo"></div>
                     <!-- <b-img center src="/images/cgd_white.png" fluid alt="Responsive image"></b-img> -->
                     <h4 class="mt-4">ระบบถอนคืนเงินรายได้แผ่นดิน</h4>
+                    <h4 class="mt-1">ประเภทค่าปรับ</h4>
                 </div>
               </b-card-body>
             </b-card>
