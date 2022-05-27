@@ -77,6 +77,25 @@ class UserController extends Controller
   
         Mail::to($user->email)->send(new customMail($content));
     }
+    public function sendEmail($user,$pass)
+    {
+        try {            
+
+            $content = new \stdClass();
+            $content->subject = "แจ้งส่งข้อมูลการใช้งานระบบถอนคืนเงินรายได้แผ่นดิน ประเภทค่าปรับ";
+            $content->user = $user;
+            $content->password = $pass;
+    
+            Mail::to($user->email)->send(new customMail($content));
+    
+            // Mail::to("looktaan.tc3@gmail.com")->send(new customMail($content));
+            // return response()->json((new MailSendUser())
+            //         ->toMail("songwut.saj@cgd.go.th"));
+        } catch (\Throwable $th) {
+            return "error2";
+        }
+        
+    }
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -94,7 +113,7 @@ class UserController extends Controller
         $user->username = $this->getUsername($request->office_id);
         $user->status = 1;
         $user->save();
-        
+        $this->sendEmail($user,$password);
 
         return response([
             'data' => new UserResource($user)            

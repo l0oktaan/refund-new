@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td style="width: 100px; text-align:right;background-color: #8ee1e7;">password :</td>
-                        <td style="width: 150px; text-align:left">{{$content->user->password}}</td>
+                        <td style="width: 150px; text-align:left">{{$content->password}}</td>
                     </tr>
                     <tr>
                         <td style="width: 100px; text-align:right;background-color: #8ee1e7;">URL :</td>
