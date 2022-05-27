@@ -138,7 +138,7 @@
                     <b-col>
                         <div class="text-center">
                             <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                            <b-button variant="warning" @click="test_mail">Test Mail</b-button>
+                            
                             <b-button v-if="user_status > 1" type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
                         </div>
                     </b-col>
@@ -238,10 +238,7 @@ export default {
             }
 
         },
-        test_mail(){
-            let path = `/api/test_mail`;
-            let res = axios.get(path);
-        }
+        
     }
 }
 </script>
