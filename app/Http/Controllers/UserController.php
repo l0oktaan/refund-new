@@ -2,44 +2,104 @@
 
 namespace App\Http\Controllers;
 use DB;
-use Illuminate\Support\Facades\Cache;
 use App\User;
-use Illuminate\Http\Request;
+use App\Office;
 use App\Mail\customMail;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class UserController extends Controller
 {
-    public function userOnlineStatus()
-    {
-        // $users = User::all();
-        // foreach($users as $user){
-        //     if (Cache::has('user-is-online-' . $user->id))
-        //         echo "User " . $user->name . " is online.";
-        //     else
-        //         echo "User " . $user->name . " is offline.";
-        // }
-        // return Cache::get('');
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
-        // $t= "be8ebd72cc42ec3464e5684f22d489522a6c8374d6c0ca4e0a8bbfe8664847043490ead6b41067b9";
-        // $email = Auth::user()->email;
-        // return $email;
-        // $email = $user->email;
-        // $token = $user->token()->id;
-        // $ีtemp = $user->token()
-        //         ->where('id','=',$t)
-        //         ->get();
-        // return $temp->id;
-        // Mail::to($email)->send(new customMail());
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
+    public function index()
+    {
+        // $user = Auth::user();
+        // return $user->type;
+        $user = Auth::user();
+        if ($user->type != 'admin'){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+        return UserResource::collection(User::orderBy('office_id','asc')->get());
+        //return Office::all();
+    }
+    protected function register(Request $request)
+    {
+        try {
+            User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'type' => $request->type,
+                'office_id' => $request->office_id,
+                'status' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }        
+    }
+    private function getUsername($office_id){
+        $office = Office::where('id',$office_id)->first();
+        $uname = "U" . $office->code . "-" . (string)($office->users->count()+1);
+        return $uname;
         
-        // if( count(Mail::failures()) > 0 ){
-        //     session::flash('message','There seems to be a problem. Please try again in a while'); 
-        //    return redirect()->back(); 
-        // }else{                      
-        //     session::flash('message','Thanks for your message. Please check your mail for more details!'); 
-        //     return redirect()->back();  
-        // }
+    }
+    private function getPassword(){
+        $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890');
+        return substr($random, 0, 10);
+    }
+    public function send($user)
+    {
+        // $objDemo = new \stdClass();
+        // $objDemo->demo_one = 'Demo One Value';
+        // $objDemo->demo_two = 'Demo Two Value';
+        // $objDemo->sender = 'SenderUserName';
+        // $objDemo->receiver = 'ReceiverUserName';
+        $content = new \stdClass();
+        $content->subject = "แจ้งส่งข้อมูลการใช้งานระบบถอนคืนเงินรายได้แผ่นดิน ประเภทค่าปรับ";
+        $content->user = $user;
+  
+        Mail::to($user->email)->send(new customMail($content));
+    }
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->type != 'admin'){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+        // return response($this->getUsername($request->office_id));
+        $user = new User;
+        $user->name = $request->name;
+        $password = $this->getPassword();        
+        $user->password = Hash::make($password);
+        $user->email = $request->email;
+        $user->type = $request->office_id == 1 ? "admin" : "user";
+        $user->office_id = $request->office_id;
+        $user->username = $this->getUsername($request->office_id);
+        $user->status = 1;
+        $user->save();
+        
+
+        return response([
+            'data' => new UserResource($user)            
+        ],Response::HTTP_CREATED);
+        
     }
 
 }

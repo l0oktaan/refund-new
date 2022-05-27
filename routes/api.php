@@ -64,12 +64,13 @@ Route::group(['middleware' => 'auth:api'],function($router) {
         Route::post('/{admin}/register','Auth\RegisterController@register');
     });
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Route::get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
+    Route::apiResource('/users','UserController');
 
     Route::get('/user_online','UserController@UserOnlineStatus');
-
+    Route::get('/test_mail','Auth\RegisterController@send');
     Route::get('/create_users','Auth\RegisterController@createUsers');
 
 

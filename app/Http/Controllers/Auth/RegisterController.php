@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Office;
+use App\Mail\customMail;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Notifications\MailSendUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use App\Mail\customMail;
 
 class RegisterController extends Controller
 {
@@ -82,10 +85,11 @@ class RegisterController extends Controller
         ]);
         
         $user = Auth::user();
+       
         if ($user->status == 1){
             $user->password = Hash::make($request->new_password);
             $user->status = 2;
-            $user->email = $request->email;
+            // $user->email = $request->email;
             $user->save();
 
             $office = Office::find($user->office_id);
@@ -96,11 +100,21 @@ class RegisterController extends Controller
         }else if ($user->status == 2){
 
         }
+        
         if ($user){
-            $user->password = Hash::make($request->new_password);
-            $user->status = 2;
-            $user->save();
-            return 'OK';
+            
+            $old_password = auth()->user()->password;
+            
+            
+            if (Hash::check($request->current_password, $old_password)){
+                
+                $user->password = Hash::make($request->new_password);
+                $user->status = 2;
+                $user->save();
+                return 'OK';
+            }else{
+                return response(null,Response::HTTP_NOT_FOUND);
+            }
         }else{
             $credentials = $request->only('username', 'current_password');
             if (Auth::attempt($credentials)) {
@@ -127,8 +141,7 @@ class RegisterController extends Controller
             ]);
         } catch (\Throwable $th) {
             return $th;
-        }
-        
+        }        
     }
     protected function create(array $data)
     {
@@ -173,7 +186,29 @@ class RegisterController extends Controller
 
 
     }
+    public function send()
+    {
+        try {
+            $user = new \stdClass();
+            $user->name = "Songwut";
+            $user->email = "songwut.saj@cgd.go.th";
+            $user->username = "U2222-02";
+            $user->password = "dsdasdasdgerwef";
 
+            $content = new \stdClass();
+            $content->subject = "แจ้งส่งข้อมูลการใช้งานระบบถอนคืนเงินรายได้แผ่นดิน ประเภทค่าปรับ";
+            $content->user = $user;
+    
+            Mail::to($user->email)->send(new customMail($content));
+    
+            // Mail::to("looktaan.tc3@gmail.com")->send(new customMail($content));
+            // return response()->json((new MailSendUser())
+            //         ->toMail("songwut.saj@cgd.go.th"));
+        } catch (\Throwable $th) {
+            return "error2";
+        }
+        
+    }
     protected function guard()
     {
         return Auth::guard('guard-name');

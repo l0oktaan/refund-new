@@ -42,4 +42,8 @@ class User extends Authenticatable
     {
         $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
     }
+
+    public function office(){
+        return $this->belongsTo('App\Office');
+    }
 }

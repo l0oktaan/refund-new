@@ -156,6 +156,7 @@ import Admin from './views/Admin/Admin'
 import AdminIndex from './views/Admin/AdminIndex'
 
 import UserManage from './views/Admin/UserManage'
+import UserRegister from './views/Admin/UserRegister'
 
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
@@ -355,7 +356,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'users',
-                    component: UserManage,
+                    component: UserRegister,
                     meta: {
                         breadCrumb: 'จัดการผู้ใช้' //crumb
                     }

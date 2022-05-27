@@ -3,48 +3,7 @@
             <div class="sidebar">
                 <nav class="sidebar-nav">
                     <ul class="nav">
-                        <li class="nav-item  nav-dropdown  ">
-                            <a class="nav-link  nav-dropdown-toggle " href="#">
-                                    เริ่มต้น
-                                    </a>
-                            <ul class="nav-dropdown-items">
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/ui-kit/">
-                                            UI Kit
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/introduction/">
-                                            Introduction
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/browsers-devices/">
-                                            Browsers & devices
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/javascript/">
-                                            JavaScript
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/build-tools/">
-                                            Build tools
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/webpack/">
-                                            Webpack
-                                            </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="https://coreui.io/docs/getting-started/accessibility/">
-                                            Accessibility
-                                            </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
                         <b-nav vertical>
                             <b-nav-item  to="/admin"><i class="fas fa-globe"></i>&nbsp;Dashboard</b-nav-item>
                             <b-nav-item  to="/admin/form"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการแบบฟอร์ม</b-nav-item>

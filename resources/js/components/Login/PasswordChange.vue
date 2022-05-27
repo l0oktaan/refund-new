@@ -102,7 +102,7 @@
                             </validation-provider>
                         </b-col>
                     </b-row>
-                    <b-row v-if="user_status == 1">
+                    <!-- <b-row v-if="user_status == 1">
                         <b-col>
                             
                             <validation-provider
@@ -127,7 +127,7 @@
                                 </b-form-group>
                             </validation-provider>
                         </b-col>
-                    </b-row>
+                    </b-row> -->
                     <b-row>
                         <b-col>
                             <div class="text-center">
@@ -196,8 +196,9 @@ export default {
             let path = `/api/change_password`;
             axios.post(`${path}`,{
                 username: this.$store.getters.username,
+                current_password: this.current_password,
                 new_password: this.new_password,
-                email: this.email
+                // email: this.email
             })
             .then(response=>{
 

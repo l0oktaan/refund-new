@@ -4,8 +4,10 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class customMail extends Mailable
 {
@@ -16,9 +18,10 @@ class customMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $content;
+    public function __construct($content)
     {
-        //
+        $this->content = $content;
     }
 
     /**
@@ -28,6 +31,6 @@ class customMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Hello World')->view('mails.HelloWorld');
+        return $this->subject($this->content->subject)->view('mails.MailBody');
     }
 }

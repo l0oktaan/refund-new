@@ -21,6 +21,10 @@ class Office extends Model
         return $this->hasMany('App\Refund');
     }
 
+    public function users(){
+        return $this->hasMany('App\User');
+    }
+
     public function contracts(){
         return $this->hasManyThrough(
             'App\Contract',
