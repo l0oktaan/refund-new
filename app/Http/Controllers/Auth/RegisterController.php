@@ -7,6 +7,7 @@ use App\Mail\customMail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Notifications\MailSendUser;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -87,14 +88,19 @@ class RegisterController extends Controller
         $user = Auth::user();
        
         if ($user->status == 1){
+            Log::channel('auth')->info('First Login Success: ',[                
+                'username' => $request->username          
+            ]);
             $user->password = Hash::make($request->new_password);
             $user->status = 2;
             // $user->email = $request->email;
             $user->save();
-
-            $office = Office::find($user->office_id);
-            $office->email = $user->email;
-            $office->save();
+            Log::channel('auth')->info('First Change Password Success: ',[                
+                'username' => $request->username          
+            ]);
+            // $office = Office::find($user->office_id);
+            // $office->email = $user->email;
+            // $office->save();
             
             return 'OK';
         }else if ($user->status == 2){
@@ -111,6 +117,9 @@ class RegisterController extends Controller
                 $user->password = Hash::make($request->new_password);
                 $user->status = 2;
                 $user->save();
+                Log::channel('auth')->info('Change Password Success: ',[                
+                    'username' => $request->username          
+                ]);
                 return 'OK';
             }else{
                 return response(null,Response::HTTP_NOT_FOUND);
