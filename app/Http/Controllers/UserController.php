@@ -115,13 +115,13 @@ class UserController extends Controller
             $user->username = $this->getUsername($request->office_id);
             $user->status = 1;
             $user->save();
-            Log::info('Create User Success: ',[
+            Log::channel('auth')->info('Create User Success: ',[
                 'name' => $user->name,
                 'username' => $user->username,            
                 'office_id' => $user->office_id
             ]);
             $this->sendEmail($user,$password);
-            Log::info('Sent Email Success: ',[
+            Log::channel('auth')->info('Sent Email Success: ',[
                 'username' => $user->username,
                 'email' => $user->email,
                 'office_id' => $user->office_id
@@ -130,7 +130,7 @@ class UserController extends Controller
                 'data' => new UserResource($user)            
             ],Response::HTTP_CREATED);
         } catch (\Throwable $th) {
-            Log::alert('Create User Fail',[
+            Log::channel('auth')->error('Create User Fail',[
                 'name' => $request->name,
                 'office_id' => $request->office_id,
                 'username' => $user->username,
