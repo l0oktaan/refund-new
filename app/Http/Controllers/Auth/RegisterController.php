@@ -96,7 +96,7 @@ class RegisterController extends Controller
             // $user->email = $request->email;
             $user->save();
             Log::channel('auth')->info('First Change Password Success: ',[                
-                'username' => $request->username          
+                'username' => $user->username          
             ]);
             // $office = Office::find($user->office_id);
             // $office->email = $user->email;
@@ -118,7 +118,7 @@ class RegisterController extends Controller
                 $user->status = 2;
                 $user->save();
                 Log::channel('auth')->info('Change Password Success: ',[                
-                    'username' => $request->username          
+                    'username' => $user->username          
                 ]);
                 return 'OK';
             }else{
