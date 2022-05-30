@@ -439,6 +439,9 @@ Vue.component('RefundSide', RefundSide).defaults;
 
 
 //------------------------- Component ----------------
+import UserList from './components/Admin/UserList.vue';
+Vue.component('UserList', UserList).defaults;
+
 import FormFind from './components/Admin/Form/FormFind.vue';
 Vue.component('FormFind', FormFind).defaults;
 

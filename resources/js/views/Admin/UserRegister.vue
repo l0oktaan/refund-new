@@ -1,162 +1,165 @@
 <template>
-    <div class="container">
+    <div class="content">
         <my-alert :AlertType="alert"></my-alert>
-        <validation-observer ref="observer" v-slot="{ passes }">
-            <b-form @submit.stop.prevent="passes(onSubmit)">
-                <b-row>
-                    <b-col>
-                        <p class="h4 text-center mb-4">บันทึกข้อมูลผู้ใช้ระบบ</p>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <validation-provider
-                            name="หน่วยงาน"
-                            :rules="{ required: true }"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group>
-                                <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
-                                    <b-form-select
-                                        v-model="user.office_id"
-                                        :options="offices"
-                                        text-field="name"
-                                        value-field="id"                                        
-                                        name="office"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="current-office-live-feedback"
-                                    />
-                                <b-form-invalid-feedback id="current-office-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                    </b-col>
-                    <!-- <b-col>
-                        <b-form-select
-                                        v-model="user.office_id"
-                                        :options="offices"
+        <div class="form">
+            <validation-observer ref="observer" v-slot="{ passes }">
+                <b-form @submit.stop.prevent="passes(onSubmit)">
+                    <b-row>
+                        <b-col>
+                            <p class="h4 text-center mb-4">บันทึกข้อมูลผู้ใช้ระบบ</p>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <validation-provider
+                                name="หน่วยงาน"
+                                :rules="{ required: true }"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
+                                        <b-form-select
+                                            v-model="user.office_id"
+                                            :options="offices"
+                                            text-field="name"
+                                            value-field="id"                                        
+                                            name="office"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-office-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="current-office-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                        <!-- <b-col>
+                            <b-form-select
+                                            v-model="user.office_id"
+                                            :options="offices"
+                                            
+                                            name="office"
+                                        ></b-form-select>
+                                <b-form-group>
+                                    <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
                                         
-                                        name="office"
-                                    ></b-form-select>
-                            <b-form-group>
-                                <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
-                                    
-                            </b-form-group>
-                    </b-col> -->
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <validation-provider
-                            name="ชื่อ-นามสกุล"
-                            :rules="{ required: true, min: 5 }"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group>
-                                <label for="time_edit_date">ชื่อ-นามสกุล <span class="require">*</span></label>
-                                    <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                    <b-form-input
-                                        v-model="user.fullname"
-                                        type="text"
-                                        name="fullname"
-                                        placeholder="ชื่อ-นามสกุล"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="current-fullname-live-feedback"
-                                    />
-                                <b-form-invalid-feedback id="current-fullname-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <validation-provider
-                            name="ตำแหน่ง"
-                            :rules="{ required: true, min: 5 }"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group>
-                                <label for="time_edit_date">ตำแหน่ง <span class="require">*</span></label>
-                                    <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                    <b-form-input
-                                        v-model="user.position"
-                                        type="text"
-                                        name="position"
-                                        placeholder="ตำแหน่ง"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="current-position-live-feedback"
-                                    />
-                                <b-form-invalid-feedback id="current-position-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                    </b-col>
-                </b-row>
-                <b-row >
-                    <b-col>
-                        <validation-provider
-                            name="email"
-                            :rules="{required:true,email:true}"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group>
-                                <label for="time_edit_date">email <span class="require">*</span></label>
-                                    <b-form-input
-                                        v-model="user.email"
-                                        type="email"
-                                        name="email"
-                                        placeholder="email"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="confirm-email-live-feedback"
-                                    />
-                                <b-form-invalid-feedback id="confirm-email-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <validation-provider
-                            name="หมายเลขโทรศัพท์"
-                            :rules="{ required: true, min: 5 }"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group>
-                                <label for="time_edit_date">หมายเลขโทรศัพท์ <span class="require">*</span></label>
-                                    <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
-                                    <b-form-input
-                                        v-model="user.phone"
-                                        type="text"
-                                        name="phone"
-                                        placeholder="หมายเลขโทรศัพท์"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="current-phone-live-feedback"
-                                    />
-                                <b-form-invalid-feedback id="current-phone-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                            </b-form-group>
-                        </validation-provider>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <div class="text-center">
-                            <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
-                            
-                            <b-button v-if="user_status > 1" type="reset" variant="danger" @click="onCancel">ยกเลิก</b-button>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>                        
-                        <!-- <b-alert variant="success" show class="alertBox">
-                                 <b>เงื่อนไขในการบันทึกข้อมูลผู้ใช้</b>
-                                 <li>ความยาวไม่น้อยกว่า 8 ตัวอักษร</li>
-                                 <li>แต่ไม่เกิน 16 ตัวอักษร</li>
-                                 <li>มีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวอักษร</li>
-                                 <li>มีตัวอักษรภาษาอังกฤษพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวอักษร</li>
-                                 <li>มีตัวเลข (1-9) อย่างน้อย 1 ตัวอักษร</li>
-                        </b-alert> -->
-                    </b-col>
-                </b-row>
-            </b-form>
-            </validation-observer>
+                                </b-form-group>
+                        </b-col> -->
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <validation-provider
+                                name="ชื่อ-นามสกุล"
+                                :rules="{ required: true, min: 5 }"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">ชื่อ-นามสกุล <span class="require">*</span></label>
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input
+                                            v-model="user.fullname"
+                                            type="text"
+                                            name="fullname"
+                                            placeholder="ชื่อ-นามสกุล"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-fullname-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="current-fullname-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <validation-provider
+                                name="ตำแหน่ง"
+                                :rules="{ required: true, min: 5 }"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">ตำแหน่ง <span class="require">*</span></label>
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input
+                                            v-model="user.position"
+                                            type="text"
+                                            name="position"
+                                            placeholder="ตำแหน่ง"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-position-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="current-position-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row >
+                        <b-col>
+                            <validation-provider
+                                name="email"
+                                :rules="{required:true,email:true}"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">email <span class="require">*</span></label>
+                                        <b-form-input
+                                            v-model="user.email"
+                                            type="email"
+                                            name="email"
+                                            placeholder="email"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="confirm-email-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="confirm-email-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <validation-provider
+                                name="หมายเลขโทรศัพท์"
+                                :rules="{ required: true, min: 5 }"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    <label for="time_edit_date">หมายเลขโทรศัพท์ <span class="require">*</span></label>
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input
+                                            v-model="user.phone"
+                                            type="text"
+                                            name="phone"
+                                            placeholder="หมายเลขโทรศัพท์"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-phone-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="current-phone-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <div class="text-center">
+                                <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
+                                
+                                <b-button variant="danger" @click="onCancel">ล้งข้อมูล</b-button>
+                            </div>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>                        
+                            <!-- <b-alert variant="success" show class="alertBox">
+                                     <b>เงื่อนไขในการบันทึกข้อมูลผู้ใช้</b>
+                                     <li>ความยาวไม่น้อยกว่า 8 ตัวอักษร</li>
+                                     <li>แต่ไม่เกิน 16 ตัวอักษร</li>
+                                     <li>มีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวอักษร</li>
+                                     <li>มีตัวอักษรภาษาอังกฤษพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวอักษร</li>
+                                     <li>มีตัวเลข (1-9) อย่างน้อย 1 ตัวอักษร</li>
+                            </b-alert> -->
+                        </b-col>
+                    </b-row>
+                </b-form>
+                </validation-observer>
+        </div>
+        <user-list ref="userList"></user-list>
     </div>
 </template>
 
@@ -172,10 +175,7 @@ export default {
                 email: '',
                 phone: '',
             },
-            test_office: [
-                {id: 1, text: 'aaaaaaa'},
-                {id: 2, text: 'bbbbbbb'},
-            ],
+            
             alert: '',
             offices: [],
             users: [],
@@ -215,9 +215,7 @@ export default {
             // }
         },
         async getUserAll(){
-            let path = await `/api/users`;
-            let res = await axios.get(`${path}`);
-            this.users = res.data.data;
+            this.$refs.userList.fetchData();
         },
         async onSubmit(){
             let path = await `/api/users`;
@@ -231,21 +229,45 @@ export default {
                     "phone" : this.user.phone
                 })
                 this.alert = await 'success';
+                await this.clearData();
+                await this.$refs.observer.reset();
                 await this.getUserAll();
             } catch (error) {
                 console.log(error);
                 this.alert = await 'error';
             }
-
         },
-        
+        async clearData(){
+            this.user = await {};
+            this.user = await {
+                'name' : '',
+                'office_id' :null,
+                'position' : '',
+                'email' : '',
+                'phone' : ''
+            },
+            await this.$refs.observer.reset();
+        },
+        async onCancel(){
+            await this.clearData();
+            await this.$refs.observer.reset();
+        }
     }
 }
 </script>
 
 <style scoped>
-.container{
-    max-width: 550px;
+.content{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.form{
+    display: block;
+    width: 550px;
+    align-self: center;
 }
 .col_name{
     text-align: right;

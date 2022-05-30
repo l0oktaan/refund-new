@@ -17,7 +17,7 @@
         </div> <!-- End app-body -->
         <footer class="app-footer">
             <div>
-                <span>สงวนลิขสิทธิ์ &copy; 2020 Comptroller General's Department </span>
+                <span>สงวนลิขสิทธิ์ &copy; 2022 The Comptroller General's Department </span>
             </div>
             <div class="ml-auto">
                 <span>Powered by</span>

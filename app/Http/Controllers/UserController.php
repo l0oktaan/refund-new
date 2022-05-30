@@ -57,7 +57,8 @@ class UserController extends Controller
     }
     private function getUsername($office_id){
         $office = Office::where('id',$office_id)->first();
-        $uname = "U" . $office->code . "-" . (string)($office->users->count()+1);
+        $num = $office->users->count()+1;
+        $uname = "U" . $office->code . "-" . sprintf("%02d", $num);
         return $uname;
         
     }
@@ -134,10 +135,10 @@ class UserController extends Controller
                 'name' => $request->name,
                 'office_id' => $request->office_id,
                 'username' => $user->username,
-                'error' => $th
+                'error' => preg_split('#\r?\n#', $th, 0)[0]
             ]);
-        }
-        
+            return response(null,Response::HTTP_NOT_FOUND);
+        }        
         
     }
 
