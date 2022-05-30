@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -98,26 +99,45 @@ class UserController extends Controller
     }
     public function store(Request $request)
     {
-        $user = Auth::user();
-        if ($user->type != 'admin'){
-            return response(null,Response::HTTP_NOT_FOUND);
+        try {
+            $user = Auth::user();
+            if ($user->type != 'admin'){
+                return response(null,Response::HTTP_NOT_FOUND);
+            }
+            // return response($this->getUsername($request->office_id));
+            $user = new User;
+            $user->name = $request->name;
+            $password = $this->getPassword();        
+            $user->password = Hash::make($password);
+            $user->email = $request->email;
+            $user->type = $request->office_id == 1 ? "admin" : "user";
+            $user->office_id = $request->office_id;
+            $user->username = $this->getUsername($request->office_id);
+            $user->status = 1;
+            $user->save();
+            Log::info('Create User Success: ',[
+                'name' => $user->name,
+                'username' => $user->username,            
+                'office_id' => $user->office_id
+            ]);
+            $this->sendEmail($user,$password);
+            Log::info('Sent Email Success: ',[
+                'username' => $user->username,
+                'email' => $user->email,
+                'office_id' => $user->office_id
+            ]);
+            return response([
+                'data' => new UserResource($user)            
+            ],Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            Log::alert('Create User Fail',[
+                'name' => $request->name,
+                'office_id' => $request->office_id,
+                'username' => $user->username,
+                'error' => $th
+            ]);
         }
-        // return response($this->getUsername($request->office_id));
-        $user = new User;
-        $user->name = $request->name;
-        $password = $this->getPassword();        
-        $user->password = Hash::make($password);
-        $user->email = $request->email;
-        $user->type = $request->office_id == 1 ? "admin" : "user";
-        $user->office_id = $request->office_id;
-        $user->username = $this->getUsername($request->office_id);
-        $user->status = 1;
-        $user->save();
-        $this->sendEmail($user,$password);
-
-        return response([
-            'data' => new UserResource($user)            
-        ],Response::HTTP_CREATED);
+        
         
     }
 

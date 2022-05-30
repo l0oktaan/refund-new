@@ -67,10 +67,10 @@ Route::group(['middleware' => 'auth:api'],function($router) {
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
     // });
-    Route::apiResource('/users','UserController');
+    Route::apiResource('/users','UserController')->middleware('log.route');
 
-    Route::get('/user_online','UserController@UserOnlineStatus');
-    Route::get('/test_mail','Auth\RegisterController@send');
+    // Route::get('/user_online','UserController@UserOnlineStatus');
+    // Route::get('/test_mail','Auth\RegisterController@send');
     Route::get('/create_users','Auth\RegisterController@createUsers');
 
 
