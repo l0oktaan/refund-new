@@ -388,6 +388,7 @@ export default {
     },
     computed: {
         sort_timeline(){
+            return this.time_line;
             return this.time_line.sort(function(a, b) {
                 console.log(a.type + ' ' + b.type)
                 if (a.type == 'contract' || b.type == 'contract'){

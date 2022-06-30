@@ -157,6 +157,7 @@ import AdminIndex from './views/Admin/AdminIndex'
 
 import UserManage from './views/Admin/UserManage'
 import UserRegister from './views/Admin/UserRegister'
+import RefundControl from './views/Admin/RefundControl'
 
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
@@ -369,6 +370,13 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'control',
+                    component: RefundControl,
+                    meta: {
+                        breadCrumb: 'การควบคุมยอดนำส่ง - ถอนคืน' //crumb
+                    }
+                },
+                {
                     path: 'refunds',
 
                     component: RefundShow,
@@ -413,17 +421,17 @@ const router = new VueRouter({
 //     }
 // })
 // ---------------- Layout -----------------------
-import AdminNav from './components/Admin/AdminNav.vue';
-Vue.component('AdminNav', AdminNav).defaults;
+// import AdminNav from './components/Admin/AdminNav.vue';
+// Vue.component('AdminNav', AdminNav).defaults;
 
-import AdminMenu from './components/Admin/AdminMenu.vue';
-Vue.component('AdminMenu', AdminMenu).defaults;
+// import AdminMenu from './components/Admin/AdminMenu.vue';
+// Vue.component('AdminMenu', AdminMenu).defaults;
 
-import AdminBreadcrumb from './components/Admin/AdminBreadcrumb.vue';
-Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
+// import AdminBreadcrumb from './components/Admin/AdminBreadcrumb.vue';
+// Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
 
-import AdminSide from './components/Admin/AdminSide.vue';
-Vue.component('AdminSide', AdminSide).defaults;
+// import AdminSide from './components/Admin/AdminSide.vue';
+// Vue.component('AdminSide', AdminSide).defaults;
 
 import RefundNav from './views/containers/AdminNav.vue';
 Vue.component('RefundNav', RefundNav).defaults;
