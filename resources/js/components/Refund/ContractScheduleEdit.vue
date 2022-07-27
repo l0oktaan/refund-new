@@ -176,6 +176,22 @@ export default{
 
         SubmitContractEdit(e){
             e.preventDefault();
+            if (this.edit_start == false && this.edit_end == false){
+                this.alert = "require";
+                    return
+            }
+            if (this.edit_start){
+                if (!(this.start_date) || (this.start_date == '')){
+                    this.alert = "require";
+                    return
+                }
+            }
+            if (this.edit_end){
+                if (!(this.end_date) || (this.end_date == '')){
+                    this.alert = "require";
+                    return
+                }
+            }
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_schedule_edits`;
             if (!(this.edit_start || this.edit_end)){
                 this.alert = "error";
