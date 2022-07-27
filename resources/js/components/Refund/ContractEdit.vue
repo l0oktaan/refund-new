@@ -98,8 +98,8 @@
                     <tbody>
                         <tr v-for="(item,index) in contract_edit_list" :key="index">
                             <td>{{getThaiDate(item.contract_edit_date)}}</td>
-                            <td>{{item.budget_new | numeral('0,0.00') }}</td>
-                            <td>{{item.penalty_new | numeral('0,0.00') }}</td>
+                            <td>{{getNumeric(item.budget_new)}}</td>
+                            <td>{{getNumeric(item.penalty_new)}}</td>
                             <td>
                                 <b-button :disabled="isDisable" :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                                 <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
@@ -175,6 +175,16 @@ export default{
 
                 }
             }
+        },
+        edit_budget(newVal,oldVal){
+            if(newVal == false){
+                this.contract_edit.budget_new = ''
+            }
+        },
+        edit_penalty(newVal,oldVal){
+            if(newVal == false){
+                this.contract_edit.penalty_new = ''
+            }
         }
     },
     filters: {
@@ -203,11 +213,11 @@ export default{
                 }
             }
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_budget_edits`;
-            console.log('edit path : ' + path);
+            
             if (this.state == 'new'){
                 axios.post(`${path}`,{
-                    budget_new: this.contract_edit.budget_new,
-                    penalty_new: this.contract_edit.penalty_new,
+                    budget_new: this.edit_budget ? this.contract_edit.budget_new : null,
+                    penalty_new: this.edit_penalty ? this.contract_edit.penalty_new : null,
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
@@ -226,8 +236,8 @@ export default{
                 })
             }else if (this.state == 'update'){
                 axios.put(`${path}/${this.contract_edit.id}`,{
-                    budget_new: this.contract_edit.budget_new,
-                    penalty_new: this.contract_edit.penalty_new,
+                    budget_new: this.edit_budget ? this.contract_edit.budget_new : null,
+                    penalty_new: this.edit_penalty ? this.contract_edit.penalty_new : null,
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
@@ -241,6 +251,7 @@ export default{
                     this.fetchContractEdit();
                 })
                 .catch(error=>{
+                    console.log(error);
                     this.alert = "error";
                 })
             }
@@ -288,7 +299,7 @@ export default{
         },
         async toEdit(contract_edit){
             //console.log('edit edit');
-            this.contract_edit = await contract_edit;
+            this.contract_edit = await JSON.parse(JSON.stringify(contract_edit));
             this.date_show = await contract_edit.contract_edit_date;
             this.edit_budget = await contract_edit.budget_new ? true : false;
             this.edit_penalty = await contract_edit.penalty_new ? true : false;
@@ -307,6 +318,14 @@ export default{
             
 
             this.$forceUpdate();
+        },
+        getNumeric(value){
+            if (value){
+                let val = (value/1).toFixed(2)
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }else{
+                return ''
+            }
         },
         getThaiDate(value){
             var d = new Date(value);

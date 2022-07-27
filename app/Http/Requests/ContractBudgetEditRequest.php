@@ -25,8 +25,8 @@ class ContractBudgetEditRequest extends FormRequest
     {
         return [
 
-            'budget_new' => 'required',
-            'penalty_new' => 'required',
+            // 'budget_new' => 'required',
+            // 'penalty_new' => 'required',
             'contract_edit_date' => 'required'
         ];
     }
