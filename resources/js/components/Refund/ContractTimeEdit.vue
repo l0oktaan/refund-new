@@ -392,7 +392,7 @@ export default {
                     }else{
                         let diff = this.diffDate(this.date_problem_end,this.date_book);
 
-                        if (diff > 15){
+                        if (diff > 16){
                             this.$nextTick(() => {
                                 // this.date_problem_end = oldDate;
                                 this.showRuleAlert = true;
@@ -482,7 +482,7 @@ export default {
                     }else{
                         let diff = this.diffDate(this.date_problem_end,this.date_book);
 
-                        if (diff > 15){
+                        if (diff > 16){
                             this.$nextTick(() => {
                                 // this.date_book = oldDate;
                                 this.showRuleAlert = true;
@@ -542,7 +542,7 @@ export default {
             }
             let diff = this.diffDate(this.date_problem_end,this.date_book);
 
-            if (diff > 15){
+            if (diff > 16){
                 this.showRuleAlert = true;
                 return false;
             }else{
