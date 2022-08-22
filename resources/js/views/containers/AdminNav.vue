@@ -61,7 +61,13 @@
                         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                     </a>
                 </div>
+                
             </li>
+            <li class="nav-item">
+                <a class="dropdown-item" href="#" @click="logout">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </a>
+            </li> 
         </ul>
         <!-- <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
             <span class="navbar-toggler-icon"></span>
