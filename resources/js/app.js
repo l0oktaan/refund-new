@@ -219,6 +219,16 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/logout',
+            component: Login,
+            beforeEnter (to, from, next) {                
+                store.dispatch('logout')                
+            },
+            meta: {
+                breadCrumb: 'เข้าสู่ระบบ' //crumb
+            }
+        },
+        {
             path: '/passchange',
             component: PassChange,
             beforeEnter (to, from, next) {
