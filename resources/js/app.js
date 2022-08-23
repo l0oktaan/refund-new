@@ -157,6 +157,7 @@ import AdminIndex from './views/Admin/AdminIndex'
 
 import UserManage from './views/Admin/UserManage'
 import UserRegister from './views/Admin/UserRegister'
+import RefundControl from './views/Admin/RefundControl'
 
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
@@ -212,6 +213,16 @@ const router = new VueRouter({
                 } else {
                     next()
                 }
+            },
+            meta: {
+                breadCrumb: 'เข้าสู่ระบบ' //crumb
+            }
+        },
+        {
+            path: '/logout',
+            component: Login,
+            beforeEnter (to, from, next) {                
+                store.dispatch('logout')                
             },
             meta: {
                 breadCrumb: 'เข้าสู่ระบบ' //crumb
@@ -369,6 +380,13 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'control',
+                    component: RefundControl,
+                    meta: {
+                        breadCrumb: 'การควบคุมยอดนำส่ง - ถอนคืน' //crumb
+                    }
+                },
+                {
                     path: 'refunds',
 
                     component: RefundShow,
@@ -413,17 +431,17 @@ const router = new VueRouter({
 //     }
 // })
 // ---------------- Layout -----------------------
-import AdminNav from './components/Admin/AdminNav.vue';
-Vue.component('AdminNav', AdminNav).defaults;
+// import AdminNav from './components/Admin/AdminNav.vue';
+// Vue.component('AdminNav', AdminNav).defaults;
 
-import AdminMenu from './components/Admin/AdminMenu.vue';
-Vue.component('AdminMenu', AdminMenu).defaults;
+// import AdminMenu from './components/Admin/AdminMenu.vue';
+// Vue.component('AdminMenu', AdminMenu).defaults;
 
-import AdminBreadcrumb from './components/Admin/AdminBreadcrumb.vue';
-Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
+// import AdminBreadcrumb from './components/Admin/AdminBreadcrumb.vue';
+// Vue.component('AdminBreadcrumb', AdminBreadcrumb).defaults;
 
-import AdminSide from './components/Admin/AdminSide.vue';
-Vue.component('AdminSide', AdminSide).defaults;
+// import AdminSide from './components/Admin/AdminSide.vue';
+// Vue.component('AdminSide', AdminSide).defaults;
 
 import RefundNav from './views/containers/AdminNav.vue';
 Vue.component('RefundNav', RefundNav).defaults;
@@ -736,9 +754,11 @@ const store = new Vuex.Store({
                 {text: 'มติ ครม. ว 204 ลว 15 ส.ค. 55', value: 14, type: 1,startDate: '2012-08-15', endDate: '2012-10-08'},
                 {text: 'มติ ครม. ว 208 ลว 27 พ.ย. 56', value: 15, type: 1,startDate: '2013-11-27', endDate: '2014-01-24'},
                 {text: 'มติ ครม. ว 141 ลว 21 พ.ย. 57', value: 16, type: 1,startDate: '2014-11-21', endDate: '2015-01-19'},
+                {text: 'มติ ครม. 1558 ลว 27 ม.ค. 58', value: 51},
                 {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17, type: 1,startDate: '2016-09-07', endDate: '2016-11-07'},
                 {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18, type: 1,startDate: '2017-08-10', endDate: '2017-10-09'},
                 {text: 'มติ ครม. ว 165 ลว 26 เม.ย. 62', value: 19, type: 1,startDate: '2019-04-26', endDate: '2019-06-24'},
+                
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (1)', value: 24},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
@@ -749,6 +769,7 @@ const store = new Vuex.Store({
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32},
                 {text: 'หนังสือ กวพ. ว 168 / ว 291', value: 40},
                 {text: 'หนังสือ กวจ. ว 171 / ว 423', value: 41},
+                
                 {text: 'อื่นๆ', value: 99}
             ]
             return state.arrApproveType

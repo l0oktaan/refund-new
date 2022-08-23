@@ -44,8 +44,8 @@
                                 <b-col sm="4">
 
                                     <b-form-group>
-                                        <label for="budget_new">แก้ไขวงเงินค่าจ้างเป็น : <span class="require"> *</span></label>
-                                        <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number"></cleave>
+                                        <label for="budget_new"><i :class=" edit_budget ? icon_check : icon_uncheck" @click="edit_budget=!edit_budget"></i> แก้ไขวงเงินค่าจ้างเป็น : </label>
+                                        <cleave placeholder="วงเงินใหม่" name="budget_new" v-model="contract_edit.budget_new" class="form-control" :options="cleave_options.number" v-if="edit_budget"></cleave>
                                         <!-- <b-form-input type="text"
                                             placeholder="วงเงินใหม่"
                                             name="budget_new"
@@ -58,8 +58,8 @@
                                 </b-col>
                                 <b-col sm="4">
                                     <b-form-group>
-                                        <label for="penalty_new">ค่าปรับเป็น : <span class="require"> *</span></label>
-                                        <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number"></cleave>
+                                        <label for="penalty_new"><i :class=" edit_penalty ? icon_check : icon_uncheck" @click="edit_penalty=!edit_penalty"></i> ค่าปรับเป็น : </label>
+                                        <cleave placeholder="ค่าปรับใหม่" name="penalty_new" v-model="contract_edit.penalty_new" class="form-control" :options="cleave_options.number" v-if="edit_penalty"></cleave>
                                         <!-- <b-form-input type="text"
                                             placeholder="ค่าปรับใหม่"
                                             name="penalty_new"
@@ -98,8 +98,8 @@
                     <tbody>
                         <tr v-for="(item,index) in contract_edit_list" :key="index">
                             <td>{{getThaiDate(item.contract_edit_date)}}</td>
-                            <td>{{item.budget_new | numeral('0,0.00') }}</td>
-                            <td>{{item.penalty_new | numeral('0,0.00') }}</td>
+                            <td>{{getNumeric(item.budget_new)}}</td>
+                            <td>{{getNumeric(item.penalty_new)}}</td>
                             <td>
                                 <b-button :disabled="isDisable" :id="'btnEdit'+item.id" class="tools" size="sm" variant="outline-primary" @click="toEdit(item)"><i class="fas fa-edit"></i></b-button>
                                 <b-tooltip :target="'btnEdit'+item.id" triggers="hover" placement="left">
@@ -149,7 +149,11 @@ export default{
             },
             isEdit: false,
             refund_status: this.$store.getters.refund_status,
-            isScheduleEdit: false
+            isScheduleEdit: false,
+            edit_budget: false,
+            edit_penalty: false,
+            icon_check: 'far fa-check-square fa-lg',
+            icon_uncheck: 'far fa-square fa-lg'
         }
     },
     mounted(){
@@ -171,6 +175,16 @@ export default{
 
                 }
             }
+        },
+        edit_budget(newVal,oldVal){
+            if(newVal == false){
+                this.contract_edit.budget_new = ''
+            }
+        },
+        edit_penalty(newVal,oldVal){
+            if(newVal == false){
+                this.contract_edit.penalty_new = ''
+            }
         }
     },
     filters: {
@@ -181,12 +195,29 @@ export default{
 
         SubmitContractEdit(e){
             e.preventDefault();
+            if (this.edit_budget == false && this.edit_penalty == false){
+                this.alert = "require";
+                    return
+            }
+            if (this.edit_budget){
+                console.log('budget_new :' + this.contract_edit.budget_new);
+                if (this.contract_edit.budget_new === undefined|| this.contract_edit.budget_new == ''){
+                    this.alert = "require";
+                    return
+                }
+            }
+            if (this.edit_penalty){
+                if (this.contract_edit.penalty_new === undefined || this.contract_edit.penalty_new == ''){
+                    this.alert = "require";
+                    return
+                }
+            }
             var path = `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_budget_edits`;
-            console.log('edit path : ' + path);
+            
             if (this.state == 'new'){
                 axios.post(`${path}`,{
-                    budget_new: this.contract_edit.budget_new,
-                    penalty_new: this.contract_edit.penalty_new,
+                    budget_new: this.edit_budget ? this.contract_edit.budget_new : null,
+                    penalty_new: this.edit_penalty ? this.contract_edit.penalty_new : null,
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
@@ -205,8 +236,8 @@ export default{
                 })
             }else if (this.state == 'update'){
                 axios.put(`${path}/${this.contract_edit.id}`,{
-                    budget_new: this.contract_edit.budget_new,
-                    penalty_new: this.contract_edit.penalty_new,
+                    budget_new: this.edit_budget ? this.contract_edit.budget_new : null,
+                    penalty_new: this.edit_penalty ? this.contract_edit.penalty_new : null,
                     contract_edit_date: this.edit_date
                 })
                 .then(response=>{
@@ -220,6 +251,7 @@ export default{
                     this.fetchContractEdit();
                 })
                 .catch(error=>{
+                    console.log(error);
                     this.alert = "error";
                 })
             }
@@ -265,12 +297,14 @@ export default{
 
                 })
         },
-        toEdit(contract_edit){
+        async toEdit(contract_edit){
             //console.log('edit edit');
-            this.contract_edit = contract_edit;
-            this.date_show = contract_edit.contract_edit_date;
-            this.state = 'update';
-            this.$forceUpdate();
+            this.contract_edit = await JSON.parse(JSON.stringify(contract_edit));
+            this.date_show = await contract_edit.contract_edit_date;
+            this.edit_budget = await contract_edit.budget_new ? true : false;
+            this.edit_penalty = await contract_edit.penalty_new ? true : false;
+            this.state = await 'update';
+            await this.$forceUpdate();
         },
         clearData(){
             this.contract_edit = {};
@@ -279,7 +313,19 @@ export default{
             if (this.contract_edit_list.length <= 0) {
                 this.isEdit = false;
             }
+            this.edit_budget = false;
+            this.edit_penalty = false;
+            
+
             this.$forceUpdate();
+        },
+        getNumeric(value){
+            if (value){
+                let val = (value/1).toFixed(2)
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }else{
+                return ''
+            }
         },
         getThaiDate(value){
             var d = new Date(value);

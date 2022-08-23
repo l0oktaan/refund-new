@@ -77,7 +77,7 @@
                                                             <div v-if="refund.refund.contract_edits && refund.refund.contract_edits.length > 0">
                                                                 <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
-                                                                    <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{contract_edit.budget_new | numeral('0,0.00')}}</span> บาท ค่าปรับเป็น <span class="show">{{contract_edit.penalty_new | numeral('0,0.00')}}</span> บาท</p>
+                                                                    <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{getNumeric(contract_edit.budget_new)}}</span> บาท ค่าปรับเป็น <span class="show">{{getNumeric(contract_edit.penalty_new)}}</span> บาท</p>
                                                                 </div> 
                                                             </div> 
                                                             <p class="head sub" v-if="(!refund.refund.contract_schedule_edits || refund.refund.contract_schedule_edits.length == 0) && (!refund.refund.contract_edits || refund.refund.contract_edits.length == 0)">-ไม่มี-</p>
@@ -92,7 +92,7 @@
                                                                 <p class="head sub2" v-if="time_edit.approve_type == 99"> เข้าตามกรณี <span class="show">{{arrApproveOtherType[arrApproveOtherType.findIndex(x=>x.value == time_edit.approve_other_type)]['text']}}</span></p>
                                                                 <p class="head sub2"><span v-if="time_edit.approve_type > 20 && time_edit.approve_type < 40">กรณี</span> <span class="show" v-if="time_edit.approve_type > 20 && time_edit.approve_type < 40">{{time_edit.approve_case}}</span>จำนวนวัน<span class="show">{{time_edit.edit_days}}</span>วัน </p>
                                                                 <p class="head sub2">{{time_edit.edit_type == 1 ? 'โดยอนุมัติขยายเวลา ' : time_edit.edit_type == 2 ? 'โดยอนุมัติงดหรือลดค่าปรับ ' : ''}}ตั้งแต่วันที่ <span class="show">{{getThaiDate(time_edit.edit_start_date)}}</span> {{time_edit.edit_type == 1 ? 'เป็นสิ้นสุดสัญญาวันที่' : 'ถึงวันที่ :'}} <span class="show">{{getThaiDate(time_edit.edit_end_date)}}</span></p>
-                                                                <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_type == 99 && time_edit.approve_other_type != 1)">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
+                                                                <p class="head sub2" v-if="arrShowTimeEditDetail.includes(parseInt(time_edit.approve_type)) || (time_edit.approve_type == 99 && (time_edit.approve_other_type == 2 || time_edit.approve_other_type == 3))">อุปสรรคสิ้นสุดวันที่ <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> หนังสือแจ้งเหตุวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                                 <p class="head sub2" v-if="parseInt(time_edit.approve_type) == 40">โดยได้รับผลกระทบจากเหตุความไม่สงบทางการเมือง<br> ตั้งแต่วันที่ : <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                                 <p class="head sub2" v-if="parseInt(time_edit.approve_type) == 41">โดยได้รับผลกระทบจากกรณีโรคโควิด 19<br> ตั้งแต่วันที่ : <span class="show">{{getThaiDate(time_edit.problem_end_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(time_edit.book_date)}}</span></p>
                                                             </div>
@@ -329,7 +329,8 @@ export default {
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของส่วนราชการ (ผู้ว่าจ้าง/หน่วยงาน)', value : 1},
                 {text: '(1) เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยการบริหารราชการส่วนท้องถิ่น', value : 10},
                 {text: '(2) เหตุสุดวิสัย', value : 2},
-                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3}
+                {text: '(3) เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย', value : 3},
+                {text: 'อื่น', value : 4}
             ],
             arrShowTimeEditDetail : [
                 22,23,31,32
@@ -388,6 +389,7 @@ export default {
     },
     computed: {
         sort_timeline(){
+            return this.time_line;
             return this.time_line.sort(function(a, b) {
                 console.log(a.type + ' ' + b.type)
                 if (a.type == 'contract' || b.type == 'contract'){
@@ -733,7 +735,15 @@ export default {
                 this.time_line.push(item)
             })
 
-        }
+        },
+        getNumeric(value){
+            if (value){
+                let val = (value/1).toFixed(2)
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }else{
+                return '-'
+            }
+        },
     }
 }
 </script>

@@ -53,37 +53,42 @@ class ApproveRefundController extends Controller
     }
     public function store(Office $office, Refund $refund, ApproveRefundRequest $request)
     {
-        if ($refund->office_id == $office->id){
-            $approve = new ApproveRefund($request->all());
-            $refund->approve_refunds()->save($approve);
-
-            $y = Date('Y') + 543;
-            if (Date('m')>9) {
-                $y = $y + 1;
+        try {
+            if ($refund->office_id == $office->id){
+                $approve = new ApproveRefund($request->all());
+                $refund->approve_refunds()->save($approve);
+    
+                $y = Date('Y') + 543;
+                if (Date('m')>9) {
+                    $y = $y + 1;
+                }
+                $get_code = RefundCode::where('year',$y)->orderBy('code','desc')->first();
+                
+                $current = ($get_code === null) ? 0 : (int)$get_code->code;                
+                $refund_code = new RefundCode;
+                $refund_code->refund_id = $refund->id;
+                $refund_code->create_date = date('Y-m-d');
+                $refund_code->year = $y;
+                $refund_code->code = $current + 1;
+                $refund_code->save();
+                if ($refund->status < 7){
+                    $code = $this->getCode($refund_code);
+                    $refund->update([
+                        'approve_code' => $code,
+                        'status' => 7
+                    ]);
+                }
+                return response([
+                    'data' => new ApproveRefundResource($approve)
+                ],Response::HTTP_CREATED);
+    
+            }else{
+                return response(null,Response::HTTP_NOT_FOUND);
             }
-            $get_code = RefundCode::where('year',$y)->get();
-            $count = ($get_code) ? count($get_code) : 0;
-
-            $refund_code = new RefundCode;
-            $refund_code->refund_id = $refund->id;
-            $refund_code->create_date = date('Y-m-d');
-            $refund_code->year = $y;
-            $refund_code->code = $count + 1;
-            $refund_code->save();
-            if ($refund->status < 7){
-                $code = $this->getCode($refund_code);
-                $refund->update([
-                    'approve_code' => $code,
-                    'status' => 7
-                ]);
-            }
-            return response([
-                'data' => new ApproveRefundResource($approve)
-            ],Response::HTTP_CREATED);
-
-        }else{
-            return response(null,Response::HTTP_NOT_FOUND);
+        } catch (\Throwable $th) {
+            return $th;
         }
+        
     }
 
     /**

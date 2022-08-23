@@ -138,8 +138,7 @@ class UserController extends Controller
                 'error' => preg_split('#\r?\n#', $th, 0)[0]
             ]);
             return response(null,Response::HTTP_NOT_FOUND);
-        }        
-        
+        }         
     }
 
 }

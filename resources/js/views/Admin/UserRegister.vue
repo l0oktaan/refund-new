@@ -140,7 +140,7 @@
                             <div class="text-center">
                                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                 
-                                <b-button variant="danger" @click="onCancel">ล้งข้อมูล</b-button>
+                                <b-button variant="danger" @click="onCancel">ล้างข้อมูล</b-button>
                             </div>
                         </b-col>
                     </b-row>
