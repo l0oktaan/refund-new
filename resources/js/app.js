@@ -50,7 +50,7 @@ Vue.use(BootstrapVueIcons)
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Vuex from 'vuex';
-//import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from 'vuex-persistedstate';
 import VuexPersistence from 'vuex-persist'
 import Cookies from 'js-cookie';
 Vue.use(Vuex)
@@ -600,17 +600,17 @@ const store = new Vuex.Store({
         refund_filter: [],
         edit_count: null
     },
-    // plugins: [
-    //     createPersistedState({
-    //         storage: {
-    //             getItem: key => Cookies.get(key),
-    //             setItem: (key, value) =>
-    //                 Cookies.set(key, value, { expires: 3, secure: true }),
-    //             removeItem: key => Cookies.remove(key)
-    //         }
-    //     })
-    // ],
-    plugins: [new VuexPersistence().plugin],
+    plugins: [
+        createPersistedState({
+            storage: {
+                getItem: key => Cookies.get(key),
+                setItem: (key, value) =>
+                    Cookies.set(key, value, { expires: 3, secure: true }),
+                removeItem: key => Cookies.remove(key)
+            }
+        })
+    ],
+    // plugins: [new VuexPersistence().plugin],
     getters: {
         refund_show: state => {
             return state.refund_show;
