@@ -605,7 +605,7 @@ const store = new Vuex.Store({
             storage: {
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>
-                Cookies.set(key, value, { expires: 3, samesite:'Strict',secure: true }),
+                Cookies.set(key, value, { expires: 1, samesite:'Strict',secure: true }),
                 removeItem: key => Cookies.remove(key)
             }
         })
@@ -798,16 +798,16 @@ const store = new Vuex.Store({
             state.user = userData.user
             state.userToken = userData.token
         },
-        clearAuthData (state){
-           console.log('Clear .....')
-            state.user = null
-            state.userToken = null
-            state.office_id = null
-            state.refund_show = null
-            localStorage.removeItem('vuex')
-            localStorage.removeItem('token')
-            localStorage.removeItem('expirationDate')
-            // Cookies.remove('vuex')
+        async clearAuthData (state){
+
+            state.user = await null
+            state.userToken = await null
+            state.office_id = await null
+            state.refund_show = await null
+            await localStorage.removeItem('vuex')
+            await localStorage.removeItem('token')
+            await localStorage.removeItem('expirationDate')
+            Cookies.set('vuex',null)
         },
         SET_USER:(state, value) => {
             state.user = value
