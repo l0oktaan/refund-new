@@ -846,8 +846,8 @@ const store = new Vuex.Store({
 
     },
     actions: {
-        login ({ commit, state}, authData){
-            let path = '/api/login'
+        async login ({ commit, state}, authData){
+            let path = await '/api/login'
             return new Promise((resolve, reject) => {
                 axios.post(path,{
                     username: authData.username,
@@ -923,16 +923,17 @@ const store = new Vuex.Store({
                 await console.log('logout :' + res.data)
                 if (res.data == 'success'){
                     await commit('clearAuthData')
-                    await router.push('/login')
+                    await router.go('/login')
                 }else{
                     await commit('clearAuthData')
-                    await router.push('/login')
+                    await router.go('/login')
                 }
             } catch (error) {
                 // await console.log(error)
                 await commit('clearAuthData')
-                await router.push('/login')
+                await router.go('/login')
             }
+
 
 
 
