@@ -605,12 +605,12 @@ const store = new Vuex.Store({
             storage: {
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>
-                    Cookies.set(key, value, { expires: 3, samesite:'Strict',secure: true }),
+                Cookies.set(key, value, { expires: 3, samesite:'Strict',secure: true }),
                 removeItem: key => Cookies.remove(key)
             }
         })
     ],
-    strict: 'strick',
+
     // plugins: [new VuexPersistence().plugin],
     getters: {
         refund_show: state => {
@@ -807,7 +807,7 @@ const store = new Vuex.Store({
             localStorage.removeItem('vuex')
             localStorage.removeItem('token')
             localStorage.removeItem('expirationDate')
-            Cookies.remove('vuex')
+            // Cookies.remove('vuex')
         },
         SET_USER:(state, value) => {
             state.user = value
