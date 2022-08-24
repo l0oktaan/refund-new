@@ -19,7 +19,11 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c20c920c6f03af9842b9db7d355e5cea0cc193c8
         \App\Http\Middleware\FrameHeadersMiddleware::class
     ];
 
