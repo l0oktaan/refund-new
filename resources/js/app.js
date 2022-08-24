@@ -803,8 +803,10 @@ const store = new Vuex.Store({
             state.userToken = null
             state.office_id = null
             state.refund_show = null
+            localStorage.removeItem('vuex')
             localStorage.removeItem('token')
             localStorage.removeItem('expirationDate')
+            Cookies.remove('vuex')
         },
         SET_USER:(state, value) => {
             state.user = value
