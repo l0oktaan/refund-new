@@ -19,9 +19,9 @@ class FrameHeadersMiddleware
         $response = $next($request);
         // $response->header('X-Frame-Options', 'ALLOW FROM https://example.com/');
         // $response->headers->set('X-Frame-Options', 'ALLOW FROM url', false);
-        $response->header('X-Frame-Options', 'SAMEORIGIN');
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN',false);
         // $response->header('X-XSS-Protection', '1');
-        
+
         return $response;
     }
     // public function handle($request, Closure $next)

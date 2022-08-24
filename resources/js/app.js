@@ -50,7 +50,7 @@ Vue.use(BootstrapVueIcons)
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Vuex from 'vuex';
-//import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from 'vuex-persistedstate';
 import VuexPersistence from 'vuex-persist'
 import Cookies from 'js-cookie';
 Vue.use(Vuex)
@@ -221,8 +221,8 @@ const router = new VueRouter({
         {
             path: '/logout',
             component: Login,
-            beforeEnter (to, from, next) {                
-                store.dispatch('logout')                
+            beforeEnter (to, from, next) {
+                store.dispatch('logout')
             },
             meta: {
                 breadCrumb: 'เข้าสู่ระบบ' //crumb
@@ -600,17 +600,17 @@ const store = new Vuex.Store({
         refund_filter: [],
         edit_count: null
     },
-    // plugins: [
-    //     createPersistedState({
-    //         storage: {
-    //             getItem: key => Cookies.get(key),
-    //             setItem: (key, value) =>
-    //                 Cookies.set(key, value, { expires: 3, secure: true }),
-    //             removeItem: key => Cookies.remove(key)
-    //         }
-    //     })
-    // ],
-    plugins: [new VuexPersistence().plugin],
+    plugins: [
+        createPersistedState({
+            storage: {
+                getItem: key => Cookies.get(key),
+                setItem: (key, value) =>
+                    Cookies.set(key, value, { expires: 3, secure: true }),
+                removeItem: key => Cookies.remove(key)
+            }
+        })
+    ],
+    // plugins: [new VuexPersistence().plugin],
     getters: {
         refund_show: state => {
             return state.refund_show;
@@ -758,7 +758,7 @@ const store = new Vuex.Store({
                 {text: 'มติ ครม. ว 272 ลว 7 ก.ย. 59', value: 17, type: 1,startDate: '2016-09-07', endDate: '2016-11-07'},
                 {text: 'มติ ครม. ว 399 ลว 10 ส.ค. 60', value: 18, type: 1,startDate: '2017-08-10', endDate: '2017-10-09'},
                 {text: 'มติ ครม. ว 165 ลว 26 เม.ย. 62', value: 19, type: 1,startDate: '2019-04-26', endDate: '2019-06-24'},
-                
+
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 136', value: 21},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (1)', value: 24},
                 {text: 'ระเบียบพัสดุ 2535 ข้อ 139 (2)', value: 22},
@@ -769,7 +769,7 @@ const store = new Vuex.Store({
                 {text: 'พรบ. จัดซื้อจัดจ้าง ปี 2560 มาตรา 102 (3)', value: 32},
                 {text: 'หนังสือ กวพ. ว 168 / ว 291', value: 40},
                 {text: 'หนังสือ กวจ. ว 171 / ว 423', value: 41},
-                
+
                 {text: 'อื่นๆ', value: 99}
             ]
             return state.arrApproveType
@@ -913,7 +913,7 @@ const store = new Vuex.Store({
         },
         async logout({ commit }){
 
-            
+
             try {
                 let path = await '/api/logout'
                 let res = await axios.get(path)
