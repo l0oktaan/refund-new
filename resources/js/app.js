@@ -585,6 +585,10 @@ Vue.component('Forgot', Forgot).defaults;
 
 import Reset from './components/Login/Reset.vue'
 Vue.component('Reset', Reset).defaults;
+
+const inow = new Date()            
+const iexpirationDate = new Date(inow.getTime() + 1*60*60*1000)
+
 const store = new Vuex.Store({
     state: {
         user: null,
@@ -605,7 +609,7 @@ const store = new Vuex.Store({
             storage: {
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>
-                Cookies.set(key, value, { expires: 1, samesite:'Strict',secure: true }),
+                Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
                 removeItem: key => Cookies.remove(key)
             }
         })
