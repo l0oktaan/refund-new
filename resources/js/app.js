@@ -586,7 +586,7 @@ Vue.component('Forgot', Forgot).defaults;
 import Reset from './components/Login/Reset.vue'
 Vue.component('Reset', Reset).defaults;
 
-const inow = new Date()            
+const inow = new Date()
 const iexpirationDate = new Date(inow.getTime() + 1*60*60*1000)
 
 const store = new Vuex.Store({
@@ -604,18 +604,18 @@ const store = new Vuex.Store({
         refund_filter: [],
         edit_count: null
     },
-    plugins: [
-        createPersistedState({
-            storage: {
-                getItem: key => Cookies.get(key),
-                setItem: (key, value) =>
-                Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
-                removeItem: key => Cookies.remove(key)
-            }
-        })
-    ],
+    // plugins: [
+    //     createPersistedState({
+    //         storage: {
+    //             getItem: key => Cookies.get(key),
+    //             setItem: (key, value) =>
+    //             Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
+    //             removeItem: key => Cookies.remove(key)
+    //         }
+    //     })
+    // ],
 
-    // plugins: [new VuexPersistence().plugin],
+    plugins: [new VuexPersistence().plugin],
     getters: {
         refund_show: state => {
             return state.refund_show;
@@ -811,7 +811,7 @@ const store = new Vuex.Store({
             await localStorage.removeItem('vuex')
             await localStorage.removeItem('token')
             await localStorage.removeItem('expirationDate')
-            Cookies.set('vuex',null)
+            // Cookies.set('vuex',null)
         },
         SET_USER:(state, value) => {
             state.user = value
