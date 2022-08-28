@@ -52,7 +52,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import VuexPersistence from 'vuex-persist'
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 Vue.use(Vuex)
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
