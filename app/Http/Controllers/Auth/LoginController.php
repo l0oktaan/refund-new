@@ -53,7 +53,7 @@ class LoginController extends Controller
             //$request->session()->regenerate();
             
             if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
+                // $request->session()->regenerate();
                 Log::channel('auth')->info('LOGIN SUCCESS ',[
                     'username' => $request->username,
                     'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
@@ -100,7 +100,7 @@ class LoginController extends Controller
                 'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
             ]);
             if (Auth::check()) {
-                $request->session()->regenerate();
+                // $request->session()->regenerate();
                 $user = Auth::user()->token();
                 $user->revoke();
                 return "success";     
