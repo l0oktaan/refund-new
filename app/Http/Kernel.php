@@ -19,7 +19,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \App\Http\Middleware\FrameHeadersMiddleware::class
+        \App\Http\Middleware\FrameHeadersMiddleware::class,
+        \Illuminate\Session\Middleware\StartSession::class,
     ];
 
     /**
@@ -39,6 +40,7 @@ class Kernel extends HttpKernel
             //\Illuminate\Session\Middleware\AuthenticateSession::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
             \App\Http\Middleware\LastUserActivity::class,
+            \Illuminate\Session\Middleware\StartSession::class,
         ],
 
         'api' => [
