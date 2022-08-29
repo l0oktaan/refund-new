@@ -51,8 +51,9 @@ class LoginController extends Controller
         sleep(1);
         $credentials = $request->only('username', 'password');
         //$request->session()->regenerate();
-        session()->regenerate();
+        
         if (Auth::attempt($credentials)) {
+            session()->regenerate();
             Log::channel('auth')->info('LOGIN SUCCESS ',[
                 'username' => $request->username,
                 'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
