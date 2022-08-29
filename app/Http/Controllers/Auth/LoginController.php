@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Log;
+
 class LoginController extends Controller
 {
     /*
@@ -48,8 +50,8 @@ class LoginController extends Controller
         
         sleep(1);
         $credentials = $request->only('username', 'password');
-
-
+        //$request->session()->regenerate();
+        session()->regenerate();
         if (Auth::attempt($credentials)) {
             Log::channel('auth')->info('LOGIN SUCCESS ',[
                 'username' => $request->username,
