@@ -951,11 +951,11 @@ Vue.use(VueAxios, axios)
 
 // let AUTH_TOKEN = store.getters('userToken');
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-window.axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
+// window.axios.defaults.headers.common = {
+//     'X-Requested-With': 'XMLHttpRequest',
 
 
-};
+// };
 axios.interceptors.request.use(
     (config) => {
       let token = localStorage.getItem('token');
@@ -978,3 +978,8 @@ const app = new Vue({
     store,
 
 });
+
+var onlyStrings = false;
+try{window.postMessage({toString:function(){onlyStrings=true;}},"*");}catch(e){}
+
+console.log("Browser only supports postMessage with strings? " + onlyStrings);
