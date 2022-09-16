@@ -514,13 +514,10 @@ export default {
                             borderColor: "gray",
                         });
                     }
-
                     await this.$forceUpdate();
             } catch (error) {
                 console.log('GetTimeEdit Error')
-            }
-            
-
+            }          
 
         },
         async getDeliver(){
