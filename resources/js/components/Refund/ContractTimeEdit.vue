@@ -167,7 +167,7 @@
                                 <b-col sm="4" >
                                     <b-form-group>
                                         <label for="problem_end_date" v-if="time_edit.approve_type == 40">โดยได้รับผลกระทบจากเหตุความไม่สงบทางการเมือง ตั้งแต่วันที่ :</label>
-                                        <label for="problem_end_date" v-if="time_edit.approve_type == 41">โดยได้รับผลกระทบจากกรณีโรคโควิด 19 ตั้งแต่วันที่ :</label>
+                                        <label for="problem_end_date" v-if="time_edit.approve_type == 41">โดยได้รับผลกระทบจากกรณีโรคโควิด 19 ในช่วงเวลา ตั้งแต่วันที่ :</label>
                                         <my-date-picker ref="problem_end_date" :id="13" :showDate="date_problem_end" @update="value => date_problem_end = value"></my-date-picker>
                                     </b-form-group>
                                 </b-col>
