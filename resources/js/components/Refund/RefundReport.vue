@@ -67,19 +67,26 @@
                                                             <p class="head sub">สัญญาเริ่มต้น <span class="show">{{getThaiDate(contract.contract_start)}}</span>  สิ้นสุด <span class="show">{{getThaiDate(contract.contract_end)}}</span></p>
 
                                                             <p class="head" v-if="refund.refund.contract_edits">1.2 รายละเอียดการแก้ไขสัญญา เฉพาะที่เปลี่ยนวงเงินค่าจ้างและอัตราค่าปรับ {{refund.refund.contract_schedule_edits ? 'หรือมีการแก้ไขวันเริ่มต้น/วันสิ้นสุดสัญญา' : ''}}</p>
-                                                            <div v-if="refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0">
-                                                                <div v-for="(contract_edit,index) in refund.refund.contract_schedule_edits" :key="index">
+                                                            <!-- <div v-if="refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0"> -->
+                                                                <!-- <div v-for="(contract_edit,index) in refund.refund.contract_schedule_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
                                                                     
+                                                                </div> -->
+                                                                <div v-for="(contract_edit,index) in contract_edits" :key="index">
+                                                                    <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
+                                                                    <p class="head sub2" v-if="contract_edit.contract_new_start_date || contract_edit.contract_new_end_date">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
+                                                                    
+                                                                    <p class="head sub2" v-if="contract_edit.budget_new || contract_edit.penalty_new">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{getNumeric(contract_edit.budget_new)}}</span> บาท ค่าปรับเป็น <span class="show">{{getNumeric(contract_edit.penalty_new)}}</span> บาท</p>
                                                                 </div>
-                                                            </div>
-                                                            <div v-if="refund.refund.contract_edits && refund.refund.contract_edits.length > 0">
-                                                                <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
+                                                            <!-- </div> -->
+                                                            <!-- <div v-if="refund.refund.contract_edits && refund.refund.contract_edits.length > 0"> -->
+                                                                <!-- <div v-for="(contract_edit,index) in refund.refund.contract_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{getNumeric(contract_edit.budget_new)}}</span> บาท ค่าปรับเป็น <span class="show">{{getNumeric(contract_edit.penalty_new)}}</span> บาท</p>
-                                                                </div> 
-                                                            </div> 
+                                                                </div>  -->
+                                                                
+                                                            <!-- </div>  -->
                                                             <p class="head sub" v-if="(!refund.refund.contract_schedule_edits || refund.refund.contract_schedule_edits.length == 0) && (!refund.refund.contract_edits || refund.refund.contract_edits.length == 0)">-ไม่มี-</p>
                                                         </div> 
                                                     </div>
@@ -346,7 +353,8 @@ export default {
             check: false,
             report_height: 0,
             show: false,
-            time_line: []
+            time_line: [],
+            contract_edits: []
         }
     },
    async mounted(){
@@ -397,7 +405,9 @@ export default {
                 }
                 return a.start - b.start;
             });
-        }
+        },
+        
+        
 
     },
     methods: {
@@ -481,6 +491,7 @@ export default {
                         })
                     }
                 }
+                this.contract_edits = await this.get_contract_edits();
                 await this.$forceUpdate();
             } catch (error) {
                 console.log('Get Refund Error')
@@ -492,7 +503,31 @@ export default {
 
 
         },
-
+        async get_contract_edits(){
+            let arr = await [];
+            if (this.refund.refund.contract_schedule_edits && this.refund.refund.contract_schedule_edits.length > 0){
+                await this.refund.refund.contract_schedule_edits.forEach(x=>{
+                    arr.push(x);
+                    
+                })
+            }
+            if (this.refund.refund.contract_edits && this.refund.refund.contract_edits.length > 0){
+                await this.refund.refund.contract_edits.forEach(x=>{
+                    arr.push(x);
+                    
+                })
+            }
+            
+            return arr.sort(function(a, b) {
+                // console.log(a.type + ' ' + b.type)
+                // if (a.type == 'contract' || b.type == 'contract'){
+                //     return
+                // }
+                if (a.contract_edit_date < b.contract_edit_date) {return -1};
+                if (a.contract_edit_date > b.contract_edit_date) {return 1};
+                return 0;
+            });
+        },
         async getContractTimeEdit(){
             try {
                 var path = await  `/api/offices/${this.office_id}/refunds/${this.refund_id}/contract_time_edits`;
