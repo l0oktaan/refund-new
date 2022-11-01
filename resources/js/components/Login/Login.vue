@@ -1,5 +1,6 @@
 <template>
   <div class="app flex-row align-items-center">
+    
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="8">
@@ -74,6 +75,14 @@
         </b-form>
         </b-col>
       </b-row>
+      <b-row class="justify-content-center">
+        <b-col cols="8">
+            <div class="download" @click="download">
+                <i class="fas fa-download fa-2x"></i>
+                <b>แนวปฏิบัติในการบันทึกรายการผ่านระบบถอนคืนเงินรายได้แผ่นดิน ประเภทค่าปรับ</b>
+            </div>
+        </b-col>
+      </b-row>
     </div>
   </div>
 
@@ -112,6 +121,29 @@ export default {
         }
     },
     methods: {
+        download(){        
+            let path = `/api/user_manual`;
+            axios({
+                url : `${path}`,
+                methods : 'GET',
+                responseType : 'blob'
+            })
+            .then(response=>{
+                var fileURL = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+                
+                var fileLink = document.createElement('a');
+                fileLink.href = fileURL;
+                let filename = "e-withdraw_user_manual.pdf";
+                fileLink.setAttribute('download', filename);
+                document.body.appendChild(fileLink);
+                window.open(fileLink, "_blank");
+                        
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+           
+        },
         forgot(){
             this.$router.push('/forgot');
         },
@@ -153,44 +185,7 @@ export default {
 
             })
 
-            // await console.log('user :' + this.$store.getters.user_type)
-            // if (this.$store.getters.user_type == 'admin'){
-            //     await this.$router.push('/admin')
-            // }else if (this.$store.getters.user_type == 'user'){
-            //     await this.$router.push('/refund')
-            // }
-
-
-            // var path = '/api/login';
-            // axios.post(path,{
-            //     username: this.username,
-            //     password: this.password
-            // })
-            // .then(response=>{
-            //     var user = response.data.data;
-            //     var success = response.data.success;
-            //     console.log(success);
-            //     if (user.type == "admin"){
-            //         this.$store.commit('SET_USER','admin')
-            //         this.$router.push('/admin')
-            //     }else{
-            //          //this.$store.commit('SET_USER',user.username) ;
-            //         this.$router.push('/refund')
-            //     }
-            //     console.log('state :' + this.$store.state.user)
-            //     // path = '/api/profile';
-            //     // axios.get(path)
-            //     // .then(response=>{
-            //     //     console.log('Get Auth :' + response.data);
-            //     // })
-            //     // .catch(error=>{
-
-            //     // })
-            //     // console.log('Success');
-            // })
-            // .catch(error=>{
-            //     console.log(error);
-            // })
+            
         }
 
     }
@@ -198,6 +193,48 @@ export default {
 </script>
 
 <style scoped>
+.download{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    color: #fff;
+    background-color: #20a8d8;
+    font-weight: 200;
+    cursor: pointer;
+    font-size: 1em;
+}
+.download:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
+.download>i{
+    margin-right: 10px;
+}
+.btn:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
+#file{
+    position: fixed;
+    bottom: 10px;   
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(2, 141, 255);
+    padding: 30px 15px 30px 15px;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+}
+#file > b{
+    margin-top: 5px;
+    font-weight: 200;
+}
 img{
     max-width: 150px;
     margin-bottom: 15px!important;

@@ -134,6 +134,27 @@ class RefundFileController extends Controller
             }
         }
     }
+    public function user_manual()
+    {
+
+        
+                $path = storage_path('uploads') . "/e-withdraw_user_manual_v_1.pdf";
+                
+                $headers = [
+                    'Content-Type: application/pdf'
+                ];
+                $filename = 'e-withdraw_user_manual.pdf'; // $iRefundFile->file_name;
+
+
+                
+                return response()->download($path, $filename, $headers);
+
+
+
+                
+           
+        
+    }
 
     /**
      * Show the form for editing the specified resource.

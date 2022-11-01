@@ -55,14 +55,15 @@
 
                         <b-nav vertical v-if="user.type=='user'">
                             <b-nav-item v-for="(lMenu,index) in leftMenu" :key="index"  :to="lMenu.path"><i :class="lMenu.icon"></i>&nbsp;{{lMenu.menu}}</b-nav-item>
+                            <!-- <li ><i class="fas fa-download"></i>&nbsp;คู่มือการใช้ระบบ</li> -->
                         </b-nav>
 
 
-                        <!-- <li class="nav-item mt-auto">
-                            <a class="nav-link nav-link-success" href="https://coreui.io" target="_top">
-                                    <i class="nav-icon cui-cloud-download"></i> Download CoreUI</a>
+                        <li class="nav-item mt-auto" @click="download">
+                            <a class="nav-link text-center link-download" href="#">
+                                <i class="fas fa-download mr-2"></i>แนวปฏิบัติในการบันทึกฯ</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link nav-link-danger" href="https://coreui.io/pro/" target="_top">
                                     <i class="nav-icon cui-layers"></i> Try CoreUI
                                     <strong>PRO</strong>
@@ -85,6 +86,31 @@ export default {
 
             ]
         }
+    },
+    methods:{
+        download(){        
+            let path = `/api/user_manual`;
+            axios({
+                url : `${path}`,
+                methods : 'GET',
+                responseType : 'blob'
+            })
+            .then(response=>{
+                var fileURL = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+                
+                var fileLink = document.createElement('a');
+                fileLink.href = fileURL;
+                let filename = "e-withdraw_user_manual.pdf";
+                fileLink.setAttribute('download', filename);
+                document.body.appendChild(fileLink);
+                window.open(fileLink, "_blank");
+                        
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+           
+        },
     }
 }
 </script>
@@ -93,5 +119,12 @@ export default {
 
     background-color: rgb(85, 85, 85)!important;
 }
-
+.link-download
+{
+    background-color: #20a8d8;
+}
+.link-download:hover{
+    background-color: #20a8d8!important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
 </style>

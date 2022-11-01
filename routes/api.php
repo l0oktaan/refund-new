@@ -90,6 +90,8 @@ Route::group(['middleware' => 'auth:api'],function($router) {
 Auth::routes();
 Route::post('/login','Auth\LoginController@login');
 
+Route::get('/user_manual','RefundFileController@user_manual');
+
 Route::get('/profile','AuthController@index');
 
 

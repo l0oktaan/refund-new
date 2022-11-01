@@ -247,7 +247,9 @@ const router = new VueRouter({
             path: '/refund',
             component: Refund,
             beforeEnter (to, from, next) {
-                store.dispatch('checkLogin')
+                if (store.dispatch('checkLogin')==false){
+                    next('/login')
+                }
                 if (store.state.user && store.state.user.type == 'user') {
                     if (store.state.user.status == 1){
                         next('/passchange')
@@ -852,6 +854,7 @@ const store = new Vuex.Store({
 
     },
     actions: {
+        
         async login ({ commit, state}, authData){
             let path = await '/api/login'
             return new Promise((resolve, reject) => {
@@ -895,7 +898,8 @@ const store = new Vuex.Store({
             if (!localStorage.getItem('token')){
                 console.log('expire')
                 commit('clearAuthData')
-                return
+                
+                return false
             }
             let expirationDate = new Date(localStorage.getItem('expirationDate'))
             let now = new Date()
@@ -903,7 +907,7 @@ const store = new Vuex.Store({
             if (now >= expirationDate){
                 console.log('expire')
                 commit('clearAuthData')
-                return
+                return false
             }
             expirationDate = new Date(now.getTime() + 1*60*60*1000)
             localStorage.setItem('expirationDate', expirationDate)
