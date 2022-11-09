@@ -19,6 +19,7 @@ class Refund extends Model
         'office_id',
         'approve_code',
         'create_date',
+        'create_by',
         'sent_date',
         'consider_date',
         'consider_by',

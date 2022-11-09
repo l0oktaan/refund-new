@@ -30,9 +30,20 @@ class RefundController extends Controller
             return response([
                 'data' => RefundResource::collection($refund)
             ],Response::HTTP_CREATED);
-        }else if ($user->type == 'user'){
+        }else if ($user->type == 'user' && $user->level == "3"){
             $refund = $office->refunds()
             ->where('office_id','=',$user->office_id)
+            ->where('create_by','=',$user->sub_office_name)
+            ->where('status','>=',1)
+            ->orderBy('sent_date','DESC')
+            ->get();
+            // return new RefundCollection($refund);
+            return response([
+                'data' => RefundResource::collection($refund)
+            ],Response::HTTP_CREATED);
+        }else if ($user->type == 'user'){
+            $refund = $office->refunds()
+            ->where('office_id','=',$user->office_id)            
             ->where('status','>=',1)
             ->orderBy('sent_date','DESC')
             ->get();
@@ -99,10 +110,12 @@ class RefundController extends Controller
      */
     public function store(RefundRequest $request, Office $office)
     {
+        $user = Auth::user();
         $refund = new Refund;
         //$refund->office_id = $office->id;
         $refund->approve_code = '';
         $refund->create_date = date('Y-m-d');
+        $refund->create_by = $user->level == "3" ? $user->sub_office_name : "";
         $refund->status = "1";
         $office->refunds()->save($refund);
 
@@ -126,7 +139,24 @@ class RefundController extends Controller
      */
     public function show(Office $office, Refund $refund)
     {
-        return RefundResource::collection($office->refunds()->where('id',$refund->id)->get());
+        $user = Auth::user();
+        if ($user->type == "user" && $user->level == "3"){
+            $irefund = $office->refunds()
+                ->where('id',$refund->id)
+                ->where('create_by','=',$user->sub_office_name)
+                ->get();
+            return RefundResource::collection($irefund);
+        }else if ($user->type == "user" && $user->level == "2"){
+            $irefund = $office->refunds()
+                ->where('id',$refund->id)
+                ->get();
+            return RefundResource::collection($irefund);
+        }else if ($user->type == "admin" || $user->level == "1"){
+            $irefund = Refund::where('id',$refund->id)->get();
+            return RefundResource::collection($irefund);
+        }        
+
+        // return RefundResource::collection($office->refunds()->where('id',$refund->id)->get());
     }
 
     /**
@@ -182,6 +212,5 @@ class RefundController extends Controller
         }else{
             return response(null,Response::HTTP_NOT_FOUND);
         }
-
     }
 }

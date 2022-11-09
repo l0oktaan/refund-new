@@ -54,6 +54,7 @@ class Refunds extends Resource
                 'office' => $this->office,
                 'approve_code' => $this->approve_code,
                 'create_date' => $this->create_date,
+                'create_by' => $this->create_by,
                 'sent_date' => $this->sent_date,
                 'consider_date' => $this->consider_date,
                 'consider_by' => $this->consider_by,

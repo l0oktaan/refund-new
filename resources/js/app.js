@@ -659,12 +659,21 @@ const store = new Vuex.Store({
                     count: 0
                 },
                 {
-                    status : [2,3,4,5,6,7],
+                    status : [2,3,4,5,6],
                     class_name: 'info',
                     show: ['user'],
                     text : 'อยู่ระหว่างบันทึกข้อมูล',
                     icon: 'icon-pencil icon_primary',
                     color: 'icon_primary',
+                    count: 0
+                },
+                {
+                    status : [7],
+                    class_name: 'director',
+                    show: ['user'],
+                    text : 'รอส่งข้อมูล',
+                    icon: 'icon-clock icon_primary',
+                    color: 'icon_director',
                     count: 0
                 },
                 {

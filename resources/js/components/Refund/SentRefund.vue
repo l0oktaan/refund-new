@@ -9,7 +9,7 @@
                         <ul class="nav navbar-nav d-md-down-none">
                             <li class="nav-item px-3">
                                 <i class='fa fa-align-justify'></i>
-                                    พิมพ์รายงาน และส่งข้อมูล
+                                    พิมพ์รายงาน <span v-if="user.level != '3'">และส่งข้อมูล</span>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
@@ -50,7 +50,7 @@
                                 </b-modal>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="user.level != '3'">
                             <b-col>
                                 <b-form-group
                                     label-cols-sm="5"
@@ -90,7 +90,7 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="user.level != '3'">
                             <b-col>
                                 <b-form-group
                                     label-cols-sm="5"
@@ -101,7 +101,7 @@
 
                                     <!-- <b-progress v-if="(uploadPercentage == 0 || uploadPercentage == 100) ? false : true" :value="uploadPercentage" variant="success" striped class="mb-2"></b-progress> -->
 
-                                    <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>
+                                    <b-button :variant=" file ? 'danger' : 'secondary'" size="md" @click="clearFile()">ยกเลิก</b-button>                                    
                                     <b-button :disabled="file ? false : true" :variant=" file ? 'dark' : 'secondary'" size="md" @click="submitFile()">ส่งข้อมูล</b-button>
                                 </b-form-group>
                             </b-col>

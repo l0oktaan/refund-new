@@ -44,11 +44,12 @@
                             <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'user'" @click="onSort('id')">วันที่สร้าง<b-icon v-if="sort_by == 'id'" :icon="sort_type == 'asc' ? 'arrow-down' : 'arrow-up'"></b-icon></th>
                             <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 10%">รหัสเอกสาร</th>
-                            <th scope="col" style="width: 25%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>                            
-                            <th scope="col" style="width: 20%">คู่สัญญา</th>
+                            <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
+                            <th scope="col" style="width: 15%">หน่วยงานย่อย</th>                            
+                            <th scope="col" style="width: 15%">คู่สัญญา</th>
                             <th scope="col" style="width: 10%">เลขที่สัญญา</th>                            
-                            <th scope="col" style="width: 15%">สถานะ</th>
-                            <th scope="col" style="width: 15%">การดำเนินการ</th>
+                            <th scope="col" style="width: 10%">สถานะ</th>
+                            <th scope="col" style="width: 10%">การดำเนินการ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +58,7 @@
                             <td v-if="user_type == 'admin'">{{getThaiDate(refund.sent_date)}}</td>
                             <td><span>{{refund.approve_code  ? refund.approve_code : '-'}}</span></td>
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
+                            <td><span >{{refund.create_by}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>                            
                             <td>{{get_status_text(refund.status)}}</td>
@@ -98,7 +100,7 @@
                     </tbody>
                     <tfoot class="tfoot">
                         <tr>
-                            <td :colspan="user_type == 'user' ? 6 : 7">
+                            <td :colspan="user_type == 'user' ? 7 : 8">
                                 <span style="text-align:center">
                                     รายการที่ {{beginRecord}} - {{endRecord}} จากทั้งหมด {{rows}} รายการ
                                 </span>
@@ -219,25 +221,25 @@ export default {
         },
         get_class(){
             if (this.user_type == 'user'){
-                return this.arr_refund_status[2].class_name.user;
+                return this.arr_refund_status[3].class_name.user;
             }else if (this.user_type == 'admin'){
 
-                return this.arr_refund_status[2].class_name.admin;
+                return this.arr_refund_status[3].class_name.admin;
             }
         },
         get_icon(){
             if (this.user_type == 'user'){
-                return this.arr_refund_status[2].icon.user;
+                return this.arr_refund_status[3].icon.user;
             }else if (this.user_type == 'admin'){
 
-                return this.arr_refund_status[2].icon.admin;
+                return this.arr_refund_status[3].icon.admin;
             }
         },
         get_text(){
             if (this.user_type == 'user'){
-                return this.arr_refund_status[2].text.user;
+                return this.arr_refund_status[3].text.user;
             }else if (this.user_type == 'admin'){
-                return this.arr_refund_status[2].text.admin;
+                return this.arr_refund_status[3].text.admin;
             }
         },
 

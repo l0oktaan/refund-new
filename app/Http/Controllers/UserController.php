@@ -42,18 +42,18 @@ class UserController extends Controller
     }
     protected function register(Request $request)
     {
-        try {
-            User::create([
-                'name' => $request->name,
-                'username' => $request->username,
-                'password' => Hash::make($request->password),
-                'type' => $request->type,
-                'office_id' => $request->office_id,
-                'status' => 1
-            ]);
-        } catch (\Throwable $th) {
-            return $th;
-        }        
+        // try {
+        //     User::create([
+        //         'name' => $request->name,
+        //         'username' => $request->username,
+        //         'password' => Hash::make($request->password),
+        //         'type' => $request->type,
+        //         'office_id' => $request->office_id,
+        //         'status' => 1
+        //     ]);
+        // } catch (\Throwable $th) {
+        //     return $th;
+        // }        
     }
     private function getUsername($office_id){
         $office = Office::where('id',$office_id)->first();
@@ -81,8 +81,7 @@ class UserController extends Controller
     }
     public function sendEmail($user,$pass)
     {
-        try {            
-
+        try {
             $content = new \stdClass();
             $content->subject = "แจ้งส่งข้อมูลการใช้งานระบบถอนคืนเงินรายได้แผ่นดิน ประเภทค่าปรับ";
             $content->user = $user;
@@ -95,8 +94,7 @@ class UserController extends Controller
             //         ->toMail("songwut.saj@cgd.go.th"));
         } catch (\Throwable $th) {
             return "error2";
-        }
-        
+        }        
     }
     public function store(Request $request)
     {
@@ -112,7 +110,10 @@ class UserController extends Controller
             $user->password = Hash::make($password);
             $user->email = $request->email;
             $user->type = $request->office_id == 1 ? "admin" : "user";
+            
             $user->office_id = $request->office_id;
+            $user->sub_office_name = $request->sub_office_name;
+            $user->level = $request->office_id == 2 ? "1" : ($request->sub_office_name && $request->sub_office_name != "" ? "3" : "2");
             $user->username = $this->getUsername($request->office_id);
             $user->status = 1;
             $user->save();

@@ -46,6 +46,40 @@
                     </b-row>
                     <b-row>
                         <b-col>
+                            <b-form-checkbox
+                                id="checkbox-1"
+                                v-model="is_sub_office"
+                                name="sub_office"
+                                :value="true"
+                                :unchecked-value="false"
+                                class="mb-2"
+                            > หน่วยงานในสังกัด <span class="require" v-if="is_sub_office">*</span>
+                            </b-form-checkbox>
+                            <validation-provider
+                                name="หน่วยงานในสังกัด"
+                                :rules="{ required: is_sub_office, min: is_sub_office ? 10 : 0 }"
+                                v-slot="validationContext"
+                            >
+                                <b-form-group>
+                                    
+                                    <!-- <label for="time_edit_date"></label> -->
+                                        <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
+                                        <b-form-input
+                                            :disabled="!is_sub_office"
+                                            v-model="user.sub_office_name"
+                                            type="text"
+                                            name="office_sub_name"
+                                            placeholder="หน่วยงานในสังกัด"
+                                            :state="getValidationState(validationContext)"
+                                            aria-describedby="current-fullname-live-feedback"
+                                        />
+                                    <b-form-invalid-feedback id="current-fullname-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
                             <validation-provider
                                 name="ชื่อ-นามสกุล"
                                 :rules="{ required: true, min: 5 }"
@@ -172,10 +206,11 @@ export default {
                 position: '',
                 username: '',
                 office_id: '',
+                sub_office_name: '',
                 email: '',
                 phone: '',
             },
-            
+            is_sub_office: false,
             alert: '',
             offices: [],
             users: [],
@@ -225,6 +260,8 @@ export default {
                     "name" : this.user.fullname,
                     "email" : this.user.email,
                     "office_id" : this.user.office_id,
+                    "sub_office_name" : this.is_sub_office ? this.user.sub_office_name : '',
+                    "type" : this.is_sub_office ? "user_2" : "user_1",
                     "position" : this.user.position,
                     "phone" : this.user.phone
                 })
@@ -242,10 +279,12 @@ export default {
             this.user = await {
                 'name' : '',
                 'office_id' :null,
+                'sub_office_name' : '',
                 'position' : '',
                 'email' : '',
                 'phone' : ''
             },
+            this.is_sub_office = await false;
             await this.$refs.observer.reset();
         },
         async onCancel(){

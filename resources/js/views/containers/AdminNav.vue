@@ -42,7 +42,7 @@
 
             </li>-->
             <li class="nav-item">
-                <span class="mr-3">{{user.name}}</span>
+                <span class="mr-3">{{`${user.username} (${user.name})` }}</span>
             </li>
             <!-- <li class="nav-item">
                 <a class="dropdown-item" href="#" @click="logout">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="office in offices" :key="office.id">{{office.code + ' ' + office.name}}</div>
+        <!-- <div v-for="office in offices" :key="office.id">{{office.code + ' ' + office.name}}</div> -->
     </div>
 </template>
 <script>
