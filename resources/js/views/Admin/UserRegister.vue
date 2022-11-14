@@ -50,8 +50,7 @@
                                             <b-icon icon="x" />
                                         </b-input-group-text>
                                     </b-input-group-append>
-                                    <datalist id="my-list-id">
-                                        <option value="0" text="หน่วยงาน"></option>
+                                    <datalist id="my-list-id">                                        
                                         <option v-for="item in offices" :value="item.name"></option>
                                     </datalist>
                                 
