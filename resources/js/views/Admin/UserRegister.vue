@@ -11,6 +11,7 @@
                     </b-row>
                     <b-row>
                         <b-col>
+<!-- 
                             <validation-provider
                                 name="หน่วยงาน"
                                 :rules="{ required: true }"
@@ -30,7 +31,56 @@
                                     <b-form-invalid-feedback id="current-office-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
+                             -->
+                            <b-form-group>
+
+
+
+                                <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
+                                <b-input-group>                                 
+                                    <b-form-input 
+                                        list="my-list-id" 
+                                        v-model="user.office"
+                                        :required="true"  
+                                        :disabled="status=='edit'"                                  
+                                    >
+                                    </b-form-input>
+                                    <b-input-group-append class="btnClear" :disabled="status=='edit'" @click="clear_office">                                    
+                                        <b-input-group-text>
+                                            <b-icon icon="x" />
+                                        </b-input-group-text>
+                                    </b-input-group-append>
+                                    <datalist id="my-list-id">
+                                        <option value="0" text="หน่วยงาน"></option>
+                                        <option v-for="item in offices" :value="item.name"></option>
+                                    </datalist>
+                                
+                                    
+                                </b-input-group>
+                            </b-form-group>
+                            <!-- <b-form-group>
+
+
+
+                                <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
+                                <b-form-input 
+                                    list="my-list-id" 
+                                    v-model="office_selected"
+                                    :required="true"                                    
+                                >
+                                </b-form-input>
+                                <datalist id="my-list-id">
+                                    <option value="0" text="หน่วยงาน"></option>
+                                    <option v-for="item in offices" :value="item.name"></option>
+                                </datalist>
+                                {{office_id_selected}}
+                            </b-form-group> -->
+                            
+                            
+                            
+                            
                         </b-col>
+                        
                         <!-- <b-col>
                             <b-form-select
                                             v-model="user.office_id"
@@ -46,6 +96,7 @@
                     </b-row>
                     <b-row>
                         <b-col>
+                            
                             <b-form-checkbox
                                 id="checkbox-1"
                                 v-model="is_sub_office"
@@ -60,8 +111,7 @@
                                 :rules="{ required: is_sub_office, min: is_sub_office ? 10 : 0 }"
                                 v-slot="validationContext"
                             >
-                                <b-form-group>
-                                    
+                                <b-form-group>                                    
                                     <!-- <label for="time_edit_date"></label> -->
                                         <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
                                         <b-form-input
@@ -71,9 +121,9 @@
                                             name="office_sub_name"
                                             placeholder="หน่วยงานในสังกัด"
                                             :state="getValidationState(validationContext)"
-                                            aria-describedby="current-fullname-live-feedback"
+                                            aria-describedby="current-sub_office_name-live-feedback"
                                         />
-                                    <b-form-invalid-feedback id="current-fullname-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                    <b-form-invalid-feedback id="current-sub_office_name-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
                         </b-col>
@@ -89,14 +139,14 @@
                                     <label for="time_edit_date">ชื่อ-นามสกุล <span class="require">*</span></label>
                                         <!-- <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend> -->
                                         <b-form-input
-                                            v-model="user.fullname"
+                                            v-model="user.name"
                                             type="text"
-                                            name="fullname"
+                                            name="name"
                                             placeholder="ชื่อ-นามสกุล"
                                             :state="getValidationState(validationContext)"
-                                            aria-describedby="current-fullname-live-feedback"
+                                            aria-describedby="current-name-live-feedback"
                                         />
-                                    <b-form-invalid-feedback id="current-fullname-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                    <b-form-invalid-feedback id="current-name-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
                             </validation-provider>
                         </b-col>
@@ -140,6 +190,7 @@
                                             placeholder="email"
                                             :state="getValidationState(validationContext)"
                                             aria-describedby="confirm-email-live-feedback"
+                                            :disabled="status=='edit'"
                                         />
                                     <b-form-invalid-feedback id="confirm-email-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                 </b-form-group>
@@ -193,7 +244,7 @@
                 </b-form>
                 </validation-observer>
         </div>
-        <user-list ref="userList"></user-list>
+        <user-list ref="userList" @userEdit="userEdit" @clearData="clearData"></user-list>
     </div>
 </template>
 
@@ -202,7 +253,7 @@ export default {
     data(){
         return {
             user: {
-                fullname: '',
+                name: '',
                 position: '',
                 username: '',
                 office_id: '',
@@ -210,19 +261,38 @@ export default {
                 email: '',
                 phone: '',
             },
+            status: 'new',
             is_sub_office: false,
             alert: '',
             offices: [],
             users: [],
             //passRegex: /^[0-9][A-Z][a-z]+$/,
-            passRegex: /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/
+            passRegex: /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/,
+            office_selected: null
         }
     },
     async mounted(){
         await this.getOffice();
         await this.getUserAll();
     },
+    watch: {
+              
+            'user.office' : function (newValue,oldValue){                
+                if (newValue == oldValue){
+                    return;
+                }
+                this.user.office_id =  newValue ? this.offices.find(x=>x.name == newValue).id : null
+            },
+            
+    },
+
     methods :{
+        clear_office(){
+            if (this.status =='edit'){
+                return;
+            }
+            this.user.office = null;
+        },
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
@@ -238,7 +308,6 @@ export default {
             }
         },
         async getOffice(){
-            console.log('get office');
             let path = await '/api/offices';
             let response = await axios.get(path);
             this.offices = response.data.data;
@@ -252,16 +321,46 @@ export default {
         async getUserAll(){
             this.$refs.userList.fetchData();
         },
-        async onSubmit(){
-            let path = await `/api/users`;
+        async userEdit(item){
+            this.status = await "edit";
+            this.user = await item;
+
+            if (this.user.level == '3'){
+                this.is_sub_office = true;
+            }else{
+                this.is_sub_office = false;
+            }
+            console.log(this.user.sub_office_name)
             
-            try {
-                let res = await axios.post(`${path}`,{
-                    "name" : this.user.fullname,
-                    "email" : this.user.email,
-                    "office_id" : this.user.office_id,
+            // this.office_selected = item.office
+        },
+        async onSubmit(){
+            if (this.status == "new"){
+                let path = await `/api/users`;
+                
+                try {
+                    let res = await axios.post(`${path}`,{
+                        "name" : this.user.name,
+                        "email" : this.user.email,
+                        "office_id" : this.user.office_id,
+                        "sub_office_name" : this.is_sub_office ? this.user.sub_office_name : '',
+                        "type" : this.is_sub_office ? "3" : "2",
+                        "position" : this.user.position,
+                        "phone" : this.user.phone
+                    })
+                    this.alert = await 'success';
+                    await this.clearData();
+                    await this.$refs.observer.reset();
+                    await this.getUserAll();
+                } catch (error) {
+                    console.log(error);
+                    this.alert = await 'error';
+                }
+            }else if (this.status == "edit"){
+                let path = await `/api/users/${this.user.id}`;
+                let res = await axios.put(`${path}`,{
+                    "name" : this.user.name,                                        
                     "sub_office_name" : this.is_sub_office ? this.user.sub_office_name : '',
-                    "type" : this.is_sub_office ? "user_2" : "user_1",
                     "position" : this.user.position,
                     "phone" : this.user.phone
                 })
@@ -269,9 +368,6 @@ export default {
                 await this.clearData();
                 await this.$refs.observer.reset();
                 await this.getUserAll();
-            } catch (error) {
-                console.log(error);
-                this.alert = await 'error';
             }
         },
         async clearData(){
@@ -280,10 +376,12 @@ export default {
                 'name' : '',
                 'office_id' :null,
                 'sub_office_name' : '',
+                'level' : '',
                 'position' : '',
                 'email' : '',
                 'phone' : ''
             },
+            this.status = await "new";
             this.is_sub_office = await false;
             await this.$refs.observer.reset();
         },
@@ -313,5 +411,8 @@ export default {
 }
 .row{
     margin-top: 5px;
+}
+.btnClear{
+    cursor: pointer;
 }
 </style>

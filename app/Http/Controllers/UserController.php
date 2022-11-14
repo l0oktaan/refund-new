@@ -37,7 +37,7 @@ class UserController extends Controller
         if ($user->type != 'admin'){
             return response(null,Response::HTTP_NOT_FOUND);
         }
-        return UserResource::collection(User::orderBy('office_id','asc')->get());
+        return UserResource::collection(User::where('status','<>',0)->orderBy('office_id','asc')->get());
         //return Office::all();
     }
     protected function register(Request $request)
@@ -114,6 +114,8 @@ class UserController extends Controller
             $user->office_id = $request->office_id;
             $user->sub_office_name = $request->sub_office_name;
             $user->level = $request->office_id == 2 ? "1" : ($request->sub_office_name && $request->sub_office_name != "" ? "3" : "2");
+            $user->position = $request->position;
+            $user->phone = $request->phone;
             $user->username = $this->getUsername($request->office_id);
             $user->status = 1;
             $user->save();
@@ -140,6 +142,36 @@ class UserController extends Controller
             ]);
             return response(null,Response::HTTP_NOT_FOUND);
         }         
+    }
+    public function update(Request $request, User $user)
+    {
+        $iuser = Auth::user();
+        if ($iuser->type != 'admin'){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+        $user->name = $request->name;
+        $user->sub_office_name = $request->sub_office_name;
+        $user->level = $request->sub_office_name && $request->sub_office_name != "" ? "3" : "2";
+
+        $user->position = $request->position;
+        $user->phone = $request->phone;
+        $user->save();
+        return response([
+            'data' => new UserResource($user)
+        ],Response::HTTP_CREATED);
+
+    }
+    public function destroy(User $user)
+    {
+        $iuser = Auth::user();
+        if ($iuser->type != 'admin'){
+            return response(null,Response::HTTP_NOT_FOUND);
+        }
+        $user->status = 0;
+        $user->save();
+        return response([
+            'data' => null
+        ],Response::HTTP_CREATED);
     }
 
 }

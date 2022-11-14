@@ -19,10 +19,13 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'type' => $this->type,
             'level' => $this->level,
+            'position' => $this->position,
             'username' => $this->username,
             'office_id' => $this->office_id,
             'office' => $this->office_id >0 ? $this->office->name : 'admin',
-            'email' => $this->email,            
+            'email' => $this->email,
+            'sub_office_name'  => $this->sub_office_name,
+            'phone' => $this->phone,
             'status' => $this->status
         ];
     }
