@@ -26,7 +26,7 @@
                             <b-col>
                                 <b-form-group
                                     label-cols-sm="5"
-                                    label="พิมพ์แบบถอนคืนเพื่อลงนาม :"
+                                    :label="user.level == 3 ? 'พิมพ์แบบถอนคืนเพื่อตรวจสอบ :' : 'พิมพ์แบบถอนคืนเพื่อลงนาม :'"
                                     label-align-sm="right"
                                     label-for="load_form"
                                 >
