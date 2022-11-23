@@ -321,7 +321,10 @@ export default {
         isDisable(){
 
             return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
-        }
+        },
+        isCabinet(){
+            return (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? true : false;
+        },
     },
     watch: {
         
@@ -362,7 +365,7 @@ export default {
             if (this.isCabinet){
                 return;
             }
-            console.log('type :' + this.time_edit.approve_type);
+            console.log("problem_end : " + newDate);
             if (this.date_problem_end != '' && this.date_book){
                 if (!this.checkDate(newDate,this.date_book)){
                     this.$nextTick(() => {
@@ -391,8 +394,8 @@ export default {
                         }
                     }else{
                         let diff = this.diffDate(this.date_problem_end,this.date_book);
-
-                        if (diff > 16){
+                        console.log("diff : " + diff);
+                        if (diff > 16 || diff < 0){
                             this.$nextTick(() => {
                                 // this.date_problem_end = oldDate;
                                 this.showRuleAlert = true;
@@ -406,10 +409,10 @@ export default {
             }else{
                 if(parseInt(this.time_edit.approve_type) == 40){
                     let checkDate = new Date(newDate);
-                    console.log('check date : ' + checkDate);
+                    
                     let effect_start_date = new Date(2013,10,1);
                     let effect_end_date = new Date(2014,4,31);
-                    console.log('start :' + effect_start_date);
+                    
                     if (checkDate < effect_start_date || checkDate > effect_end_date){
                         this.showRuleAlert = true;
                     }else{
@@ -449,6 +452,7 @@ export default {
         date_book(newDate,oldDate){
             
             if (this.isCabinet){
+                
                 return;
             }
             if (this.date_book != '' && this.date_problem_end){
@@ -481,8 +485,8 @@ export default {
                         }
                     }else{
                         let diff = this.diffDate(this.date_problem_end,this.date_book);
-
-                        if (diff > 16){
+                        console.log("diff : " + diff);
+                        if (diff > 16 || diff < 0){
                             this.$nextTick(() => {
                                 // this.date_book = oldDate;
                                 this.showRuleAlert = true;
@@ -742,9 +746,7 @@ export default {
         checkEffectDate(){
 
         },
-        isCabinet(){
-            return (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? true : false;
-        },
+        
         checkDate(date1,date2){
             //console.log('check date : '+ date1 + ' and ' + date2);
             var d1 = new Date(date1);
