@@ -60,6 +60,8 @@ class LoginController extends Controller
                     'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
                 ]);
                 $user = Auth::user();
+                $user->last_session = session()->getId();
+                $user->save();
                 $success = $user->createToken(config('app.name'))->accessToken;
                 
                 return response([
@@ -78,6 +80,15 @@ class LoginController extends Controller
         }
         
         
+    }
+    protected function authenticated()
+    {
+        //Auth::logoutOtherDevices(request('password'));
+        if(session_id() != Auth::user()->last_session){
+            Auth::logout();
+            return true;
+         }
+
     }
 
     protected function guard()
