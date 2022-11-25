@@ -33,9 +33,6 @@
                             </validation-provider>
                              -->
                             <b-form-group>
-
-
-
                                 <label for="time_edit_date">หน่วยงาน<span class="require">*</span></label>
                                 <b-input-group>                                 
                                     <b-form-input 
@@ -52,9 +49,7 @@
                                     </b-input-group-append>
                                     <datalist id="my-list-id">                                        
                                         <option v-for="item in offices" :value="item.name"></option>
-                                    </datalist>
-                                
-                                    
+                                    </datalist>                                
                                 </b-input-group>
                             </b-form-group>
                             <!-- <b-form-group>
