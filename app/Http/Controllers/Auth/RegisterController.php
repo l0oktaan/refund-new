@@ -80,8 +80,8 @@ class RegisterController extends Controller
                 'min:8',
                 'regex:/[a-z]/',
                 'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'max:16'
+                'regex:/[0-9]/' //,
+                // 'max:16'
             ]
         ]);
         

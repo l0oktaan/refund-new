@@ -54,12 +54,14 @@ class LoginController extends Controller
             
             if (Auth::attempt($credentials)) {
                 // $request->session()->regenerate();
+                // $request->session()->reflash();
                 Log::channel('auth')->info('LOGIN SUCCESS ',[
                     'username' => $request->username,
                     'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
                 ]);
                 $user = Auth::user();
                 $success = $user->createToken(config('app.name'))->accessToken;
+                
                 return response([
                     'data' => $user,
                     'success' => $success,
