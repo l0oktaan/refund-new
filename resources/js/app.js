@@ -995,7 +995,7 @@ const app = new Vue({
 
 });
 
-var onlyStrings = false;
-try{window.postMessage({toString:function(){onlyStrings=true;}},"*");}catch(e){}
+// var onlyStrings = false;
+// try{window.postMessage({toString:function(){onlyStrings=true;}},"*");}catch(e){}
 
-console.log("Browser only supports postMessage with strings? " + onlyStrings);
+// console.log("Browser only supports postMessage with strings? " + onlyStrings);
