@@ -606,19 +606,19 @@ const store = new Vuex.Store({
         refund_filter: [],
         edit_count: null
     },
-    plugins: [
-        createPersistedState({
-            storage: {
-                getItem: key => Cookies.get(key),
-                setItem: (key, value) =>
-                // Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
-                Cookies.set(key, value, {samesite:'Strict',secure: true }),
-                removeItem: key => Cookies.remove(key)
-            }
-        })
-    ],
+    // plugins: [
+    //     createPersistedState({
+    //         storage: {
+    //             getItem: key => Cookies.get(key),
+    //             setItem: (key, value) =>
+    //             // Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
+    //             Cookies.set(key, value, {samesite:'Strict',secure: true }),
+    //             removeItem: key => Cookies.remove(key)
+    //         }
+    //     })
+    // ],
 
-    // plugins: [new VuexPersistence().plugin],
+    plugins: [new VuexPersistence().plugin],
     getters: {
         refund_show: state => {
             return state.refund_show;
