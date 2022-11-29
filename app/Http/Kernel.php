@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
             \App\Http\Middleware\LastUserActivity::class,
-            // \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\Session\Middleware\StartSession::class,
         ],
 
         'api' => [
