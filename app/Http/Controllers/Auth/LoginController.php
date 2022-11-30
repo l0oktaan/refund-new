@@ -51,7 +51,7 @@ class LoginController extends Controller
             sleep(1);
             $credentials = $request->only('username', 'password');
             //$request->session()->regenerate();
-            
+
             if (Auth::attempt($credentials)) {
                 // $request->session()->regenerate();
                 // $request->session()->reflash();
@@ -63,7 +63,7 @@ class LoginController extends Controller
                 $user->last_session = session()->getId();
                 $user->save();
                 $success = $user->createToken(config('app.name'))->accessToken;
-                
+
                 return response([
                     'data' => $user,
                     'success' => $success,
@@ -78,8 +78,8 @@ class LoginController extends Controller
         } catch (\Throwable $th) {
             return $th;
         }
-        
-        
+
+
     }
     protected function authenticated()
     {
@@ -103,11 +103,11 @@ class LoginController extends Controller
 
 
     public function logout(Request $request){
-        
-        
-        
+
+
+
         try{
-            
+
             Log::channel('auth')->info('LOGOUT ',[
                 'username' => Auth::user()->username,
                 'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
@@ -116,13 +116,13 @@ class LoginController extends Controller
                 // $request->session()->regenerate();
                 $user = Auth::user()->token();
                 $user->revoke();
-                return "success";     
+                return "success";
             }
         }catch (\Throwable $th) {
             return "error";
         }
-        
-        
-        
+
+
+
     }
 }
