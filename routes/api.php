@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
 
         //Route::apiResource('/{article}/article_tests/{article_test}/article_questions/{article_question}/options','OptionController');
     });
-
+    Route::Resource('/user_temp','UserTempController');
     Route::Resource('/forms','FormController');
     Route::group(['prefix'=>'forms'],function(){
         Route::apiResource('/{form}/form_rules','FormRuleController');

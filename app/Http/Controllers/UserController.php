@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use DB;
 use App\User;
 use App\Office;
+use App\UserTemp;
 use App\Mail\customMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
@@ -130,6 +131,13 @@ class UserController extends Controller
                 'email' => $user->email,
                 'office_id' => $user->office_id
             ]);
+
+            if ($request->has('order')){
+                DB::table('user_temp')
+                    ->where('order', $request->order)
+                    ->update(['status' => 1]);
+            }
+            
             return response([
                 'data' => new UserResource($user)            
             ],Response::HTTP_CREATED);

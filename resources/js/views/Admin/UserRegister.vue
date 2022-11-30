@@ -225,6 +225,7 @@
                                 <b-button type="submit" variant="primary">บันทึกข้อมูล</b-button>
                                 
                                 <b-button variant="danger" @click="onCancel">ล้างข้อมูล</b-button>
+                                <b-button variant="success" @click="importUser">User Temp</b-button>
                             </div>
                         </b-col>
                     </b-row>
@@ -286,6 +287,75 @@ export default {
     },
 
     methods :{
+        async delay (ms) {
+            new Promise(resolve => setTimeout(resolve, ms))
+        },
+  
+
+        
+        async makeALoopWait(users) {
+            
+            for (let i = 0; i < users.length; i += 1) {
+                let path2 = await `/api/users`;
+                try {
+                    await axios.post(`${path2}`,{
+                        "order" : users[i].order,
+                        "code" : users[i].code,
+                        "office_id" : users[i].office_id,
+                        "name" : users[i].name,
+                        "email" : users[i].email,
+                        "position" : users[i].position,
+                        "phone" : users[i].phone,
+                        "sub_office_name" : '',
+                        "type" : "2"
+                    });
+                    await console.log('count : ' + (i+1));
+                    await this.delay(1000)
+                    
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
+        async importUser(){
+            var path = '/api/user_temp';
+            var res = await axios.get(`${path}`);
+            var user_temp = await res.data.data;
+            // await onsole.log(user_temp.length);
+
+            let path2 = await `/api/users`;
+            var count = await 0;
+
+            await this.makeALoopWait(user_temp);
+            // const promises = user_temp.map(async (item,index) => {
+                
+                    
+            //         await axios.post(`${path2}`,{
+            //                 "order" : item.order,
+            //                 "code" : item.code,
+            //                 "office_id" : item.office_id,
+            //                 "name" : item.name,
+            //                 "email" : item.email,
+            //                 "position" : item.position,
+            //                 "phone" : item.phone,
+            //                 "sub_office_name" : '',
+            //                 "type" : "2"
+            //             });
+            //         count = await  this.delay(count);
+                        
+                        
+                    
+                    
+               
+                
+                    
+                
+                
+            // });
+            // await Promise.all(promises);
+            
+
+        },
         clear_office(){
             if (this.status =='edit'){
                 return;
