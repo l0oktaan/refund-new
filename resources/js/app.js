@@ -611,7 +611,8 @@ const store = new Vuex.Store({
     //         storage: {
     //             getItem: key => Cookies.get(key),
     //             setItem: (key, value) =>
-    //             Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
+    //             // Cookies.set(key, value, { expires: iexpirationDate, samesite:'Strict',secure: true }),
+    //             Cookies.set(key, value, {samesite:'Strict',secure: true }),
     //             removeItem: key => Cookies.remove(key)
     //         }
     //     })
@@ -994,7 +995,7 @@ const app = new Vue({
 
 });
 
-var onlyStrings = false;
-try{window.postMessage({toString:function(){onlyStrings=true;}},"*");}catch(e){}
+// var onlyStrings = false;
+// try{window.postMessage({toString:function(){onlyStrings=true;}},"*");}catch(e){}
 
-console.log("Browser only supports postMessage with strings? " + onlyStrings);
+// console.log("Browser only supports postMessage with strings? " + onlyStrings);

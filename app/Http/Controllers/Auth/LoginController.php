@@ -33,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -54,12 +54,16 @@ class LoginController extends Controller
             
             if (Auth::attempt($credentials)) {
                 // $request->session()->regenerate();
+                // $request->session()->reflash();
                 Log::channel('auth')->info('LOGIN SUCCESS ',[
                     'username' => $request->username,
                     'ip' => $request->header('X-Forwarded-For') ? $request->header('X-Forwarded-For') : $request->ip()
                 ]);
                 $user = Auth::user();
+                $user->last_session = session()->getId();
+                $user->save();
                 $success = $user->createToken(config('app.name'))->accessToken;
+                
                 return response([
                     'data' => $user,
                     'success' => $success,
@@ -76,6 +80,15 @@ class LoginController extends Controller
         }
         
         
+    }
+    protected function authenticated()
+    {
+        //Auth::logoutOtherDevices(request('password'));
+        if(session()->getId() != Auth::user()->last_session){
+            Auth::logout();
+            return true;
+         }
+
     }
 
     protected function guard()
