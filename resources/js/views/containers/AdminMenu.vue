@@ -63,10 +63,10 @@
                             <a class="nav-link  link-download" href="#">
                                 <i class="fas fa-download mr-2"></i>แนวปฏิบัติในการบันทึกฯ</a>
                         </li>
-                        <!-- <li class="nav-item" @click="line_dialog=true">
+                        <li class="nav-item" @click="line_dialog=true">
                             <a class="nav-link  link-download line nav-link-success" href="#">
                                 <i class="fab fa-line fa-lg mr-2"></i>แจ้งปัญหาการใช้งาน</a>
-                        </li> -->
+                        </li>
                         <!-- <li class="nav-item">
                             <a class="nav-link nav-link-danger" href="https://coreui.io/pro/" target="_top">
                                     <i class="fab fa-line mr-2"></i>แจ้งปัญหาการใช้งาน</a>
