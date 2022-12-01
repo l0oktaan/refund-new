@@ -72,7 +72,7 @@ class LoginController extends Controller
             }else{
                 Log::channel('auth')->error('LOGIN FAILED ',[
                     'username' => $request->username,
-                    'ip' => $request->header('HTTP_X_FORWARDED_FOR') ? $request->header('HTTP_X_FORWARDED_FOR') : $request->ip()
+                    'ip' => $request->header('X_FORWARDED_FOR') ? $request->header('X_FORWARDED_FOR') : $request->ip()
                 ]);
             }
         } catch (\Throwable $th) {

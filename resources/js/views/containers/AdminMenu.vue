@@ -60,19 +60,41 @@
 
 
                         <li class="nav-item mt-auto" @click="download">
-                            <a class="nav-link text-center link-download" href="#">
+                            <a class="nav-link  link-download" href="#">
                                 <i class="fas fa-download mr-2"></i>แนวปฏิบัติในการบันทึกฯ</a>
                         </li>
+                        <!-- <li class="nav-item" @click="line_dialog=true">
+                            <a class="nav-link  link-download line nav-link-success" href="#">
+                                <i class="fab fa-line fa-lg mr-2"></i>แจ้งปัญหาการใช้งาน</a>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a class="nav-link nav-link-danger" href="https://coreui.io/pro/" target="_top">
-                                    <i class="nav-icon cui-layers"></i> Try CoreUI
-                                    <strong>PRO</strong>
-                                    </a>
+                                    <i class="fab fa-line mr-2"></i>แจ้งปัญหาการใช้งาน</a>
                         </li> -->
                     </ul>
                 </nav>
+                <b-modal v-model="line_dialog"
+                    title="ช่องทางในการแจ้งปัญหาการใช้งาน"
+                    hide-footer="true"
+                >
+                    <b-row>
+                        <b-col cols="2">e-Mail :</b-col>
+                        <b-col>e-withdraw@cgd.go.th</b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col cols="2">Line ID :</b-col>
+                        <b-col>@007qgnam</b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col cols="2"></b-col>
+                        <b-col><img src="/images/qrcode.png" width="200px" alt="Scan QR Code"></b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col cols="2"></b-col>
+                        <b-col><a target="_blank" href="https://lin.ee/r25zOTy"><img src="/images/linebtn.png" width="100px" alt="เพิ่มเพื่อน"></a></b-col>
+                    </b-row>
+                </b-modal>
             </div>
-
 </template>
 <script>
 export default {
@@ -83,8 +105,8 @@ export default {
                 // {menu: 'Dashboard', path: '/refund', icon: 'fas fa-globe'},
                 {menu: 'การถอนคืนฯ', path: '/refund/refunds', icon: 'fa fa-align-justify'},
                 {menu: 'ข้อมูลหน่วยงาน', path: '/refund/office', icon: 'fa fa-university'},
-
-            ]
+            ],
+            line_dialog: false
         }
     },
     methods:{
@@ -108,8 +130,7 @@ export default {
             })
             .catch(error=>{
                 console.log(error)
-            })
-           
+            })           
         },
     }
 }
@@ -125,6 +146,10 @@ export default {
 }
 .link-download:hover{
     background-color: #20a8d8!important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
+.link-download.line:hover{
+    background-color: #0ea009!important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 }
 </style>
