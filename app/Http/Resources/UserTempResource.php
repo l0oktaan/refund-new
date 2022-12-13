@@ -22,7 +22,8 @@ class UserTempResource extends JsonResource
             'position' => $this->position,   
             'email' => $this->email,
             'phone' => $this->phone,
-            'status' => $this->status
+            'status' => $this->status,
+            'sub_office_name' => $this->sub_office_name
         ];
     }
 }

@@ -301,7 +301,7 @@ export default {
                         "email" : users[i].email,
                         "position" : users[i].position,
                         "phone" : users[i].phone,
-                        "sub_office_name" : '',
+                        "sub_office_name" : users[i].sub_office_name,
                         "type" : "2"
                     });
                     await console.log('count : ' + (i+1));
