@@ -24,6 +24,7 @@
                 <div class="book" id="book" ref="book">
                     <div class="page" :id="`printThis${refund_id}`" ref="printThis">
                         <div class="subpage" v-if="isReady">
+                            
                             <b-row>
                                 <b-col cols="3">
 
@@ -243,7 +244,7 @@
                                                     <p class="head">ในปีงบประมาณ <span class="show">{{getDepositYear()}}</span></p>
                                                 </td>
                                             </tr>
-                                            <tr >
+                                            <tr>
                                                 <td>
                                                     <div class="main_order">
                                                             <p class="head">5. การขอถอนคืนเงินค่าปรับแก่ผู้มีสิทธิ</p>
@@ -267,7 +268,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
                                 </b-col>
                             </b-row>                            
                         </div>

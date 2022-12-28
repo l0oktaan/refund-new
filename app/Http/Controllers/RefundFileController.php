@@ -138,7 +138,7 @@ class RefundFileController extends Controller
     {
 
         
-                $path = storage_path('uploads') . "/e-withdraw_user_manual_v_1.1.pdf";
+                $path = storage_path('uploads') . "/e-withdraw_user_manual_v_1.2.pdf";
                 
                 $headers = [
                     'Content-Type: application/pdf'
