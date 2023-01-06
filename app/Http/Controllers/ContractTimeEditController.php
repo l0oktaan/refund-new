@@ -26,6 +26,8 @@ class ContractTimeEditController extends Controller
             $timeEdits =  $office->contract_time_edits()
                         ->where('refund_id','=',$refund->id)
                         ->orderBy('approve_date','asc')
+                        ->orderBy('edit_start_date','asc')
+                        ->orderBy('edit_end_date','asc')
                         ->get();
             return ContractTimeEditResource::collection($timeEdits);
         }
