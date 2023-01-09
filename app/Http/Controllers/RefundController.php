@@ -207,7 +207,9 @@ class RefundController extends Controller
     public function destroy(Office $office,Refund $refund)
     {
         if ($refund->office_id == $office->id){
-            $refund->delete();
+            // $refund->delete();
+            $refund->status = 0;
+            $refund->save();
             return response(null,Response::HTTP_CREATED);
         }else{
             return response(null,Response::HTTP_NOT_FOUND);
