@@ -76,6 +76,9 @@ class Refund extends Model
     public function approve_refunds(){
         return $this->hasMany('App\ApproveRefund','refund_id','id');
     }
+    public function approve_refund_details(){
+        return $this->hasMany('App\ApproveRefundDetail','refund_id','id');
+    }
 
     public function refund_forms(){
         return $this->hasMany('App\RefundForm','refund_id','id');

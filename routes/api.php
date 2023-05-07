@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
         Route::apiResource('/{office}/refunds/{refund}/delivers','DeliverController')->middleware('log.route');
         Route::apiResource('/{office}/refunds/{refund}/deposit_penalties','DepositPenaltyController')->middleware('log.route');
         Route::apiResource('/{office}/refunds/{refund}/approve_refunds','ApproveRefundController')->middleware('log.route');
+        Route::apiResource('/{office}/refunds/{refund}/approve_refund_details','ApproveRefundDetailController')->middleware('log.route');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms','RefundFormController')->middleware('log.route');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_details','RefundDetailController')->middleware('log.route');
         Route::apiResource('/{office}/refunds/{refund}/refund_forms/{refund_form}/refund_reports','ReportController')->middleware('log.route');
@@ -53,7 +54,7 @@ Route::group(['middleware' => 'auth:api'],function($router) {
     Route::Resource('/forms','FormController');
     Route::group(['prefix'=>'forms'],function(){
         Route::apiResource('/{form}/form_rules','FormRuleController');
-        
+
         Route::apiResource('/{form}/form_rules/{form_rule}/form_conditions','FormConditionController');
         Route::apiResource('/{form}/form_rules/{form_rule}/form_considers','ConsiderController');
     });

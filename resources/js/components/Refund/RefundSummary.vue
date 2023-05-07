@@ -12,8 +12,41 @@
             </div>
             <b-form @submit="onSubmit">
 
+
                         <b-row>
                             <b-col cols="12" style="text-align:center; margin-bottom:10px;"><h5>การขอถอนคืนเงินค่าปรับให้แก่ผู้มีสิทธิ</h5></b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col sm="12">
+
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label = "มีการอนุมัติหลายช่วง :"
+                                    label-align-sm="right"
+                                    label-for=""
+                                >
+                                <b-row>
+                                    <b-col cols="12" md="6">
+
+                                        <div>
+                                            <toggle-button :value = "false" :sync = "true" :width="60" :height="25"
+                                                :labels="{checked: 'ใช่', unchecked: 'ไม่ใช่'}"
+                                                :color="{checked: '#41831b', unchecked: '#7c7c7c'}"
+                                                style="padding-top:4px; line-height:0px;"
+                                                v-model="hasMany"
+                                                :disabled = "approve_detail.length > 0"
+                                            />
+                                        </div>
+                                    </b-col>
+                                </b-row>
+
+                                </b-form-group>
+                            </b-col>
                         </b-row>
                         <b-row v-if="false">
                             <b-col sm="12">
@@ -31,7 +64,7 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="!hasMany">
                             <b-col sm="12">
 
                                 <b-form-group
@@ -50,7 +83,7 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row  v-if="!hasMany">
                             <b-col sm="12">
 
                                 <b-form-group
@@ -68,7 +101,30 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <RefundSummaryDetail
+                            v-if="hasMany"
+                            :office_id="office_id"
+                            :refund_id="r_id"
+                            :name3="forms[0].form.name3"
+                            @fetchDetail="fetchDetail"
+                        >
+                        </RefundSummaryDetail>
+                        <b-row v-if="hasMany">
+                            <b-col sm="12">
+
+                                <b-form-group
+                                    label-cols-sm="6"
+                                    label="รวม"
+                                    label-align-sm="right"
+                                    label-for="approve_refund_days"
+                                >
+                                    <b-input-group append="วัน">
+                                       <b-form-input readonly id="approve_refund_days" v-model="getSum"></b-form-input>
+                                    </b-input-group>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row v-if="!hasMany">
                             <b-col sm="12">
 
                                 <b-form-group
@@ -144,7 +200,7 @@
 
                                 <div class="text-center" style="margin-bottom:5px;">
                                     <b-button  type="submit" variant="dark" :disabled="isDisable">บันทึกข้อมูล</b-button>
-                                </div>                                
+                                </div>
                             </b-col>
                         </b-row>
 
@@ -179,7 +235,9 @@ export default {
                 },
             },
             form : [],
-            refund_status: this.$store.getters.refund_status
+            refund_status: this.$store.getters.refund_status,
+            approve_detail:[],
+            hasMany: false
         }
     },
     mounted(){
@@ -190,6 +248,11 @@ export default {
         isDisable(){
             console.log('status :' + this.refund_status);
             return (this.refund_status > 7 && this.refund_status != 11) && this.$store.getters.user.type != 'admin' ? true : false
+        },
+        getSum(){
+            return this.approve_detail.reduce((accumulator, object) => {
+                return accumulator + object.refund_days;
+            }, 0);
         }
     },
     watch:{
@@ -218,6 +281,11 @@ export default {
                 }
             }
         },
+        approve_detail(){
+            if (this.approve_detail.length > 0){
+                this.hasMany = true;
+            }
+        }
     },
     methods: {
         async fetchData(){
@@ -225,15 +293,24 @@ export default {
             // //var refund_form_id = 0;
             // var res = await axios.get(`${path}`)
             // this.form = await res.data.data
-            const path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
+            let path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refunds`;
             let response = await axios.get(`${path}`)
                 if (response.data.data.length > 0){
                     this.approve = await response.data.data[0];
-
                     this.toEdit(response.data.data[0]);
                 }
+            path = await `/api/offices/${this.office_id}/refunds/${this.r_id}/approve_refund_details`;
+            let res = await axios.get(`${path}`)
+            if (res.data.data.length>0){
+                this.approve_detail = await res.data.data;
+            }
+
 
             await this.$emit('refund_update');
+        },
+        fetchDetail(details){
+            console.log('details :' + details.length)
+            this.approve_detail = details;
         },
         toEdit(item){
             this.approve = _.cloneDeep(item);
@@ -255,12 +332,12 @@ export default {
 
                 axios.post(`${path}`,{
                     //receive_date: this.approve.receive_date,
-                    refund_days: this.approve.refund_days,
+                    refund_days: this.hasMany ? this.getSum : this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
                     approve_amount: this.approve.approve_amount,
-                    start_date: this.date_start,
-                    end_date: this.date_end,
+                    start_date: this.hasMany ?'' : this.date_start,
+                    end_date: this.hasMany ? '' :this.date_end,
                 })
                 .then(response=>{
                    this.alert = 'success';
@@ -276,12 +353,12 @@ export default {
                 axios
                 .put(`${path}`,{
                     //receive_date: this.approve.receive_date,
-                    refund_days: this.approve.refund_days,
+                    refund_days: this.hasMany ? this.getSum : this.approve.refund_days,
                     refund_money: this.approve.refund_money,
                     refund_amount: this.approve.refund_amount,
                     approve_amount: this.approve.approve_amount,
-                    start_date: this.date_start,
-                    end_date: this.date_end,
+                    start_date:this.hasMany ? '' : this.date_start,
+                    end_date: this.hasMany ? '' :this.date_end,
                 })
                 .then(response=>{
                     this.alert = 'success';

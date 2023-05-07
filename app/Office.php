@@ -99,6 +99,15 @@ class Office extends Model
         );
     }
 
+    public function approve_refund_details(){
+        return $this->hasManyThrough(
+            'App\ApproveRefundDetail',
+            'App\Refund',
+            'office_id',
+            'refund_id'
+        );
+    }
+
     public function refund_forms(){
         return $this->hasManyThrough(
             'App\RefundForm',
