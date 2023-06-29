@@ -56,7 +56,7 @@
                                         </b-form-input>
                                     </b-form-group>
                                 </b-col> -->
-                                 <b-col sm="3" v-if="time_edit.edit_type > 1">
+                                 <b-col sm="3" v-if="time_edit.edit_type > 1 && time_edit.edit_type != 6">
                                     <b-form-group>
                                         <label for="edit_budget">จำนวนเงิน :<span class="require" v-if="time_edit.edit_type == 3">*</span></label>
                                         <cleave placeholder="จำนวนเงิน" name="edit_budget" v-model="time_edit.edit_budget" class="form-control" :options="cleave_options.number"></cleave>
@@ -108,7 +108,7 @@
                                         </b-form-select>
                                     </b-form-group>
                                 </b-col>
-                                <b-col sm="4" v-if="time_edit.approve_type > 10 && time_edit.approve_type < 20">                                    
+                                <b-col sm="4" v-if="time_edit.approve_type > 10 && time_edit.approve_type < 20">
                                     <b-form-group>
                                         <label for="receive_book_date">วันที่หน่วยงานได้รับหนังสือขอรับความช่วยเหลือ :</label>
                                         <my-date-picker ref="receive_book_date" :id="14" :showDate="date_receive_book" @update="value => date_receive_book = value"></my-date-picker>
@@ -175,6 +175,32 @@
                                     <b-form-group>
                                         <label for="book_date">ถึงวันที่ :</label>
                                         <my-date-picker ref="book_date" :id="14" :showDate="date_book" @update="value => date_book = value"></my-date-picker>
+                                    </b-form-group>
+                                </b-col>
+                            </b-row>
+                            <b-row v-if="arrShowDetail5.includes(parseInt(time_edit.approve_type))">
+                                <b-col sm="4" >
+                                    <b-form-group>
+                                        <label for="zero_penalty_consider">เข้าตามหลักเกณฑ์และเงื่อนไขในข้อ :<span class="require">*</span></label>
+                                        <b-form-input type="text"
+                                            placeholder="ระบุรายละเอียด"
+                                            name="zero_penalty_consider"
+                                            v-model = "time_edit.zero_penalty_consider"
+                                            id="zero_penalty_consider"
+                                        >
+                                        </b-form-input>
+                                    </b-form-group>
+                                </b-col>
+                                <b-col sm="4" >
+                                    <b-form-group>
+                                        <label for="zero_penalty_detail">ตามสัญญาแก้ไข/บันทึกแนบท้าย :<span class="require">*</span></label>
+                                        <b-form-input type="text"
+                                            placeholder="ระบุรายละเอียด"
+                                            name="zero_penalty_detail"
+                                            v-model = "time_edit.zero_penalty_detail"
+                                            id="zero_penalty_detail"
+                                        >
+                                        </b-form-input>
                                     </b-form-group>
                                 </b-col>
                             </b-row>
@@ -252,11 +278,12 @@ export default {
             r_id: this.$route.params.id,
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
-                {text: 'ขยายเวลา', value : 1},                
+                {text: 'ขยายเวลา', value : 1},
                 {text: 'งดค่าปรับ', value : 4},
                 {text: 'ลดค่าปรับ', value : 5},
+                {text: 'แก้ไขอัตราค่าปรับเป็น 0', value : 6},
                 {text: 'งดหรือลดค่าปรับ', value : 2},
-                {text: 'คืนเงินค่าปรับ', value : 3}                
+                {text: 'คืนเงินค่าปรับ', value : 3}
             ],
             arrApproveOtherType: [
                 {text: 'ตัวเลือก', value : null},
@@ -276,6 +303,9 @@ export default {
             arrShowDetail4 : [
                 40,41
             ],
+            arrShowDetail5 : [
+                42
+            ],
             cleave_options:{
                 number: {
                     prefix: '',
@@ -291,7 +321,9 @@ export default {
                 edit_type: null,
                 approve_type: null,
                 edit_detail: '-',
-                approve_other_type: null
+                approve_other_type: null,
+                zero_penalty_consider: '',
+                zero_penalty_detail: ''
             },
             time_edit_list: [],
             date_approve: '',
@@ -327,9 +359,9 @@ export default {
         },
     },
     watch: {
-        
+
         date_edit_start(newDate, oldDate){
-            
+
             if (this.date_edit_start != '' && this.date_edit_end){
                 if (!this.checkDate(newDate,this.date_edit_end)){
                     this.$nextTick(() => {
@@ -343,7 +375,7 @@ export default {
             }
         },
         date_edit_end(newDate, oldDate){
-            
+
             if (this.date_edit_end != '' && this.date_edit_start){
                 if (!this.checkDate(this.date_edit_start,newDate)){
                     this.$nextTick(() => {
@@ -357,7 +389,7 @@ export default {
             }
         },
         cal_edit_days(newVal,oldVal){
-            
+
             this.edit_days = newVal;
             this.$forceUpdate();
         },
@@ -404,15 +436,15 @@ export default {
                             this.showRuleAlert = false;
                         }
                     }
-                    
+
                 }
             }else{
                 if(parseInt(this.time_edit.approve_type) == 40){
                     let checkDate = new Date(newDate);
-                    
+
                     let effect_start_date = new Date(2013,10,1);
                     let effect_end_date = new Date(2014,4,31);
-                    
+
                     if (checkDate < effect_start_date || checkDate > effect_end_date){
                         this.showRuleAlert = true;
                     }else{
@@ -429,8 +461,8 @@ export default {
                 }
             }
         },
-        date_receive_book(newDate,oldDate){    
-                   
+        date_receive_book(newDate,oldDate){
+
             if (newDate != ''){
                 if (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20){
                     const arr = this.arrApproveType.filter(x=>x.value == this.time_edit.approve_type)
@@ -438,9 +470,9 @@ export default {
                     const begin_date = new Date(approve.startDate);
                     const end_date = new Date(approve.endDate);
                     const checkDate = new Date(newDate);
-                    
+
                     if (checkDate < begin_date || checkDate > end_date){
-                       
+
                         this.showRuleAlert = true;
                     }else{
                         this.showRuleAlert = false;
@@ -450,13 +482,13 @@ export default {
             }
         },
         date_book(newDate,oldDate){
-            
+
             if (this.isCabinet){
-                
+
                 return;
             }
             if (this.date_book != '' && this.date_problem_end){
-                
+
                 if (!this.checkDate(this.date_problem_end,newDate)){
                     this.$nextTick(() => {
                         this.date_book = oldDate;
@@ -466,10 +498,10 @@ export default {
                     if(this.time_edit.approve_type == 40){
                         let checkDate = new Date(newDate);
                         // console.log('end : ' + checkDate);
-                        
+
                         let effect_start_date = new Date(2013,10,1,7,0,0);
                         let effect_end_date = new Date(2014,4,31,7,0,0);
-                        
+
                         if (checkDate < effect_start_date || checkDate > effect_end_date){
                             this.showRuleAlert = true;
                         }else{
@@ -495,15 +527,15 @@ export default {
                             this.showRuleAlert = false;
                         }
                     }
-                   
+
                 }
             }else{
-                
+
                 if(parseInt(this.time_edit.approve_type) == 40){
                     // console.log('date str :' + this.date_book);
                     let checkDate = new Date(newDate);
                     // console.log('end : ' + checkDate);
-                    
+
                     let effect_start_date = new Date(2013,10,1,7,0,0);
                     let effect_end_date = new Date(2014,4,31,7,0,0);
                     console.log('end : ' + checkDate);
@@ -537,7 +569,7 @@ export default {
             } catch (error) {
                 return "";
             }
-            
+
         },
         checkRule(){
             if (parseInt(this.time_edit.approve_type) >= 40 || (this.time_edit.approve_type > 10 && this.time_edit.approve_type < 20)){
@@ -602,6 +634,12 @@ export default {
                     return;
                 }
             }
+            if (this.time_edit.approve_type == 42){
+                if (this.time_edit.zero_penalty_consider == '' || this.time_edit.zero_penalty_detail == ''){
+                    this.message = `กรุณาใส่ข้อมูลให้ครบถ้วน`;
+                    return;
+                }
+            }
             if (!this.checkRule()){
                 return;
             }
@@ -620,6 +658,8 @@ export default {
                     approve_type: this.time_edit.approve_type,
                     approve_other_desc: this.time_edit.approve_other_desc,
                     approve_other_type: this.time_edit.approve_other_type,
+                    zero_penalty_consider: this.time_edit.zero_penalty_consider,
+                    zero_penalty_detail: this.time_edit.zero_penalty_detail,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
                     book_date: (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? this.date_receive_book : this.date_book
@@ -652,6 +692,8 @@ export default {
                     approve_type: this.time_edit.approve_type,
                     approve_other_desc: this.time_edit.approve_other_desc,
                     approve_other_type: this.time_edit.approve_other_type,
+                    zero_penalty_consider: this.time_edit.zero_penalty_consider,
+                    zero_penalty_detail: this.time_edit.zero_penalty_detail,
                     approve_case: this.time_edit.approve_case,
                     problem_end_date: this.date_problem_end,
                     book_date: (this.time_edit.approve_type >10 && this.time_edit.approve_type < 20) ? this.date_receive_book : this.date_book
@@ -677,7 +719,7 @@ export default {
                 this.date_edit_start = value.edit_start_date;
                 this.date_edit_end = value.edit_end_date;
                 this.edit_days = value.edit_days;
-                
+
                 this.$nextTick(() => {
                     if (value.approve_type > 10 && value.approve_type < 20){
                         this.date_receive_book = value.book_date
@@ -746,7 +788,7 @@ export default {
         checkEffectDate(){
 
         },
-        
+
         checkDate(date1,date2){
             //console.log('check date : '+ date1 + ' and ' + date2);
             var d1 = new Date(date1);
@@ -776,7 +818,9 @@ export default {
                 edit_type: null,
                 approve_type: null,
                 edit_detail: '-',
-                approve_other_type: null
+                approve_other_type: null,
+                zero_penalty_consider: '',
+                zero_penalty_detail: ''
             };
             if (this.time_edit_list.length == 0){
                 this.isEdit = false

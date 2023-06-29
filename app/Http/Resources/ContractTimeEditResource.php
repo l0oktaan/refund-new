@@ -27,9 +27,12 @@ class ContractTimeEditResource extends JsonResource
             'approve_type' => $this->approve_type,
             'approve_other_desc' => $this->approve_other_desc,
             'approve_other_type' => $this->approve_other_type,
+            'zero_penalty_consider' => $this->zero_penalty_consider,
+            'zero_penalty_detail' => $this->zero_penalty_detail,
             'approve_case' => $this->approve_case,
             'problem_end_date' => $this->problem_end_date,
             'book_date' => $this->book_date,
+
         ];
     }
 }

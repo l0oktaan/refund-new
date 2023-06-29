@@ -21,6 +21,8 @@ class ContractTimeEdit extends Model
         'approve_other_desc',
         'approve_other_type',
         'approve_case',
+        'zero_penalty_consider',
+        'zero_penalty_detail',
         'problem_end_date',
         'book_date'
     ];

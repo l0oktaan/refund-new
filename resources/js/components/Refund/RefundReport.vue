@@ -24,7 +24,7 @@
                 <div class="book" id="book" ref="book">
                     <div class="page" :id="`printThis${refund_id}`" ref="printThis">
                         <div class="subpage" v-if="isReady">
-                            
+
                             <b-row>
                                 <b-col cols="3">
 
@@ -72,12 +72,12 @@
                                                                 <!-- <div v-for="(contract_edit,index) in refund.refund.contract_schedule_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
-                                                                    
+
                                                                 </div> -->
                                                                 <div v-for="(contract_edit,index) in contract_edits" :key="index">
                                                                     <p class="head sub">{{'1.2.' + (index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2" v-if="contract_edit.contract_new_start_date || contract_edit.contract_new_end_date">แก้ไขวัน<span v-if="contract_edit.contract_new_start_date">เริ่มต้นสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_start_date)}}</span></span><span v-if="contract_edit.contract_new_end_date">สิ้นสุดสัญญา เป็นวันที่<span class="show">{{getThaiDate(contract_edit.contract_new_end_date)}}</span></span></p>
-                                                                    
+
                                                                     <p class="head sub2" v-if="contract_edit.budget_new || contract_edit.penalty_new">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{getNumeric(contract_edit.budget_new)}}</span> บาท ค่าปรับเป็น <span class="show">{{getNumeric(contract_edit.penalty_new)}}</span> บาท</p>
                                                                 </div>
                                                             <!-- </div> -->
@@ -86,10 +86,10 @@
                                                                     <p class="head sub">{{'1.2.' + (refund.refund.contract_schedule_edits && refund.refund.contract_schedule_edits.length > 0 ? refund.refund.contract_schedule_edits.length+1 : index+1)}} หนังสือลงวันที่ <span class="show">{{getThaiDate(contract_edit.contract_edit_date)}}</span></p>
                                                                     <p class="head sub2">แก้ไขวงเงินค่าจ้างเป็น <span class="show">{{getNumeric(contract_edit.budget_new)}}</span> บาท ค่าปรับเป็น <span class="show">{{getNumeric(contract_edit.penalty_new)}}</span> บาท</p>
                                                                 </div>  -->
-                                                                
+
                                                             <!-- </div>  -->
                                                             <p class="head sub" v-if="(!refund.refund.contract_schedule_edits || refund.refund.contract_schedule_edits.length == 0) && (!refund.refund.contract_edits || refund.refund.contract_edits.length == 0)">-ไม่มี-</p>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                     <div class="main_order">
                                                         <p class="head">2. รายละเอียดการอนุมัติ ขยาย/งด/ลด</p>
@@ -215,7 +215,7 @@
                                                             <p class="head sub">{{'3.' + (index + 1)}} ส่งมอบงาน <span class="show">{{deliver.delivery}}</span> เมื่อวันที่ <span class="show">{{getThaiDate(deliver.delivery_date)}}</span></p>
                                                             <p class="head sub2" >เกินกำหนดสัญญาตั้งแต่วันที่ <span class="show">{{getThaiDate(deliver.overdue_start_date)}}</span> ถึงวันที่ <span class="show">{{getThaiDate(deliver.overdue_end_date)}}</span></p>
                                                             <p class="head sub2" v-if="deliver.detail != ''">รายละเอียดส่งมอบงาน<span class="show">{{deliver.detail}}</span></p>
-                                                            <p class="head sub2" v-if="deliver.penalty_accept && deliver.penalty_accept > 0">คิดค่าปรับ <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span>{{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>                                                            
+                                                            <p class="head sub2" v-if="deliver.penalty_accept && deliver.penalty_accept > 0">คิดค่าปรับ <span class="show">{{deliver.overdue_days}}</span> วัน ถูกปรับเป็นเงิน <span class="show">{{deliver.penalty_accept | numeral('0,0.00')}}</span>{{refund.refund.contracts[0].currency_unit == 'THB' ? 'บาท' : 'ดอลลาร์สหรัฐ'}}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -269,7 +269,7 @@
                                         </tbody>
                                     </table>
                                 </b-col>
-                            </b-row>                            
+                            </b-row>
                         </div>
                     </div>
                     <div class="page" id="timeline">
@@ -325,11 +325,12 @@ export default {
             },
             arrEditType : [
                 {text: 'ประเภทการอนุมัติ', value : null},
-                {text: 'ขยายเวลา', value : 1},                
+                {text: 'ขยายเวลา', value : 1},
                 {text: 'งดค่าปรับ', value : 4},
                 {text: 'ลดค่าปรับ', value : 5},
+                {text: 'แก้ไขอัตราค่าปรับเป็น 0', value : 6},
                 {text: 'งดหรือลดค่าปรับ', value : 2},
-                {text: 'คืนเงินค่าปรับ', value : 3} 
+                {text: 'คืนเงินค่าปรับ', value : 3}
             ],
             arrApproveType : this.$store.getters.arrApproveType,
             arrApproveOtherType: [
@@ -407,8 +408,8 @@ export default {
                 return a.start - b.start;
             });
         },
-        
-        
+
+
 
     },
     methods: {
@@ -463,8 +464,8 @@ export default {
                     end: Date.UTC(end.getFullYear(),end.getMonth(),end.getDate()),
                     color: "#ffe6e6",
                     borderWidth: "1",
-                    borderColor: "gray",                   
-                    
+                    borderColor: "gray",
+
                 })
                 if (this.refund.refund.contract_schedule_edits && this.refund.refund.contract_schedule_edits.length > 0){
                     for (let i=0;i<this.refund.refund.contract_schedule_edits.length;i++){
@@ -487,8 +488,8 @@ export default {
                             end: Date.UTC(edit_end.getFullYear(),edit_end.getMonth(),edit_end.getDate()),
                             color: "#ffe6e6",
                             borderWidth: "1",
-                            borderColor: "gray",                   
-                            
+                            borderColor: "gray",
+
                         })
                     }
                 }
@@ -497,7 +498,7 @@ export default {
             } catch (error) {
                 console.log('Get Refund Error')
             }
-            
+
 
 
 
@@ -509,16 +510,16 @@ export default {
             if (this.refund.refund.contract_schedule_edits && this.refund.refund.contract_schedule_edits.length > 0){
                 await this.refund.refund.contract_schedule_edits.forEach(x=>{
                     arr.push(x);
-                    
+
                 })
             }
             if (this.refund.refund.contract_edits && this.refund.refund.contract_edits.length > 0){
                 await this.refund.refund.contract_edits.forEach(x=>{
                     arr.push(x);
-                    
+
                 })
             }
-            
+
             return arr.sort(function(a, b) {
                 // console.log(a.type + ' ' + b.type)
                 // if (a.type == 'contract' || b.type == 'contract'){
@@ -553,7 +554,7 @@ export default {
                     await this.$forceUpdate();
             } catch (error) {
                 console.log('GetTimeEdit Error')
-            }          
+            }
 
         },
         async getDeliver(){
@@ -580,7 +581,7 @@ export default {
             } catch (error) {
                 console.log('delivery error')
             }
-            
+
 
 
         },
@@ -614,7 +615,7 @@ export default {
                     color: "#e6ffe6",
                     borderWidth: "1",
                     borderColor: "gray",
-                    
+
 
                 })
             }
@@ -635,7 +636,7 @@ export default {
         getEditType(value){
             try {
                 var index = this.arrEditType.findIndex(x => x.value == value);
-                if (index >= 0){                
+                if (index >= 0){
                     let text = this.arrEditType[index]['text'];
                     console.log('edit type index :' + index + ' text :' + text);
                     return text;
@@ -646,8 +647,8 @@ export default {
                 console.log(error)
                 return '';
             }
-            
-            
+
+
         },
         getApproveType(value){
             //console.log('Get Approve Type :' + value);
@@ -657,7 +658,7 @@ export default {
 
         async printReport(print_page){
             let code = await this.refund ? this.refund.refund.approve_code : ''
-            
+
             //console.log('print report');
             if (print_page == "timeline"){
                 var node = await document.getElementById(print_page);
@@ -707,7 +708,7 @@ export default {
             for (let i = 0; i < this.delivers.length; i++) {
                 if (this.delivers[i]['penalty_accept'] && this.delivers[i]['penalty_accept'] > 0){
                     overDueDays = overDueDays + this.delivers[i]['overdue_days'];
-                }                
+                }
             }
             return overDueDays;
         },
@@ -717,16 +718,16 @@ export default {
 
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty = penalty + (this.delivers[i]['penalty'] ? this.delivers[i]['penalty'] : 0);
-                
+
             }
-            
+
             return penalty.toFixed(2);
         },
         getPenaltyAcceptAll(){
             var penalty_accept = 0;
             for (let i = 0; i < this.delivers.length; i++) {
                 penalty_accept = penalty_accept + (this.delivers[i]['penalty_accept'] ? this.delivers[i]['penalty_accept'] : 0 );
-            }            
+            }
             return penalty_accept.toFixed(2);
         },
         getDepositAll(){
@@ -763,7 +764,7 @@ export default {
         },
 
         createTimeLine(item){
-            
+
             this.$nextTick(()=>{
                 this.time_line.push(item)
             })
