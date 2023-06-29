@@ -608,8 +608,29 @@ export default {
                 let end = await  new Date(this.approves[i].end_date);
                 let approve = this.refund.form.name3.replace('แบบถอนคืน','');
                 approve = approve.replace('ตาม','');
+                let d_path = await `/api/offices/${this.office_id}/refunds/${this.refund_id}/approve_refund_details`;
+                let res = await axios.get(`${d_path}`);
+                let details = await res.data.data;
+                console.log("detail :" + details.length)
+                if (details && details.length>0){
+                    for (let index = 0; index < details.length; index++) {
+                        const element = details[index];
+                        let d_start = await  new Date(element.start_date);
+                        let d_end = await  new Date(element.end_date);
+                        await this.createTimeLine({
+                            name : approve.includes('693') ? 'แก้ไขสัญญาโดยคิดค่าปรับในอัตราร้อยละ 0 (' + approve + ') ' + element.refund_days + ' วัน' : 'อนุมัติงด ลด ค่าปรับ (' + approve + ') ' + element.refund_days + ' วัน',
+                            type: 'approve',
+                            start: Date.UTC(d_start.getFullYear(),d_start.getMonth(),d_start.getDate()),
+                            end: Date.UTC(d_end.getFullYear(),d_end.getMonth(),d_end.getDate()),
+                            color: "#e6ffe6",
+                            borderWidth: "1",
+                            borderColor: "gray",
+                        })
 
-                await this.createTimeLine({
+                    }
+
+                }else{
+                    await this.createTimeLine({
                     name : approve.includes('693') ? 'แก้ไขสัญญาโดยคิดค่าปรับในอัตราร้อยละ 0 (' + approve + ') ' + this.approves[i].refund_days + ' วัน' : 'อนุมัติงด ลด ค่าปรับ (' + approve + ') ' + this.approves[i].refund_days + ' วัน',
                     type: 'approve',
                     start: Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()),
@@ -620,6 +641,8 @@ export default {
 
 
                 })
+                }
+
             }
 
             this.$forceUpdate();
