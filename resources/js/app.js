@@ -459,6 +459,15 @@ Vue.component('RefundSide', RefundSide).defaults;
 
 
 //------------------------- Component ----------------
+import ContractList from './components/Admin/RefundControl/ContractList.vue';
+Vue.component('ContractList', ContractList).defaults;
+
+import DepositForm from './components/Admin/RefundControl/DepositForm.vue';
+Vue.component('DepositForm', DepositForm).defaults;
+
+import WithdrawForm from './components/Admin/RefundControl/WithdrawForm.vue';
+Vue.component('WithdrawForm', WithdrawForm).defaults;
+
 import UserList from './components/Admin/UserList.vue';
 Vue.component('UserList', UserList).defaults;
 
