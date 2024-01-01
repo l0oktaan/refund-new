@@ -1,13 +1,14 @@
 <template>
     <div>
-
-        <b-table striped hover :items="items" :fields="fields" sort-icon-left>
+        <h5>รายการสัญญาชองหน่วยงาน :</h5>
+        <b-table striped hover :items="items" :fields="fields" sort-icon-left v-model="currentItems">
             <template #cell(ลำดับ)="data">
                 {{ data.index + 1 }}
             </template>
-            <template #cell(การนำส่ง-ถอนคืน)="row">
-                <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-                {{ row.detailsShowing ? 'ซ่อน' : 'แสดง'}} รายการนำส่ง
+            <template #cell(การนำส่ง-ถอนคืน)="{detailsShowing,item}">
+                <!-- <b-button @click="row.toggleDetails" class="mr-2" :variant="row.detailsShowing ? 'primary' : 'outline-primary'"> -->
+                <b-button @click="toggleDetails(item)" class="mr-2" :variant="detailsShowing ? 'primary' : 'outline-primary'">
+                <i class="fas fa-chevron-down" v-if="detailsShowing"></i><i class="fas fa-chevron-right" v-else></i>  รายการนำส่ง - ถอนคืน
                 </b-button>
 
                 <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
@@ -20,21 +21,21 @@
                     <div>
                         <div class="myflex">
                             <h3>รายการนำส่ง</h3>
-                            <b-button @click="showDepositData(data)">เพิ่มรายการนำส่ง</b-button>
+                            <b-button @click="showDepositData(data)" variant="success"><i class="fas fa-plus"></i> เพิ่มรายการนำส่ง</b-button>
                         </div>
                         <b-table striped hover :items="deposit_items" :fields="deposit_fields" sort-icon-left>
                             <template #cell(ลำดับ)="data">
                                 {{ data.index + 1 }}
                             </template>
                             <template #cell(จัดการข้อมูล)="data">
-                                <b-button size="sm" @click="showDepositData(data)">จัดการข้อมูล</b-button>
+                                <b-button @click="showDepositData(data)" variant="info">แสดงรายละเอียด</b-button>
                             </template>
                         </b-table>
                     </div>
                     <div>
                         <div class="myflex mt-2">
                             <h3>รายการถอนคืน</h3>
-                            <b-button @click="showWithdrawData(data)">เพิ่มรายการอนุมัติถอนคืน</b-button>
+                            <b-button @click="showWithdrawData(data)" variant="success"><i class="fas fa-plus"></i> เพิ่มรายการอนุมัติถอนคืน</b-button>
                         </div>
 
                         <b-table striped hover :items="refund_items" :fields="refund_fields" sort-icon-left>
@@ -42,11 +43,11 @@
                                 {{ data.index + 1 }}
                             </template>
                             <template #cell(จัดการข้อมูล)="data">
-                                <b-button size="sm" @click="showWithdrawData(data)">จัดการข้อมูล</b-button>
+                                <b-button  @click="showWithdrawData(data)" variant="info">แสดงรายละเอียด</b-button>
                             </template>
                         </b-table>
                     </div>
-                    <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+                    <b-button @click="row.toggleDetails" variant="warning"><i class="fas fa-minus"></i> ซ่อนรายการ</b-button>
                 </b-card>
             </template>
 
@@ -82,6 +83,7 @@ export default {
             contract_new_id: null,
             showDeposit: false,
             showWithdraw: false,
+            currentItems: [],
             fields: [
                 'ลำดับ',
                 {
@@ -219,17 +221,30 @@ export default {
         }
     },
     methods : {
+        toggleDetails(row) {
+            if(row._showDetails){
+                this.$set(row, '_showDetails', false)
+            }else{
+                this.currentItems.forEach(item => {
+                    this.$set(item, '_showDetails', false)
+                })
+                this.$nextTick(() => {
+                    this.$set(row, '_showDetails', true)
+                })
+            }
+        },
         addDeposit(contract_new_id){
             this.showDeposit = true
         },
-        showDepositData(){
+        showDepositData(data){
             this.showDeposit = true
             // this.$refs['showDeposit'].show()
-
+            console.log(data);
 
         },
-        showWithdrawData(){
+        showWithdrawData(data){
             this.showWithdraw = true
+            console.log(data);
         },
         resetDeposit(){
             console.log('Close Deposit Modal');
