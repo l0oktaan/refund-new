@@ -51,7 +51,7 @@
             <b-col>
                 <div class="text-center" style="margin-bottom:5px;">
                     <b-button :disabled="isDisable" type="submit" variant="dark">บันทึกข้อมูล</b-button>
-                    <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button>
+                    <!-- <b-button type="reset" variant="danger" @click="clearData" >ยกเลิก</b-button> -->
                 </div>
             </b-col>
         </b-row>

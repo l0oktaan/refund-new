@@ -18,7 +18,10 @@
             <template #row-details="row">
                 <b-card>
                     <div>
-                        <h3>รายการนำส่ง</h3>
+                        <div class="myflex">
+                            <h3>รายการนำส่ง</h3>
+                            <b-button @click="showDepositData(data)">เพิ่มรายการนำส่ง</b-button>
+                        </div>
                         <b-table striped hover :items="deposit_items" :fields="deposit_fields" sort-icon-left>
                             <template #cell(ลำดับ)="data">
                                 {{ data.index + 1 }}
@@ -29,7 +32,11 @@
                         </b-table>
                     </div>
                     <div>
-                        <h3>รายการถอนคืน</h3>
+                        <div class="myflex mt-2">
+                            <h3>รายการถอนคืน</h3>
+                            <b-button @click="showWithdrawData(data)">เพิ่มรายการอนุมัติถอนคืน</b-button>
+                        </div>
+
                         <b-table striped hover :items="refund_items" :fields="refund_fields" sort-icon-left>
                             <template #cell(ลำดับ)="data">
                                 {{ data.index + 1 }}
@@ -240,6 +247,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.myflex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.myflex > .btn{
+    margin-left: 10px;
+}
 </style>
