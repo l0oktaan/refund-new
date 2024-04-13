@@ -50,7 +50,7 @@
                             <b-nav-item  to="/admin/users"><i class="fas fa-user-friends" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item>
                             <b-nav-item  to="/admin/form"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการแบบฟอร์ม</b-nav-item>
                             <b-nav-item  to="/admin/refunds"><i class="fas fa-flag" aria-hidden="true"></i>&nbsp;รายการขอถอนคืน</b-nav-item>
-                            <b-nav-item  to="/admin/control"><i class="fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;การควบคุมยอดนำส่ง-ถอนคืน</b-nav-item>
+                            <!-- <b-nav-item  to="/admin/control"><i class="fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;การควบคุมยอดนำส่ง-ถอนคืน</b-nav-item> -->
                         </b-nav>
 
                         <b-nav vertical v-if="user.type=='user'">
@@ -110,7 +110,7 @@ export default {
         }
     },
     methods:{
-        download(){        
+        download(){
             let path = `/api/user_manual`;
             axios({
                 url : `${path}`,
@@ -119,18 +119,18 @@ export default {
             })
             .then(response=>{
                 var fileURL = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-                
+
                 var fileLink = document.createElement('a');
                 fileLink.href = fileURL;
                 let filename = "e-withdraw_user_manual.pdf";
                 fileLink.setAttribute('download', filename);
                 document.body.appendChild(fileLink);
                 window.open(fileLink, "_blank");
-                        
+
             })
             .catch(error=>{
                 console.log(error)
-            })           
+            })
         },
     }
 }
