@@ -50,7 +50,9 @@
                             <b-nav-item  to="/admin/users"><i class="fas fa-user-friends" aria-hidden="true"></i>&nbsp;จัดการผู้ใช้</b-nav-item>
                             <b-nav-item  to="/admin/form"><i class="fa fa-align-justify" aria-hidden="true"></i>&nbsp;จัดการแบบฟอร์ม</b-nav-item>
                             <b-nav-item  to="/admin/refunds"><i class="fas fa-flag" aria-hidden="true"></i>&nbsp;รายการขอถอนคืน</b-nav-item>
-                            <!-- <b-nav-item  to="/admin/control"><i class="fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;การควบคุมยอดนำส่ง-ถอนคืน</b-nav-item> -->
+                            <b-nav-item  to="/admin/control"><i class="fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;การควบคุมยอดนำส่ง-ถอนคืน</b-nav-item>
+                            <b-nav-item  class="submenu" to="/admin/control/refund-tax"><i class="fas fa-angle-right"></i>&nbsp;กรณีสรรพสามิต</b-nav-item>
+                            <b-nav-item  class="submenu" to="/admin/control/refund-penalty"><i class="fas fa-angle-right"></i>&nbsp;กรณีค่าปรับ และกรณีอื่น ๆ</b-nav-item>
                         </b-nav>
 
                         <b-nav vertical v-if="user.type=='user'">
@@ -151,5 +153,8 @@ export default {
 .link-download.line:hover{
     background-color: #0ea009!important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+}
+.submenu{
+    padding-left: 15px;
 }
 </style>

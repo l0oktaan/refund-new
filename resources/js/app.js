@@ -158,6 +158,9 @@ import AdminIndex from './views/Admin/AdminIndex'
 import UserManage from './views/Admin/UserManage'
 import UserRegister from './views/Admin/UserRegister'
 import RefundControl from './views/Admin/RefundControl'
+import RefundControlHome from './views/Admin/RefundControlHome'
+import RefundTax from './views/Admin/RefundTax'
+import RefundPenalty from './views/Admin/RefundPenalty'
 
 import AdminRefundList from './views/Admin/Refund/AdminRefundList'
 import FormIndex from './views/Admin/Form/FormIndex'
@@ -389,6 +392,29 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'main-control',
+                    component: RefundControlHome,
+                    meta: {
+                        breadCrumb: 'การควบคุมยอดนำส่ง - ถอนคืน' //crumb
+                    },
+                    children: [
+                        {
+                            path: 'refund-tax',
+                            component: RefundTax,
+                            meta: {
+                                breadCrumb: 'กรณีภาษีสรรพสามิต' //crumb
+                            },
+                        },
+                        {
+                            path: 'refund-penalty',
+                            component: RefundPenalty,
+                            meta: {
+                                breadCrumb: `กรณีค่าปรับ และกรณีอื่น ๆ` //crumb
+                            }
+                        },
+                    ]
+                },
+                {
                     path: 'refunds',
 
                     component: RefundShow,
@@ -461,6 +487,9 @@ Vue.component('RefundSide', RefundSide).defaults;
 //------------------------- Component ----------------
 import ContractList from './components/Admin/RefundControl/ContractList.vue';
 Vue.component('ContractList', ContractList).defaults;
+
+import DepositList from './components/Admin/RefundControl/DepositList.vue';
+Vue.component('DepositList', DepositList).defaults;
 
 import DepositForm from './components/Admin/RefundControl/DepositForm.vue';
 Vue.component('DepositForm', DepositForm).defaults;
