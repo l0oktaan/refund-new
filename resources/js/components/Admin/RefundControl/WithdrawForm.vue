@@ -27,7 +27,6 @@
                         maxlength="10"
                     >
                     </b-form-input>
-
                 </b-form-group>
             </b-col>
             <b-col sm="6"></b-col>
@@ -56,6 +55,18 @@
                 <b-form-group>
                     <label for="approve_date">หนังสือลงวันที่ :<span class="require">*</span></label>
                     <my-date-picker ref="approve_date" :id="11" :showDate="date_approve" @update="value => date_approve = value"></my-date-picker>
+                </b-form-group>
+            </b-col>
+            <b-col sm="12">
+                <b-form-group>
+
+                    <label for="description">หมายเหตุ :</label>
+                    <b-form-input type="text"
+                        placeholder="หมายเหตุ"
+                        name="description"
+                        v-model = "refund.description"                      
+                    >
+                    </b-form-input>                    
                 </b-form-group>
             </b-col>
         </b-row>

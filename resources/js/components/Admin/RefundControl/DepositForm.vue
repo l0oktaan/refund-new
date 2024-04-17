@@ -46,6 +46,18 @@
                     <cleave placeholder="จำนวนเงิน" name="amount_in_contract" v-model="deposit.amount_in_contract" class="form-control" :options="cleave_options.number"></cleave>
                 </b-form-group>
             </b-col>
+            <b-col sm="12">
+                <b-form-group>
+
+                    <label for="description">หมายเหตุ :</label>
+                    <b-form-input type="text"
+                        placeholder="หมายเหตุ"
+                        name="description"
+                        v-model = "deposit.description"                      
+                    >
+                    </b-form-input>                    
+                </b-form-group>
+            </b-col>
         </b-row>
         <b-row>
             <b-col>

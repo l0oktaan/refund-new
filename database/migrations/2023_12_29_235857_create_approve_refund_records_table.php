@@ -22,6 +22,7 @@ class CreateApproveRefundRecordsTable extends Migration
             $table->integer("balance");
             $table->string("refund_case");
             $table->string("approve_book_no");
+            $table->string("approve_book_date");
             $table->string("modified_by");
             $table->string("description");
             $table->timestamps();
