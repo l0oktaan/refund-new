@@ -32,7 +32,7 @@
                     <div class="h5 mb-0">{{(status.status.includes(8)) ? get_text : status.text}}</div>
                 </b-card>
             </b-col>
-        </b-row>       
+        </b-row>
         <b-row>
             <!-- <b-col>{{refunds}}</b-col> -->
         </b-row>
@@ -45,9 +45,9 @@
                             <th scope="col" style="width: 10%; cursor:pointer" v-if="user_type == 'admin'">วันที่ส่ง</th>
                             <th scope="col" style="width: 10%">รหัสเอกสาร</th>
                             <th scope="col" style="width: 15%; cursor:pointer" v-if="user_type == 'admin'">หน่วยงาน</th>
-                            <th scope="col" style="width: 15%">หน่วยงานย่อย</th>                            
+                            <th scope="col" style="width: 15%">หน่วยงานย่อย</th>
                             <th scope="col" style="width: 15%">คู่สัญญา</th>
-                            <th scope="col" style="width: 10%">เลขที่สัญญา</th>                            
+                            <th scope="col" style="width: 10%">เลขที่สัญญา</th>
                             <th scope="col" style="width: 10%">สถานะ</th>
                             <th scope="col" style="width: 10%">การดำเนินการ</th>
                         </tr>
@@ -60,7 +60,7 @@
                             <td v-if="user_type == 'admin'"><span >{{refund.office.name}}</span></td>
                             <td><span >{{refund.create_by}}</span></td>
                             <td><span >{{refund.contracts.length ? refund.contracts[0].contract_party : '-'}}</span></td>
-                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>                            
+                            <td><span >{{refund.contracts.length ? refund.contracts[0].contract_no : '-'}}</span></td>
                             <td>{{get_status_text(refund.status)}}</td>
                             <td>
                                 <div v-if="user_type == 'admin'">
@@ -90,7 +90,7 @@
                                         แสดงข้อมูล
                                     </b-tooltip>
 
-                                    <b-button v-if="refund.status <= 7" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
+                                    <b-button v-if="refund.status <= 7  || refund.status == 11" :id="'btnDel'+refund.id" class="tools" size="sm" variant="outline-danger" @click="delRefund(refund.id)"><i class="fas fa-trash"></i></b-button>
                                     <b-tooltip :target="'btnDel'+refund.id" triggers="hover" placement="left">
                                         ลบข้อมูล
                                     </b-tooltip>
@@ -134,7 +134,7 @@
                 </div>
             </b-col>
             <b-col cols="4"></b-col>
-        </b-row>        
+        </b-row>
         <b-modal id="modalReport"
             ref="modalReport"
             size="xl"
@@ -186,17 +186,17 @@ export default {
             alert: '',
             filter: '',
             sort_by: this.$store.getters.user_type == 'user' ? 'id' : 'sent_date',
-            sort_type: 'desc',            
+            sort_type: 'desc',
         }
     },
     async mounted(){
-        
+
         if (!this.perPage){
             this.perPage = 5;
         }
         this.user_type = this.$store.getters.user_type;
         await this.fetchData();
-        
+
 
 
     },
@@ -248,37 +248,37 @@ export default {
         async currentPage(newVal, oldVal){
 
                 let end = await newVal * this.perPage;
-                let begin = await end - this.perPage;                
+                let begin = await end - this.perPage;
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                
+
                 this.$store.commit('current_page',newVal);
-                
+
 
         },
         async refund_show(){
-            
+
             if (this.$store.getters.current_page){
                 this.currentPage = this.$store.getters.current_page;
             }else{
                 this.currentPage = 1;
             }
-            
+
             if (this.refund_show.length > this.perPage){
                 let end = this.currentPage * this.perPage;
                 let begin = await end - this.perPage;
-                
+
                 this.refund_show_page = await this.refund_show.slice(begin, end);
-                
+
                 // this.currentPage =  this.$store.getters.current_page;
             }else{
                 this.refund_show_page = await this.refund_show;
                 this.currentPage = 1;
-                
+
             }
             // this.refund_show_page = _.orderBy(this.refund_show_page,this.sort_by,this.sort_type);//this.sortArrays(this.sort_by,this.sort_type);
 
-            
-            
+
+
 
         },
         async perPage(newVal,oldVal){
@@ -293,9 +293,9 @@ export default {
         change_page(){
             this.$nextTick(()=>{
                 this.currentPage = this.c_page;
-                
+
             })
-            
+
         },
         onSort(sort_by){
             this.$nextTick(()=>{
@@ -305,13 +305,13 @@ export default {
                     this.sort_by = sort_by;
                     this.sort_type = 'desc';
                 }
-                
+
                 this.c_page = 1;
                 this.$store.commit('current_page',1);
                 let end = 1 * this.perPage;
                 let begin = end - this.perPage;
                 this.refund_show = _.orderBy(this.refund_show, this.sort_by, this.sort_type);
-                
+
             })
         },
         sortArrays(field,sortType) {
@@ -323,7 +323,7 @@ export default {
                 if (this.user_type == 'user'){
                     this.refund_filter = this.refunds.filter(x=>x.contracts.findIndex(y=>y.contract_party.search(this.filter)>=0)>=0 || x.contracts.findIndex(z=>z.contract_no.search(this.filter)>=0)>=0 || x.approve_code.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
 
-                    
+
                 }else if (this.user_type == 'admin'){
                     this.refund_filter = this.refunds.filter(x=>x.contracts[0].contract_party.search(this.filter)>=0 || x.contracts[0].contract_no.search(this.filter)>=0 || x.approve_code.search(this.filter)>=0);
                 }
@@ -337,7 +337,7 @@ export default {
             return this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].icon;
         },
         get_status_text(status){
-            
+
             try {
                 if (this.user_type == 'admin'){
                     return (status == 8) ? this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text.admin : this.arr_refund_status[this.arr_refund_status.findIndex(x=>x.status.includes(status))].text;
@@ -353,7 +353,7 @@ export default {
         set_refund_show(status){
             console.log('status :' + status);
             let show = null;
-            
+
             if (status){
                 if (typeof status == 'object'){
                     show = status;
@@ -392,9 +392,9 @@ export default {
                 return;
             }
             var refunds = [];
-            var contracts = [];            
+            var contracts = [];
             let response = await axios.get(path);
-            this.refunds = await response.data.data;            
+            this.refunds = await response.data.data;
             for (let i = 0; i < this.arr_refund_status.length; i++){
                 let arr = this.refunds.filter(x=>this.arr_refund_status[i].status.includes(x.status));
                 Object.assign(this.arr_refund_status[i],{
@@ -417,12 +417,12 @@ export default {
         },
         getThaiDate(item){
             var d = new Date(item);
-            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });            
+            return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
         },
         async showRefund(id,office_id){
             if (this.$store.getters.user_type == 'admin'){
                 await this.$store.commit('office_id', office_id);
-            }            
+            }
             await this.$router.push(`refunds/${id}`);
         },
         delRefund(id){
@@ -436,7 +436,7 @@ export default {
                 ],
             }).then(isConfirm =>{
                 if (isConfirm){
-                    let path = `/api/offices/${this.office_id}/refunds/${id}`;                    
+                    let path = `/api/offices/${this.office_id}/refunds/${id}`;
                     axios.delete(`${path}`)
                     .then(response=>{
                         this.alert = 'success';
@@ -454,7 +454,7 @@ export default {
             })
             this.$refs['modalReport'].show()
         },
-        considerRefund(refund_id,office_id){            
+        considerRefund(refund_id,office_id){
             this.$swal({
                 title: "กรุณายืนยันการรับเรื่อง",
                 text: "",

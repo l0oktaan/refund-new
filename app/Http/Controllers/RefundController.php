@@ -43,7 +43,7 @@ class RefundController extends Controller
             ],Response::HTTP_CREATED);
         }else if ($user->type == 'user'){
             $refund = $office->refunds()
-            ->where('office_id','=',$user->office_id)            
+            ->where('office_id','=',$user->office_id)
             ->where('status','>=',1)
             ->orderBy('sent_date','DESC')
             ->get();
@@ -154,7 +154,7 @@ class RefundController extends Controller
         }else if ($user->type == "admin" || $user->level == "1"){
             $irefund = Refund::where('id',$refund->id)->get();
             return RefundResource::collection($irefund);
-        }        
+        }
 
         // return RefundResource::collection($office->refunds()->where('id',$refund->id)->get());
     }
@@ -210,7 +210,7 @@ class RefundController extends Controller
             // $refund->delete();
             $refund->status = 0;
             $refund->save();
-            return response(null,Response::HTTP_CREATED);
+            return response(null,Response::HTTP_OK);
         }else{
             return response(null,Response::HTTP_NOT_FOUND);
         }
