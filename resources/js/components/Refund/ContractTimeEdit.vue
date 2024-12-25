@@ -298,7 +298,7 @@ export default {
                 21,24,22,23,34,30,31,32
             ],
             arrShowDetail2 : [
-                22,23,31,32
+                //22,23,31,32
             ],
             arrShowDetail4 : [
                 40,41
